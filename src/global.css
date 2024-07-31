@@ -1,0 +1,8 @@
+body {
+  padding-top: 50px; /* Adjust this value based on your navbar height */
+  transition: padding-top 0.3s ease;
+}
+
+body.sticky-nav {
+  padding-top: 64px; /* Adjust this value to match your navbar height */
+}
