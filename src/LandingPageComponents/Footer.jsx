@@ -1,0 +1,174 @@
+import React from 'react'
+import logo from './new/logo.png';
+import { FaAngleRight } from "react-icons/fa6";
+
+
+const Footer = () => {
+
+    const solutions = [
+        {
+            name:"Freight Sourcing",
+            link:""
+        },
+        {
+            name:"Indent Allocation",
+            link:""
+        },
+        {
+            name:"In Plant Logistics",
+            link:""
+        },
+        {
+            name:"Shipment Tracking",
+            link:""
+        },
+        {
+            name:"Proof of Delivery",
+            link:""
+        },
+        {
+            name:"Freight Accounting",
+            link:""
+        },
+        {
+            name:"Indian Freight Index",
+            link:""
+        }
+    ]
+
+    const industry = [
+        {
+            name:"Metal & Pipes Logistics",
+            link:""
+        },
+        {
+            name:"FMCG, FMCD & FMEG Logistics",
+            link:""
+        },
+        {
+            name:"Chemicals Logistics",
+            link:""
+        },
+        {
+            name:"EPC & Construction Logistics",
+            link:""
+        },
+        {
+            name:"Engineering & Heavy Machinery Logistics",
+            link:""
+        },
+        {
+            name:"Agriculture & Animal Feeds",
+            link:""
+        },
+    ]
+
+    const resources = [
+        {
+            name:"Case Studies",
+            link:""
+        },
+        {
+            name:"Blogs",
+            link:""
+        },
+        {
+            name:"Certification Courses",
+            link:""
+        },
+        {
+            name:"Pricing",
+            link:""
+        },
+    ]
+
+    const company = [
+        {
+            name:"About Us",
+            link:""
+        },
+        {
+            name:"TMS",
+            link:""
+        },
+        {
+            name:"Career",
+            link:""
+        },  
+        {
+            name:"Terms of Use",
+            link:""
+        },
+        {
+            name:"Disclaimer",
+            link:""
+        },
+        
+    ]
+  return (
+    <>
+      <div className="w-full grid grid-cols-1 bg-black sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+        <div className=" ps-3 flex flex-col ps-3 mt-3">
+            <div className="logo text-2xl font-bold py-3  flex items-center">
+                <img src={logo} className="w-[35px] h-[35px]" alt="Logo" />
+                <div className="flex flex-col ms-2">
+                    <div className="font-bold text-white text-2xl">Freight-EG</div>
+                    <div className="text-zinc-300 text-[10px] mt-[-10px]">Effortless Transport solutions</div>
+                </div>
+            </div>
+            <div className="mt-2 font-semibold text-white">Contact Info</div>
+            <div className="text-zinc-400 hover:text-white duration-150">428/38 Pyramid House, Rajiv Colony, <br /> Sector -33, Gurgaon, Haryana 122001</div>
+            <div className="text-zinc-400 hover:text-white duration-150 mt-4">+91 96719 66994</div>
+            <div className="text-zinc-400 hover:text-white duration-150 mt-4">hello@freighteg.com</div>
+
+        </div>
+        <div className=" ps-3 flex flex-col">
+            <div className="text-4xl font-semibold mt-4 text-[#0c43FF]">Industry</div>
+            {
+                industry.map((item) => (
+                    <div className="text-zinc-400 mt-2 cursor-pointer hover:text-[#0c43FF] flex items-center gap-1">
+                        <FaAngleRight />
+                        <span>{item.name}</span>
+                    </div>
+                ))
+            }
+        </div>
+        <div className=" ps-3 flex flex-col">
+            <div className="text-4xl font-semibold mt-4 text-[#0c43FF]">Solutions</div>
+            {
+                solutions.map((item) => (
+                    <div className="text-zinc-400 mt-2 cursor-pointer hover:text-[#0c43FF] flex items-center gap-1">
+                        <FaAngleRight />
+                        <span>{item.name}</span>
+                    </div>
+                ))
+            }
+        </div>
+        <div className=" ps-3 flex flex-col">
+            <div className="text-4xl font-semibold mt-4 text-[#0c43FF]">Resources</div>
+            {
+                resources.map((item) => (
+                    <div className="text-zinc-400 mt-2 cursor-pointer hover:text-[#0c43FF] flex items-center gap-1">
+                        <FaAngleRight />
+                        <span>{item.name}</span>
+                    </div>
+                ))
+            }
+        </div>
+        <div className=" ps-3 flex flex-col">
+            <div className="text-4xl font-semibold mt-4 text-[#0c43FF]">Company</div>
+            {
+                company.map((item) => (
+                    <div className="text-zinc-400 mt-2 cursor-pointer hover:text-[#0c43FF] flex items-center gap-1">
+                        <FaAngleRight />
+                        <span>{item.name}</span>
+                    </div>
+                ))
+            }
+        </div>
+      </div>
+    </>
+  )
+}
+
+export default Footer

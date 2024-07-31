@@ -34,36 +34,36 @@ const Header = () => {
     <>
       <div className=""></div>
       <div
-        className={`w-full shadow mx-auto flex fixed top-0 items-center justify-between transition-colors duration-300 ${
+        className={`w-full shadow mx-auto flex fixed top-0 z-[3] items-center justify-between transition-colors duration-300 ${
           isScrolled ? 'bg-white backdrop-filter backdrop-blur-lg bg-opacity-70' : 'bg-transparent'
         }`}
       >
         <div className="flex items-center">
-          <div className="logo text-2xl font-bold py-6 mx-3 flex items-center">
+          <div className="logo text-2xl font-bold py-3 mx-3 flex items-center">
             <img src={logo} className="w-[35px] h-[35px]" alt="Logo" />
             <div className="md:flex hidden flex-col ms-2">
-              <div className="font-bold text-white text-2xl">Freight-EG</div>
-              <div className="text-zinc-300 text-[10px] mt-[-10px]">Effortless Transport solutions</div>
+              <div className={`font-bold ${isScrolled?"text-black":"text-white"} text-2xl`}>Freight-EG</div>
+              <div className={` ${isScrolled?"text-black":"text-zinc-400"} text-[10px] mt-[-10px]`}>Effortless Transport solutions</div>
             </div>
           </div>
         </div>
         <div className="flex items-center">
           <div className="items-center justify-start gap-5 hidden lg:flex">
             {tabs.map((tab, index) => (
-              <div key={index} className="px-2 cursor-pointer text-zinc-300 text-[20px] hover:text-blue-600 font-semibold">
+              <div key={index} className={`px-2 cursor-pointer text-[20px] hover:text-blue-600 font-semibold  ${isScrolled?"text-black":"text-zinc-300 "}`}>
                 {tab.name}
               </div>
             ))}
           </div>
           <button className="rounded-full mb-1 md:px-4 md:py-2 md:bg-white font-bold text-white md:text-black md:mx-2 flex items-center">
-            <IoIosArrowDown className="text-2xl me-1" />
+            <IoIosArrowDown className={`text-2xl me-1  ${isScrolled?"text-black":"text-white"}`} />
             <span className="hidden md:block">sribabu@gmail.com</span>
-            <div className="w-[30px] h-[30px] rounded-full border-[2px] mx-1 border-white md:border-[black] flex items-center justify-center">
+            <div className={`w-[30px] h-[30px] rounded-full border-[2px] mx-1  md:border-[black]  ${isScrolled?"text-black border-black":"text-white border-white"} flex items-center justify-center`}>
               <GoPerson />
             </div>
           </button>
           {!show ? (
-            <HiViewList className="text-2xl mx-3 lg:hidden text-white" onClick={() => setShow(!show)} />
+            <HiViewList className={`text-2xl mx-3 lg:hidden  ${isScrolled?"text-black":"text-white"}`} onClick={() => setShow(!show)} />
           ) : (
             <RiCloseLargeFill className="text-2xl mx-3 lg:hidden text-red-600" onClick={() => setShow(!show)} />
           )}
