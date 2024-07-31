@@ -39,6 +39,8 @@ import StaffBid from "../pages/StaffBid";
 import TermsAndConditions from "../LandingPage/TermsAndConditions";
 import Privacy from "../LandingPage/Privacy";
 
+import MainPage from "../LandingPageComponents/MainPage";
+
 const Layout = () => {
   const user = useSelector((state) => state.login.user);
 
@@ -85,7 +87,8 @@ const AllRoutes = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<LandingPage />} />
+      {/* <Route path="/" element={<LandingPage />} /> */}
+      <Route path="/" element={<MainPage />} />
       <Route
         path="/login"
         element={<LoginPage setIsAuthenticated={setIsAuthenticated} />}

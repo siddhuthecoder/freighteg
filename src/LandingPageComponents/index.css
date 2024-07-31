@@ -1,0 +1,17 @@
+.hero{
+    background: url('./new/world-dotted-map.png');
+    background-size: cover;
+}
+.logo-text{
+    background: url('./new/text-svg.png');
+    position: relative;
+    /* background-size: cover; */
+}
+/* .logo-text::after{
+    content: "";
+    background: url('./new/text-svg2.png') ;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: -30px;
+} */
