@@ -2,6 +2,7 @@ import React from 'react'
 import img1 from './new/VR Array 1.png'
 import img2 from './new/img2.png'
 import img3 from './new/img3.png'
+import './styles.css'
 
 const Apart = () => {
   const data = [
@@ -33,7 +34,7 @@ const Apart = () => {
         <div className="w-full flex items-center mb-[30px] justify-center flex-wrap gap-3  mt-[30px]">
             {
               data.map((item) => (
-                <div className="flex border w-[90%] max-w-[352.7px] hover:shadow-[rgba(50,50,93,0.25)_0px_50px_100px_-20px,rgba(0,0,0,0.3)_0px_30px_60px_-30px] h-[349px] rounded-[20px] bg-[#F1F1F1] hover:bg-white duration-150 flex-col  w-12/10 mx-auto">
+                <div className="flex border w-[90%] max-w-[352.7px]  custom-shadow  shadow-[rgba(50,50,93,0.25)_0px_50px_100px_-20px,rgba(0,0,0,0.3)_0px_30px_60px_-30px] h-[349px] rounded-[20px]   duration-150 flex-col  w-12/10 mx-auto">
                     <img src={item.img} alt="" className="mx-auto my-4" />
                     <div className="text-center font-semibold">{item.title}</div>
                     <p className="text-center px-3">
