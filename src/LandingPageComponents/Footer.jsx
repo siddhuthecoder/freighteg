@@ -110,8 +110,8 @@ const Footer = () => {
     ]
   return (
     <>
-      <div className="w-full flex justify-center">
-      <div className="flex flex-col w-full bg-[#0E1C35] ">
+      <div className="w-full flex justify-center bg-[#0E1C35] ">
+      <div className="flex md:w-[80%] flex-col w-full ">
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         <div className=" ps-3 flex flex-col  mt-3">
             <div className="logo text-2xl font-bold py-3  flex items-center">
