@@ -13,9 +13,9 @@ const cardsData = [
     { icon: i1, title: "IN-PLANT LOGISTICS", description: "Optimized in-plant TAT", background: "#FFF2F2" },
     { icon:i2, title: "SHIPMENT TRACKING", description: "Real-time shipment visibility", background: "#FDFBDA" },
     { icon: i3, title: "PROOF OF DELIVERY", description: "Digital delivery confirmation", background: "#FFE7FB" },
-    { icon: i4, title: "FREIGHT ACCOUNTING", description: "Auto-invoicing & reconciliation", background: "#FFF2F2" },
-    { icon: i5, title: "FREIGHT SOURCING", description: "Automated vehicle procurement", background: "#FDFBDA" },
-    { icon: i6, title: "INDENT ALLOCATION", description: "Rule-based vendor allocation", background: "#FFE7FB" },
+    { icon: i4, title: "FREIGHT ACCOUNTING", description: "Auto-invoicing & reconciliation", background: "#F6EEE7" },
+    { icon: i5, title: "FREIGHT SOURCING", description: "Automated vehicle procurement", background: "#F1E8FF" },
+    { icon: i6, title: "INDENT ALLOCATION", description: "Rule-based vendor allocation", background: "#E2FFF1" },
   ];
 
 const Does = () => {

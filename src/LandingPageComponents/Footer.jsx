@@ -174,7 +174,7 @@ const Footer = () => {
       <div className="w-[90%] max-w-[1200px] mx-auto h-[2px] bg-zinc-500"></div>
       <div className="w-full flex  ">
 
-        <div className="w-[100%] max-w-[1200px] mx-auto flex items-center justify-between">
+        <div className="w-[100%] max-w-[1200px] mx-auto flex items-center justify-around     md:justify-between flex-wrap-reverse ">
             <div className="text-white text-center md:text-2xl hover:text-white pt-[40px]">© 2019 Lift Media. All Rights Reserved. </div>
             <div className="flex items-center mt-4">
                 <div className="w-[40px] mx-2 h-[40px] text-white text-2xl rounded-full border-white border flex justify-center items-center">

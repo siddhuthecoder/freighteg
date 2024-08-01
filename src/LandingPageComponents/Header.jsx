@@ -9,10 +9,10 @@ const Header = () => {
   const [show, setShow] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const tabs = [
-    { name: "Home", path: "/" },
-    { name: "Map", path: "/map" },
-    { name: "About us", path: "/about-us" },
-    { name: "Support", path: "/support" },
+    { name: "Solutions", path: "/" },
+    { name: "Pricing", path: "/pricing" },
+    { name: "Resources", path: "/resources" },
+    { name: "About Us", path: "/about-us" },
   ];
 
   useEffect(() => {
@@ -34,12 +34,12 @@ const Header = () => {
     <>
       <div className=""></div>
       <div
-        className={`w-full shadow mx-auto flex fixed top-0 z-[3] items-center justify-between transition-colors duration-300 ${
-          isScrolled ? 'bg-white backdrop-filter backdrop-blur-lg bg-opacity-70' : 'bg-transparent'
+        className={`w-full shadow mx-auto flex fixed top-0 z-[1000] items-center justify-between transition-colors duration-300 ${
+          isScrolled ? 'bg-[#0C43FF] bg-opacity-[0.4] backdrop-blur-lg ' : 'bg-transparent'
         }`}
       >
         <div className="flex items-center">
-          <div className="logo text-2xl font-bold py-3 mx-3 flex items-center">
+          <div className="logo cursor-pointer text-2xl font-bold py-3 mx-3 flex items-center">
             <img src={logo} className="w-[35px] h-[35px]" alt="Logo" />
             <div className="md:flex hidden flex-col ms-2">
               <div className={`font-bold ${isScrolled?"text-black":"text-white"} text-2xl`}>Freight-EG</div>
@@ -50,12 +50,17 @@ const Header = () => {
         <div className="flex items-center">
           <div className="items-center justify-start gap-5 hidden lg:flex">
             {tabs.map((tab, index) => (
-              <div key={index} className={`rounded-full cursor-pointer text-[20px] hover:bg-[#0C43FF] hover:text-white px-3 py-1 font-semibold  ${isScrolled?"text-black":"text-zinc-300 "}`}>
+              <div key={index} className={`rounded-full text-[14px] cursor-pointer t hover:bg-[#0C43FF] hover:text-white px-3 py-1 font-semibold  ${isScrolled?"text-white":"text-zinc-300 "}`}>
                 {tab.name}
               </div>
             ))}
           </div>
-          <button className={`rounded-full mb-1 md:px-4 md:py-2 md:bg-white font-bold text-white md:text-black md:mx-2 flex items-center ${isScrolled?"border border-black":""}`}>
+          <button className="rounded-md mx-3 py-[3px]  text-[14px] bg-[rgb(12,67,255)] text-white px-3  flex items-center">
+              <div className="">Login</div>
+              <div className="text-2xl font-bold">/</div>
+              <div className="">Register</div>
+          </button>
+          <button className={`rounded-full hidden mb-1 md:px-4 md:py-2 md:bg-white font-bold text-white md:text-black md:mx-2  items-center ${isScrolled?"border border-black":""}`}>
             {/* <IoIosArrowDown className={`text-2xl me-1  ${isScrolled?"text-black":"text-white"}`} /> */}
             <span className="hidden md:block">sribabu</span>
             
