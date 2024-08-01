@@ -35,7 +35,7 @@ const Apart = () => {
         <div className="w-full flex items-center mb-[30px] justify-center flex-wrap gap-3  mt-[30px]">
             {
               data.map((item) => (
-                <div className="flex border w-[90%] hover:shadow-xl max-w-[352.7px]  custom-shadow  h-[349px] rounded-[20px]   duration-150 flex-col  w-12/10 mx-auto">
+                <div className="flex border w-[90%] shadow-xl max-w-[352.7px]  custom-shadow  h-[349px] rounded-[20px]   duration-150 flex-col  w-12/10 mx-auto">
                     <img src={item.img} alt="" className="mx-auto my-4" />
                     <div className="text-center font-semibold">{item.title}</div>
                     <p className="text-center px-3 sd">
