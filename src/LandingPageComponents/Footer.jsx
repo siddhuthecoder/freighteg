@@ -110,8 +110,9 @@ const Footer = () => {
     ]
   return (
     <>
+      <div className="w-full flex justify-center">
       <div className="flex flex-col w-full bg-[#0E1C35] ">
-      <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+      <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         <div className=" ps-3 flex flex-col  mt-3">
             <div className="logo text-2xl font-bold py-3  flex items-center">
                 <img src={logo} className="w-[35px] h-[35px]" alt="Logo" />
@@ -148,17 +149,7 @@ const Footer = () => {
                 ))
             }
         </div>
-        <div className=" ps-3 flex flex-col">
-            <div className="text-4xl mt-4 text-[white]">Resources</div>
-            {
-                resources.map((item) => (
-                    <div className="text-zinc-400 my-2 cursor-pointer hover:text-[#0c43FF] flex items-center gap-1">
-                        {/* <FaAngleRight /> */}
-                        <span>{item.name}</span>
-                    </div>
-                ))
-            }
-        </div>
+        
         <div className=" ps-3 flex flex-col">
             <div className="text-4xl mt-4  text-[white]">Company</div>
             {
@@ -188,6 +179,7 @@ const Footer = () => {
                 </div>
             </div>
         </div>
+      </div>
       </div>
       </div>
     </>
