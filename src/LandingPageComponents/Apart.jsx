@@ -36,7 +36,7 @@ const Apart = () => {
                 <div className="flex border w-[90%] max-w-[352.7px] hover:shadow-[rgba(50,50,93,0.25)_0px_50px_100px_-20px,rgba(0,0,0,0.3)_0px_30px_60px_-30px] h-[349px] rounded-[20px] bg-[#F1F1F1] hover:bg-white duration-150 flex-col  w-12/10 mx-auto">
                     <img src={item.img} alt="" className="mx-auto my-4" />
                     <div className="text-center font-semibold">{item.title}</div>
-                    <p className="text-center px-3">
+                    <p className="text-center px-3 sd">
                       {item.desc}
                     </p>
                 </div>
