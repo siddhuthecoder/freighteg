@@ -118,7 +118,7 @@ const Layer4 = () => {
   return (
     <>
       <div className="w-full flex justify-center">
-        <div className="w-full md:w-[80%] mx-auto flex flex-col">
+        <div className="w-full md:w-[100%] mx-auto flex flex-col">
           <div className="font-semibold text-2xl p-2 sticky left-[20px]">Accept Payments</div>
           {/* <div className="w-full flex items-center ms-4 justify-start overflow-x-auto gap-3">
             {tabs.map((item, index) => (

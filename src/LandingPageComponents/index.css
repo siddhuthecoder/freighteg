@@ -24,11 +24,12 @@
     font-family: "Roboto Serif", serif;
 
 }
-body{
+.body{
     background-color: white;
     font-family: "Poppins", sans-serif;
     font-weight: 100;
     font-style: normal;
+    overflow: hidden;
 }
 
 .wrap{
