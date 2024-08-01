@@ -42,7 +42,7 @@ const LayerAnimation = () => {
             style={{ 
               top: `${index * 10 +120}px`, 
               opacity: index !== sections.length-1 && opacity[index], 
-              width: `${90 - index+5}%` 
+              width: `${90 + index+5}%` 
             }}
           >
             {item.component}
