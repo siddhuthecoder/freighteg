@@ -65,7 +65,8 @@ const Features = () => {
     ]
   return (
     <>
-      <div className="w-full flex flex-col my-[40px]">
+      <div className="w-full flex justify-center">
+      <div className="w-full md:w-[70%] mx-auto flex flex-col my-[40px]">
         <div className="text-center text-3xl sm:text-5xl md:text-[35px] py-4 pb-10 font-semibold">QikTrack Top <span className="text-[#0C43FF]">Features & Capabilities</span></div>
         <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-3">
             <div className=" flex flex-col">
@@ -98,6 +99,7 @@ const Features = () => {
                 }
             </div>
         </div>
+      </div>
       </div>
     </>
   )

@@ -21,7 +21,8 @@ const cardsData = [
 const Does = () => {
   return (
     <>
-      <div className="w-full flex flex-col ">
+      <div className="w-full flex justify-center">
+      <div className="w-full md:w-[70%] mx-auto flex flex-col ">
         <div className="text-center text-3xl sm:text-5xl md:text-[35px] py-4 font-semibold">What we <span className="text-[#0C43FF]">do?</span></div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 px-4 ">
           {cardsData.map((card, index) => (
@@ -36,6 +37,7 @@ const Does = () => {
             </div>
           ))}
         </div>
+      </div>
       </div>
     </>
   );

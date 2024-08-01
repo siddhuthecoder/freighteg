@@ -34,14 +34,15 @@ const Header = () => {
     <>
       <div className=""></div>
       <div
-        className={`w-full shadow mx-auto flex fixed top-0 z-[1000] items-center justify-between transition-colors duration-300 ${
+        className={`w-full m shadow mx-auto flex justify-center fixed top-0 z-[1000]  transition-colors duration-300 ${
           isScrolled ? 'bg-[#0E1C35]  backdrop-blur-lg ' : 'bg-transparent'
         }`}
       >
+        <div className="w-full md:w-[70%] mx-atuo flex items-center justify-between">
         <div className="flex items-center">
           <div className="logo cursor-pointer text-2xl font-bold py-3 mx-3 flex items-center">
-            {/* <img src={logo} className="w-[35px] h-[35px]" alt="Logo" /> */}
-            <div className="md:flex flex-col ms-2">
+            <img src={logo} className="w-[35px] h-[35px]" alt="Logo" />
+            <div className="md:flex flex-col hidden ms-2">
               <div className={`font-bold text-white text-2xl`}>Freight-EG</div>
               <div className={` text-[10px]  text-white mt-[-10px]`}>Effortless Transport solutions</div>
             </div>
@@ -73,6 +74,7 @@ const Header = () => {
             <RiCloseLargeFill className="text-2xl mx-3 lg:hidden text-red-600" onClick={() => setShow(!show)} />
           )}
         </div>
+        </div>
       </div>
       {show && (
         <div className="w-[95%] bg-white shadow-md   rounded-sm fixed top-16 left-[2.5%] z-[1000000] lg:hidden h-[90vh] flex flex-col">
@@ -81,6 +83,11 @@ const Header = () => {
               {tab.name}
             </div>
           ))}
+          <button className="rounded-md w-[160px] ms-2 lg:mx-5  py-[3px]  text-[18px] bg-[rgb(12,67,255)] text-white px-2 flex items-center">
+              <div className="font-bold">Login</div>
+              <div className="text-2xl font-bold px-2">/</div>
+              <div className="font-bold">Register</div>
+          </button>
         </div>
       )}
     </>
