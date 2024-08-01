@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { HiViewList } from "react-icons/hi";
 import { RiCloseLargeFill } from "react-icons/ri";
-import { GoPerson } from "react-icons/go";
+import { FaRegUserCircle } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
 import logo from './new/logo.png';
 
@@ -50,17 +50,17 @@ const Header = () => {
         <div className="flex items-center">
           <div className="items-center justify-start gap-5 hidden lg:flex">
             {tabs.map((tab, index) => (
-              <div key={index} className={`rounded-full cursor-pointer text-[20px] hover:bg-[#0C43FF] hover:text-white px-2 py-1 font-semibold  ${isScrolled?"text-black":"text-zinc-300 "}`}>
+              <div key={index} className={`rounded-full cursor-pointer text-[20px] hover:bg-[#0C43FF] hover:text-white px-3 py-1 font-semibold  ${isScrolled?"text-black":"text-zinc-300 "}`}>
                 {tab.name}
               </div>
             ))}
           </div>
-          <button className="rounded-full mb-1 md:px-4 md:py-2 md:bg-white font-bold text-white md:text-black md:mx-2 flex items-center">
-            <IoIosArrowDown className={`text-2xl me-1  ${isScrolled?"text-black":"text-white"}`} />
-            <span className="hidden md:block">sribabu@gmail.com</span>
-            <div className={`w-[30px] h-[30px] rounded-full border-[2px] mx-1  md:border-[black]  ${isScrolled?"text-black border-black":"text-white border-white"} flex items-center justify-center`}>
-              <GoPerson />
-            </div>
+          <button className={`rounded-full mb-1 md:px-4 md:py-2 md:bg-white font-bold text-white md:text-black md:mx-2 flex items-center ${isScrolled?"border border-black":""}`}>
+            {/* <IoIosArrowDown className={`text-2xl me-1  ${isScrolled?"text-black":"text-white"}`} /> */}
+            <span className="hidden md:block">sribabu</span>
+            
+              <FaRegUserCircle className="text-2xl ms-2 me-1" />
+            
           </button>
           {!show ? (
             <HiViewList className={`text-2xl mx-3 lg:hidden  ${isScrolled?"text-black":"text-white"}`} onClick={() => setShow(!show)} />

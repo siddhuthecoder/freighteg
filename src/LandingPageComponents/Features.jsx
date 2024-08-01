@@ -4,6 +4,14 @@ import { FaRoute } from "react-icons/fa";
 import { FaCommentDollar } from "react-icons/fa6";
 import { FaShareAlt } from "react-icons/fa";
 import img1 from './new/eclipse.png'
+import f1 from './new/f1.png'
+import f2 from './new/f2.png'
+import f3 from './new/f3.png'
+import f4 from './new/f4.png'
+import f5 from './new/f5.png'
+import f6 from './new/f6.png'
+import f7 from './new/f7.png'
+import f8 from './new/f8.png'
 
 
 
@@ -12,23 +20,23 @@ const Features = () => {
         {
             title:"Freight Sourcing and Reverse Auctions",
             desc:"Find, negotiate, and quickly source freight providers' details. Use our transparent and collaborative bidding process.",
-            icon:FaGavel
+            icon:f1
         },
         {
             title:"In-Plant Vehicle Movement and Optimization",
             desc:"Optimize in-plant vehicle movement through advanced truck reporting, load scheduling, and plant optimization solutions.",
-            icon:FaRoute
+            icon:f2
         },
        
         {
             title:"Realtime Communication & Collaboration",
             desc:"Collaborate across all communication channels through email, text, and push notifications using a unified platform to make faster decisions.",
-            icon:FaCommentDollar
+            icon:f3
         },
         {
             title:"NEWS SHARING",
             desc:"Let your friends read the news you intend to share with them. et your friends read the news you intend to share with them.",
-            icon:FaShareAlt
+            icon:f4
         },
 
 
@@ -40,23 +48,23 @@ const Features = () => {
         {
             title:"Contract Guided Online Indenting",
             desc:"Easily create e-indents for your transport service provider from the list of contracted vendors from to facilitate quick vehicle placements.",
-            icon:FaGavel
+            icon:f5
         },
         {
             title:"Unified and Integrated Platform",
             desc:"SuperProcure TMS has one integrated solution to ensure minimal to zero errors in payment documentation, billings, waybills, etc.",
-            icon:FaRoute
+            icon:f6
         },
        
         {
             title:"Dashboards and Analytics",
             desc:"Get real-time analytics on vendor performance, dispatch, & delivery details to take complete control over your transport operations.",
-            icon:FaCommentDollar
+            icon:f7
         },
         {
             title:"POLLS",
             desc:"Participate in Polls on different issues and contribute your opinion to country wide taken stats.",
-            icon:FaShareAlt
+            icon:f8
         },
 
 
@@ -65,7 +73,7 @@ const Features = () => {
     ]
   return (
     <>
-      <div className="w-full flex flex-col">
+      <div className="w-full flex flex-col my-[40px]">
         <div className="text-center text-3xl sm:text-5xl md:text-[60px] py-4 font-semibold">QikTrack Top <span className="text-[#0C43FF]">Features & Capabilities</span></div>
         <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-3">
             <div className=" flex flex-col">
@@ -76,7 +84,7 @@ const Features = () => {
                                 <div className="font-semibold text-[#0c43FF] text-2xl pb-3 text-left md:text-right">{item.title}</div>
                                 <div className="text-zinc-400 text-[12px] text-left md:text-right">{item.desc}</div>
                             </div>
-                            <item.icon className="text-4xl mx-3  text-[black]" />
+                            <img src={item.icon} alt="" className="w-[30px] h-[30px] mx-3" />
                         </div>
                     ))
                 }
@@ -92,7 +100,7 @@ const Features = () => {
                                 <div className="font-semibold text-[#0c43FF] text-2xl pb-3 text-left md:text-;eft">{item.title}</div>
                                 <div className="text-zinc-400 text-[12px] text-left md:text-left">{item.desc}</div>
                             </div>
-                            <item.icon className="text-4xl mx-3  text-[black]" />
+                            <img src={item.icon} alt="" className="w-[30px] h-[30px] mx-3" />
                         </div>
                     ))
                 }

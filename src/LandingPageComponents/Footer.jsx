@@ -1,6 +1,9 @@
 import React from 'react'
 import logo from './new/logo.png';
 import { FaAngleRight } from "react-icons/fa6";
+import { FaLinkedinIn } from "react-icons/fa6";
+import { FaFacebookF } from "react-icons/fa";
+import { FaTwitter } from "react-icons/fa6";
 
 
 const Footer = () => {
@@ -107,8 +110,9 @@ const Footer = () => {
     ]
   return (
     <>
-      <div className="w-full grid grid-cols-1 bg-[#0E1C35] sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-        <div className=" ps-3 flex flex-col ps-3 mt-3">
+      <div className="flex flex-col w-full bg-[#0E1C35] ">
+      <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+        <div className=" ps-3 flex flex-col  mt-3">
             <div className="logo text-2xl font-bold py-3  flex items-center">
                 <img src={logo} className="w-[35px] h-[35px]" alt="Logo" />
                 <div className="flex flex-col ms-2">
@@ -126,8 +130,8 @@ const Footer = () => {
             <div className="text-4xl mt-4 text-[white]">Industry</div>
             {
                 industry.map((item) => (
-                    <div className="text-zinc-400 mt-2 cursor-pointer hover:text-[#0c43FF] flex items-center gap-1">
-                        <FaAngleRight />
+                    <div className="text-zinc-400 my    my-2 cursor-pointer hover:text-[#0c43FF] flex items-center gap-1">
+                        {/* <FaAngleRight /> */}
                         <span>{item.name}</span>
                     </div>
                 ))
@@ -137,8 +141,8 @@ const Footer = () => {
             <div className="text-4xl mt-4 text-[white]">Solutions</div>
             {
                 solutions.map((item) => (
-                    <div className="text-zinc-400 mt-2 cursor-pointer hover:text-[#0c43FF] flex items-center gap-1">
-                        <FaAngleRight />
+                    <div className="text-zinc-400 my-2 cursor-pointer hover:text-[#0c43FF] flex items-center gap-1">
+                        {/* <FaAngleRight /> */}
                         <span>{item.name}</span>
                     </div>
                 ))
@@ -148,24 +152,43 @@ const Footer = () => {
             <div className="text-4xl mt-4 text-[white]">Resources</div>
             {
                 resources.map((item) => (
-                    <div className="text-zinc-400 mt-2 cursor-pointer hover:text-[#0c43FF] flex items-center gap-1">
-                        <FaAngleRight />
+                    <div className="text-zinc-400 my-2 cursor-pointer hover:text-[#0c43FF] flex items-center gap-1">
+                        {/* <FaAngleRight /> */}
                         <span>{item.name}</span>
                     </div>
                 ))
             }
         </div>
         <div className=" ps-3 flex flex-col">
-            <div className="text-4xl mt-4 text-[white]">Company</div>
+            <div className="text-4xl mt-4  text-[white]">Company</div>
             {
                 company.map((item) => (
-                    <div className="text-zinc-400 mt-2 cursor-pointer hover:text-[#0c43FF] flex items-center gap-1">
-                        <FaAngleRight />
+                    <div className="text-zinc-400 my-2 cursor-pointer hover:text-[#0c43FF] flex items-center gap-1">
+                        {/* <FaAngleRight /> */}
                         <span>{item.name}</span>
                     </div>
                 ))
             }
         </div>
+      </div>
+      <div className="w-[90%] max-w-[1200px] mx-auto h-[2px] bg-zinc-500"></div>
+      <div className="w-full flex  ">
+
+        <div className="w-[100%] max-w-[1200px] mx-auto flex items-center justify-between">
+            <div className="text-white text-center md:text-2xl hover:text-white pt-[40px]">© 2019 Lift Media. All Rights Reserved. </div>
+            <div className="flex items-center mt-4">
+                <div className="w-[40px] mx-2 h-[40px] text-white text-2xl rounded-full border-white border flex justify-center items-center">
+                    <FaFacebookF />
+                </div>
+                <div className="w-[40px] mx-2 h-[40px] text-white text-2xl rounded-full border-white border flex justify-center items-center">
+                    <FaLinkedinIn />
+                </div>
+                <div className="w-[40px] mx-2 h-[40px] text-white text-2xl rounded-full border-white border flex justify-center items-center">
+                    <FaTwitter />
+                </div>
+            </div>
+        </div>
+      </div>
       </div>
     </>
   )

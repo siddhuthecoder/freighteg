@@ -1,3 +1,8 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
 .hero{
     background: url('./new/world-dotted-map.png');
     background-size: cover;
