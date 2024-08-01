@@ -7,9 +7,9 @@ const About = () => {
   return (
     <>
       <div className="w-full flex flex-col bg-[#0E1C35]">
-            <div className="w-full grid my-5 grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="w-full grid my-5 grid-cols-1 md:grid-cols-2 ">
                 <div className="flex items-center justify-center relative  ">
-                    <div  className="w-[85%] max-w-[523.87] h-[422.68] flex ms-[40px] md:ms-[0px] mt-[70px] justify-center items-center relative" >
+                    <div  className="w-[70%] max-w-[523.87]  flex ms-[40px] md:ms-[0px] mt-[70px] justify-center items-center relative" >
                       <img src={fam} className="w-[100%] h-[100%] z-[3] shadow-lg" alt="" />
                       <img src={fam2} className="w-[100%] h-[100%] absolute left-[-20px] top-[-20px] z-[2] " alt="" />
                       <img src={fam3} className="w-[100%] h-[100%] absolute left-[-40px] top-[-40px] z-[2] " alt="" />
@@ -18,17 +18,17 @@ const About = () => {
 
                 </div>
                 <div className="flex flex-col ps-3 ms-2 md:mt-[70px]">
-                  <div className="text-3xl md:text-[50px] font-semibold  text-[white] ">About Us</div>
-                  <p className="text-zinc-400 text-[18px] md:text-[23px] ">At FreightEG, we provide a comprehensive solution for all your logistics needs, making us one of India's leading providers for top manufacturing and infrastructure companies. Our acclaimed products, including Spot Freight Negotiation, Trip Management Systems, Contract Management, Dispatch Planning, and Freight Accounting, effectively address critical logistics and supply chain challenges.</p>
-                  <p className="text-zinc-400 text-[18px] md:text-[23px] ">At FreightEG, we provide a comprehensive solution for all your logistics needs, making us one of India's leading providers for top manufacturing and infrastructure companies. Our acclaimed products, including Spot Freight Negotiation, Trip Management Systems, Contract Management, Dispatch Planning, and Freight Accounting, effectively address critical logistics and supply chain challenges.</p>
+                  <div className="text-2xl md:text-[30px] font-semibold  text-[white] ">About Us</div>
+                  <p className="text-zinc-400 text-[18px] md:text-[20px] ">At FreightEG, we provide a comprehensive solution for all your logistics needs, making us one of India's leading providers for top manufacturing and infrastructure companies. Our acclaimed products, including Spot Freight Negotiation, Trip Management Systems, Contract Management, Dispatch Planning, and Freight Accounting, effectively address critical logistics and supply chain challenges.</p>
+                  <p className="text-zinc-400 text-[18px] md:text-[20px] ">At FreightEG, we provide a comprehensive solution for all your logistics needs, making us one of India's leading providers for top manufacturing and infrastructure companies. Our acclaimed products, including Spot Freight Negotiation, Trip Management Systems, Contract Management, Dispatch Planning, and Freight Accounting, effectively address critical logistics and supply chain challenges.</p>
                   <div className="w-full flex items-center justify-start gap-5 mt-[30px]">
                     <div className="flex flex-col ">
-                        <div className="text-[rgb(12,67,255)] text-5xl font-bold roboto">300+</div>
-                        <div className="text-zinc-400">companies helped</div>
+                        <div className="text-[rgb(12,67,255)] text-3xl font-bold roboto">300+</div>
+                        <div className="text-zinc-400 text-[14px]">companies helped</div>
                     </div>  
                     <div className="flex flex-col">
-                        <div className="text-[rgb(12,67,255)] text-5xl font-bold roboto">230+</div>
-                        <div className="text-zinc-400">companies helped</div>
+                        <div className="text-[rgb(12,67,255)] text-3xl font-bold roboto">230+</div>
+                        <div className="text-zinc-400 text-[14px]">companies helped</div>
                     </div>  
                   </div>
                 </div>

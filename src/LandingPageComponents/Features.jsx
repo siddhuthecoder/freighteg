@@ -33,11 +33,7 @@ const Features = () => {
             desc:"Collaborate across all communication channels through email, text, and push notifications using a unified platform to make faster decisions.",
             icon:f3
         },
-        {
-            title:"NEWS SHARING",
-            desc:"Let your friends read the news you intend to share with them. et your friends read the news you intend to share with them.",
-            icon:f4
-        },
+       
 
 
        
@@ -61,11 +57,7 @@ const Features = () => {
             desc:"Get real-time analytics on vendor performance, dispatch, & delivery details to take complete control over your transport operations.",
             icon:f7
         },
-        {
-            title:"POLLS",
-            desc:"Participate in Polls on different issues and contribute your opinion to country wide taken stats.",
-            icon:f8
-        },
+      
 
 
        
@@ -74,7 +66,7 @@ const Features = () => {
   return (
     <>
       <div className="w-full flex flex-col my-[40px]">
-        <div className="text-center text-3xl sm:text-5xl md:text-[60px] py-4 font-semibold">QikTrack Top <span className="text-[#0C43FF]">Features & Capabilities</span></div>
+        <div className="text-center text-3xl sm:text-5xl md:text-[35px] py-4 pb-10 font-semibold">QikTrack Top <span className="text-[#0C43FF]">Features & Capabilities</span></div>
         <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-3">
             <div className=" flex flex-col">
                 {
