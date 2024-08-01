@@ -18,7 +18,7 @@ const About = () => {
                     
 
                 </div>
-                <div className="flex flex-col ps-3 ms-2 md:mt-[70px]">
+                <div className="flex flex-col ps-3 md:ms-[-30px] md:mt-[70px]">
                   <div className="text-2xl md:text-[30px] font-semibold  text-[white] ">About Us</div>
                   <p className="text-zinc-400 text-[18px] md:text-[17px] ">At FreightEG, we provide a comprehensive solution for all your logistics needs, making us one of India's leading providers for top manufacturing and infrastructure companies. Our acclaimed products, including Spot Freight Negotiation, Trip Management Systems, Contract Management, Dispatch Planning, and Freight Accounting, effectively address critical logistics and supply chain challenges.</p>
                   <p className="text-zinc-400 text-[18px] md:text-[17px] ">At FreightEG, wgistics need one of India's leading providers for top manufacturing and infrastructure companies. Our acclaimed products, including Spot Freight Negotiation, Trip Management Systems, Contract Management, Dispatch Planning, and Freight Accounting, effectively address critical logistics and supply chain challenges.</p>
