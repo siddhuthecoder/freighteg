@@ -38,7 +38,7 @@ import StaffNavbar from "../components/StaffNavbar";
 import StaffBid from "../pages/StaffBid";
 import TermsAndConditions from "../LandingPage/TermsAndConditions";
 import Privacy from "../LandingPage/Privacy";
-
+import Loading from "../LandingPageComponents/Loading";
 import MainPage from "../LandingPageComponents/MainPage";
 
 const Layout = () => {
@@ -82,7 +82,10 @@ const AllRoutes = () => {
   }, [user, token]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    console.log("isLoading",isLoading)
+    return (
+      <Loading />
+    )
   }
 
   return (
