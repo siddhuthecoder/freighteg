@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+
+
+::-webkit-scrollbar {
+  width: 0px; /* Width of the vertical scrollbar */
+  /* height: 8px; */
+}

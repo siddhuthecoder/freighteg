@@ -38,14 +38,14 @@ const LayerAnimation = () => {
           <div
             key={index}
             id={`section-${index}`}
-            className=" sticky  shadow-xl bg-white w-full md:w-[80%] overflow-x-scroll  border h-[80vh] over  transition-opacity duration-300"
+            className=" sticky  shadow-xl bg-white w-full md:w-[80%]   border h-[80vh] over  transition-opacity duration-300"
             style={{ 
               top: `${index * 10 +120}px`, 
-              opacity: opacity[index], 
+              opacity: index !== sections.length-1 && opacity[index], 
               width: `${80 - index+5}%` 
             }}
           >
-            {sections.component}
+            {item.component}
           </div>
         ))}
       </div>
