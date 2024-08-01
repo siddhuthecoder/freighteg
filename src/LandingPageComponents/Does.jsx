@@ -22,17 +22,17 @@ const Does = () => {
   return (
     <>
       <div className="w-full flex flex-col ">
-        <div className="text-center text-3xl sm:text-5xl md:text-[60px] py-4 font-semibold">What we <span className="text-[#0C43FF]">Do?</span></div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 px-4">
+        <div className="text-center text-3xl sm:text-5xl md:text-[35px] py-4 font-semibold">What we <span className="text-[#0C43FF]">do?</span></div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 px-4 ">
           {cardsData.map((card, index) => (
-            <div key={index} className="flex flex-col   h-[200px] justify-center">
-              <div className="w-[60px] h-[60px] rounded-md  mx-auto my-4 flex justify-center items-center" style={{
+            <div key={index} className="flex flex-col rounded-bl-lg   h-[200px] justify-center ">
+              <div className="w-[60px] h-[60px] rounded-md   mx-auto my-4 flex justify-center items-center" style={{
                 backgroundColor:card.background
               }}>
                 <img src={card.icon} alt="" />
               </div>
-              <div className="text-center text-2xl text-[#0C43FF]">{card.title}</div>
-              <div className="text-center text-zinc-500">{card.description}</div>
+              <div className="text-center text-xl pt-5 ">{card.title}</div>
+              <div className="text-center text-[16px] text-zinc-400">{card.description}</div>
             </div>
           ))}
         </div>
