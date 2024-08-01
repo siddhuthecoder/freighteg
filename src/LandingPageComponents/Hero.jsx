@@ -8,13 +8,12 @@ const Hero = () => {
   return (
     <>
       <div className="w-full h-screen flex items-center flex-col justify-center hero bg-black" style={{
-       
         backgroundColor:"#0E1C35"
       }}>
         <div className="text-[40px] md:text-[80px] text-center md:w-[80%] mx-auto text-white font-bold hero-text">Deliver Your Things Easier  </div> 
           <div className="flex w-full items-center justify-center flex-wrap ">
             <div className="text-white font-bold hero-text  text-[40px] md:text-[80px]">With </div>
-            <img src={truck} alt="" className="    sm:mt-[0px] " />
+            <img src={truck} alt="" className=" scale-[0.8] sm:scale-[1]   sm:mt-[0px] " />
           </div>
          
          <p className="text-center  text-[20px] text-zinc-400 ">Lorem ipsum dolor sit, a quidem quis! Eligendi nemo corporis, provident quasi sequi quam quas dolores, ab cum itaque totam eos nobis possimus debitis?</p>
