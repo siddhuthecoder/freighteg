@@ -18,11 +18,11 @@ const About = () => {
                     
 
                 </div>
-                <div className="flex flex-col ps-3 md:ms-[-30px] md:mt-[70px]">
+                <div className="flex flex-col ps-3 md:ms-[-30px] md:mt-[50px]">
                   <div className="text-2xl md:text-[30px] font-semibold  text-[white] ">About Us</div>
                   <p className="text-zinc-400 text-[18px] md:text-[17px] ">At FreightEG, we provide a comprehensive solution for all your logistics needs, making us one of India's leading providers for top manufacturing and infrastructure companies. Our acclaimed products, including Spot Freight Negotiation, Trip Management Systems, Contract Management, Dispatch Planning, and Freight Accounting, effectively address critical logistics and supply chain challenges.</p>
-                  <p className="text-zinc-400 text-[18px] md:text-[17px] ">At FreightEG, wgistics need one of India's leading providers for top manufacturing and infrastructure companies. Our acclaimed products, including Spot Freight Negotiation, Trip Management Systems, Contract Management, Dispatch Planning, and Freight Accounting, effectively address critical logistics and supply chain challenges.</p>
-                  <div className="w-full flex items-center justify-center gap-5 mt-[30px]">
+                  <p className="text-zinc-400 text-[18px] md:text-[17px] ">At FreightEG, wgistics need one of India's wgistics need one of India'swgistics need one of India'swgistics need one of India'swgistics need one of India'swgistics need one of India's leading providers for top manufacturing and infrastructure companies. Our acclaimed products, including Spot Freight Negotiation, Trip Management Systems, Contract Management, Dispatch Planning, and Freight Accounting, effectively address critical logistics and supply chain challenges. </p>
+                  {/* <div className="w-full flex items-center justify-center gap-5 mt-[30px]">
                     <div className="flex flex-col ">
                         <div className="text-[rgb(12,67,255)] text-3xl font-bold roboto">300+</div>
                         <div className="text-zinc-400 text-[14px]">companies helped</div>
@@ -31,7 +31,7 @@ const About = () => {
                         <div className="text-[rgb(12,67,255)] text-3xl font-bold roboto">230+</div>
                         <div className="text-zinc-400 text-[14px]">companies helped</div>
                     </div>  
-                  </div>
+                  </div> */}
                 </div>
             </div>
       </div>

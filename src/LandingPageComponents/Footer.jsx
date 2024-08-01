@@ -128,7 +128,7 @@ const Footer = () => {
 
         </div>
         <div className=" ps-3 flex flex-col">
-            <div className="text-4xl mt-4 text-[white]">Industry</div>
+            <div className="text-2xl mt-4 text-[white]">Industry</div>
             {
                 industry.map((item) => (
                     <div className="text-zinc-400 my    my-2 cursor-pointer hover:text-[#0c43FF] flex items-center gap-1">
@@ -139,7 +139,7 @@ const Footer = () => {
             }
         </div>
         <div className=" ps-3 flex flex-col">
-            <div className="text-4xl mt-4 text-[white]">Solutions</div>
+            <div className="text-2xl mt-4 text-[white]">Solutions</div>
             {
                 solutions.map((item) => (
                     <div className="text-zinc-400 my-2 cursor-pointer hover:text-[#0c43FF] flex items-center gap-1">
@@ -151,7 +151,7 @@ const Footer = () => {
         </div>
         
         <div className=" ps-3 flex flex-col">
-            <div className="text-4xl mt-4  text-[white]">Company</div>
+            <div className="text-2xl mt-4  text-[white]">Company</div>
             {
                 company.map((item) => (
                     <div className="text-zinc-400 my-2 cursor-pointer hover:text-[#0c43FF] flex items-center gap-1">
@@ -162,7 +162,7 @@ const Footer = () => {
             }
         </div>
       </div>
-      <div className="w-[90%] max-w-[1200px] mx-auto h-[2px] bg-zinc-500"></div>
+      <div className="w-[100%] max-w-[1200px] mx-auto h-[2px] bg-zinc-400"></div>
       <div className="w-full flex  ">
 
         <div className="w-[100%] max-w-[1200px] mx-auto flex items-center justify-around     md:justify-between flex-wrap-reverse ">
