@@ -3,7 +3,7 @@
     background-size: cover;
 }
 .logo-text{
-    background: url('./new/text-svg.png');
+    background: url('./new/truck.svg');
     position: relative;
     /* background-size: cover; */
 }
@@ -15,7 +15,13 @@
     position: absolute;
     right: -30px;
 } */
+.roboto{
+    font-family: "Roboto Serif", serif;
 
+}
 body{
     background-color: white;
+    font-family: "Poppins", sans-serif;
+    font-weight: 100;
+    font-style: normal;
 }

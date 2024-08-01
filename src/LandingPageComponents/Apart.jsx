@@ -26,14 +26,14 @@ const Apart = () => {
     <>
       <div className="w-full flex flex-col mt-5">
         <div className="text-center text-3xl sm:text-5xl md:text-[60px] py-4 font-semibold">What Sets us <span className="text-[#0C43FF]">Apart?</span></div>
-        <p className="text-center w-[80%] max-w-[800px] mx-auto text-zinc-500">
+        <p className="text-center w-[80%] max-w-[800px] mx-auto text-zinc-500 my-[30px]">
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolores, est nobis sint odio tempora adipisci et expedita repudiandae qui nulla deleniti numquam labore vel assumenda fuga quas, ratione tenetur voluptates.
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolores, est nobis sint odio tempora adipisci et expedita repudiandae qui nulla deleniti numquam labore vel assumenda fuga quas, ratione tenetur voluptates.
         </p>
-        <div className="w-full flex items-center justify-start flex-wrap gap-3">
+        <div className="w-full flex items-center mb-[30px] justify-center flex-wrap gap-3  mt-[30px]">
             {
               data.map((item) => (
-                <div className="flex border w-[90%] max-w-[330px] rounded-md  flex-col shadow-lg w-12/10 mx-auto">
+                <div className="flex border w-[90%] max-w-[352.7px] hover:shadow-[rgba(50,50,93,0.25)_0px_50px_100px_-20px,rgba(0,0,0,0.3)_0px_30px_60px_-30px] h-[349px] rounded-[20px] bg-[#F1F1F1] hover:bg-white duration-150 flex-col  w-12/10 mx-auto">
                     <img src={item.img} alt="" className="mx-auto my-4" />
                     <div className="text-center font-semibold">{item.title}</div>
                     <p className="text-center px-3">

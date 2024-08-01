@@ -50,7 +50,7 @@ const Header = () => {
         <div className="flex items-center">
           <div className="items-center justify-start gap-5 hidden lg:flex">
             {tabs.map((tab, index) => (
-              <div key={index} className={`px-2 cursor-pointer text-[20px] hover:text-blue-600 font-semibold  ${isScrolled?"text-black":"text-zinc-300 "}`}>
+              <div key={index} className={`rounded-full cursor-pointer text-[20px] hover:bg-[#0C43FF] hover:text-white px-2 py-1 font-semibold  ${isScrolled?"text-black":"text-zinc-300 "}`}>
                 {tab.name}
               </div>
             ))}
