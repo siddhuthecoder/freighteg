@@ -8,12 +8,14 @@ import About from './About'
 import Features from './Features'
 import Footer from './Footer'
 import FooterNote from './FooterNote'
-
+import LayerAnimation from './animation/LayerAnimation'
+import Layer1 from './animation/Layer1'
 const MainPage = () => {
   return (
     <div>
       <Header />
       <Hero />
+      <LayerAnimation />
       <Does />
       <Apart />
       <About />
