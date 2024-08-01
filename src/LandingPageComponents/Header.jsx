@@ -38,7 +38,7 @@ const Header = () => {
           isScrolled ? 'bg-[#0E1C35]  backdrop-blur-lg ' : 'bg-transparent'
         }`}
       >
-        <div className="w-full md:w-[70%] mx-atuo flex items-center justify-between">
+        <div className="w-full md:w-[80%] mx-atuo flex items-center justify-between">
         <div className="flex items-center">
           <div className="logo cursor-pointer text-2xl font-bold py-3 mx-3 flex items-center">
             <img src={logo} className="w-[35px] h-[35px]" alt="Logo" />

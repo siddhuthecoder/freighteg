@@ -26,7 +26,7 @@ const Apart = () => {
   return (
     <>
       <div className="w-full flex justify-center">
-      <div className="w-full md:w-[70%] mx-auto flex flex-col mt-5">
+      <div className="w-full md:w-[80%] mx-auto flex flex-col mt-5">
         <div className="text-center text-3xl sm:text-5xl md:text-[35px] py-3 font-semibold">What Sets us <span className="text-[#0C43FF]">Apart?</span></div>
         <p className="text-center w-[80%] max-w-[800px] mx-auto text-zinc-500 text-[13px] my-[20px]">
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolores, est nobis sint odio tempora adipisci et expedita repudiandae qui nulla deleniti numquam labore vel assumenda fuga quas, ratione tenetur voluptates.
