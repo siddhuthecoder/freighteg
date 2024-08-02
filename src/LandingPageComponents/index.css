@@ -74,7 +74,7 @@
   @keyframes box{
     0%, 40%{
       opacity: 0;
-      left: 45%;
+      left: 40%;
     }
     50%{
       opacity: 1;
