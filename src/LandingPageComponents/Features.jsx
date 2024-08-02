@@ -74,7 +74,7 @@ const Features = () => {
                     left.map((item) => (
                         <div className="flex my-3 flex-row-reverse md:flex-row">
                             <div className="flex flex-col">
-                                <div className="font-semibold text-[#0c43FF] text-2xl pb-3 text-left md:text-right">{item.title}</div>
+                                <div className="font-semibold text-[rgb(19,_38,_68)]  text-2xl pb-3 text-left md:text-right">{item.title}</div>
                                 <div className="text-zinc-400 text-[12px] text-left md:text-right">{item.desc}</div>
                             </div>
                             <img src={item.icon} alt="" className="w-[30px] h-[30px] mx-3" />
@@ -90,7 +90,7 @@ const Features = () => {
                     right.map((item) => (
                         <div className="flex my-3 flex-row-reverse">
                             <div className="flex flex-col">
-                                <div className="font-semibold text-[#0c43FF] text-2xl pb-3 text-left md:text-;eft">{item.title}</div>
+                                <div className="font-semibold text-[rgb(19,_38,_68)]  text-2xl pb-3 text-left md:text-;eft">{item.title}</div>
                                 <div className="text-zinc-400 text-[12px] text-left md:text-left">{item.desc}</div>
                             </div>
                             <img src={item.icon} alt="" className="w-[30px] h-[30px] mx-3" />
