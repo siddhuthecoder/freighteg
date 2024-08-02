@@ -26,14 +26,14 @@ const MainPage = () => {
   }, []);
 
   if (isLoading) {
-    return <Loading />;
+    // return <Loading />;
   }
 
   return (
     <div>
       <Header />
       <Hero />
-      <LayerAnimation />
+      {/* <LayerAnimation /> */}
       <Does />
       <Apart />
       <About />
