@@ -26,11 +26,11 @@ const MainPage = () => {
   }, []);
 
   if (isLoading) {
-    return <Loading />;
+    // return <Loading />;
   }
 
   return (
-    <div>
+    <div className='bg-[rgb(242,_244,_248)]'>
       <Header />
       <Hero />
       <LayerAnimation />
