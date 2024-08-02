@@ -78,8 +78,8 @@ const Layer1 = () => {
   const Products = () => {
     return (
       <>
-          <div className="relative w-full flex items-center mt-[20px]">
-            <button onClick={scrollLeft} className="absolute left-0 z-10 p-2 bg-white">
+          <div className="relative w-full flex items-center  rounded-md mt-[20px]">
+            <button onClick={scrollLeft} className="absolute left-0 z-10 p-2 rounded-sm bg-white">
               <FaChevronLeft />
             </button>
             <div
@@ -88,17 +88,13 @@ const Layer1 = () => {
               style={{ scrollSnapType: 'x mandatory' }}
             >
               {products.map((item,index) => (
-                <div className="w-[80%] max-w-[320px] cursor-pointer shadow-xl my-4 overflow-y-hidden group min-w-[230px] h-[300px] relative rounded-md flex flex-col">
+                <div className="w-[80%] max-w-[378px] cursor-pointer shadow-xl my-4 overflow-y-hidden group min-w-[320px] h-[400px] relative rounded-md flex flex-col">
                   <img src={l1} alt="" className="w-full" />
                   <div className="w-full bg-white flex flex-col ps-2 absolute bottom-0 h-[100px] group-hover:h-[150px] duration-500 ease-in-out">
                     <div className="font-semibold text-lg pt-3 group-hover:text-[#0c43FF]">{item.name}</div>
                     <div className="text-zinc-400">{item.desc}</div>
                     <div className="w-full mt-3  group-hover:flex hidden justify-center items-center">
-                      <button className="bg-[#0c43FF] px-2 py-1 text-white font-semibold flex items-center gap-2 rounded-md">
-                        <div className="">Sign Up</div>
-                        <FaArrowRightLong />
-                      </button>
-                      <div className="text-[#0c43FF]   underline px-2 text-[13px] cursor-pointer">Know More</div>
+                      <div className="ps-2">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae laudantium veniam, vel fuga ipsum natus itaque sit eius velit quisquam facilis porro recusandae doloribus perspiciatis. Vitae rerum maxime incidunt repellat.</div>
                   </div>
                   </div>
                   
@@ -117,8 +113,8 @@ const Layer1 = () => {
 
   return (
     <>
-      <div className="w-full flex justify-center">
-        <div className="w-full md:w-[100%] mx-auto flex flex-col">
+      <div className="w-full rounded-md flex justify-center">
+        <div className="w-full md:w-[100%] rounded-md mx-auto flex flex-col">
           <div className="font-semibold text-2xl p-2 sticky left-[20px]">Accept Payments</div>
           {/* <div className="w-full flex items-center ms-4 justify-start overflow-x-auto gap-3">
             {tabs.map((item, index) => (
