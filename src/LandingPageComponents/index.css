@@ -40,28 +40,28 @@
     width: 100%;
   }
   .image{
-    width: 150px;
-    height: 150px;
+    /* width: 150px; */
+    /* height: 150px; */
     position: absolute;
   }
   .truck-img{
     bottom: 0;
-    left: -150px;
-    height: 100px;
+    left: -250px;
+    /* height: 100px; */
     z-index: 2;
     animation: truck 10s linear infinite;
   }
   @keyframes truck{
     40%, 70%{
-      left: 50%;
+      left: 48%;
     }
     100%{
       left: 100%;
     }
   }
   .box-img{
-    width: 25px;
-    height: 25px;
+    width: 35px;
+    height: 35px;
     z-index: 1;
     top: 55%;
     left: 60%;
@@ -83,5 +83,31 @@
     60%, 100%{
       opacity: 0;
       left: 50%;
+    }
+  }
+
+  @media (max-width:700px){
+    @keyframes truck{
+      40%, 70%{
+        left: 10%;
+      }
+      100%{
+        left: 100%;
+      }
+    }
+
+    @keyframes box{
+      0%, 40%{
+        opacity: 0;
+        left: 5%;
+      }
+      50%{
+        opacity: 1;
+        left: 25%;
+      }
+      60%, 100%{
+        opacity: 0;
+        left: 25%;
+      }
     }
   }

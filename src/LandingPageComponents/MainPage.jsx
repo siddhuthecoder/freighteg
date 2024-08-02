@@ -12,6 +12,8 @@ import FooterNote from './FooterNote';
 import LayerAnimation from './animation/LayerAnimation';
 import Layer1 from './animation/Layer1';
 import Loading from './Loading';
+import {motion} from 'framer-motion'
+
 
 const MainPage = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -26,7 +28,7 @@ const MainPage = () => {
   }, []);
 
   if (isLoading) {
-    // return <Loading />;
+    return <Loading />;
   }
 
   return (

@@ -2,14 +2,19 @@ import React from 'react'
 import './index.css'
 import { FaArrowRight } from "react-icons/fa6";
 import truck from './new/truck.svg'
+import {motion} from 'framer-motion'
 
 
 const Hero = () => {
   return (
     <>
-      <div className="w-full h-screen flex items-center flex-col justify-center hero bg-black" style={{
+      <motion.div className="w-full h-screen flex items-center flex-col justify-center hero bg-black" style={{
         backgroundColor:"#0E1C35"
-      }}>
+      }}
+      initial={{ opacity: 0 }} // Initial state
+      animate={{ opacity: 1}} // Animation state
+      transition={{ duration: 1 }} // Transition settings
+      >
         <div className="text-[35px] md:text-[80px] text-center md:w-[80%] mx-auto text-white font-bold hero-text">Deliver Your Things Easier  <span className='md:hidden'> With</span>  </div>
        
           <div className="flex w-full items-center justify-center flex-wrap ">
@@ -25,7 +30,7 @@ const Hero = () => {
             </button>
          </div>
 
-      </div>
+      </motion.div>
       
     </>
   )
