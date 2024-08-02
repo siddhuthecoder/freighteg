@@ -13,7 +13,7 @@ const Hero = () => {
       }}
       initial={{ opacity: 0 }} // Initial state
       animate={{ opacity: 1}} // Animation state
-      transition={{ duration: 1 }} // Transition settings
+      transition={{ duration: 3 }} // Transition settings
       >
         <div className="text-[35px] md:text-[80px] text-center md:w-[80%] mx-auto text-white font-bold hero-text">Deliver Your Things Easier  <span className='md:hidden'> With</span>  </div>
        

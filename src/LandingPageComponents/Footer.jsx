@@ -113,7 +113,7 @@ const Footer = () => {
       <div className="w-full flex justify-center bg-[#0E1C35] ">
       <div className="flex md:w-[80%] flex-col w-full ">
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        <div className=" ps-3 flex flex-col  mt-3">
+        <div className=" ps-3  flex flex-col  mt-3">
             <div className="logo text-2xl font-bold py-3  flex items-center">
                 <img src={logo} className="w-[35px] h-[35px]" alt="Logo" />
                 <div className="flex flex-col ms-2">
@@ -127,10 +127,10 @@ const Footer = () => {
             <div className="text-zinc-400 hover:text-white duration-150 mt-4">hello@freighteg.com</div>
 
         </div>
-        <div className=" ps-3 flex flex-col">
-            <div className="text-2xl mt-4 text-[white]">Industry</div>
+        <div className=" ps-3 flex :items-center flex-col">
+            <div className="text-2xl mt-4 text-[white]">Resources</div>
             {
-                industry.map((item) => (
+                resources.map((item) => (
                     <div className="text-zinc-400 my    my-2 cursor-pointer hover:text-[#0c43FF] flex items-center gap-1">
                         {/* <FaAngleRight /> */}
                         <span>{item.name}</span>
@@ -138,11 +138,11 @@ const Footer = () => {
                 ))
             }
         </div>
-        <div className=" ps-3 flex flex-col">
-            <div className="text-2xl mt-4 text-[white]">Solutions</div>
+        <div className=" ps-3 flex :items-center flex-col">
+            <div className="text-2xl mt-4 col-span text-[white]">Solutions</div>
             {
                 solutions.map((item) => (
-                    <div className="text-zinc-400 my-2 cursor-pointer hover:text-[#0c43FF] flex items-center gap-1">
+                    <div className="text-zinc-400  my-2 cursor-pointer hover:text-[#0c43FF] flex items-center gap-1">
                         {/* <FaAngleRight /> */}
                         <span>{item.name}</span>
                     </div>
@@ -150,7 +150,7 @@ const Footer = () => {
             }
         </div>
         
-        <div className=" ps-3 flex flex-col">
+        <div className=" ps-3 flex :items-center flex-col ">
             <div className="text-2xl mt-4  text-[white]">Company</div>
             {
                 company.map((item) => (
