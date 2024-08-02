@@ -7,7 +7,7 @@ import l4 from '../new/l4.avif'
 import l5 from '../new/l5.avif'
 import { FaArrowRightLong } from "react-icons/fa6";
 
-
+import '../styles.css'
 
 const Layer2 = () => {
   const [tab, setTab] = useState("Top Products");
@@ -113,7 +113,7 @@ const Layer2 = () => {
     <>
       <div className="w-full flex justify-center">
         <div className="w-full md:w-[100%] mx-auto flex flex-col shadoww">
-        <div className="text-[rgb(19,_38,_68)]  pt-5 text-3xl font-bold not-italic   ml-[40px] p-0  sticky left-[20px]">Accept Payments</div>
+        <div className="text-[rgb(19,_38,_68)]  pt-5 text-3xl font-bold not-italic   p-0  sticky left-[20px]">Accept Payments</div>
           {/* <div className="w-full flex items-center ms-4 justify-start overflow-x-auto gap-3">
             {tabs.map((item, index) => (
               <div
