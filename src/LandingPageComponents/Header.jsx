@@ -40,30 +40,30 @@ const Header = () => {
       >
         <div className="w-full md:w-[80%] mx-atuo flex items-center justify-between">
         <div className="flex items-center">
-          <div className="logo cursor-pointer text-2xl font-bold py-3 mx-3 flex items-center">
-            <img src={logo} className="w-[35px] h-[35px]" alt="Logo" />
-            <div className="md:flex flex-col hidden ms-2">
-              <div className={`font-bold text-white text-2xl`}>Freight-EG</div>
-              <div className={` text-[10px]  text-white mt-[-10px]`}>Effortless Transport solutions</div>
+          <div className="logo cursor-pointer text-2xl  py-3 mx-3 flex items-center">
+            {/* <img src={logo} className="w-[35px] h-[35px]" alt="Logo" /> */}
+            <div className="md:flex flex-col ">
+              <div className={`text-white font-semibold text-2xl`}>Freight-EG</div>
+              <div className={` text-[10px]  text-zinc-400 mt-[-10px]`}>Effortless Transport solutions</div>
             </div>
           </div>
         </div>
         <div className="flex items-center">
           <div className="items-center justify-start gap-5 hidden lg:flex">
             {tabs.map((tab, index) => (
-              <div key={index} className={`rounded-full text-[17px] cursor-pointer t hover:bg-[#0C43FF] hover:text-white  px-3 py-1 font-semibold  ${isScrolled?"text-white":"text-zinc-300 "}`}>
+              <div key={index} className={`rounded-full text-[17px] cursor-pointer t hover:bg-[#0C43FF] hover:text-white  px-3 py-1  ${isScrolled?"text-white":"text-zinc-300 "}`}>
                 {tab.name}
               </div>
             ))}
           </div>
-          <button className="rounded-md lg:mx-5  py-[3px]  text-[18px] bg-[rgb(12,67,255)] text-white px-2 flex items-center">
-              <div className="font-bold">Login</div>
-              <div className="text-2xl font-bold px-2">/</div>
-              <div className="font-bold">Register</div>
+          <button className="rounded-md lg:mx-5   py-[3px]  text-[18px] bg-[rgb(12,67,255)] text-white px-2 flex items-center">
+              <div className="font-semibold">Login</div>
+              <div className="text-2xl font-semibold px-2">/</div>
+              <div className="font-semibold">Register</div>
           </button>
-          <button className={`rounded-full hidden mb-1 md:px-4 md:py-2 md:bg-white font-bold text-white md:text-black md:mx-2  items-center ${isScrolled?"border border-black":""}`}>
+          <button className={`rounded-full hidden mb-1 md:px-4 md:py-2 md:bg-white  text-white md:text-black md:mx-2  items-center ${isScrolled?"border border-black":""}`}>
             {/* <IoIosArrowDown className={`text-2xl me-1  ${isScrolled?"text-black":"text-white"}`} /> */}
-            <span className="hidden md:block">sribabu</span>
+            {/* <span className="hidden md:block">siddhu</span> */}
             
               <FaRegUserCircle className="text-2xl ms-2 me-1" />
             
@@ -77,16 +77,16 @@ const Header = () => {
         </div>
       </div>
       {show && (
-        <div className="w-[95%] bg-white shadow-md   rounded-sm fixed top-16 left-[2.5%] z-[1000000] lg:hidden h-[90vh] flex flex-col">
+        <div className="w-[95%] bg-white box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;  rounded-sm fixed top-16 left-[2.5%] z-[1000000] lg:hidden h-[90vh] flex flex-col">
           {tabs.map((tab, index) => (
             <div key={index} className="px-2 py-2 cursor-pointer text-zinc-600 text-[20px] hover:text-blue-600 font-semibold">
               {tab.name}
             </div>
           ))}
           <button className="rounded-md w-[160px] ms-2 lg:mx-5  py-[3px]  text-[18px] bg-[rgb(12,67,255)] text-white px-2 flex items-center">
-              <div className="font-bold">Login</div>
-              <div className="text-2xl font-bold px-2">/</div>
-              <div className="font-bold">Register</div>
+              <div className="">Login</div>
+              <div className="text-2xl  px-2">/</div>
+              <div className="">Register</div>
           </button>
         </div>
       )}

@@ -114,11 +114,11 @@ const Footer = () => {
       <div className="flex md:w-[80%] flex-col w-full ">
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         <div className=" ps-3  flex flex-col  mt-3">
-            <div className="logo text-2xl font-bold py-3  flex items-center">
-                <img src={logo} className="w-[35px] h-[35px]" alt="Logo" />
-                <div className="flex flex-col ms-2">
-                    <div className="font-bold text-white text-2xl">Freight-EG</div>
-                    <div className="text-zinc-300 text-[10px] mt-[-10px]">Effortless Transport solutions</div>
+            <div className="logo text-2xl py-3  flex items-center">
+                {/* <img src={logo} className="w-[35px] h-[35px]" alt="Logo" /> */}
+                <div className="flex flex-col ">
+                    <div className="font-semibold text-white text-2xl">Freight-EG</div>
+                    <div className="text-zinc-400 text-[10px] mt-[-10px]">Effortless Transport solutions</div>
                 </div>
             </div>
             <div className="mt-2 text-white">Contact Info</div>

@@ -30,6 +30,7 @@
     font-weight: 100;
     font-style: normal;
     overflow: hidden;
+    height: 100vh;
 }
 
 .wrap{
@@ -49,7 +50,7 @@
     left: -250px;
     /* height: 100px; */
     z-index: 2;
-    animation: truck 10s linear infinite;
+    animation: truck 8s linear infinite;
   }
   @keyframes truck{
     40%, 70%{
@@ -66,10 +67,11 @@
     top: 55%;
     left: 60%;
     opacity: 0;
-    animation: box 10s linear infinite;
+    animation: box  8s linear infinite;
   }
   .box-img2{
-    animation-delay: 1s;
+    
+    animation-delay: 800ms;
   }
   @keyframes box{
     0%, 40%{
@@ -109,5 +111,19 @@
         opacity: 0;
         left: 25%;
       }
+    }
+  }
+  @media (max-width: 700px) {
+    .truck-img{
+      animation: truck 6000ms linear infinite;
+    }
+    .box-img{
+
+      animation: box  6000ms linear infinite;
+    }
+    .box-img2{
+      width: 35px;
+      height: 35px;
+      animation-delay: 150ms;
     }
   }
