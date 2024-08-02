@@ -32,7 +32,8 @@ const LayerAnimation = () => {
 
   return (
     <>
-      <div className="text-center text-5xl  overflow-y-scroll font-bold text-blue-500">Scroll Effect</div>
+        <div className="text-center text-3xl sm:text-5xl md:text-[35px] py-8 font-semibold">Our <span className="text-[#0C43FF]">Products</span></div>
+     
       <div className="w-full flex justify-center">
       <div className="w-full md:w-[80%] flex mb-[70px] items-center flex-col mt-5 justify-center">
         {sections.map((item, index) => (
