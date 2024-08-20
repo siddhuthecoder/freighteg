@@ -34,26 +34,34 @@ const Header = () => {
           </div>
           <nav className="hidden md:flex flex-grow justify-center">
             <ul className="flex space-x-4">
-              <li>
-                <a href="#" className="hover:text-blue-600">
-                  Solutions
+            <li>
+            <Link to="/"> <a href="#" className="hover:text-blue-600">
+                 Home
                 </a>
+                </Link>
               </li>
               <li>
+              <Link to="/about">  <a href="#" className="hover:text-blue-600">
+                About Us
+                </a>
+                </Link>
+              </li>
+              <li>
+              <Link to="/pricing">
                 <a href="#" className="hover:text-blue-600">
                   Pricing
                 </a>
+                </Link>
               </li>
+              
               <li>
+              <Link to="/contact"> 
                 <a href="#" className="hover:text-blue-600">
-                  Resources
+                  Contact
                 </a>
+                </Link>
               </li>
-              <li>
-                <a href="#" className="hover:text-blue-600">
-                  About Us
-                </a>
-              </li>
+              
             </ul>
           </nav>
           <div className="buttons flex-shrink-0">

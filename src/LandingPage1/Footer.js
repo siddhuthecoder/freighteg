@@ -18,25 +18,26 @@ const FooterColumn = ({ title, items }) => (
 
 const Footer = () => {
   const footerData = {
-    Solutions: [
-      "Freight Sourcing",
-      "Indent Allocation",
-      "In Plant Logistics",
-      "Shipment Tracking",
-      "Proof of Delivery",
-      "Freight Accounting",
-      "Indian Freight Index",
-    ],
-    Industry: [
-      "Metal & Pipes Logistics",
-      "FMCG, FMCD & FMEG Logistics",
-      "Chemicals Logistics",
-      "EPC & Construction Logistics",
-      "Engineering & Heavy Machinery Logistics",
-      "Agriculture & Animal Feeds",
-    ],
-    Resources: ["Case Studies", "Blogs", "Certification Courses", "Pricing"],
-    Company: ["About Us", "TMS", "Career", "Terms of Use", "Disclaimer"],
+    // Solutions: [
+    //   "Freight Sourcing",
+    //   "Indent Allocation",
+    //   "In Plant Logistics",
+    //   "Shipment Tracking",
+    //   "Proof of Delivery",
+    //   "Freight Accounting",
+    //   "Indian Freight Index",
+    // ],
+    // Industry: [
+    //   "Metal & Pipes Logistics",
+    //   "FMCG, FMCD & FMEG Logistics",
+    //   "Chemicals Logistics",
+    //   "EPC & Construction Logistics",
+    //   "Engineering & Heavy Machinery Logistics",
+    //   "Agriculture & Animal Feeds",
+    // ],
+    // Resources: ["Case Studies", "Blogs", "Certification Courses", "Pricing"],
+    // Company: ["About Us", "TMS", "Career", "Terms of Use", "Disclaimer"],
+    Company:["About Us" , "Pricing "]
   };
 
   return (

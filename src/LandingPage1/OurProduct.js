@@ -1,7 +1,7 @@
 import React from "react";
 import FreightEGicon from "../assets/FreightEGicon.png";
 import profferIcon from "../assets/Proffer_logo.png";
-import TrackEG from "../assets/QIKTRACK LOGO .png";
+import TrackEG from "../assets/QIKTRACKLOGO.png";
 
 const ProductCard = ({ icon, title }) => (
   <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center">

@@ -4,15 +4,16 @@ import { RiCloseLargeFill } from "react-icons/ri";
 import { FaRegUserCircle } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
 import logo from './new/logo.png';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [show, setShow] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const tabs = [
-    { name: "Solutions", path: "/" },
+    { name: "Home", path: "/" },
     { name: "Pricing", path: "/pricing" },
-    { name: "Resources", path: "/resources" },
-    { name: "About Us", path: "/about-us" },
+    { name: "About Us", path: "/about" },
+    { name: "Contact", path: "/contact" },
   ];
 
   useEffect(() => {
@@ -34,9 +35,7 @@ const Header = () => {
     <>
       <div className=""></div>
       <div
-        className={`w-full m shadow mx-auto flex justify-center fixed top-0 z-[1000]  transition-colors duration-300 ${
-          isScrolled ? 'bg-[#0E1C35]  backdrop-blur-lg ' : 'bg-transparent'
-        }`}
+        className={`w-full m shadow mx-auto flex justify-center fixed top-0 z-[1000] bg-[#0E1C35]  transition-colors duration-300 `}
       >
         <div className="w-full md:w-[80%] mx-atuo flex items-center justify-between">
         <div className="flex items-center">
@@ -51,13 +50,15 @@ const Header = () => {
         <div className="flex items-center">
           <div className="items-center justify-start gap-5 hidden lg:flex">
             {tabs.map((tab, index) => (
+              <Link to={tab.path}>
               <div key={index} className={`rounded-full text-[17px] cursor-pointer t hover:bg-[#0C43FF] hover:text-white  px-3 py-1  ${isScrolled?"text-white":"text-zinc-300 "}`}>
                 {tab.name}
               </div>
+              </Link>
             ))}
           </div>
           <button className="rounded-md lg:mx-5   py-[3px]  text-[18px] bg-[rgb(12,67,255)] text-white px-2 flex items-center">
-              <div className="font-semibold">Login</div>
+          <Link to='/login'> <div className="font-semibold">Login</div></Link>
               <div className="text-2xl font-semibold px-2">/</div>
               <div className="font-semibold">Register</div>
           </button>
@@ -84,7 +85,7 @@ const Header = () => {
             </div>
           ))}
           <button className="rounded-md w-[160px] ms-2 lg:mx-5  py-[3px]  text-[18px] bg-[rgb(12,67,255)] text-white px-2 flex items-center">
-              <div className="">Login</div>
+             <Link to='/login'> <div className="">Login</div></Link>
               <div className="text-2xl  px-2">/</div>
               <div className="">Register</div>
           </button>
