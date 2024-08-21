@@ -1,21 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{html,js,jsx}"],
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+  ],
   theme: {
-    extend: {
-      colors: {
-        // Add all colors for background
-        bg: Object.assign({}, require("tailwindcss/colors"), {
-          transparent: "transparent",
-          current: "currentColor",
-        }),
-        // Add all colors for text
-        text: Object.assign({}, require("tailwindcss/colors"), {
-          transparent: "transparent",
-          current: "currentColor",
-        }),
-      },
-    },
+    extend: {},
   },
   plugins: [],
-};
+}
+

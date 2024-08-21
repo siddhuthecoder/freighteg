@@ -5,9 +5,9 @@ import TabSection from '../components/Dashboard/TabSection';
 import ContractCard from '../components/Dashboard/ContractedLane';
 import TableHeader from '../components/Dashboard/TableHeader';
 
-const Result = () => {
-  
-  const contractCardCount = 2; 
+const Cancelled = () => {
+
+  const contractCardCount = 3; 
 
   return (
     <div className='absolute top-0 left-0 w-full h-full m-0 p-0 bg-white'>
@@ -22,4 +22,4 @@ const Result = () => {
   );
 };
 
-export default Result;
+export default Cancelled;

@@ -5,8 +5,8 @@ import TabSection from '../components/Dashboard/TabSection';
 import ContractCard from '../components/Dashboard/ContractedLane';
 import TableHeader from '../components/Dashboard/TableHeader';
 
-const Result = () => {
-  
+const Counter = () => {
+
   const contractCardCount = 2; 
 
   return (
@@ -22,4 +22,4 @@ const Result = () => {
   );
 };
 
-export default Result;
+export default Counter;
