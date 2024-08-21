@@ -1,0 +1,39 @@
+/* ToggleSwitch.css */
+.toggle-switch {
+  width: 60px; /* Standard width */
+  height: 30px; /* Standard height */
+  background-color: gray;
+  border-radius: 15px; /* Adjusted for standard height */
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5px; /* Standard padding */
+  box-sizing: border-box;
+  user-select: none;
+}
+
+.toggle-switch.active {
+  background-color: green;
+}
+
+.slider {
+  width: 25px; /* Standard width */
+  height: 25px; /* Standard height */
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  transition: transform 0.3s;
+}
+
+.toggle-switch.active .slider {
+  transform: translateX(30px); /* Adjusted for standard width */
+}
+
+.status {
+  position: absolute;
+  right: 5px; /* Adjusted for standard width */
+  color: white;
+  font-size: 16px; /* Standard font size */
+}

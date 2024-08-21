@@ -1,0 +1,129 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+.hero{
+    background: url('./new/world-dotted-map.png');
+    background-size: cover;
+}
+.logo-text{
+    background: url('./new/truck.svg');
+    position: relative;
+    /* background-size: cover; */
+}
+/* .logo-text::after{
+    content: "";
+    background: url('./new/text-svg2.png') ;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: -30px;
+} */
+.roboto{
+    font-family: "Roboto Serif", serif;
+
+}
+.body{
+    background-color: white;
+    font-family: "Poppins", sans-serif;
+    font-weight: 100;
+    font-style: normal;
+    overflow: hidden;
+    height: 100vh;
+}
+
+.wrap{
+    position: absolute;
+    height: 150px;
+    bottom: 45%;
+    left: 0;
+    width: 100%;
+  }
+  .image{
+    /* width: 150px; */
+    /* height: 150px; */
+    position: absolute;
+  }
+  .truck-img{
+    bottom: 0;
+    left: -250px;
+    /* height: 100px; */
+    z-index: 2;
+    animation: truck 8s linear infinite;
+  }
+  @keyframes truck{
+    40%, 70%{
+      left: 48%;
+    }
+    100%{
+      left: 100%;
+    }
+  }
+  .box-img{
+    width: 35px;
+    height: 35px;
+    z-index: 1;
+    top: 55%;
+    left: 60%;
+    opacity: 0;
+    animation: box  8s linear infinite;
+  }
+  .box-img2{
+    
+    animation-delay: 800ms;
+  }
+  @keyframes box{
+    0%, 40%{
+      opacity: 0;
+      left: 40%;
+    }
+    50%{
+      opacity: 1;
+      left: 50%;
+    }
+    60%, 100%{
+      opacity: 0;
+      left: 50%;
+    }
+  }
+
+  @media (max-width:700px){
+    @keyframes truck{
+      40%, 70%{
+        left: 10%;
+      }
+      100%{
+        left: 100%;
+      }
+    }
+
+    @keyframes box{
+      0%, 40%{
+        opacity: 0;
+        left: 5%;
+      }
+      50%{
+        opacity: 1;
+        left: 25%;
+      }
+      60%, 100%{
+        opacity: 0;
+        left: 25%;
+      }
+    }
+  }
+  @media (max-width: 700px) {
+    .truck-img{
+      animation: truck 6000ms linear infinite;
+    }
+    .box-img{
+
+      animation: box  6000ms linear infinite;
+    }
+    .box-img2{
+      width: 35px;
+      height: 35px;
+      animation-delay: 150ms;
+    }
+  }

@@ -1,0 +1,47 @@
+.toggle-switch {
+    width: 100px; /* Increased width to accommodate full text */
+    height: 30px;
+    background-color: gray;
+    border-radius: 15px;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px; /* Increased padding for better text visibility */
+    box-sizing: border-box;
+    user-select: none;
+  }
+  
+  .toggle-switch.active {
+    background-color: #3367d1;
+  }
+  
+  .slider {
+    width: 25px;
+    height: 25px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    transition: transform 0.3s;
+  }
+  
+  .toggle-switch.active .slider {
+    transform: translateX(70px); /* Adjusted to match the new width */
+  }
+  
+  .status {
+    color: white;
+    font-size: 12px;
+  }
+  
+  .status.left {
+    position: absolute;
+    left: 10px; /* Ensure text is inside the switch */
+  }
+  
+  .status.right {
+    position: absolute;
+    right: 10px; /* Ensure text is inside the switch */
+  }
+  
