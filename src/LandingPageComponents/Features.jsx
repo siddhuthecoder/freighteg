@@ -88,7 +88,7 @@ const Features = () => {
             <div className=" flex flex-col">
                 {
                     right.map((item) => (
-                        <div className="flex my-3 flex-row-reverse">
+                        <div className="flex my-3 flex-row-1    reverse">
                             <div className="flex flex-col">
                                 <div className="font-semibold text-[#0c43FF] text-2xl pb-3 text-left md:text-;eft">{item.title}</div>
                                 <div className="text-zinc-400 text-[12px] text-left md:text-left">{item.desc}</div>
