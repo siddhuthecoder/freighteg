@@ -116,7 +116,7 @@ const Layer3 = () => {
     <>
       <div className="w-full flex justify-center shadoww">
         <div className="w-full md:w-[100%] mx-auto flex flex-col">
-        <div className="text-[rgb(19,_38,_68)]  pt-5 text-3xl font-bold not-italic    p-0  sticky left-[20px]">Accept Payments</div>
+        <div className="text-[rgb(19,_38,_68)]  pt-5 text-3xl font-bold not-italic    p-0  sticky left-[20px]">Manage Vendor / Staff/ POD</div>
           {/* <div className="w-full flex items-center ms-4 justify-start overflow-x-auto gap-3">
             {tabs.map((item, index) => (
               <div

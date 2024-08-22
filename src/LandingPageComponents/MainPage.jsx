@@ -10,20 +10,19 @@ import Features from './Features';
 import Footer from './Footer';
 import FooterNote from './FooterNote';
 import LayerAnimation from './animation/LayerAnimation';
-import Layer1 from './animation/Layer1';
 import Loading from './Loading';
-import {motion} from 'framer-motion'
-
+import { motion } from 'framer-motion';
 
 const MainPage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    let timeoutDuration = window.innerWidth < 900 ? 3500 : 5000;
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 6000); // 3 seconds
+    }, timeoutDuration);
 
-    // Clean up the timer if the component unmounts before 3 seconds
+    // Clean up the timer if the component unmounts before the timeout
     return () => clearTimeout(timer);
   }, []);
 
@@ -45,6 +44,5 @@ const MainPage = () => {
     </div>
   );
 };
-
 
 export default MainPage;

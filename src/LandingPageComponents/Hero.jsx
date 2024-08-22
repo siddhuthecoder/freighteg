@@ -11,11 +11,11 @@ const Hero = () => {
       <motion.div className="w-full h-screen flex items-center flex-col justify-center hero bg-black" style={{
         backgroundColor:"#0E1C35"
       }}
-      initial={{ opacity: 0 }} // Initial state
-      animate={{ opacity: 1}} // Animation state
-      transition={{ duration: 3 }} // Transition settings
+      // initial={{ opacity: 0 }} // Initial state
+      // animate={{ opacity: 1}} // Animation state
+      // transition={{ duration: 1 }} // Transition settings
       >
-        <div className="text-[35px] md:text-[80px] text-center md:w-[80%] mx-auto text-white font-bold hero-text">Deliver Your Things Easier  <span className='md:hidden'> With</span>  </div>
+        <div className="text-[35px] md:text-[80px] text-center md:w-[80%] mx-auto text-white font-bold hero-text">Make Transport Business Easy   <span className='md:hidden'> With</span>  </div>
        
           <div className="flex w-full items-center justify-center flex-wrap ">
             <div className="text-white font-bold hero-text  text-[40px] hidden  sm:hidden md:block md:text-[80px] ">With &nbsp;  </div> 

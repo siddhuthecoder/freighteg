@@ -2,7 +2,7 @@ import React from 'react'
 import truck from './new/truck.svg'
 const Loading = () => {
   return (
-    <div className="body">
+    <div className="body bg-[linear-gradient(178.6deg,_rgb(232,_245,_253)_3.3%,_rgb(252,_253,_255)_109.6%)]">
         <div className="wrap" style={{
             overflow:"hidden"
         }}>

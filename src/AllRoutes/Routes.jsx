@@ -1,45 +1,46 @@
-import React, { useState, useEffect } from "react";
-import { Routes, Route, useNavigate, Outlet } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import LoginPage from "../pages/LoginModule/Loginpage";
+import { Outlet, Route, Routes, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import SubNavbar from "../components/SubNavbar";
-import PrivateRoute from "./PrivateRoute";
-import LandingPage from "../LandingPage/LandingPage";
-import Login from "../pages/LoginModule/Login";
+import StaffNavbar from "../components/StaffNavbar";
+import LandingPage from "../LandingPage1/LandingPage";
+import Privacy from "../LandingPage1/Privacy";
+import TermsAndConditions from "../LandingPage1/TermsAndConditions";
+import About from "../pages/AboutUs/About";
+import AddVendor from "../pages/AddVendor";
+import AssignedReqOne from "../pages/Alert/AssignedRequest/AssignedReqOne";
+import AssignedReqThree from "../pages/Alert/AssignedRequest/AssignedReqThree";
+import AssignedReqTwo from "../pages/Alert/AssignedRequest/AssignedReqTwo";
+import AllBid from "../pages/AllBid";
+import Bid from "../pages/Bid";
+import Contact from "../pages/Contact/Contact";
+import EditForm from "../pages/EditForm";
+import History from "../pages/History";
 import Home from "../pages/Home";
 import Live from "../pages/Live";
-import Result from "../pages/Result";
-import History from "../pages/History";
-import Vendor from "../pages/Vendor";
-import AddVendor from "../pages/AddVendor";
-import User from "../pages/User";
-import ViewDetails from "../pages/ViewDetails";
-import UserForm from "../pages/UserForm";
-import PodForm from "../pages/PodForm";
-import EditForm from "../pages/EditForm";
-import MyrankCompanyone from "../pages/Reporting/ReportPages/MyrankCompanyone";
-import MyrankCompanyTwo from "../pages/Reporting/ReportPages/MyrankCompanyTwo";
-import MyrankCompanyThree from "../pages/Reporting/ReportPages/MyrankCompanyThree";
-import AssignedReqOne from "../pages/Alert/AssignedRequest/AssignedReqOne";
-import AssignedReqTwo from "../pages/Alert/AssignedRequest/AssignedReqTwo";
-import AssignedReqThree from "../pages/Alert/AssignedRequest/AssignedReqThree";
-import PodOne from "../pages/Pod/Podpages/PodOne";
-import PodTwo from "../pages/Pod/Podpages/PodTwo";
-import PodThree from "../pages/Pod/Podpages/PodThree";
-import CompanyOne from "../pages/NormalAdmin/CompanyOne";
-import CompanyTwo from "../pages/NormalAdmin/CompanyTwo";
-import AllBid from "../pages/AllBid";
+import Login from "../pages/LoginModule/Login";
+import LoginPage from "../pages/LoginModule/Loginpage";
+import TransporterLogin from "../pages/LoginModule/TransporterLogin";
 import AllPodRequest from "../pages/MainPod/AllPodRequest";
 import DownloadedPod from "../pages/MainPod/DownloadedPod";
-import Bid from "../pages/Bid";
-import TransporterLogin from "../pages/LoginModule/TransporterLogin";
-import StaffNavbar from "../components/StaffNavbar";
+import CompanyOne from "../pages/NormalAdmin/CompanyOne";
+import CompanyTwo from "../pages/NormalAdmin/CompanyTwo";
+import PodOne from "../pages/Pod/Podpages/PodOne";
+import PodThree from "../pages/Pod/Podpages/PodThree";
+import PodTwo from "../pages/Pod/Podpages/PodTwo";
+import PodForm from "../pages/PodForm";
+import Price from "../pages/Pricing/Price";
+import MyrankCompanyone from "../pages/Reporting/ReportPages/MyrankCompanyone";
+import MyrankCompanyThree from "../pages/Reporting/ReportPages/MyrankCompanyThree";
+import MyrankCompanyTwo from "../pages/Reporting/ReportPages/MyrankCompanyTwo";
+import Result from "../pages/Result";
 import StaffBid from "../pages/StaffBid";
-import TermsAndConditions from "../LandingPage/TermsAndConditions";
-import Privacy from "../LandingPage/Privacy";
-import Loading from "../LandingPageComponents/Loading";
-import MainPage from "../LandingPageComponents/MainPage";
+import User from "../pages/User";
+import UserForm from "../pages/UserForm";
+import Vendor from "../pages/Vendor";
+import ViewDetails from "../pages/ViewDetails";
+import PrivateRoute from "./PrivateRoute";
+import MainPage from './../LandingPageComponents/MainPage';
 
 const Layout = () => {
   const user = useSelector((state) => state.login.user);
@@ -82,20 +83,24 @@ const AllRoutes = () => {
   }, [user, token]);
 
   if (isLoading) {
-    console.log("isLoading",isLoading)
-    return (
-      <Loading />
-    )
+    return <div>Loading...</div>;
   }
 
   return (
     <Routes>
       {/* <Route path="/" element={<LandingPage />} /> */}
       <Route path="/" element={<MainPage />} />
+      
+      
+      
+      <Route path="/pricing" element={<Price/>}/>
+      <Route path="/about" element={<About/>}/>
+      <Route path="/contact" element={<Contact/>}/>
       <Route
         path="/login"
         element={<LoginPage setIsAuthenticated={setIsAuthenticated} />}
       />
+      
       <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
       <Route path="/privacy-policy" element={<Privacy />} />
       {isAuthenticated && (

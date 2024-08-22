@@ -12,7 +12,7 @@ const AboutCompany = () => {
           />
         </div>
         <div className="md:w-1/2 md:pl-12">
-          <h2 className="text-3xl font-bold mb-4">About The Company</h2>
+          <h2 className="text-3xl font-bold mb-4">About The Companyyyy</h2>
           <p className="mb-4">
             At FreightEG, we provide a comprehensive solution for all your
             logistics needs, making us one of India's leading providers for top
