@@ -3,21 +3,21 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import BidLayout from './Layout';
 
-const BidDetails = () => {
+const Counter = () => {
   const [bidDetails, setBidDetails] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const user = useSelector((state) => state.login.user);
 
-  // Function to fetch bid result history
-  const fetchBidResultHistory = async () => {
-    const url = `https://freighteg.in/freightapi/getBidResultHistory?company_id=${user?.id}`;
+  // Function to fetch bid IDs
+  const fetchBidIds = async () => {
+    const url = `https://freighteg.in/freightapi/counters?company_id=${user?.id}`;
     try {
       const response = await axios.get(url);
-      return response.data.data;
+      return response.data.data; // Adjust this if the data structure is different
     } catch (error) {
-      console.error('Error fetching bid result history:', error);
-      setError('Failed to fetch bid result history');
+      console.error('Error fetching bid IDs:', error);
+      setError('Failed to fetch bid IDs');
       setLoading(false);
     }
   };
@@ -37,19 +37,19 @@ const BidDetails = () => {
 
   // Function to get all bid details
   const getAllBidDetails = async () => {
-    const bids = await fetchBidResultHistory();
-    if (bids && bids.length > 0) {
+    const bidIds = await fetchBidIds();
+    if (bidIds && bidIds.length > 0) {
       const allBidDetails = [];
-      for (const bid of bids) {
-        const bidDetail = await fetchBidDetails(bid.bid_id);
+      for (const bid of bidIds) {
+        const bidDetail = await fetchBidDetails(bid.id); // Adjust 'bid.id' based on the response structure
         if (bidDetail) {
           allBidDetails.push(bidDetail);
         }
       }
       setBidDetails(allBidDetails);
     } else {
-      console.log('No bids found.');
-      setError('No bids found.');
+      console.log('No bid IDs found.');
+      setError('No bid IDs found.');
     }
     setLoading(false);
   };
@@ -63,13 +63,7 @@ const BidDetails = () => {
     return <div className="text-center">Loading...</div>;
   }
 
-  if (error) {
-    return <div className="text-center text-red-500">{error}</div>;
-  }
-
-  if (bidDetails.length === 0) {
-    return <div className="text-center">No bid details found.</div>;
-  }
+  
 
   return (
     <>
@@ -78,4 +72,4 @@ const BidDetails = () => {
   );
 };
 
-export default BidDetails;
+export default Counter;

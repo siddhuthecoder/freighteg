@@ -3,21 +3,21 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import BidLayout from './Layout';
 
-const BidDetails = () => {
+const Open = () => {
   const [bidDetails, setBidDetails] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const user = useSelector((state) => state.login.user);
 
-  // Function to fetch bid result history
-  const fetchBidResultHistory = async () => {
-    const url = `https://freighteg.in/freightapi/getBidResultHistory?company_id=${user?.id}`;
+  // Function to fetch live bids
+  const fetchLiveBids = async () => {
+    const url = `https://freighteg.in/freightapi/liveBids?company_id=${user.id}`;
     try {
       const response = await axios.get(url);
       return response.data.data;
     } catch (error) {
-      console.error('Error fetching bid result history:', error);
-      setError('Failed to fetch bid result history');
+      console.error('Error fetching live bids:', error);
+      setError('Failed to fetch live bids');
       setLoading(false);
     }
   };
@@ -37,10 +37,10 @@ const BidDetails = () => {
 
   // Function to get all bid details
   const getAllBidDetails = async () => {
-    const bids = await fetchBidResultHistory();
-    if (bids && bids.length > 0) {
+    const liveBids = await fetchLiveBids();
+    if (liveBids && liveBids.length > 0) {
       const allBidDetails = [];
-      for (const bid of bids) {
+      for (const bid of liveBids) {
         const bidDetail = await fetchBidDetails(bid.bid_id);
         if (bidDetail) {
           allBidDetails.push(bidDetail);
@@ -48,8 +48,8 @@ const BidDetails = () => {
       }
       setBidDetails(allBidDetails);
     } else {
-      console.log('No bids found.');
-      setError('No bids found.');
+      console.log('No live bids found.');
+      setError('No live bids found.');
     }
     setLoading(false);
   };
@@ -68,7 +68,7 @@ const BidDetails = () => {
   }
 
   if (bidDetails.length === 0) {
-    return <div className="text-center">No bid details found.</div>;
+    return <div className="text-center">No data found.</div>;
   }
 
   return (
@@ -78,4 +78,4 @@ const BidDetails = () => {
   );
 };
 
-export default BidDetails;
+export default Open;

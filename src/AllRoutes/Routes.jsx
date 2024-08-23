@@ -43,6 +43,10 @@ import PrivateRoute from "./PrivateRoute";
 import MainPage from './../LandingPageComponents/MainPage';
 import History1 from "../components/bid/History";
 import BidLayout from "../components/bid/Layout";
+import BidDetails from "../components/bid/History";
+import Open from "../components/bid/Open";
+import Counter from "../components/bid/Counter";
+
 const Layout = () => {
   const user = useSelector((state) => state.login.user);
 
@@ -97,7 +101,10 @@ const AllRoutes = () => {
       <Route path="/pricing" element={<Price/>}/>
       <Route path="/about" element={<About/>}/>
       <Route path="/contact" element={<Contact/>}/>
-      <Route path="/his1" element={<History1/>}/>
+      <Route path="/his1" element={<BidDetails/>}/>
+      <Route path="/open" element={<Open/>}/>
+      <Route path="/counter" element={<Counter/>}/>
+      <Route path="/layout" element={<BidLayout/>}/>
       <Route
         path="/login"
         element={<LoginPage setIsAuthenticated={setIsAuthenticated} />}
