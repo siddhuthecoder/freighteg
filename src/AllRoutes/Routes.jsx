@@ -41,7 +41,8 @@ import Vendor from "../pages/Vendor";
 import ViewDetails from "../pages/ViewDetails";
 import PrivateRoute from "./PrivateRoute";
 import MainPage from './../LandingPageComponents/MainPage';
-
+import History1 from "../components/bid/History";
+import BidLayout from "../components/bid/Layout";
 const Layout = () => {
   const user = useSelector((state) => state.login.user);
 
@@ -96,6 +97,7 @@ const AllRoutes = () => {
       <Route path="/pricing" element={<Price/>}/>
       <Route path="/about" element={<About/>}/>
       <Route path="/contact" element={<Contact/>}/>
+      <Route path="/his1" element={<History1/>}/>
       <Route
         path="/login"
         element={<LoginPage setIsAuthenticated={setIsAuthenticated} />}
