@@ -49,7 +49,7 @@ const Header = ({ onSubmit }) => {
 
   return (
     <>
-      <div className="w-full flex min-h-[60px] flex-wrap items-center gap-2 py-2 justify-between bg-white sticky top-0 z-[10]">
+      <div className="w-full flex min-h-[60px] flex-wrap items-center gap-2 py-2 justify-between bg-white   z-[10]">
         <div className="flex items-center mx-2 gap-2">
           <input 
             type="text" 
@@ -65,7 +65,7 @@ const Header = ({ onSubmit }) => {
             Search
           </button>
         </div>
-        <div className=" hidden md:flex items-center mx-2 gap-2">
+        <div className="  flex items-center mx-2 gap-2">
           <select
             value={selectedOption}
             onChange={handleOptionChange}
@@ -77,7 +77,7 @@ const Header = ({ onSubmit }) => {
               </option>
             ))}
           </select>
-          <input
+          {/* <input
             type="date"
             value={startDate}
             onChange={handleStartDateChange}
@@ -89,7 +89,7 @@ const Header = ({ onSubmit }) => {
             value={endDate}
             onChange={handleEndDateChange}
             className="block w-full bg-white border h-[45px] border-gray-300 rounded-md shadow-sm py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          />
+          /> */}
           <button 
             className="px-2 py-2 bg-blue-600 h-[45px] text-white rounded-md"
             onClick={handleFormSubmit}
@@ -97,7 +97,7 @@ const Header = ({ onSubmit }) => {
             GO
           </button>
           <button 
-            className="border border-blue-600 h-[45px] text-blue-600 px-2 py-2 flex justify-center items-center rounded-md"
+            className="border border-blue-600 bg-[#dbeafe] min-w-[45px] max-w-[45px] h-[45px] text-blue-600 flex justify-center items-center rounded-md"
             onClick={handleReset}
           >
             <FiRefreshCw />

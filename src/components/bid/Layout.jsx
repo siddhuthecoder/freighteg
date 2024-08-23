@@ -3,6 +3,7 @@ import * as XLSX from 'xlsx';
 import Header from './repeats/Header';
 import DataTable from './repeats/DataTable';
 import Tabs from './repeats/Tabs';
+import Navbar from './repeats/Navbar';
 
 const BidLayout = ({bidData}) => {
     const  [dataHandling,setDataHandling] = useState({})
@@ -523,9 +524,10 @@ const BidLayout = ({bidData}) => {
       
   return (
     <>
+      <Navbar />
       <Header onSubmit={handleFormSubmit} />
       <div className="w-full overflow-x-auto">
-        <Tabs onDownloadClick={handleDownloadClick} onFilterClick={() => { /* Handle filter click if needed */ }} />
+        <Tabs onDownloadClick={handleDownloadClick}  onFilterClick={() => { /* Handle filter click if needed */ }} />
 
       </div>
       <div className="w-full flex flex-col overflow-x-auto">
