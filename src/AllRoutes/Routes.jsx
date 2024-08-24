@@ -46,6 +46,7 @@ import BidLayout from "../components/bid/Layout";
 import BidDetails from "../components/bid/History";
 import Open from "../components/bid/Open";
 import Counter from "../components/bid/Counter";
+import ResultPage from "../components/bid/Result";
 
 const Layout = () => {
   const user = useSelector((state) => state.login.user);
@@ -107,6 +108,7 @@ const AllRoutes = () => {
       <Route path="/open" element={<Open/>}/>
       <Route path="/counter" element={<Counter/>}/>
       <Route path="/layout" element={<BidLayout/>}/>
+      <Route path="/result" element={<ResultPage/>}/>
       
       
       
