@@ -8,11 +8,11 @@ const Tabs = ({ onFilterClick, onDownloadClick }) => {
     const path = location.pathname.split("/");
     
     const tabs = [
-        { name: "Open", path: "/open" },
-        { name: "Result", path: "/result" },
-        { name: "History", path: "/his1" },
-        { name: "Counter", path: "/counter" },
-        { name: "Cancelled", path: "/cancelled" }
+        { name: "Open", path: "open" },
+        { name: "Result", path: "result" },
+        { name: "History", path: "his1" },
+        { name: "Counter", path: "counter" },
+        { name: "Cancelled", path: "cancelled" }
     ];
 
     return (
@@ -21,7 +21,7 @@ const Tabs = ({ onFilterClick, onDownloadClick }) => {
                 {tabs.map((tab, index) => {
                     const isActive = path.includes(tab.path);
                     return (
-                        <Link to={tab.path}
+                        <Link to={`/${tab.path}`}
                             key={index}
                             className={`text-zinc-500 font-semibold cursor-pointer hover:underline text-sm hover:text-[#0662C6] ${isActive ? 'text-[#0662C6] font-bold' : ''}`}
                         >

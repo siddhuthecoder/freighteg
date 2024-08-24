@@ -6,7 +6,7 @@ import { format, toZonedTime } from 'date-fns-tz';
 // import { ChevronDownIcon, EnvelopeIcon, PrinterIcon,EyeIcon,CheckIcon, XMarkIcon, PencilIcon } from '@heroicons/react/24/outline';
 
 
-const DataTable = ({ datas }) => {
+const HistoryTable = ({ datas }) => {
     // console.log(datas)
 
     const convertToTimeDifference = (updatedAt) => {
@@ -141,7 +141,7 @@ const DataTable = ({ datas }) => {
                     <div className="flex flex-col ps-2 pt-1">
                         <span className="block text-black font-semibold">Qiktrack</span>
                         <span className="block text-blue-600 font-semibold">#{data._id}</span>
-                        <span className="block text-red-600">{convertToTimeDifference(data.updatedAt)} </span>
+                        {/* <span className="block text-red-600">{convertToTimeDifference(data.updatedAt)} </span> */}
                         <div className="block text-grey-500 mt-12">Remarks</div>
                     </div>
 
@@ -188,13 +188,16 @@ const DataTable = ({ datas }) => {
                 <span className="block text-xs text-gray-500">Target Price - {data.target_price}Rs
                     
                 <span className=" gap-8 text-grey-600 text-sm font-semibold ml-5 px-3 py-1 rounded-lg">
-                    {data.assignedToUser.name}({data.assignedToUser.role}, +91{data.createdByUser.phone })
+                    Assigned Staff({data.user.role}, +91{data.user.phone    })
                     </span>
                 </span>
                 <button  className="mt-2  text-blue-500 px-3 py-1.5 mr-[-50px] text-sm rounded whitespace-nowrap">
                     Assigned Vendors
                     </button>
-                <div className="mr-15px">Created By - <span className="font-semibold">{data.createdByUser.name}</span>
+                    <button  className="mt-2  text-blue-500 px-3 py-1.5 mr-[-50px] text-sm rounded whitespace-nowrap">
+                    Responses
+                    </button>
+                <div className="mr-15px">Created By - <span className="font-semibold">{data.user.name}</span>
                     <span>( {data.createdAt.slice(0, 10)} ,  {formatTo12HourTime(data.createdAt)})</span>
                 </div>
                 </div>
@@ -205,4 +208,4 @@ const DataTable = ({ datas }) => {
     );
 };
 
-export default DataTable;
+export default HistoryTable;

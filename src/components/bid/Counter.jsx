@@ -35,21 +35,40 @@ const Counter = () => {
     }
   };
 
-  // Function to get all bid details
+  const fetchFreightUserData = async (userId) => {
+    const url = `https://freighteg.in/freightapi/freightusers/${userId}`;
+    try {
+      const response = await axios.get(url);
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching user data for id ${userId}:`, error);
+      setError(`Failed to fetch user data for id ${userId}`);
+      setLoading(false);
+    }
+  };
+  // Function to get all bid details and merge with user and assigned_to data
   const getAllBidDetails = async () => {
-    const bidIds = await fetchBidIds();
-    if (bidIds && bidIds.length > 0) {
+    const bids = await fetchBidIds();
+    if (bids && bids.length > 0) {
       const allBidDetails = [];
-      for (const bid of bidIds) {
-        const bidDetail = await fetchBidDetails(bid.id); // Adjust 'bid.id' based on the response structure
+      for (const bid of bids) {
+        const bidDetail = await fetchBidDetails(bid.bid_id);
         if (bidDetail) {
-          allBidDetails.push(bidDetail);
+          const createdByUser = await fetchFreightUserData(bidDetail.created_by);
+          const assignedToUser = await fetchFreightUserData(bidDetail.assigned_to); // Fetch assigned_to data
+
+          const mergedData = {
+            ...bidDetail,
+            createdByUser,  // Embed created_by user data
+            assignedToUser, // Embed assigned_to user data
+          };
+          allBidDetails.push(mergedData);
         }
       }
       setBidDetails(allBidDetails);
     } else {
-      console.log('No bid IDs found.');
-      setError('No bid IDs found.');
+      console.log('No bids found.');
+      setError('No bids found.');
     }
     setLoading(false);
   };
