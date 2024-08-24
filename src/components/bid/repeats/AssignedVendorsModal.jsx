@@ -1,7 +1,10 @@
 // AssignedVendorsModal.js
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const AssignedVendorsModal = ({ data, onClose }) => {
+    useEffect(()=>{
+   
+    },[])
     return (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center">
             <div className="bg-white p-5 rounded-lg shadow-lg">

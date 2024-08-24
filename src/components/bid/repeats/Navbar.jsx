@@ -137,11 +137,11 @@ const Navbar = () => {
         <FaGavel className="mr-2 inline" /> 
         <span>Bids</span>
         </Link>
-        <Link to="/allvendor" className="block mb-4 text-gray-700 hover:text-blue-700">
+        <Link to="/vendor" className="block mb-4 text-gray-700 hover:text-blue-700">
           <FaRoad className="mr-2 inline" />
           <span>Vendor</span>
         </Link>
-        <Link to="/users" className="block mb-4 text-gray-700 hover:text-blue-700">
+        <Link to="/staff" className="block mb-4 text-gray-700 hover:text-blue-700">
           <FaFileInvoice className="mr-2 inline" />
           <span>Staff</span>
         </Link>
@@ -149,7 +149,7 @@ const Navbar = () => {
           <FaTags className="mr-2 inline" />
           <span>Branch</span>
         </Link>
-        <Link to="/allpodrequest" className="block mb-4 text-gray-700 hover:text-blue-700">
+        <Link to="/pod" className="block mb-4 text-gray-700 hover:text-blue-700">
           {/* <ClipboardIcon className="mr-2 inline" /> */}
           <span>POD</span>
         </Link>

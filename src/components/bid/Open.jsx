@@ -71,12 +71,13 @@ const Open = () => {
 
           // Fetch page users for the bid
           const pageUsersData = await fetchPageUsers([bid.bid_id]);
-          console.log(pageUsersData)
+          
+          // console.log(pageUsersData)
           const mergedData = {
             ...bidDetail,
             createdByUser,  // Embed created_by user data
             assignedToUser, // Embed assigned_to user data
-            viewedBy: pageUsersData?.viewedBy || [], // Add viewed by data
+            viewedBy: pageUsersData|| [], // Add viewed by data
           };
           allBidDetails.push(mergedData);
         }
