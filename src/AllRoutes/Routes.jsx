@@ -101,10 +101,15 @@ const AllRoutes = () => {
       <Route path="/pricing" element={<Price/>}/>
       <Route path="/about" element={<About/>}/>
       <Route path="/contact" element={<Contact/>}/>
+      
+      
       <Route path="/his1" element={<BidDetails/>}/>
       <Route path="/open" element={<Open/>}/>
       <Route path="/counter" element={<Counter/>}/>
       <Route path="/layout" element={<BidLayout/>}/>
+      
+      
+      
       <Route
         path="/login"
         element={<LoginPage setIsAuthenticated={setIsAuthenticated} />}
@@ -112,6 +117,7 @@ const AllRoutes = () => {
       
       <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
       <Route path="/privacy-policy" element={<Privacy />} />
+      
       {isAuthenticated && (
         <Route element={<Layout />}>
           <Route
