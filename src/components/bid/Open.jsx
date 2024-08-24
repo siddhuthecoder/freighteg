@@ -11,7 +11,7 @@ const Open = () => {
 
   // Function to fetch live bids
   const fetchLiveBids = async () => {
-    const url = `https://freighteg.in/freightapi/liveBids?company_id=${user.id}`;
+    const url = `https://freighteg.in/freightapi/liveBids?company_id=6655811253ccced940826a99`;
     try {
       const response = await axios.get(url);
       return response.data.data;
@@ -21,8 +21,6 @@ const Open = () => {
       setLoading(false);
     }
   };
-
-
 
   // Function to fetch bid details using bid_id
   const fetchBidDetails = async (bidId) => {
@@ -49,6 +47,18 @@ const Open = () => {
     }
   };
 
+  const fetchPageUsers = async (bidIds) => {
+    const url = `https://freighteg.in/freightapi/pageusers`;
+    try {
+      const response = await axios.post(url, { bidIds });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching page users:', error);
+      setError('Failed to fetch page users');
+      setLoading(false);
+    }
+  };
+
   const getAllBidDetails = async () => {
     const bids = await fetchLiveBids();
     if (bids && bids.length > 0) {
@@ -59,10 +69,14 @@ const Open = () => {
           const createdByUser = await fetchFreightUserData(bidDetail.created_by);
           const assignedToUser = await fetchFreightUserData(bidDetail.assigned_to); // Fetch assigned_to data
 
+          // Fetch page users for the bid
+          const pageUsersData = await fetchPageUsers([bid.bid_id]);
+          console.log(pageUsersData)
           const mergedData = {
             ...bidDetail,
             createdByUser,  // Embed created_by user data
             assignedToUser, // Embed assigned_to user data
+            viewedBy: pageUsersData?.viewedBy || [], // Add viewed by data
           };
           allBidDetails.push(mergedData);
         }
