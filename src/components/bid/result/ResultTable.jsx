@@ -4,11 +4,11 @@ import { BsFillPrinterFill } from 'react-icons/bs';
 import { FaLink } from 'react-icons/fa';
 import { format, toZonedTime } from 'date-fns-tz';
 // import { ChevronDownIcon, EnvelopeIcon, PrinterIcon,EyeIcon,CheckIcon, XMarkIcon, PencilIcon } from '@heroicons/react/24/outline';
-import AssignedVendorsModal from './AssignedVendorsModal';
-import ViewQuotesModal from './ViewQuotesModal';
+import ViewQuotesModal from '../repeats/ViewQuotesModal';
+import AssignedVendorsModal from '../repeats/AssignedVendorsModal';
 
 
-const DataTable = ({ datas }) => {
+const ResultTable = ({ datas }) => {
     // console.log(datas)
     const [isAssignedVendorsModalOpen, setAssignedVendorsModalOpen] = useState(false);
     const [isViewQuotesModalOpen, setViewQuotesModalOpen] = useState(false);
@@ -139,4 +139,4 @@ const DataTable = ({ datas }) => {
     );
 };
 
-export default DataTable;
+export default ResultTable;

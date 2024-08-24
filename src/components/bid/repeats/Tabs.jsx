@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { FaBars, FaWrench, FaBan, FaFilter, FaDownload } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
-const Tabs = ({ onFilterClick, onDownloadClick }) => {
+const Tabs = ({ onFilterClick, onDownloadClick,tabname,length }) => {
     const location = useLocation();
     const path = location.pathname.split("/");
     
@@ -13,7 +13,9 @@ const Tabs = ({ onFilterClick, onDownloadClick }) => {
         { name: "History", path: "his1" },
         { name: "Counter", path: "counter" },
         { name: "Cancelled", path: "cancelled" }
+        
     ];
+    console.log(tabname)
 
     return (
         <div className="w-[100%] min-w-[1200px] py-1 bg-white flex items-center overflow-x-auto justify-between">
@@ -23,9 +25,9 @@ const Tabs = ({ onFilterClick, onDownloadClick }) => {
                     return (
                         <Link to={`/${tab.path}`}
                             key={index}
-                            className={`text-zinc-500 font-semibold cursor-pointer hover:underline text-sm hover:text-[#0662C6] ${isActive ? 'text-[#0662C6] font-bold' : ''}`}
+                            className={`text-zinc-500 font-semibold cursor-pointer hover:underline text-sm hover:text-[#0662C6] ${tabname==tab.path ? 'text-[#0662C6] font-bold' : ''}`}
                         >
-                            {tab.name} (5)
+                            {tab.name} ({`${tabname=="cancelled" && length }`})
                         </Link>
                     );
                 })}

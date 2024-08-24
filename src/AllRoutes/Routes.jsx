@@ -40,15 +40,14 @@ import UserForm from "../pages/UserForm";
 import Vendor from "../pages/Vendor";
 import ViewDetails from "../pages/ViewDetails";
 import PrivateRoute from "./PrivateRoute";
-import MainPage from './../LandingPageComponents/MainPage';
+import MainPage from "./../LandingPageComponents/MainPage";
 import History1 from "../components/bid/History";
 import BidLayout from "../components/bid/Layout";
 import BidDetails from "../components/bid/History";
-import Open from "../components/bid/Open";
-import Counter from "../components/bid/Counter";
-import ResultPage from "../components/bid/Result";
-import CanceledBidDetails from "../components/bid/Cancelled";
-
+import Open from "../components/bid/open/Open";
+import Counter from "../components/bid/counter/Counter";
+import Cancelled from "../components/bid/cancelled/Cancelled";
+import ResultPage from "../components/bid/result/Result";
 const Layout = () => {
   const user = useSelector((state) => state.login.user);
 
@@ -97,31 +96,26 @@ const AllRoutes = () => {
     <Routes>
       {/* <Route path="/" element={<LandingPage />} /> */}
       <Route path="/" element={<MainPage />} />
-      
-      
-      
-      <Route path="/pricing" element={<Price/>}/>
-      <Route path="/about" element={<About/>}/>
-      <Route path="/contact" element={<Contact/>}/>
-      
-      
-      <Route path="/his1" element={<BidDetails/>}/>
-      <Route path="/open" element={<Open/>}/>
-      <Route path="/counter" element={<Counter/>}/>
-      <Route path="/layout" element={<BidLayout/>}/>
-      <Route path="/result" element={<ResultPage/>}/>
-      <Route path="/cancelled" element={<CanceledBidDetails/>}/>
-      
-      
-      
+
+      <Route path="/pricing" element={<Price />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/contact" element={<Contact />} />
+
+      <Route path="/his1" element={<BidDetails />} />
+      <Route path="/open" element={<Open />} />
+      <Route path="/counter" element={<Counter />} />
+      <Route path="/layout" element={<BidLayout />} />
+      <Route path="/result" element={<ResultPage />} />
+      <Route path="/cancelled" element={<Cancelled />} />
+
       <Route
         path="/login"
         element={<LoginPage setIsAuthenticated={setIsAuthenticated} />}
       />
-      
+
       <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
       <Route path="/privacy-policy" element={<Privacy />} />
-      
+
       {isAuthenticated && (
         <Route element={<Layout />}>
           <Route
