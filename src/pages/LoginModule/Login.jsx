@@ -50,7 +50,7 @@ const Login = ({ handleAuthentication, setModel }) => {
             setCredentials({ user: data.user, token: data.token })
           );
           handleAuthentication(true);
-          navigate("/bid");
+          navigate("/open");
           toast.success("Company Login successful");
         } else {
           console.error("Authentication failed");
