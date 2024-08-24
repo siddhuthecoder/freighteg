@@ -7,6 +7,7 @@ import { format, toZonedTime } from 'date-fns-tz';
 
 
 const DataTable = ({ datas }) => {
+    // console.log(datas)
 
     const convertToTimeDifference = (updatedAt) => {
         const now = new Date();
@@ -44,7 +45,7 @@ const DataTable = ({ datas }) => {
     if (datas.length === 0) {
         return <div className="text-center text-gray-500 py-4">No data available</div>;
     }
-    console.log(datas)
+    // console.log(datas)
 
     return (
         <>
@@ -187,13 +188,13 @@ const DataTable = ({ datas }) => {
                 <span className="block text-xs text-gray-500">Target Price - {data.target_price}Rs
                     
                 <span className=" gap-8 text-grey-600 text-sm font-semibold ml-5 px-3 py-1 rounded-lg">
-                    Assigned Staff(Staff Name, +918778489889)
+                    Assigned Staff({data.user.role}, +91{data.user.phone    })
                     </span>
                 </span>
                 <button  className="mt-2  text-blue-500 px-3 py-1.5 mr-[-50px] text-sm rounded whitespace-nowrap">
                     Assigned Vendors
                     </button>
-                <div className="mr-15px">Created By - <span className="font-semibold">Rahul Verma</span>
+                <div className="mr-15px">Created By - <span className="font-semibold">{data.user.name}</span>
                     <span>( {data.createdAt.slice(0, 10)} ,  {formatTo12HourTime(data.createdAt)})</span>
                 </div>
                 </div>

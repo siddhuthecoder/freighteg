@@ -30,8 +30,8 @@ const Tabs = ({ onFilterClick, onDownloadClick }) => {
                     );
                 })}
             </div>
-            <div className="flex items-center gap-2">
-                <div className="flex items-center">
+            <div className="flex items-center gap-  2">
+                {/* <div className="flex items-center">
                     <button className="w-12 h-12 flex items-center justify-center border rounded-tl-md rounded-bl-md border-[#0662C6] hover:bg-[#0662C6] hover:text-white text-[#0662C6]">
                         <FaBars size={20} />
                     </button>
@@ -41,8 +41,8 @@ const Tabs = ({ onFilterClick, onDownloadClick }) => {
                     <button className="w-12 h-12 flex items-center justify-center border rounded-tr-md rounded-br-md rounded-tb-md border-[#0662C6] hover:bg-[#0662C6] hover:text-white text-[#0662C6]">
                         <FaBan size={20} />
                     </button>
-                </div>
-                <div className="flex items-center">
+                </div> */}
+                <div className="flex items-center mx-2">
                     <button 
                         onClick={onFilterClick} 
                         className="w-12 h-12 flex items-center justify-center border rounded-tl-md rounded-bl-md border-[#0662C6] hover:bg-[#0662C6] hover:text-white text-[#0662C6]">

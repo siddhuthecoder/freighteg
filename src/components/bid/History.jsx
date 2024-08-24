@@ -35,7 +35,20 @@ const BidDetails = () => {
     }
   };
 
-  // Function to get all bid details
+  // Function to fetch freight user data using created_by id
+  const fetchFreightUserData = async (createdById) => {
+    const url = `https://freighteg.in/freightapi/freightusers/${createdById}`;
+    try {
+      const response = await axios.get(url);
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching user data for created_by ${createdById}:`, error);
+      setError(`Failed to fetch user data for created_by ${createdById}`);
+      setLoading(false);
+    }
+  };
+
+  // Function to get all bid details and merge with user data
   const getAllBidDetails = async () => {
     const bids = await fetchBidResultHistory();
     if (bids && bids.length > 0) {
@@ -43,7 +56,12 @@ const BidDetails = () => {
       for (const bid of bids) {
         const bidDetail = await fetchBidDetails(bid.bid_id);
         if (bidDetail) {
-          allBidDetails.push(bidDetail);
+          const userData = await fetchFreightUserData(bidDetail.created_by);
+          const mergedData = {
+            ...bidDetail,
+            user: userData // Embed the user data within the bid details
+          };
+          allBidDetails.push(mergedData);
         }
       }
       setBidDetails(allBidDetails);
@@ -70,6 +88,8 @@ const BidDetails = () => {
   if (bidDetails.length === 0) {
     return <div className="text-center">No bid details found.</div>;
   }
+
+  // console.log(bidDetails);
 
   return (
     <>

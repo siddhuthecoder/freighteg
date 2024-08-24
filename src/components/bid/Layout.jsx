@@ -520,7 +520,7 @@ const BidLayout = ({bidData}) => {
         // Generate Excel file and trigger download
         XLSX.writeFile(workbook, "BidsData.xlsx");
     };
-    
+    console.log(filteredData)
       
   return (
     <>

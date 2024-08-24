@@ -41,19 +41,16 @@ const Header = ({ onSubmit }) => {
   };
 
   const handleReset = () => {
-    setSearchTerm('');
-    setSelectedOption('');
-    setStartDate('');
-    setEndDate('');
+    window.location.reload(); // This will reload the entire page
   };
 
   return (
     <>
-      <div className="w-full flex min-h-[60px] flex-wrap items-center gap-2 py-2 justify-between bg-white   z-[10]">
+      <div className="w-full flex min-h-[60px] flex-wrap items-center gap-2 py-2 justify-between bg-white z-[10]">
         <div className="flex items-center mx-2 gap-2">
           <input 
             type="text" 
-            placeholder='Search by ID .... ' 
+            placeholder="Search by ID .... " 
             value={searchTerm}
             onChange={handleSearchChange}
             className="border focus:border-blue-600 h-[45px] rounded-md ps-2" 
@@ -65,7 +62,7 @@ const Header = ({ onSubmit }) => {
             Search
           </button>
         </div>
-        <div className="  flex items-center mx-2 gap-2">
+        <div className="flex items-center mx-2 gap-2">
           <select
             value={selectedOption}
             onChange={handleOptionChange}
@@ -77,19 +74,6 @@ const Header = ({ onSubmit }) => {
               </option>
             ))}
           </select>
-          {/* <input
-            type="date"
-            value={startDate}
-            onChange={handleStartDateChange}
-            className="block w-full bg-white border h-[45px] border-gray-300 rounded-md shadow-sm py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          />
-          <FaArrowRightLong className="text-4xl"/>
-          <input
-            type="date"
-            value={endDate}
-            onChange={handleEndDateChange}
-            className="block w-full bg-white border h-[45px] border-gray-300 rounded-md shadow-sm py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          /> */}
           <button 
             className="px-2 py-2 bg-blue-600 h-[45px] text-white rounded-md"
             onClick={handleFormSubmit}
