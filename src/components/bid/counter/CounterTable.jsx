@@ -149,7 +149,7 @@ const CounterTable = ({ datas }) => {
                                 <IoMdMail className='text-2xl text-blue-600 cursor-pointer'/>
                                 <MdLocalPrintshop className='text-2xl text-blue-600 cursor-pointer' onClick={() => handlePrintClick(data)} />
                             </div>
-                            <div className="text-lg font-semibold text-gray-700 mr-5">Counter({datas.length})</div>
+                            <div className="text-lg font-semibold text-gray-700 mr-5"> {data.counters.counter_number}</div>
                             <div
                                 className="text-blue-600 underline text-sm cursor-pointer"
                                 onClick={() => setShowModal(true)}

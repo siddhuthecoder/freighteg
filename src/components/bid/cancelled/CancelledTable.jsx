@@ -125,15 +125,15 @@ const CancelledTable = ({ datas }) => {
                 </div>
             ))}
 
-            {isAssignedVendorsModalOpen && selectedData && (
+            {/* {isAssignedVendorsModalOpen && selectedData && (
                 <AssignedVendorsModal
-                    data={selectedData}
+                    data={selectedData || []}
                     onClose={() => setAssignedVendorsModalOpen(false)}
                 />
-            )}
+            )} */}
             {isViewQuotesModalOpen && selectedData && (
                 <ViewQuotesModal
-                    data={selectedData}
+                    data={selectedData || []}
                     onClose={() => setViewQuotesModalOpen(false)}
                 />
             )}

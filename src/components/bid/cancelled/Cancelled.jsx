@@ -63,6 +63,17 @@ const Cancelled = () => {
     }
   };
 
+  const fetchPageUsers = async (bidIds) => {
+    const url = `https://freighteg.in/freightapi/pageusers`;
+    try {
+      const response = await axios.post(url, { bidIds });
+      return response.data || [];
+    } catch (error) {
+      console.error("Error fetching page users:", error);
+      return []; // Return an empty array if there's an error
+    }
+  };
+  
   // Function to get all bid details and merge with user and assigned_to data
   const getAllBidDetails = async () => {
     const bids = await fetchBidIdsAndDetails();
@@ -73,12 +84,13 @@ const Cancelled = () => {
         if (bidDetail) {
           const createdByUser = await fetchFreightUserData(bidDetail.created_by);
           const assignedToUser = await fetchFreightUserData(bidDetail.assigned_to);
-
+          const pageUsersData = await fetchPageUsers([bid.bidId]);
           const mergedData = {
             ...bidDetail,
             createdByUser,  // Embed created_by user data
             assignedToUser, // Embed assigned_to user data
-            counters: bid.details, // Include the counter details from the nested structure
+            counters: bid.details,
+            viewedBy: pageUsersData || [], // Include the counter details from the nested structure
           };
           allBidDetails.push(mergedData);
         }

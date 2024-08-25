@@ -18,17 +18,25 @@ const getAllVendors = `${baseURL}/getAllVendors`;
 const walletBalance = `${baseURL}/freightWalletBalance`;
 const updateVendor = `${baseURL}/updateVendor`;
 const getPod = `${baseURL}/pod`;
+
 const getPanData = `${baseURL}/vendor/pan`;
+
 const getUser = `${baseURL}/freightuser`;
 const updateUser = `${baseURL}/update-user`;
+
+
 const counter = `${baseURL}/counter`;
+
+
 const assign = `${baseURL}/assignBid`;
 const result = `${baseURL}/getBidResults`;
 const history = `${baseURL}/getBidResultHistory`;
 const StateURL = "https://countriesnow.space/api/v0.1/countries/state/cities/q";
 const createBid = `${baseURL}/addBid`;
+
 const updatePOD = `${baseURL}/pod`;
 const historyPOD = `${baseURL}/pods/history`;
+
 const deleteuser = `${baseURL}/delete-user`;
 const activeBidsURL = `${baseURL}/activeBids`;
 

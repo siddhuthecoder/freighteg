@@ -1,0 +1,31 @@
+### Live Bids
+GET https://freighteg.in/freightapi/liveBids?company_id=665580f353ccced94082681b
+Accept: application/json
+
+###
+
+### Get Bid Results
+GET https://freighteg.in/freightapi/getBidResults?company_id=665580f353ccced94082681b
+Accept: application/json
+
+###
+
+### Get Bid Result History
+GET https://freighteg.in/freightapi/getBidResultHistory?company_id=665580f353ccced94082681b
+Accept: application/json
+
+###
+
+### Counters
+GET https://freighteg.in/freightapi/counters?company_id=665580f353ccced94082681b
+Accept: application/json
+
+###
+
+### Canceled Request (You may need to complete the URL)
+GET https://freighteg.in/freightapi/can
+Accept: application/json
+
+###
+### Cancelled Bids Request
+GET https://freighteg.in/freightapi/cancelledBids?company_id=665580f353ccced94082681b

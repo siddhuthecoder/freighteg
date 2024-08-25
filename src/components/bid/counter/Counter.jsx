@@ -21,6 +21,7 @@ const BidComponent = () => {
     try {
       const response = await axios.get(url);
       const bidsData = response.data.data;
+      console.log(bidsData)
 
       // Extracting bid IDs and their details from the nested structure
       const bidEntries = Object.entries(bidsData);
@@ -69,6 +70,7 @@ const BidComponent = () => {
       const allBidDetails = [];
       for (const bid of bids) {
         const bidDetail = await fetchBidDetails(bid.bidId);
+        
         if (bidDetail) {
           const createdByUser = await fetchFreightUserData(bidDetail.created_by);
           const assignedToUser = await fetchFreightUserData(bidDetail.assigned_to);
@@ -154,7 +156,7 @@ const BidComponent = () => {
           <div className="font-semibold md:text-lg ps-[30px]">Loading</div>
           <div className="font-semibold md:text-lg ps-[30px]">Unloading</div>
           <div className="font-semibold md:text-lg ps-[30px]">Details</div>
-          <div className="font-semibold md:text-lg ps-[30px]">Best Quote</div>
+          <div className="font-semibold md:text-lg ps-[30px]">Bid Assigned</div>
         </div>
         <CounterTable datas={filteredData} />
       </div>

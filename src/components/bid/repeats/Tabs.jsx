@@ -27,7 +27,7 @@ const Tabs = ({ onFilterClick, onDownloadClick,tabname,length }) => {
                             key={index}
                             className={`text-zinc-500 font-semibold cursor-pointer hover:underline text-sm hover:text-[#0662C6] ${tabname==tab.path ? 'text-[#0662C6] font-bold' : ''}`}
                         >
-                            {tab.name} ({`${tabname=="cancelled" && length }`})
+                            {tab.name} 
                         </Link>
                     );
                 })}
