@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { format, toZonedTime } from 'date-fns-tz';
 import AssignedVendorsModal from '../repeats/AssignedVendorsModal';
 import ViewQuotesModal from '../repeats/ViewQuotesModal';
+import { IoMdMail } from "react-icons/io";
+import { MdLocalPrintshop } from "react-icons/md";
+
 
 const OpenTable = ({ datas }) => {
     const [isAssignedVendorsModalOpen, setAssignedVendorsModalOpen] = useState(false);
@@ -31,7 +34,7 @@ const OpenTable = ({ datas }) => {
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = `data-${data._id}.json`;
+        link.download = `data-${data.bidNo}.json`; // using bidNo for filename consistency
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -87,6 +90,7 @@ const OpenTable = ({ datas }) => {
                             </span>
                         </div>
                         <div className="flex flex-col pt-1">
+                            
                             <span className="block">Vehicle Required - {data.quantity}</span>
                             <span className="block">
                                 {data.vehicle_type} - {data.vehicle_size}
@@ -97,6 +101,10 @@ const OpenTable = ({ datas }) => {
                             </a>
                         </div>
                         <div className="flex flex-col pt-1">
+                            <div className="w-full flex items-center justify-end gap-3" >
+                                <IoMdMail className='text-2xl text-blue-600 cursor-pointer'/>
+                                <MdLocalPrintshop className='text-2xl text-blue-600 cursor-pointer' onClick={() => handlePrintClick(data)} />
+                            </div>
                             <div className="text-lg font-semibold text-gray-700 mr-5">Rs 85,000</div>
                             <div
                                 className="text-blue-600 underline text-sm cursor-pointer"

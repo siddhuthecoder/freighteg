@@ -105,7 +105,7 @@ const Open = () => {
     const { searchTerm, selectedOption, startDate, endDate } = dataHandling;
 
     const filtered = bidDetails.filter(item => {
-      const matchesSearchTerm = searchTerm ? item._id.includes(searchTerm) : true;
+      const matchesSearchTerm = searchTerm ? item.bidNo.includes(searchTerm) : true;
       const matchesOption = selectedOption ? item.vehicle_type === selectedOption : true;
       const matchesStartDate = startDate ? new Date(item.loading_date) >= new Date(startDate) : true;
       const matchesEndDate = endDate ? new Date(item.loading_date) <= new Date(endDate) : true;

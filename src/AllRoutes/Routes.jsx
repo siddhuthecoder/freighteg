@@ -41,9 +41,8 @@ import Vendor from "../pages/Vendor";
 import ViewDetails from "../pages/ViewDetails";
 import PrivateRoute from "./PrivateRoute";
 import MainPage from "./../LandingPageComponents/MainPage";
-import History1 from "../components/bid/History";
+import HistoryPage from "../components/bid/history/History";
 import BidLayout from "../components/bid/Layout";
-import BidDetails from "../components/bid/History";
 import Open from "../components/bid/open/Open";
 import Counter from "../components/bid/counter/Counter";
 import Cancelled from "../components/bid/cancelled/Cancelled";
@@ -101,7 +100,7 @@ const AllRoutes = () => {
       <Route path="/about" element={<About />} />
       <Route path="/contact" element={<Contact />} />
 
-      <Route path="/his1" element={<BidDetails />} />
+      <Route path="/his1" element={<HistoryPage />} />
       <Route path="/open" element={<Open />} />
       <Route path="/counter" element={<Counter />} />
       <Route path="/layout" element={<BidLayout />} />

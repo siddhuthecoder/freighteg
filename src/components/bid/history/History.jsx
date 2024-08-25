@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import BidLayout from './Layout';
+import * as XLSX from 'xlsx';
+import Header from '../repeats/Header';
+import HistoryTable from './HistoryTable';
+import Tabs from '../repeats/Tabs';
+import Navbar from '../repeats/Navbar';
 
-const BidDetails = () => {
+const HistoryPage = () => {
   const [bidDetails, setBidDetails] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [dataHandling, setDataHandling] = useState({});
   const user = useSelector((state) => state.login.user);
 
   // Function to fetch bid result history
@@ -68,11 +74,42 @@ const BidDetails = () => {
         }
       }
       setBidDetails(allBidDetails);
+      setFilteredData(allBidDetails); // Initialize filteredData with all bid details
     } else {
       console.log('No bids found.');
       setError('No bids found.');
     }
     setLoading(false);
+  };
+
+  // Function to handle form submission for filtering data
+  const handleFormSubmit = (formData) => {
+    console.log(formData); 
+    setDataHandling(formData);
+  };
+
+  // Effect to filter data based on user inputs
+  useEffect(() => {
+    const { searchTerm, selectedOption, startDate, endDate } = dataHandling;
+
+    const filtered = bidDetails.filter(item => {
+      const matchesSearchTerm = searchTerm ? item._id.includes(searchTerm) : true;
+      const matchesOption = selectedOption ? item.vehicle_type === selectedOption : true;
+      const matchesStartDate = startDate ? new Date(item.loading_date) >= new Date(startDate) : true;
+      const matchesEndDate = endDate ? new Date(item.loading_date) <= new Date(endDate) : true;
+
+      return matchesSearchTerm && matchesOption && matchesStartDate && matchesEndDate;
+    });
+
+    setFilteredData(filtered);
+  }, [dataHandling, bidDetails]);
+
+  // Function to handle downloading filtered data as Excel file
+  const handleDownloadClick = () => {
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet(filteredData);
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Bids");
+    XLSX.writeFile(workbook, "BidsData.xlsx");
   };
 
   useEffect(() => {
@@ -93,9 +130,24 @@ const BidDetails = () => {
 
   return (
     <>
-      <BidLayout bidData={bidDetails} />
+      <Navbar />
+      <Header onSubmit={handleFormSubmit} />
+      <div className="w-full overflow-x-auto">
+        <Tabs onDownloadClick={handleDownloadClick} onFilterClick={() => { /* Handle filter click if needed */ }} />
+      </div>
+      <div className="w-full flex flex-col overflow-x-auto">
+        <div className=" bg-[#9D9D9D21] w-[97%] h-[60px] items-center ps-2 mt-2  rounded-md min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
+          <div className="font-semibold md:text-lg ps-[30px]">ID</div>
+          <div className="font-semibold md:text-lg ps-[30px]">Date</div>
+          <div className="font-semibold md:text-lg ps-[30px]">Loading</div>
+          <div className="font-semibold md:text-lg ps-[30px]">Unloading</div>
+          <div className="font-semibold md:text-lg ps-[30px]">Details</div>
+          <div className="font-semibold md:text-lg ps-[30px]">Best Quote</div>
+        </div>
+        <HistoryTable datas={filteredData} />
+      </div>
     </>
   );
 };
 
-export default BidDetails;
+export default HistoryPage;

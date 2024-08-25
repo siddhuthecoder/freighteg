@@ -2,11 +2,56 @@ import React, { useState } from 'react';
 import { format, toZonedTime } from 'date-fns-tz';
 import AssignedVendorsModal from '../repeats/AssignedVendorsModal';
 import ViewQuotesModal from '../repeats/ViewQuotesModal';
+import { IoMdMail } from "react-icons/io";
+import { MdLocalPrintshop } from "react-icons/md";
+
+
+const QuotesModal = ({ showModal, setShowModal }) => {
+    const vendors = [
+      { name: 'Vendor 1', rate: 'Rs 80,000' },
+      { name: 'Vendor 2', rate: 'Rs 82,000' },
+      { name: 'Vendor 3', rate: 'Rs 85,000' },
+      { name: 'Vendor 4', rate: 'Rs 90,000' }, 
+      { name: 'Vendor 5', rate: 'Rs 92,000' }, 
+    ];
+  
+    if (!showModal) return null;
+  
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
+        <div className="bg-white rounded-lg shadow-lg w-11/12 md:w-1/2 p-6 relative">
+          <button
+            className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+            onClick={() => setShowModal(false)}
+          >
+            {/* <XMarkIcon className="h-6 w-6" /> */}
+            <div className="">X</div>
+          </button>
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">Vendor Quotes</h2>
+  
+         
+          <div className="max-h-60 overflow-y-auto space-y-4">
+            {vendors.map((vendor, index) => (
+              <div key={index} className="flex justify-between items-center p-4 border rounded-md">
+                <span className="text-gray-800 font-medium">{vendor.name}</span>
+                <span className="text-gray-800">{vendor.rate}</span>
+                <div className="space-x-2">
+                  <button className="bg-blue-500 text-white px-4 py-2 rounded-md text-sm">Counter</button>
+                  <button className="bg-green-500 text-white px-4 py-2 rounded-md text-sm">Assign Bid</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  };
 
 const CounterTable = ({ datas }) => {
     const [isAssignedVendorsModalOpen, setAssignedVendorsModalOpen] = useState(false);
     const [isViewQuotesModalOpen, setViewQuotesModalOpen] = useState(false);
     const [selectedData, setSelectedData] = useState(null);
+    const [showModal, setShowModal] = useState(false);
 
     const convertToTimeDifference = (updatedAt) => {
         const now = new Date();
@@ -31,7 +76,7 @@ const CounterTable = ({ datas }) => {
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = `data-${data._id}.json`;
+        link.download = `data-${data.bidNo}.json`; // using bidNo for filename consistency
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -51,6 +96,8 @@ const CounterTable = ({ datas }) => {
     if (!datas || datas.length === 0) {
         return <div className="text-center text-gray-500 py-4">No data available</div>;
     }
+
+    console.log(datas)
 
     return (
         <>
@@ -87,6 +134,7 @@ const CounterTable = ({ datas }) => {
                             </span>
                         </div>
                         <div className="flex flex-col pt-1">
+                            
                             <span className="block">Vehicle Required - {data.quantity}</span>
                             <span className="block">
                                 {data.vehicle_type} - {data.vehicle_size}
@@ -97,12 +145,16 @@ const CounterTable = ({ datas }) => {
                             </a>
                         </div>
                         <div className="flex flex-col pt-1">
-                            <div className="text-lg font-semibold text-gray-700 mr-5">Rs 85,000</div>
+                            <div className="w-full flex items-center justify-end gap-3" >
+                                <IoMdMail className='text-2xl text-blue-600 cursor-pointer'/>
+                                <MdLocalPrintshop className='text-2xl text-blue-600 cursor-pointer' onClick={() => handlePrintClick(data)} />
+                            </div>
+                            <div className="text-lg font-semibold text-gray-700 mr-5">Counter({datas.length})</div>
                             <div
                                 className="text-blue-600 underline text-sm cursor-pointer"
-                                onClick={() => handleViewQuotesClick(data)}
+                                onClick={() => setShowModal(true)}
                             >
-                                View all quotes
+                                Counter Info(3)
                             </div>
                         </div>
                     </div>
@@ -137,6 +189,7 @@ const CounterTable = ({ datas }) => {
                     onClose={() => setViewQuotesModalOpen(false)}
                 />
             )}
+            <QuotesModal showModal={showModal} setShowModal={setShowModal} />
         </>
     );
 };

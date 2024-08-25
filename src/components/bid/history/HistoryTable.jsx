@@ -141,7 +141,7 @@ const VendorDetailsModal = ({ showVendorDetailsModal, setShowVendorDetailsModal,
   };
 
 
-const ResultTable = ({ datas }) => {
+const HistoryTable = ({ datas }) => {
     // console.log(datas)
     const [isAssignedVendorsModalOpen, setAssignedVendorsModalOpen] = useState(false);
     const [isViewQuotesModalOpen, setViewQuotesModalOpen] = useState(false);
@@ -290,4 +290,4 @@ const ResultTable = ({ datas }) => {
     );
 };
 
-export default ResultTable;
+export default HistoryTable;
