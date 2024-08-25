@@ -13,6 +13,7 @@ const ResultPage = () => {
   const [error, setError] = useState(null);
   const [dataHandling, setDataHandling] = useState({});
   const [filteredData, setFilteredData] = useState([]);
+  const [ responseData, setResponse]=useState([])
   const user = useSelector((state) => state.login.user);
 
   // Function to fetch bid details
@@ -20,6 +21,7 @@ const ResultPage = () => {
     const url = `https://freighteg.in/freightapi/getBidResults?company_id=${user?.id}`;
     try {
       const response = await axios.get(url);
+      setResponse(response.data.data)
       return response.data.data;
     } catch (error) {
       console.error('Error fetching bid details:', error);
@@ -56,31 +58,42 @@ const ResultPage = () => {
   };
 
   // Function to get all bid details and merge with user and assigned_to data
-  const getAllBidDetails = async () => {
-    const bids = await fetchBidDetails();
-    if (bids && bids.length > 0) {
-      const allBidDetails = [];
-      for (const bid of bids) {
-        const bidDetail = await fetchBidData(bid.bid_id);
-        if (bidDetail) {
-          const createdByUser = await fetchFreightUserData(bidDetail.created_by);
-          const assignedToUser = await fetchFreightUserData(bidDetail.assigned_to); // Fetch assigned_to data
+  // Function to get all bid details and merge with user and assigned_to data
+const getAllBidDetails = async () => {
+  const bids = await fetchBidDetails();
+  
+  if (bids && bids.length > 0) {
+    const allBidDetails = [];
+    for (const bid of bids) {
+      const bidDetail = await fetchBidData(bid.bid_id);
+      if (bidDetail) {
+        const createdByUser = await fetchFreightUserData(bidDetail.created_by);
+        const assignedToUser = await fetchFreightUserData(bidDetail.assigned_to); // Fetch assigned_to data
 
-          const mergedData = {
-            ...bidDetail,
-            createdByUser,  // Embed created_by user data
-            assignedToUser, // Embed assigned_to user data
-          };
-          allBidDetails.push(mergedData);
-        }
+        // Merge the fetched data with the existing bid data
+        const mergedData = {
+          ...bidDetail,
+          createdByUser,  // Embed created_by user data
+          assignedToUser, // Embed assigned_to user data
+          vendorPrice: bid.vendorPrice, 
+          vendor_idd:bid.vendor_id, // Merge additional data
+          vendorRank: bid.vendorRank,    // Merge additional data
+          vehicleDetails: bid.vehicleDetails,  // Merge additional data
+          target_price: bid.target_price, // Merge target price
+          allVendorBids: bid.allVendorBids,
+           // Merge vendor bids
+        };
+        allBidDetails.push(mergedData);
       }
-      setBidDetails(allBidDetails);
-    } else {
-      console.log('No bids found.');
-      setError('No bids found.');
     }
-    setLoading(false);
-  };
+    setBidDetails(allBidDetails);
+  } else {
+    console.log('No bids found.');
+    setError('No bids found.');
+  }
+  setLoading(false);
+};
+
 
   useEffect(() => {
     getAllBidDetails();
@@ -148,7 +161,7 @@ const ResultPage = () => {
           <div className="font-semibold md:text-sm ps-[30px]">Details</div>
           <div className="font-semibold md:text-sm ps-[30px]">Bid Result</div>
         </div>
-        <ResultTable datas={filteredData} />
+        <ResultTable datas={filteredData}  />
       </div>
     </>
   );

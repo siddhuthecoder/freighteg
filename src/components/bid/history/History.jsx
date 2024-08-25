@@ -69,6 +69,13 @@ const HistoryPage = () => {
             ...bidDetail,
             createdByUser,  // Embed created_by user data
             assignedToUser, // Embed assigned_to user data
+            vendorPrice: bid.vendorPrice, 
+            vendor_idd:bid.vendor_id, // Merge additional data
+            vendorRank: bid.vendorRank,    // Merge additional data
+            vehicleDetails: bid.vehicleDetails,  // Merge additional data
+            target_price: bid.target_price, // Merge target price
+            allVendorBids: bid.allVendorBids,
+             // Merge vendor bids
           };
           allBidDetails.push(mergedData);
         }
