@@ -1,25 +1,66 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaArrowRightLong } from "react-icons/fa6";
 import { FiRefreshCw } from "react-icons/fi";
+import { useSelector } from 'react-redux';
 
 const Header = ({ onSubmit }) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const user = useSelector((state) => state.login.user);
   const [selectedOption, setSelectedOption] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [options, setOptions] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const options = [
-    { label: 'Option 1', value: 'option1' },
-    { label: 'Option 2', value: 'option2' },
-    { label: 'Option 3', value: 'option3' },
-  ];
+  useEffect(() => {
+    // Fetch branch data from the API
+    const fetchBranchData = async () => {
+      try {
+        const response = await fetch(`https://freighteg.in/freightapi/getbranches/company/${user.id}`);
+        const data = await response.json();
+        // Map the data to the options array
+        const branchOptions = [
+          { label: 'ALL', value: 'ALL' }, // Add "ALL" option
+          ...data.map(branch => ({
+            label: branch.name,
+            value: branch._id
+          })),
+        ];
+        setOptions(branchOptions);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching branch data:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchBranchData();
+  }, [user.id]);
+
+  useEffect(() => {
+    // Set the default selected option based on localStorage
+    const storedBranch = localStorage.getItem('branchName') || 'ALL';
+    setSelectedOption(storedBranch);
+  }, []);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
   const handleOptionChange = (e) => {
-    setSelectedOption(e.target.value);
+    const selectedValue = e.target.value;
+    setSelectedOption(selectedValue);
+
+    // Update localStorage based on the selected option
+    if (selectedValue === 'ALL') {
+      localStorage.removeItem('branch_id'); // Remove branch_id if "ALL" is selected
+    } else {
+      localStorage.setItem('branch_id', selectedValue);
+    }
+    // Update branchName in localStorage with the selectedValue (branch ID)
+    localStorage.setItem('branchName', selectedValue);
+
+    window.location.reload(); // Reload the page to apply the change
   };
 
   const handleStartDateChange = (e) => {
@@ -45,51 +86,55 @@ const Header = ({ onSubmit }) => {
   };
 
   return (
-    <>
-      <div className="w-full flex min-h-[60px] flex-wrap items-center gap-2 py-2 justify-between bg-white z-[10]">
-        <div className="flex items-center mx-2 gap-2">
-          <input 
-            type="text" 
-            placeholder="Search by ID .... " 
-            value={searchTerm}
-            onChange={handleSearchChange}
-            className="border focus:border-blue-600 h-[45px] rounded-md ps-2" 
-          />
-          <button 
-            className="rounded-md h-[45px] px-3 text-white font-semibold bg-blue-600"
-            onClick={handleFormSubmit}
-          >
-            Search
-          </button>
-        </div>
-        <div className="flex items-center mx-2 gap-2">
-          <select
-            value={selectedOption}
-            onChange={handleOptionChange}
-            className="block focus:text-blue-600 h-[45px] w-full bg-white border border-gray-300 text-gray-700 py-2 px-3 pr-8 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          >
-            {options.map((option, index) => (
+    <div className="w-full flex min-h-[60px] flex-wrap items-center gap-2 py-2 justify-between bg-white z-[10]">
+      <div className="flex items-center mx-2 gap-2">
+        <input 
+          type="text" 
+          placeholder="Search by ID .... " 
+          value={searchTerm}
+          onChange={handleSearchChange}
+          className="border focus:border-blue-600 h-[45px] rounded-md ps-2" 
+        />
+        <button 
+          className="rounded-md h-[45px] px-3 text-white font-semibold bg-blue-600"
+          onClick={handleFormSubmit}
+        >
+          Search
+        </button>
+      </div>
+      <div className="flex items-center mx-2 gap-2">
+        <select
+          value={selectedOption}
+          onChange={handleOptionChange}
+          className="block focus:text-blue-600 h-[45px] w-full bg-white border border-gray-300 text-gray-700 py-2 px-3 pr-8 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          disabled={loading} // Disable the dropdown while loading
+        >
+          <option value="">-- SELECT BRANCH --</option>
+          {loading ? (
+            <option>Loading...</option>
+          ) : (
+            options.map((option, index) => (
               <option key={index} value={option.value}>
                 {option.label}
               </option>
-            ))}
-          </select>
-          <button 
-            className="px-2 py-2 bg-blue-600 h-[45px] text-white rounded-md"
-            onClick={handleFormSubmit}
-          >
-            GO
-          </button>
-          <button 
-            className="border border-blue-600 bg-[#dbeafe] min-w-[45px] max-w-[45px] h-[45px] text-blue-600 flex justify-center items-center rounded-md"
-            onClick={handleReset}
-          >
-            <FiRefreshCw />
-          </button>
-        </div>
+            ))
+          )}
+        </select>
+        <button 
+          className="px-2 py-2 bg-blue-600 h-[45px] text-white rounded-md"
+          onClick={handleFormSubmit}
+        >
+          GO
+        </button>
+        <button 
+          className="border border-blue-600 bg-[#dbeafe] min-w-[45px] max-w-[45px] h-[45px] text-blue-600 flex justify-center items-center rounded-md"
+          onClick={handleReset}
+        >
+          <FiRefreshCw />
+        </button>
       </div>
-    </>
+    </div>
   );
-}
+};
 
 export default Header;

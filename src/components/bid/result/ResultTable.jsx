@@ -187,7 +187,7 @@ const VendorDetailsModal = ({
             <span className="text-blue-600 font-medium">Phone</span>
             <span className="text-gray-800">{data.phone}</span>
           </div>
-          <div className="flex justify-between p-2 border-b">
+          <div className="flex justify-between items-center p-2 border-b">
             <span className="text-blue-600 font-medium">Vehicle Types</span>
             <span className="text-gray-800">
               {renderList(data.vehicle_type)}

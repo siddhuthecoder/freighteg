@@ -17,7 +17,11 @@ const Open = () => {
   const user = useSelector((state) => state.login.user);
 
   const fetchLiveBids = async () => {
-    const url = `https://freighteg.in/freightapi/liveBids?company_id=${user?.id}`;
+    const branchId = localStorage.getItem('branch_id');
+    const url = branchId && branchId !== 'ALL'
+      ? `https://freighteg.in/freightapi/liveBids?branch_id=${branchId}`
+      : `https://freighteg.in/freightapi/liveBids?company_id=${user?.id}`;
+
     try {
       const response = await axios.get(url);
       return response.data.data || [];

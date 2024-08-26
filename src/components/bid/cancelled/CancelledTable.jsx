@@ -7,6 +7,8 @@ const CancelledTable = ({ datas }) => {
     const [isAssignedVendorsModalOpen, setAssignedVendorsModalOpen] = useState(false);
     const [isViewQuotesModalOpen, setViewQuotesModalOpen] = useState(false);
     const [selectedData, setSelectedData] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
 
     const convertToTimeDifference = (updatedAt) => {
         const now = new Date();
@@ -37,7 +39,6 @@ const CancelledTable = ({ datas }) => {
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
     };
-    
 
     const handleAssignedVendorsClick = (data) => {
         setSelectedData(data);
@@ -49,13 +50,30 @@ const CancelledTable = ({ datas }) => {
         setViewQuotesModalOpen(true);
     };
 
+    const handleNextPage = () => {
+        if (currentPage < Math.ceil(datas.length / itemsPerPage)) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    const handlePreviousPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const currentData = datas.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+    );
+
     if (!datas || datas.length === 0) {
         return <div className="text-center text-gray-500 py-4">No data available</div>;
     }
 
     return (
         <>
-            {datas.map((data) => (
+            {currentData.map((data) => (
                 <div
                     key={data.bidNo}
                     className="bg-blue-50 rounded-b-lg p-4 mt-3 relative mx-auto flex flex-col w-[97%] shadow-md rounded-md min-w-[1200px]"
@@ -125,6 +143,26 @@ const CancelledTable = ({ datas }) => {
                     </div>
                 </div>
             ))}
+
+            <div className="flex justify-between items-center mt-4">
+                <button
+                    onClick={handlePreviousPage}
+                    disabled={currentPage === 1}
+                    className="px-4 py-2 bg-gray-200 rounded-md disabled:opacity-50"
+                >
+                    Previous
+                </button>
+                <span>
+                    Page {currentPage} of {Math.ceil(datas.length / itemsPerPage)}
+                </span>
+                <button
+                    onClick={handleNextPage}
+                    disabled={currentPage === Math.ceil(datas.length / itemsPerPage)}
+                    className="px-4 py-2 bg-gray-200 rounded-md disabled:opacity-50"
+                >
+                    Next
+                </button>
+            </div>
 
             {/* {isAssignedVendorsModalOpen && selectedData && (
                 <AssignedVendorsModal

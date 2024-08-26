@@ -10,13 +10,16 @@ import Navbar from '../repeats/Navbar';
 const Cancelled = () => {
   const [bidDetails, setBidDetails] = useState([]);
   const [loading, setLoading] = useState(true);
+  const companyId = localStorage.getItem('company_Id');
+  console.log(companyId)
+
   const [error, setError] = useState(null);
   const [dataHandling, setDataHandling] = useState({});
   const [filteredData, setFilteredData] = useState([]);
   const user = useSelector((state) => state.login.user);
 
   const fetchBidIdsAndDetails = async () => {
-    const url = `https://freighteg.in/freightapi/counters?company_id=${user?.id}`;
+    const url = `https://freighteg.in/freightapi/counters?company_id=${user.id}`;
     try {
       const response = await axios.get(url);
       const bidsData = response.data.data;

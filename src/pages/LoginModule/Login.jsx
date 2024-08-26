@@ -45,7 +45,11 @@ const Login = ({ handleAuthentication, setModel }) => {
         const data = await response.json();
         console.log("data", data);
         if (data && data.token) {
-          localStorage.setItem("token", data.token);
+          // Store token and user details in localStorage
+          localStorage.setItem("branch_id", data.id); // Store user ID
+          localStorage.setItem('branchName', 'ALL');
+
+
           store.dispatch(
             setCredentials({ user: data.user, token: data.token })
           );
@@ -88,7 +92,7 @@ const Login = ({ handleAuthentication, setModel }) => {
         style={{ width: "100%", maxWidth: "400px" }}
       >
         <h1 className="font-bold text-blue-900 text-3xl mb-5">
-          Hello Again! <br></br>Log In Below
+          Hello Again! <br /> Log In Below
         </h1>
         <form onSubmit={handleSubmit} className="w-full">
           <div className="mb-4">

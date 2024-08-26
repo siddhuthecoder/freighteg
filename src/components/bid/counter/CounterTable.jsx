@@ -5,70 +5,69 @@ import ViewQuotesModal from '../repeats/ViewQuotesModal';
 import { IoMdMail } from "react-icons/io";
 import { MdLocalPrintshop } from "react-icons/md";
 
-
 const QuotesModal = ({ showModal, setShowModal }) => {
     const vendors = [
-      { name: 'Vendor 1', rate: 'Rs 80,000' },
-      { name: 'Vendor 2', rate: 'Rs 82,000' },
-      { name: 'Vendor 3', rate: 'Rs 85,000' },
-      { name: 'Vendor 4', rate: 'Rs 90,000' }, 
-      { name: 'Vendor 5', rate: 'Rs 92,000' }, 
+        { name: 'Vendor 1', rate: 'Rs 80,000' },
+        { name: 'Vendor 2', rate: 'Rs 82,000' },
+        { name: 'Vendor 3', rate: 'Rs 85,000' },
+        { name: 'Vendor 4', rate: 'Rs 90,000' }, 
+        { name: 'Vendor 5', rate: 'Rs 92,000' }, 
     ];
   
     if (!showModal) return null;
   
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
-        <div className="bg-white rounded-lg shadow-lg w-11/12 md:w-3/4 lg:w-1/2 p-4 md:p-6 relative">
-          <button
-            className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-            onClick={() => setShowModal(false)}
-          >
-            <div>X</div>
-          </button>
-          <h2 className="text-lg md:text-xl font-semibold text-gray-800 mb-4">Vendor Quotes</h2>
-      
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse">
-              <thead>
-                <tr className="bg-gray-100">
-                  <th className="p-2 text-left text-xs md:text-sm font-semibold text-gray-700 border">Vendor Name</th>
-                  <th className="p-2 text-left text-xs md:text-sm font-semibold text-gray-700 border">Rate</th>
-                  <th className="p-2 text-left text-xs md:text-sm font-semibold text-gray-700 border">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {vendors.map((vendor, index) => (
-                  <tr key={index} className="border-t">
-                    <td className="p-2 text-xs md:text-sm text-gray-800 border">{vendor.name}</td>
-                    <td className="p-2 text-xs md:text-sm text-gray-800 border">{vendor.rate}</td>
-                    <td className="p-2 text-xs md:text-sm text-gray-800 border">
-                      <div className="flex space-x-2">
-                        <button className="bg-blue-200 text-blue-600 px-2 py-1   rounded-md text-xs md:text-sm">
-                          Counter
-                        </button>
-                        <button className="bg-green-200 text-green-600 px-2 py-1 md:px-4 md:py-2 rounded-md text-xs md:text-sm">
-                          Assign Bid
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+            <div className="bg-white rounded-lg shadow-lg w-11/12 md:w-3/4 lg:w-1/2 p-4 md:p-6 relative">
+                <button
+                    className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+                    onClick={() => setShowModal(false)}
+                >
+                    <div>X</div>
+                </button>
+                <h2 className="text-lg md:text-xl font-semibold text-gray-800 mb-4">Vendor Quotes</h2>
+                <div className="overflow-x-auto">
+                    <table className="w-full border-collapse">
+                        <thead>
+                            <tr className="bg-gray-100">
+                                <th className="p-2 text-left text-xs md:text-sm font-semibold text-gray-700 border">Vendor Name</th>
+                                <th className="p-2 text-left text-xs md:text-sm font-semibold text-gray-700 border">Rate</th>
+                                <th className="p-2 text-left text-xs md:text-sm font-semibold text-gray-700 border">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {vendors.map((vendor, index) => (
+                                <tr key={index} className="border-t">
+                                    <td className="p-2 text-xs md:text-sm text-gray-800 border">{vendor.name}</td>
+                                    <td className="p-2 text-xs md:text-sm text-gray-800 border">{vendor.rate}</td>
+                                    <td className="p-2 text-xs md:text-sm text-gray-800 border">
+                                        <div className="flex space-x-2">
+                                            <button className="bg-blue-200 text-blue-600 px-2 py-1 rounded-md text-xs md:text-sm">
+                                                Counter
+                                            </button>
+                                            <button className="bg-green-200 text-green-600 px-2 py-1 md:px-4 md:py-2 rounded-md text-xs md:text-sm">
+                                                Assign Bid
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-      </div>
-      
-      
     );
-  };
+};
 
 const CounterTable = ({ datas }) => {
     const [isAssignedVendorsModalOpen, setAssignedVendorsModalOpen] = useState(false);
     const [isViewQuotesModalOpen, setViewQuotesModalOpen] = useState(false);
     const [selectedData, setSelectedData] = useState(null);
     const [showModal, setShowModal] = useState(false);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
 
     const convertToTimeDifference = (updatedAt) => {
         const now = new Date();
@@ -99,7 +98,6 @@ const CounterTable = ({ datas }) => {
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
     };
-    
 
     const handleAssignedVendorsClick = (data) => {
         setSelectedData(data);
@@ -111,15 +109,23 @@ const CounterTable = ({ datas }) => {
         setViewQuotesModalOpen(true);
     };
 
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = datas.slice(indexOfFirstItem, indexOfLastItem);
+
+    const totalPages = Math.ceil(datas.length / itemsPerPage);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
     if (!datas || datas.length === 0) {
         return <div className="text-center text-gray-500 py-4">No data available</div>;
     }
 
-    console.log(datas)
-
     return (
         <>
-            {datas.map((data) => (
+            {currentItems.map((data) => (
                 <div
                     key={data.bidNo}
                     className="bg-blue-50 rounded-b-lg p-4 mt-3 relative mx-auto flex flex-col w-[97%] shadow-md rounded-md min-w-[1200px]"
@@ -152,7 +158,6 @@ const CounterTable = ({ datas }) => {
                             </span>
                         </div>
                         <div className="flex flex-col pt-1">
-                            
                             <span className="block">Vehicle Required - {data.quantity}</span>
                             <span className="block">
                                 {data.vehicle_type} - {data.vehicle_size}
@@ -208,6 +213,25 @@ const CounterTable = ({ datas }) => {
                 />
             )}
             <QuotesModal showModal={showModal} setShowModal={setShowModal} />
+
+            {/* Pagination Controls */}
+            <div className="flex justify-center mt-4">
+                <button
+                    className={`px-4 py-2 mr-2 border rounded ${currentPage === 1 ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-500 text-white'}`}
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                >
+                    Previous
+                </button>
+                <span className="px-4 py-2">{currentPage} / {totalPages}</span>
+                <button
+                    className={`px-4 py-2 ml-2 border rounded ${currentPage === totalPages ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-500 text-white'}`}
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                >
+                    Next
+                </button>
+            </div>
         </>
     );
 };
