@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import * as XLSX from 'xlsx';
 import Header from '../repeats/Header';
-// import DataTable from '../repeats/DataTable';
 import Tabs from '../repeats/Tabs';
 import CancelledTable from './CancelledTable';
 import Navbar from '../repeats/Navbar';
@@ -16,18 +15,16 @@ const Cancelled = () => {
   const [filteredData, setFilteredData] = useState([]);
   const user = useSelector((state) => state.login.user);
 
-  // Function to fetch bid IDs and their corresponding details
   const fetchBidIdsAndDetails = async () => {
     const url = `https://freighteg.in/freightapi/counters?company_id=${user?.id}`;
     try {
       const response = await axios.get(url);
       const bidsData = response.data.data;
 
-      // Extracting bid IDs and their details from the nested structure
       const bidEntries = Object.entries(bidsData);
       return bidEntries.map(([bidId, detailsArray]) => ({
         bidId,
-        details: detailsArray[0], // Assuming you want the first item from the array of details
+        details: detailsArray[0],
       }));
     } catch (error) {
       console.error('Error fetching bid IDs and details:', error);
@@ -37,7 +34,6 @@ const Cancelled = () => {
     }
   };
 
-  // Function to fetch bid details using bid_id
   const fetchBidDetails = async (bidId) => {
     const url = `https://freighteg.in/freightapi/bids/${bidId}`;
     try {
@@ -50,7 +46,6 @@ const Cancelled = () => {
     }
   };
 
-  // Function to fetch freight user data using created_by or assigned_to id
   const fetchFreightUserData = async (userId) => {
     const url = `https://freighteg.in/freightapi/freightusers/${userId}`;
     try {
@@ -73,8 +68,7 @@ const Cancelled = () => {
       return []; // Return an empty array if there's an error
     }
   };
-  
-  // Function to get all bid details and merge with user and assigned_to data
+
   const getAllBidDetails = async () => {
     const bids = await fetchBidIdsAndDetails();
     if (bids && bids.length > 0) {
@@ -87,10 +81,10 @@ const Cancelled = () => {
           const pageUsersData = await fetchPageUsers([bid.bidId]);
           const mergedData = {
             ...bidDetail,
-            createdByUser,  // Embed created_by user data
-            assignedToUser, // Embed assigned_to user data
+            createdByUser,
+            assignedToUser,
             counters: bid.details,
-            viewedBy: pageUsersData || [], // Include the counter details from the nested structure
+            viewedBy: pageUsersData || [],
           };
           allBidDetails.push(mergedData);
         }
@@ -123,42 +117,41 @@ const Cancelled = () => {
   }, [dataHandling, bidDetails]);
 
   const handleFormSubmit = (formData) => {
-    console.log(formData); 
     setDataHandling(formData);
   };
 
   const handleDownloadClick = () => {
-    // Create a new workbook
-    const workbook = XLSX.utils.book_new();
-
-    // Convert the data to a worksheet
-    const worksheet = XLSX.utils.json_to_sheet(filteredData);
-
-    // Add the worksheet to the workbook
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Bids");
-
-    // Generate Excel file and trigger download
-    XLSX.writeFile(workbook, "BidsData.xlsx");
+    // Convert filtered data to a plain text string (JSON format for readability)
+    const textData = JSON.stringify(filteredData, null, 2);
+  
+    // Create a Blob object with the text data
+    const blob = new Blob([textData], { type: "text/plain;charset=utf-8" });
+  
+    // Create a link element
+    const link = document.createElement("a");
+  
+    // Set the download attribute with the desired file name
+    link.download = "BidsData.txt";
+  
+    // Create a URL for the Blob and set it as the href of the link
+    link.href = window.URL.createObjectURL(blob);
+  
+    // Append the link to the document body
+    document.body.appendChild(link);
+  
+    // Programmatically trigger a click on the link to trigger the download
+    link.click();
+  
+    // Remove the link from the document
+    document.body.removeChild(link);
   };
-
-  if (loading) {
-    return <div className="text-center">Loading...</div>;
-  }
-
-  if (error) {
-    return <div className="text-center text-red-500">{error}</div>;
-  }
-
-  if (bidDetails.length === 0) {
-    return <div className="text-center">No bid details found.</div>;
-  }
-
+  
   return (
     <>
       <Navbar />
       <Header onSubmit={handleFormSubmit} />
       <div className="w-full overflow-x-auto">
-        <Tabs onDownloadClick={handleDownloadClick} tabname="cancelled" length={filteredData.length} onFilterClick={() => { /* Handle filter click if needed */ }} />
+        <Tabs onDownloadClick={handleDownloadClick} tabname="cancelled" length={filteredData.length} onFilterClick={() => { }} />
       </div>
       <div className="w-full flex flex-col overflow-x-auto">
         <div className="bg-[#9D9D9D21] w-[97%] h-[60px] items-center ps-2 mt-2 rounded-md min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
@@ -169,7 +162,16 @@ const Cancelled = () => {
           <div className="font-semibold md:text-lg ps-[30px]">Details</div>
           <div className="font-semibold md:text-lg ps-[30px]">Best Quote</div>
         </div>
+        {loading ? (
+        <div className="text-center my-4">
+          {/* Loading spinner */}
+          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-900 mx-auto"></div>
+          {/* Loading text */}
+          <p className="text-gray-600 mt-2">Loading...</p>
+        </div>
+      ) : (
         <CancelledTable datas={filteredData} />
+      )}
       </div>
     </>
   );

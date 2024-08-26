@@ -120,30 +120,31 @@ const getAllBidDetails = async () => {
   };
 
   const handleDownloadClick = () => {
-    // Create a new workbook
-    const workbook = XLSX.utils.book_new();
-
-    // Convert the data to a worksheet
-    const worksheet = XLSX.utils.json_to_sheet(filteredData);
-
-    // Add the worksheet to the workbook
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Bids");
-
-    // Generate Excel file and trigger download
-    XLSX.writeFile(workbook, "BidsData.xlsx");
+    // Convert filtered data to a plain text string (JSON format for readability)
+    const textData = JSON.stringify(filteredData, null, 2);
+  
+    // Create a Blob object with the text data
+    const blob = new Blob([textData], { type: "text/plain;charset=utf-8" });
+  
+    // Create a link element
+    const link = document.createElement("a");
+  
+    // Set the download attribute with the desired file name
+    link.download = "BidsData.txt";
+  
+    // Create a URL for the Blob and set it as the href of the link
+    link.href = window.URL.createObjectURL(blob);
+  
+    // Append the link to the document body
+    document.body.appendChild(link);
+  
+    // Programmatically trigger a click on the link to trigger the download
+    link.click();
+  
+    // Remove the link from the document
+    document.body.removeChild(link);
   };
-
-  if (loading) {
-    return <div className="text-center">Loading...</div>;
-  }
-
-  if (error) {
-    return <div className="text-center text-red-500">{error}</div>;
-  }
-
-  if (bidDetails.length === 0) {
-    return <div className="text-center">No bid details found.</div>;
-  }
+  
 
   return (
     <>
@@ -161,7 +162,16 @@ const getAllBidDetails = async () => {
           <div className="font-semibold md:text-sm ps-[30px]">Details</div>
           <div className="font-semibold md:text-sm ps-[30px]">Bid Result</div>
         </div>
-        <ResultTable datas={filteredData}  />
+        {loading ? (
+        <div className="text-center my-4">
+          {/* Loading spinner */}
+          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-900 mx-auto"></div>
+          {/* Loading text */}
+          <p className="text-gray-600 mt-2">Loading...</p>
+        </div>
+      ) : (
+        <ResultTable datas={filteredData} />
+      )}
       </div>
     </>
   );

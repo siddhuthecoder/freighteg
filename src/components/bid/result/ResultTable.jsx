@@ -252,16 +252,17 @@ const ResultTable = ({ datas }) => {
 
   const handlePrintClick = (data) => {
     const dataStr = JSON.stringify(data, null, 2);
-    const blob = new Blob([dataStr], { type: "application/json" });
+    const blob = new Blob([dataStr], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `data-${data._id}.json`;
+    link.download = `data-${data._id}.txt`; // Save as a .txt file
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    URL.revokeObjectURL(url); // Clean up the URL object
-  };
+    URL.revokeObjectURL(url);
+};
+
 
   // const handleAssignedVendorsClick = (data) => {
   //   setSelectedData(data);

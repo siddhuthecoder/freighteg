@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 const Tabs = ({ onFilterClick, onDownloadClick,tabname,length }) => {
     const location = useLocation();
     const path = location.pathname.split("/");
+    console.log("path",path.includes("counter"))
     
     const tabs = [
         { name: "Open", path: "open" },
@@ -20,12 +21,12 @@ const Tabs = ({ onFilterClick, onDownloadClick,tabname,length }) => {
     return (
         <div className="w-[100%] min-w-[1200px] py-1 bg-white flex items-center overflow-x-auto justify-between">
             <div className="mx-2 flex items-center gap-3">
-                {tabs.map((tab, index) => {
+                {tabs.map((tab, index) => { 
                     const isActive = path.includes(tab.path);
                     return (
                         <Link to={`/${tab.path}`}
                             key={index}
-                            className={`text-zinc-500 font-semibold cursor-pointer hover:underline text-sm hover:text-[#0662C6] ${tabname==tab.path ? 'text-[#0662C6] font-bold' : ''}`}
+                            className={` cursor-pointer  text-sm hover:text-[#0662C6] ${path.includes(tab.path) ? 'text-[#0662C6] border-b-2 pb-1 border-[#0662C6]' : ''}`}
                         >
                             {tab.name} 
                         </Link>
