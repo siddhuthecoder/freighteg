@@ -44,13 +44,27 @@ const Navbar = () => {
                 <div className="flex items-center space-x-8 text-black">
                   <NavLink
                     to="/open"
-                    isActive={() => location.pathname === "/open"}
+                    isActive={() =>
+                      [
+                        "/open",
+                        "/result",
+                        "/history",
+                        "/cancelled",
+                        "/counter",
+                      ].includes(location.pathname)
+                    }
                   >
                     Bid
                   </NavLink>
+
                   <NavLink
                     to="/allpodrequest"
-                    isActive={() => location.pathname === "/allpodrequest"}
+                    isActive={() =>
+                      [
+                        "/allpodrequest",
+                        "/podform"
+                      ].includes(location.pathname)
+                    }
                   >
                     POD
                   </NavLink>
