@@ -66,6 +66,30 @@ const Navbar = () => {
                   >
                     Users
                   </NavLink>
+                  <NavLink
+                    to="/branch"
+                    isActive={() => location.pathname === "/branch"}
+                  >
+                    Branch
+                  </NavLink>
+                  <NavLink
+                    to="/fastag"
+                    isActive={() => location.pathname === "/fastag"}
+                  >
+                    Fastag
+                  </NavLink>
+                  <NavLink
+                    to="/vahan"
+                    isActive={() => location.pathname === "/vahan"}
+                  >
+                    Vaahan
+                  </NavLink>
+                  <NavLink
+                    to="/sarathi"
+                    isActive={() => location.pathname === "/sarathi"}
+                  >
+                    Sarathi
+                  </NavLink>
                 </div>
               </div>
             </div>
