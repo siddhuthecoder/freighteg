@@ -44,10 +44,10 @@ const QuotesModal = ({ showModal, setShowModal }) => {
                     <td className="p-2 text-xs md:text-sm text-gray-800 border">{vendor.rate}</td>
                     <td className="p-2 text-xs md:text-sm text-gray-800 border">
                       <div className="flex space-x-2">
-                        <button className="bg-blue-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-md text-xs md:text-sm">
+                        <button className="bg-blue-200 text-blue-600 px-2 py-1   rounded-md text-xs md:text-sm">
                           Counter
                         </button>
-                        <button className="bg-green-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-md text-xs md:text-sm">
+                        <button className="bg-green-200 text-green-600 px-2 py-1 md:px-4 md:py-2 rounded-md text-xs md:text-sm">
                           Assign Bid
                         </button>
                       </div>
