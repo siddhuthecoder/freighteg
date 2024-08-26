@@ -4,6 +4,7 @@ import AssignedVendorsModal from '../repeats/AssignedVendorsModal';
 import ViewQuotesModal from '../repeats/ViewQuotesModal';
 import { IoMdMail } from "react-icons/io";
 import { MdLocalPrintshop } from "react-icons/md";
+import { useSelector } from 'react-redux';
 
 const QuotesModal = ({ showModal, setShowModal, counterdata }) => {
     if (!showModal) return null;
@@ -21,10 +22,10 @@ const QuotesModal = ({ showModal, setShowModal, counterdata }) => {
                 <div className="max-h-60 overflow-y-auto space-y-4">
                     <div className="flex justify-between items-center p-4 border rounded-md">
                         <span className="text-gray-800 font-medium">
-                            Target Price {counterdata.target_price}
+                            Target Price :  {counterdata.target_price}
                         </span>
                         <span className="text-gray-800">
-                            Counter Price {counterdata.counters["counter_price"]}
+                            Counter Price : {counterdata.counters["counter_price"]}
                         </span>
                         <div className="space-x-2">
                             <button className="bg-blue-500 text-white px-4 py-2 rounded-md text-sm">
@@ -52,7 +53,7 @@ const CounterTable = ({ datas }) => {
     const [isViewQuotesModalOpen, setViewQuotesModalOpen] = useState(false);
     const [selectedData, setSelectedData] = useState(null);
     // const [showModal, setShowModal] = useState(false);
-
+    const user = useSelector((state) => state.login.user);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
     const [showModal, setShowModal] = useState(false);
@@ -126,7 +127,7 @@ const CounterTable = ({ datas }) => {
                 >
                     <div className="w-[100%] text-sm mt-2 min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
                         <div className="flex flex-col pt-1">
-                            <span className="block text-black font-semibold">Qiktrack</span>
+                            <span className="block text-black font-semibold">{user?.name}</span>
                             <span className="block text-blue-600 font-semibold">#{data.bidNo}</span>
                             <span className="block text-red-600">{convertToTimeDifference(data.updatedAt)}</span>
                             <div className="block text-grey-500 mt-12">Remarks</div>

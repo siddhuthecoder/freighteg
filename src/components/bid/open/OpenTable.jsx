@@ -4,13 +4,14 @@ import AssignedVendorsModal from '../repeats/AssignedVendorsModal';
 import ViewQuotesModal from '../repeats/ViewQuotesModal';
 import { IoMdMail } from "react-icons/io";
 import { MdLocalPrintshop } from "react-icons/md";
+import { useSelector } from 'react-redux';
 
 const OpenTable = ({ datas }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [isAssignedVendorsModalOpen, setAssignedVendorsModalOpen] = useState(false);
     const [isViewQuotesModalOpen, setViewQuotesModalOpen] = useState(false);
     const [selectedData, setSelectedData] = useState(null);
-
+    const user = useSelector((state) => state.login.user);
     const itemsPerPage = 5;
     const totalPages = Math.ceil(datas.length / itemsPerPage);
 
@@ -74,7 +75,7 @@ const OpenTable = ({ datas }) => {
                 >
                     <div className="w-[100%] text-sm mt-2 min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
                         <div className="flex flex-col pt-1">
-                            <span className="block text-black font-semibold">Qiktrack</span>
+                            <span className="block text-black font-semibold">{user?.name}</span>
                             <span className="block text-blue-600 font-semibold">#{data.bidNo}</span>
                             <span className="block text-red-600">{convertToTimeDifference(data.expiry_date)}</span>
                             <div className="block text-grey-500 mt-12">Remarks :  {data.bid_remarks}</div>

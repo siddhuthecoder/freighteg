@@ -9,6 +9,7 @@ import ViewQuotesModal from "../repeats/ViewQuotesModal";
 import AssignedVendorsModal from "../repeats/AssignedVendorsModal";
 import { IoMdMail } from "react-icons/io";
 import { MdLocalPrintshop } from "react-icons/md";
+import { useSelector } from 'react-redux';
 
 const QuotesModal = ({
   showReponseModel,
@@ -244,6 +245,7 @@ const VendorDetailsModal = ({
 };
 
 const ResultTable = ({ datas }) => {
+  const user = useSelector((state) => state.login.user);
   // console.log(datas)
   const [isAssignedVendorsModalOpen, setAssignedVendorsModalOpen] =
     useState(false);
@@ -339,7 +341,7 @@ const ResultTable = ({ datas }) => {
         <div className=" bg-blue-50 rounded-b-lg p-4 - mt-3 relative mx-auto flex flex-col w-[97%] shadow-md rounded-md min-w-[1200px]">
           <div className="w-[100%] text-sm  mt-2 min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
             <div className="flex flex-col  pt-1">
-              <span className="block text-black font-semibold">Qiktrack</span>
+              <span className="block text-black font-semibold">{user?.name}</span>
               <span className="block text-blue-600 font-semibold">
                 #{data.bidNo}
               </span>
