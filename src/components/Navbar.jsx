@@ -43,14 +43,28 @@ const Navbar = () => {
               <div className="hidden md:block text-black">
                 <div className="flex items-center space-x-8 text-black">
                   <NavLink
-                    to="/bid"
-                    isActive={() => location.pathname === "/bid"}
+                    to="/open"
+                    isActive={() =>
+                      [
+                        "/open",
+                        "/result",
+                        "/history",
+                        "/cancelled",
+                        "/counter",
+                      ].includes(location.pathname)
+                    }
                   >
                     Bid
                   </NavLink>
+
                   <NavLink
                     to="/allpodrequest"
-                    isActive={() => location.pathname === "/allpodrequest"}
+                    isActive={() =>
+                      [
+                        "/allpodrequest",
+                        "/podform"
+                      ].includes(location.pathname)
+                    }
                   >
                     POD
                   </NavLink>
@@ -65,6 +79,30 @@ const Navbar = () => {
                     isActive={() => location.pathname === "/users"}
                   >
                     Users
+                  </NavLink>
+                  <NavLink
+                    to="/branch"
+                    isActive={() => location.pathname === "/branch"}
+                  >
+                    Branch
+                  </NavLink>
+                  <NavLink
+                    to="/fastag"
+                    isActive={() => location.pathname === "/fastag"}
+                  >
+                    Fastag
+                  </NavLink>
+                  <NavLink
+                    to="/vahan"
+                    isActive={() => location.pathname === "/vahan"}
+                  >
+                    Vaahan
+                  </NavLink>
+                  <NavLink
+                    to="/sarathi"
+                    isActive={() => location.pathname === "/sarathi"}
+                  >
+                    Sarathi
                   </NavLink>
                 </div>
               </div>
