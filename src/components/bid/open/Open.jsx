@@ -20,7 +20,7 @@ const Open = () => {
     const branchId = localStorage.getItem('branch_id');
     const url = branchId && branchId !== 'ALL'
       ? `https://freighteg.in/freightapi/liveBids?branch_id=${branchId}`
-      : `https://freighteg.in/freightapi/liveBids?company_id=${user?.id}`;
+      : `https://freighteg.in/freightapi/liveBids?company_id=665580f353ccced94082681b`;
 
     try {
       const response = await axios.get(url);
