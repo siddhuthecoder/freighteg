@@ -41,7 +41,7 @@ const ViewQuotesModal = ({ data, onClose }) => {
             <div className="bg-white rounded-lg shadow-lg w-11/12 md:w-3/4 p-6 relative">
                 
                 <div className="bg-blue-700 text-white p-4 rounded-t-lg flex items-center justify-between">
-                    <h2 className="text-lg">#{data.id}</h2>
+                    <h2 className="text-lg">#{data.bidNo}</h2>
                     <button onClick={onClose}>
                         {/* <XMarkIcon className="h-6 w-6" /> */}
                         <div className="text-2xl">X</div>
