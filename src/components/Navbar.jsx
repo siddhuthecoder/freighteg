@@ -43,8 +43,8 @@ const Navbar = () => {
               <div className="hidden md:block text-black">
                 <div className="flex items-center space-x-8 text-black">
                   <NavLink
-                    to="/bid"
-                    isActive={() => location.pathname === "/bid"}
+                    to="/open"
+                    isActive={() => location.pathname === "/open"}
                   >
                     Bid
                   </NavLink>
