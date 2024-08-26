@@ -153,43 +153,34 @@ const VendorDetailsModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
-      <div className="bg-white rounded-lg shadow-lg w-11/12 md:w-1/2 p-6 relative">
-        <button
-          className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-          onClick={() => setShowVendorDetailsModal(false)}
-        >
-          <div className="text-xl">X</div>
-        </button>
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">
-          Vendor Details
-        </h2>
+  <div className="bg-white rounded-lg shadow-lg w-11/12 md:w-1/2 lg:w-1/3 p-6 relative">
+    <button
+      className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+      onClick={() => setShowVendorDetailsModal(false)}
+    >
+      <div className="text-xl">X</div>
+    </button>
+    <h2 className="text-xl font-semibold text-gray-800 mb-6 text-center">
+      Vendor Details
+    </h2>
 
-        <div className="overflow-y-auto max-h-96 space-y-2">
-          <div className="flex justify-between items-center p-2 border-b">
-            <span className="text-blue-600 font-medium">Name</span>
-            <span className="text-gray-800">{data.name}</span>
-          </div>
-          <div className="flex justify-between items-center p-2 border-b">
-            <span className="text-blue-600 font-medium">Role</span>
-            <span className="text-gray-800">{data.role}</span>
-          </div>
-          <div className="flex justify-between items-center p-2 border-b">
-            <span className="text-blue-600 font-medium">Address</span>
-            <span className="text-gray-800">{data.address}</span>
-          </div>
-          <div className="flex justify-between items-center p-2 border-b">
-            <span className="text-blue-600 font-medium">Phone</span>
-            <span className="text-gray-800">{data.phone}</span>
-          </div>
-          <div className="flex justify-between items-center p-2 border-b">
-            <span className="text-blue-600 font-medium">Vehicle Types</span>
-            <span className="text-gray-800">
-              {renderList(data.vehicle_type)}
-            </span>
-          </div>
+    <div className="overflow-y-auto max-h-80 space-y-4">
+      {[
+        { label: "Name", value: data.name },
+        { label: "Role", value: data.role },
+        { label: "Address", value: data.address },
+        { label: "Phone", value: data.phone },
+        { label: "Vehicle Types", value: renderList(data.vehicle_type) }
+      ].map((item, index) => (
+        <div key={index} className="flex justify-between  p-3 border-b">
+          <span className="text-blue-600 font-medium">{item.label}</span>
+          <span className="text-gray-800">{item.value}</span>
         </div>
-      </div>
+      ))}
     </div>
+  </div>
+</div>
+
   );
 };
 

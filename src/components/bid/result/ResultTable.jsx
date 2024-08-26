@@ -38,41 +38,42 @@ const QuotesModal = ({ showReponseModel, setshowReponseModel, allvendorResponse,
   if (!showReponseModel) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
-      <div className="bg-white rounded-lg shadow-lg w-11/12 md:w-1/2 p-6 relative">
-        <button
-          className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-          onClick={() => setshowReponseModel(false)}
-        >
-          <div className="">X</div>
-        </button>
-        <h2 className="text-xl font-semibold text-gray-800 mb-4 flex justify-between">
-          Vendor Name
-          <h2 className="text-xl font-semibold text-gray-800 mb-4 mr-15">
-            Vendor Price
-          </h2>
-          <h2 className="text-xl font-semibold text-gray-800 mb-4 mr-20 ml-15">
-            Target Price
-          </h2>
-        </h2>
-
-        {/* Vendor list container with max height and scrollbar */}
-        <div className="max-h-60 overflow-y-auto space-y-4">
-          {allvendorResponse.map((vendor, index) => (
-            <div
-              key={index}
-              className="flex justify-between items-center p-4 border rounded-md"
-            >
-              <span className="text-gray-800 font-medium">
-                {vendorNames[vendor.vendor_id] || "Loading..."}
-              </span>
-              <span className="text-gray-800">{vendor.bidding_price}</span>
-              <span className="text-gray-800 mr-10">{target_price}</span>
-            </div>
-          ))}
-        </div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50 p-4">
+    <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 relative">
+      <button
+        className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+        onClick={() => setshowReponseModel(false)}
+      >
+        X
+      </button>
+      <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
+        Vendor Quotes
+      </h2>
+  
+      {/* Responsive table */}
+      <div className="overflow-x-auto">
+        <table className="min-w-full border">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="p-2 text-left font-semibold text-gray-800">Vendor Name</th>
+              <th className="p-2 text-left font-semibold text-gray-800">Vendor Price</th>
+              <th className="p-2 text-left font-semibold text-gray-800">Target Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            {allvendorResponse.map((vendor, index) => (
+              <tr key={index} className="border-t">
+                <td className="p-2 text-gray-800">{vendorNames[vendor.vendor_id] || "Loading..."}</td>
+                <td className="p-2 text-gray-800">{vendor.bidding_price}</td>
+                <td className="p-2 text-gray-800">{target_price}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
+  </div>
+  
   );
 };
 
@@ -87,43 +88,52 @@ const VehicleInfoModal = ({
   if (!showVehicleModal) return null;
   //  alert(JSON.stringify(vechileDetails) )
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
-      <div className="bg-white rounded-lg shadow-lg w-11/12 md:w-1/2 p-6 relative">
-        <button
-          className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-          onClick={() => setShowVehicleModal(false)}
-        >
-          X
-        </button>
-        <h2 className="text-xl font-semibold text-gray-800 mb-4 flex justify-between">
-          Vehicle Number
-          <span>Action</span>
-        </h2>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50 p-4">
+  <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 relative">
+    <button
+      className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+      onClick={() => setShowVehicleModal(false)}
+    >
+      X
+    </button>
+    <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
+      Vehicle Details
+    </h2>
 
-        <div className="max-h-60 overflow-y-auto space-y-4">
+    <div className="overflow-x-auto">
+      <table className="min-w-full border">
+        <thead>
+          <tr className="bg-gray-100">
+            <th className="p-2 text-left font-semibold text-gray-800">Vehicle Number</th>
+            <th className="p-2 text-left font-semibold text-gray-800">Action</th>
+          </tr>
+        </thead>
+        <tbody>
           {vechileDetails?.map((vehicle, index) => (
-            <div
-              key={index}
-              className="flex justify-between items-center p-4 border rounded-md"
-            >
-              <span className="text-gray-800 font-medium">
-                {vehicle.vehicleNo}
-              </span>
-              <div className="space-x-2">
-                <button className="bg-blue-500 text-white px-4 py-2 rounded-md text-sm">
-                  Saarthi
-                </button>
-                <button className="bg-green-500 text-white px-4 py-2 rounded-md text-sm">
-                  Fastag Tracking
-                </button>
-              </div>
-            </div>
+            <tr key={index} className="border-t">
+              <td className="p-2 text-gray-800">{vehicle.vehicleNo}</td>
+              <td className="p-2 text-gray-800">
+                <div className="flex space-x-2">
+                  <button className="bg-blue-500 text-white px-4 py-2 rounded-md text-sm">
+                    Saarthi
+                  </button>
+                  <button className="bg-green-500 text-white px-4 py-2 rounded-md text-sm">
+                    Fastag Tracking
+                  </button>
+                </div>
+              </td>
+            </tr>
           ))}
-        </div>
-      </div>
+        </tbody>
+      </table>
     </div>
+  </div>
+</div>
+
   );
 };
+
+
 const VendorDetailsModal = ({
   showVendorDetailsModal,
   setShowVendorDetailsModal,
@@ -177,7 +187,7 @@ const VendorDetailsModal = ({
             <span className="text-blue-600 font-medium">Phone</span>
             <span className="text-gray-800">{data.phone}</span>
           </div>
-          <div className="flex justify-between items-center p-2 border-b">
+          <div className="flex justify-between p-2 border-b">
             <span className="text-blue-600 font-medium">Vehicle Types</span>
             <span className="text-gray-800">
               {renderList(data.vehicle_type)}

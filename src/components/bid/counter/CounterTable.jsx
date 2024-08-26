@@ -18,32 +18,49 @@ const QuotesModal = ({ showModal, setShowModal }) => {
     if (!showModal) return null;
   
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
-        <div className="bg-white rounded-lg shadow-lg w-11/12 md:w-1/2 p-6 relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
+        <div className="bg-white rounded-lg shadow-lg w-11/12 md:w-3/4 lg:w-1/2 p-4 md:p-6 relative">
           <button
             className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
             onClick={() => setShowModal(false)}
           >
-            {/* <XMarkIcon className="h-6 w-6" /> */}
-            <div className="">X</div>
+            <div>X</div>
           </button>
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">Vendor Quotes</h2>
-  
-         
-          <div className="max-h-60 overflow-y-auto space-y-4">
-            {vendors.map((vendor, index) => (
-              <div key={index} className="flex justify-between items-center p-4 border rounded-md">
-                <span className="text-gray-800 font-medium">{vendor.name}</span>
-                <span className="text-gray-800">{vendor.rate}</span>
-                <div className="space-x-2">
-                  <button className="bg-blue-500 text-white px-4 py-2 rounded-md text-sm">Counter</button>
-                  <button className="bg-green-500 text-white px-4 py-2 rounded-md text-sm">Assign Bid</button>
-                </div>
-              </div>
-            ))}
+          <h2 className="text-lg md:text-xl font-semibold text-gray-800 mb-4">Vendor Quotes</h2>
+      
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-gray-100">
+                  <th className="p-2 text-left text-xs md:text-sm font-semibold text-gray-700 border">Vendor Name</th>
+                  <th className="p-2 text-left text-xs md:text-sm font-semibold text-gray-700 border">Rate</th>
+                  <th className="p-2 text-left text-xs md:text-sm font-semibold text-gray-700 border">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {vendors.map((vendor, index) => (
+                  <tr key={index} className="border-t">
+                    <td className="p-2 text-xs md:text-sm text-gray-800 border">{vendor.name}</td>
+                    <td className="p-2 text-xs md:text-sm text-gray-800 border">{vendor.rate}</td>
+                    <td className="p-2 text-xs md:text-sm text-gray-800 border">
+                      <div className="flex space-x-2">
+                        <button className="bg-blue-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-md text-xs md:text-sm">
+                          Counter
+                        </button>
+                        <button className="bg-green-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-md text-xs md:text-sm">
+                          Assign Bid
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
+      
+      
     );
   };
 
