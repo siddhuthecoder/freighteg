@@ -5,7 +5,7 @@ import * as XLSX from 'xlsx';
 import Header from '../repeats/Header';
 import CounterTable from './CounterTable';
 import Tabs from '../repeats/Tabs';
-import Navbar from '../repeats/Navbar';
+import Navbar from '../../../components/Navbar';
 
 const BidComponent = () => {
   const [bidDetails, setBidDetails] = useState([]);

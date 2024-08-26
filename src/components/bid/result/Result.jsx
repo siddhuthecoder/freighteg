@@ -5,7 +5,7 @@ import * as XLSX from 'xlsx';
 import Header from '../repeats/Header';
 import ResultTable from './ResultTable';
 import Tabs from '../repeats/Tabs';
-import Navbar from '../repeats/Navbar';
+import Navbar from '../../../components/Navbar';
 
 const ResultPage = () => {
   const [bidDetails, setBidDetails] = useState([]);
@@ -57,8 +57,6 @@ const ResultPage = () => {
     }
   };
 
-  // Function to get all bid details and merge with user and assigned_to data
-  // Function to get all bid details and merge with user and assigned_to data
 const getAllBidDetails = async () => {
   const bids = await fetchBidDetails();
   
@@ -155,11 +153,11 @@ const getAllBidDetails = async () => {
       </div>
       <div className="w-full flex flex-col overflow-x-auto">
         <div className=" bg-[#9D9D9D21] w-[97%] h-[50px] shadow items-center ps-2 mt-2  rounded-md min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
-          <div className="font-semibold md:text-sm ps-[30px]">ID</div>
-          <div className="font-semibold md:text-sm ps-[30px]">Date</div>
-          <div className="font-semibold md:text-sm ps-[30px]">Loading</div>
-          <div className="font-semibold md:text-sm ps-[30px]">Unloading</div>
-          <div className="font-semibold md:text-sm ps-[30px]">Details</div>
+        <div className="font-semibold md:text-lg ps-[30px]">ID</div>
+          <div className="font-semibold md:text-lg ps-[30px]">Loading Date</div>
+          <div className="font-semibold md:text-lg ps-[30px]">Loading Point </div>
+          <div className="font-semibold md:text-lg ps-[30px]">Unloading Point</div>
+          <div className="font-semibold md:text-lg ps-[30px]">Details</div>
           <div className="font-semibold md:text-sm ps-[30px]">Bid Result</div>
         </div>
         {loading ? (

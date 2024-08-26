@@ -5,7 +5,7 @@ import Header from "../repeats/Header";
 import OpenTable from './OpenTable';
 
 import Tabs from '../repeats/Tabs';
-import Navbar from '../repeats/Navbar';
+import Navbar from '../../../components/Navbar';
 import { useSelector } from "react-redux";
 
 const Open = () => {
@@ -158,9 +158,9 @@ const Open = () => {
       <div className="w-full flex flex-col overflow-x-auto">
         <div className="bg-[#9D9D9D21] w-[97%] h-[60px] items-center ps-2 mt-2 rounded-md min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
           <div className="font-semibold md:text-lg ps-[30px]">ID</div>
-          <div className="font-semibold md:text-lg ps-[30px]">Date</div>
-          <div className="font-semibold md:text-lg ps-[30px]">Loading</div>
-          <div className="font-semibold md:text-lg ps-[30px]">Unloading</div>
+          <div className="font-semibold md:text-lg ps-[30px]">Loading Date</div>
+          <div className="font-semibold md:text-lg ps-[30px]">Loading Point </div>
+          <div className="font-semibold md:text-lg ps-[30px]">Unloading Point</div>
           <div className="font-semibold md:text-lg ps-[30px]">Details</div>
           <div className="font-semibold md:text-lg ps-[30px]">Best Quote</div>
         </div>

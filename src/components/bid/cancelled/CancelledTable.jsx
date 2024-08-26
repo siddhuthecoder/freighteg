@@ -2,13 +2,17 @@ import React, { useState } from 'react';
 import { format, toZonedTime } from 'date-fns-tz';
 import AssignedVendorsModal from '../repeats/AssignedVendorsModal';
 import ViewQuotesModal from '../repeats/ViewQuotesModal';
+import { IoMdMail } from "react-icons/io";
+import { MdLocalPrintshop } from "react-icons/md";
 
 const CancelledTable = ({ datas }) => {
+    const [currentPage, setCurrentPage] = useState(1);
     const [isAssignedVendorsModalOpen, setAssignedVendorsModalOpen] = useState(false);
     const [isViewQuotesModalOpen, setViewQuotesModalOpen] = useState(false);
     const [selectedData, setSelectedData] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
+
     const itemsPerPage = 5;
+    const totalPages = Math.ceil(datas.length / itemsPerPage);
 
     const convertToTimeDifference = (updatedAt) => {
         const now = new Date();
@@ -39,7 +43,7 @@ const CancelledTable = ({ datas }) => {
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
     };
-
+    
     const handleAssignedVendorsClick = (data) => {
         setSelectedData(data);
         setAssignedVendorsModalOpen(true);
@@ -50,22 +54,12 @@ const CancelledTable = ({ datas }) => {
         setViewQuotesModalOpen(true);
     };
 
-    const handleNextPage = () => {
-        if (currentPage < Math.ceil(datas.length / itemsPerPage)) {
-            setCurrentPage(currentPage + 1);
-        }
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
     };
 
-    const handlePreviousPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-        }
-    };
-
-    const currentData = datas.slice(
-        (currentPage - 1) * itemsPerPage,
-        currentPage * itemsPerPage
-    );
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const currentItems = datas.slice(startIndex, startIndex + itemsPerPage);
 
     if (!datas || datas.length === 0) {
         return <div className="text-center text-gray-500 py-4">No data available</div>;
@@ -73,7 +67,7 @@ const CancelledTable = ({ datas }) => {
 
     return (
         <>
-            {currentData.map((data) => (
+            {currentItems.map((data) => (
                 <div
                     key={data.bidNo}
                     className="bg-blue-50 rounded-b-lg p-4 mt-3 relative mx-auto flex flex-col w-[97%] shadow-md rounded-md min-w-[1200px]"
@@ -82,8 +76,8 @@ const CancelledTable = ({ datas }) => {
                         <div className="flex flex-col pt-1">
                             <span className="block text-black font-semibold">Qiktrack</span>
                             <span className="block text-blue-600 font-semibold">#{data.bidNo}</span>
-                            <span className="block text-red-600">{convertToTimeDifference(data.updatedAt)}</span>
-                            <div className="block text-grey-500 mt-12">Remarks</div>
+                            <span className="block text-red-600">{convertToTimeDifference(data.expiry_date)}</span>
+                            <div className="block text-grey-500 mt-12">Remarks :  {data.bid_remarks}</div>
                         </div>
                         <div className="flex flex-col pt-1">
                             <span className="block font-medium ml-6">{data.createdAt.slice(0, 10)}</span>
@@ -91,31 +85,45 @@ const CancelledTable = ({ datas }) => {
                         </div>
                         <div className="flex flex-col pt-1">
                             <span className="block font-medium ml-4">
-                                {data.loading_city} {data.loading_state}
+                                {data.loading_city} ({data.loading_state})
                             </span>
                             <span className="block text-xs text-gray-500 ml-4">
-                                ({data.loading_address}) {data.loading_pincode}
+                            {data.loading_address}   ( {data.loading_pincode})
                             </span>
                         </div>
                         <div className="flex flex-col pt-1">
                             <span className="block font-medium">
-                                {data.unloading_city} {data.unloading_state}
+                                {data.unloading_city} ({data.unloading_state})
                             </span>
                             <span className="block text-xs text-gray-500">
-                                ({data.unloading_address}) {data.unloading_pincode}
+                            {data.unloading_address} ({data.unloading_pincode}) 
                             </span>
                         </div>
                         <div className="flex flex-col pt-1">
-                            <span className="block">Vehicle Required - {data.quantity}</span>
+                            
+                            <span className="block">Vehicle Quantity - {data.quantity}</span>
                             <span className="block">
-                                {data.vehicle_type} - {data.vehicle_size}
+                               Vehicle Type-  {data.vehicle_type} 
                             </span>
-                            <span className="block">Equipments</span>
+                            <span className="block">
+                               Vehicle Size-  {data.vehicle_size} ({data.body_type})
+                            </span>
+                            <span className="block">
+                            Material type-  {data.material_type}
+                            </span>
+                            <span className="block">
+                            Material weight-  {data.material_weight}
+                            </span>
+                            {/* <span className="block">Equipments</span> */}
                             <a href="#" className="text-blue-600">
                                 Distance - {data.route_distance} Km
                             </a>
                         </div>
                         <div className="flex flex-col pt-1">
+                            <div className="w-full flex items-center justify-end gap-3" >
+                                <IoMdMail className='text-2xl text-blue-600 cursor-pointer'/>
+                                <MdLocalPrintshop className='text-2xl text-blue-600 cursor-pointer' onClick={() => handlePrintClick(data)} />
+                            </div>
                             <div className="text-lg font-semibold text-gray-700 mr-5">Rs 85,000</div>
                             <div
                                 className="text-blue-600 underline text-sm cursor-pointer"
@@ -130,7 +138,7 @@ const CancelledTable = ({ datas }) => {
                         <span className="block text-xs text-gray-500">
                             Target Price - {data.target_price}Rs
                             <span className="gap-8 text-grey-600 text-sm font-semibold ml-5 px-3 py-1 rounded-lg">
-                                {data.assignedToUser?.name} ({data.assignedToUser?.role}, +91
+                               Assigned Staff  ({data.assignedToUser?.name}, +91
                                 {data.createdByUser?.phone})
                             </span>
                         </span>
@@ -144,35 +152,36 @@ const CancelledTable = ({ datas }) => {
                 </div>
             ))}
 
-            <div className="flex justify-between items-center mt-4">
+            {/* Pagination */}
+            <div className="flex justify-center mt-4">
                 <button
-                    onClick={handlePreviousPage}
+                    onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage === 1}
-                    className="px-4 py-2 bg-gray-200 rounded-md disabled:opacity-50"
+                    className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
                 >
                     Previous
                 </button>
-                <span>
-                    Page {currentPage} of {Math.ceil(datas.length / itemsPerPage)}
+                <span className="px-4 py-2 text-gray-700">
+                    Page {currentPage} of {totalPages}
                 </span>
                 <button
-                    onClick={handleNextPage}
-                    disabled={currentPage === Math.ceil(datas.length / itemsPerPage)}
-                    className="px-4 py-2 bg-gray-200 rounded-md disabled:opacity-50"
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
                 >
                     Next
                 </button>
             </div>
 
-            {/* {isAssignedVendorsModalOpen && selectedData && (
+            {isAssignedVendorsModalOpen && selectedData && (
                 <AssignedVendorsModal
-                    data={selectedData || []}
+                    data={selectedData}
                     onClose={() => setAssignedVendorsModalOpen(false)}
                 />
-            )} */}
+            )}
             {isViewQuotesModalOpen && selectedData && (
                 <ViewQuotesModal
-                    data={selectedData || []}
+                    data={selectedData}
                     onClose={() => setViewQuotesModalOpen(false)}
                 />
             )}

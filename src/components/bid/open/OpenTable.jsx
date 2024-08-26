@@ -76,8 +76,8 @@ const OpenTable = ({ datas }) => {
                         <div className="flex flex-col pt-1">
                             <span className="block text-black font-semibold">Qiktrack</span>
                             <span className="block text-blue-600 font-semibold">#{data.bidNo}</span>
-                            <span className="block text-red-600">{convertToTimeDifference(data.updatedAt)}</span>
-                            <div className="block text-grey-500 mt-12">Remarks</div>
+                            <span className="block text-red-600">{convertToTimeDifference(data.expiry_date)}</span>
+                            <div className="block text-grey-500 mt-12">Remarks :  {data.bid_remarks}</div>
                         </div>
                         <div className="flex flex-col pt-1">
                             <span className="block font-medium ml-6">{data.createdAt.slice(0, 10)}</span>
@@ -85,27 +85,36 @@ const OpenTable = ({ datas }) => {
                         </div>
                         <div className="flex flex-col pt-1">
                             <span className="block font-medium ml-4">
-                                {data.loading_city} {data.loading_state}
+                                {data.loading_city} ({data.loading_state})
                             </span>
                             <span className="block text-xs text-gray-500 ml-4">
-                                ({data.loading_address}) {data.loading_pincode}
+                            {data.loading_address}   ( {data.loading_pincode})
                             </span>
                         </div>
                         <div className="flex flex-col pt-1">
                             <span className="block font-medium">
-                                {data.unloading_city} {data.unloading_state}
+                                {data.unloading_city} ({data.unloading_state})
                             </span>
                             <span className="block text-xs text-gray-500">
-                                ({data.unloading_address}) {data.unloading_pincode}
+                            {data.unloading_address} ({data.unloading_pincode}) 
                             </span>
                         </div>
                         <div className="flex flex-col pt-1">
                             
-                            <span className="block">Vehicle Required - {data.quantity}</span>
+                            <span className="block">Vehicle Quantity - {data.quantity}</span>
                             <span className="block">
-                                {data.vehicle_type} - {data.vehicle_size}
+                               Vehicle Type-  {data.vehicle_type} 
                             </span>
-                            <span className="block">Equipments</span>
+                            <span className="block">
+                               Vehicle Size-  {data.vehicle_size} ({data.body_type})
+                            </span>
+                            <span className="block">
+                            Material type-  {data.material_type}
+                            </span>
+                            <span className="block">
+                            Material weight-  {data.material_weight}
+                            </span>
+                            {/* <span className="block">Equipments</span> */}
                             <a href="#" className="text-blue-600">
                                 Distance - {data.route_distance} Km
                             </a>
@@ -129,7 +138,7 @@ const OpenTable = ({ datas }) => {
                         <span className="block text-xs text-gray-500">
                             Target Price - {data.target_price}Rs
                             <span className="gap-8 text-grey-600 text-sm font-semibold ml-5 px-3 py-1 rounded-lg">
-                                {data.assignedToUser?.name} ({data.assignedToUser?.role}, +91
+                               Assigned Staff  ({data.assignedToUser?.name}, +91
                                 {data.createdByUser?.phone})
                             </span>
                         </span>

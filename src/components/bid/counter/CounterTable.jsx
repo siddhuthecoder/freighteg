@@ -5,55 +5,42 @@ import ViewQuotesModal from '../repeats/ViewQuotesModal';
 import { IoMdMail } from "react-icons/io";
 import { MdLocalPrintshop } from "react-icons/md";
 
-const QuotesModal = ({ showModal, setShowModal }) => {
-    const vendors = [
-        { name: 'Vendor 1', rate: 'Rs 80,000' },
-        { name: 'Vendor 2', rate: 'Rs 82,000' },
-        { name: 'Vendor 3', rate: 'Rs 85,000' },
-        { name: 'Vendor 4', rate: 'Rs 90,000' }, 
-        { name: 'Vendor 5', rate: 'Rs 92,000' }, 
-    ];
-  
+const QuotesModal = ({ showModal, setShowModal, counterdata }) => {
     if (!showModal) return null;
-  
+
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
-            <div className="bg-white rounded-lg shadow-lg w-11/12 md:w-3/4 lg:w-1/2 p-4 md:p-6 relative">
+            <div className="bg-white rounded-lg shadow-lg w-11/12 md:w-1/2 p-6 relative">
                 <button
                     className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
                     onClick={() => setShowModal(false)}
                 >
-                    <div>X</div>
+                    X
                 </button>
-                <h2 className="text-lg md:text-xl font-semibold text-gray-800 mb-4">Vendor Quotes</h2>
-                <div className="overflow-x-auto">
-                    <table className="w-full border-collapse">
-                        <thead>
-                            <tr className="bg-gray-100">
-                                <th className="p-2 text-left text-xs md:text-sm font-semibold text-gray-700 border">Vendor Name</th>
-                                <th className="p-2 text-left text-xs md:text-sm font-semibold text-gray-700 border">Rate</th>
-                                <th className="p-2 text-left text-xs md:text-sm font-semibold text-gray-700 border">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {vendors.map((vendor, index) => (
-                                <tr key={index} className="border-t">
-                                    <td className="p-2 text-xs md:text-sm text-gray-800 border">{vendor.name}</td>
-                                    <td className="p-2 text-xs md:text-sm text-gray-800 border">{vendor.rate}</td>
-                                    <td className="p-2 text-xs md:text-sm text-gray-800 border">
-                                        <div className="flex space-x-2">
-                                            <button className="bg-blue-200 text-blue-600 px-2 py-1 rounded-md text-xs md:text-sm">
-                                                Counter
-                                            </button>
-                                            <button className="bg-green-200 text-green-600 px-2 py-1 md:px-4 md:py-2 rounded-md text-xs md:text-sm">
-                                                Assign Bid
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                <h2 className="text-xl font-semibold text-gray-800 mb-4">Counter Info</h2>
+                <div className="max-h-60 overflow-y-auto space-y-4">
+                    <div className="flex justify-between items-center p-4 border rounded-md">
+                        <span className="text-gray-800 font-medium">
+                            Target Price {counterdata.target_price}
+                        </span>
+                        <span className="text-gray-800">
+                            Counter Price {counterdata.counters["counter_price"]}
+                        </span>
+                        <div className="space-x-2">
+                            <button className="bg-blue-500 text-white px-4 py-2 rounded-md text-sm">
+                                Call Vendor
+                            </button>
+                            <button
+                                className={`px-4 py-2 rounded-md text-sm ${
+                                    counterdata.counters["accepted"]
+                                    ? "bg-green-500 text-white"
+                                    : "bg-orange-500 text-white"
+                                }`}
+                            >
+                                {counterdata.counters["accepted"] ? "Accepted" : "Pending"}
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -64,10 +51,17 @@ const CounterTable = ({ datas }) => {
     const [isAssignedVendorsModalOpen, setAssignedVendorsModalOpen] = useState(false);
     const [isViewQuotesModalOpen, setViewQuotesModalOpen] = useState(false);
     const [selectedData, setSelectedData] = useState(null);
-    const [showModal, setShowModal] = useState(false);
+    // const [showModal, setShowModal] = useState(false);
 
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
+    const [showModal, setShowModal] = useState(false);
+    const [counterdata, setcounterdata] = useState(null);
+
+    const handleCounterInfoClick = (data) => {
+      setcounterdata(data);
+      setShowModal(true);
+    };
 
     const convertToTimeDifference = (updatedAt) => {
         const now = new Date();
@@ -143,30 +137,41 @@ const CounterTable = ({ datas }) => {
                         </div>
                         <div className="flex flex-col pt-1">
                             <span className="block font-medium ml-4">
-                                {data.loading_city} {data.loading_state}
+                                {data.loading_city} ({data.loading_state})
                             </span>
                             <span className="block text-xs text-gray-500 ml-4">
-                                ({data.loading_address}) {data.loading_pincode}
+                            {data.loading_address}   ( {data.loading_pincode})
                             </span>
                         </div>
                         <div className="flex flex-col pt-1">
                             <span className="block font-medium">
-                                {data.unloading_city} {data.unloading_state}
+                                {data.unloading_city} ({data.unloading_state})
                             </span>
                             <span className="block text-xs text-gray-500">
-                                ({data.unloading_address}) {data.unloading_pincode}
+                            {data.unloading_address} ({data.unloading_pincode}) 
                             </span>
                         </div>
                         <div className="flex flex-col pt-1">
-                            <span className="block">Vehicle Required - {data.quantity}</span>
+                            
+                            <span className="block">Vehicle Quantity - {data.quantity}</span>
                             <span className="block">
-                                {data.vehicle_type} - {data.vehicle_size}
+                               Vehicle Type-  {data.vehicle_type} 
                             </span>
-                            <span className="block">Equipments</span>
+                            <span className="block">
+                               Vehicle Size-  {data.vehicle_size} ({data.body_type})
+                            </span>
+                            <span className="block">
+                            Material type-  {data.material_type}
+                            </span>
+                            <span className="block">
+                            Material weight-  {data.material_weight}
+                            </span>
+                            {/* <span className="block">Equipments</span> */}
                             <a href="#" className="text-blue-600">
                                 Distance - {data.route_distance} Km
                             </a>
                         </div>
+                        
                         <div className="flex flex-col pt-1">
                             <div className="w-full flex items-center justify-end gap-3" >
                                 <IoMdMail className='text-2xl text-blue-600 cursor-pointer'/>
@@ -174,10 +179,11 @@ const CounterTable = ({ datas }) => {
                             </div>
                             <div className="text-lg font-semibold text-gray-700 mr-5"> {data.counters.counter_number}</div>
                             <div
-                                className="text-blue-600 underline text-sm cursor-pointer"
-                                onClick={() => setShowModal(true)}
+                                className="text-blue-600 text-sm cursor-pointer"
+                                onClick={() =>handleCounterInfoClick(data)}
                             >
-                                Counter Info(3)
+                                Counter Info (<span>{data.counters.counter_number.split(' ')[1]}</span>)
+
                             </div>
                         </div>
                     </div>
@@ -212,7 +218,11 @@ const CounterTable = ({ datas }) => {
                     onClose={() => setViewQuotesModalOpen(false)}
                 />
             )}
-            <QuotesModal showModal={showModal} setShowModal={setShowModal} />
+              <QuotesModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        counterdata={counterdata}
+      />
 
             {/* Pagination Controls */}
             <div className="flex justify-center mt-4">

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaArrowRightLong } from "react-icons/fa6";
 import { FiRefreshCw } from "react-icons/fi";
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const Header = ({ onSubmit }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -120,12 +121,14 @@ const Header = ({ onSubmit }) => {
             ))
           )}
         </select>
-        <button 
+       
+       <Link to="/home" ><button 
           className="px-2 py-2 bg-blue-600 h-[45px] text-white rounded-md"
           onClick={handleFormSubmit}
         >
-          GO
+          ADD 
         </button>
+        </Link>
         <button 
           className="border border-blue-600 bg-[#dbeafe] min-w-[45px] max-w-[45px] h-[45px] text-blue-600 flex justify-center items-center rounded-md"
           onClick={handleReset}

@@ -47,6 +47,11 @@ import Open from "../components/bid/open/Open";
 import Counter from "../components/bid/counter/Counter";
 import Cancelled from "../components/bid/cancelled/Cancelled";
 import ResultPage from "../components/bid/result/Result";
+import Branch from "../components/Branch/Branch";
+import { FaS } from "react-icons/fa6";
+import Fastag from "../components/Fastag/Fastag";
+import Sarathi from "../components/Sarathi/Sarathi";
+import Vahan from "../components/Vahan/Vahan";
 const Layout = () => {
   const user = useSelector((state) => state.login.user);
 
@@ -106,6 +111,15 @@ const AllRoutes = () => {
       <Route path="/layout" element={<BidLayout />} />
       <Route path="/result" element={<ResultPage />} />
       <Route path="/cancelled" element={<Cancelled />} />
+      
+      
+      <Route path="/branch" element={<Branch/>}/>
+      <Route path="/fastag" element={<Fastag/>}/>
+      <Route path="/sarathi" element={<Sarathi/>}/>
+      <Route path="/vahan" element={<Vahan/>}/>
+      
+     
+      
 
       <Route
         path="/login"

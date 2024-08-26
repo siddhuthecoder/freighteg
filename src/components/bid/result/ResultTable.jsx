@@ -10,8 +10,12 @@ import AssignedVendorsModal from "../repeats/AssignedVendorsModal";
 import { IoMdMail } from "react-icons/io";
 import { MdLocalPrintshop } from "react-icons/md";
 
-
-const QuotesModal = ({ showReponseModel, setshowReponseModel, allvendorResponse, target_price }) => {
+const QuotesModal = ({
+  showReponseModel,
+  setshowReponseModel,
+  allvendorResponse,
+  target_price,
+}) => {
   const [vendorNames, setVendorNames] = useState({});
 
   useEffect(() => {
@@ -20,17 +24,22 @@ const QuotesModal = ({ showReponseModel, setshowReponseModel, allvendorResponse,
         const names = {};
         for (const vendor of allvendorResponse) {
           try {
-            const response = await axios.get(`https://freighteg.in/freightapi/vendor/${vendor.vendor_id}`);
-            console.log(response)
+            const response = await axios.get(
+              `https://freighteg.in/freightapi/vendor/${vendor.vendor_id}`
+            );
+            console.log(response);
             names[vendor.vendor_id] = response.data.data.name; // Assuming the API returns a `vendor_name` field
           } catch (error) {
-            console.error(`Failed to fetch name for vendor ${vendor.vendor_id}:`, error);
+            console.error(
+              `Failed to fetch name for vendor ${vendor.vendor_id}:`,
+              error
+            );
           }
         }
         setVendorNames(names);
-        console.log(names)
+        console.log(names);
       };
-    
+
       fetchVendorNames();
     }
   }, [showReponseModel, allvendorResponse]);
@@ -39,46 +48,52 @@ const QuotesModal = ({ showReponseModel, setshowReponseModel, allvendorResponse,
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50 p-4">
-    <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 relative">
-      <button
-        className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-        onClick={() => setshowReponseModel(false)}
-      >
-        X
-      </button>
-      <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
-        Vendor Quotes
-      </h2>
-  
-      {/* Responsive table */}
-      <div className="overflow-x-auto">
-        <table className="min-w-full border">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="p-2 text-left font-semibold text-gray-800">Vendor Name</th>
-              <th className="p-2 text-left font-semibold text-gray-800">Vendor Price</th>
-              <th className="p-2 text-left font-semibold text-gray-800">Target Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            {allvendorResponse.map((vendor, index) => (
-              <tr key={index} className="border-t">
-                <td className="p-2 text-gray-800">{vendorNames[vendor.vendor_id] || "Loading..."}</td>
-                <td className="p-2 text-gray-800">{vendor.bidding_price}</td>
-                <td className="p-2 text-gray-800">{target_price}</td>
+      <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 relative">
+        <button
+          className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+          onClick={() => setshowReponseModel(false)}
+        >
+          X
+        </button>
+        <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
+          Vendor Quotes
+        </h2>
+
+        {/* Responsive table */}
+        <div className="overflow-x-auto">
+          <table className="min-w-full border">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="p-2 text-left font-semibold text-gray-800">
+                  Vendor Name
+                </th>
+                <th className="p-2 text-left font-semibold text-gray-800">
+                  Vendor Price
+                </th>
+                <th className="p-2 text-left font-semibold text-gray-800">
+                  Target Price
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {allvendorResponse.map((vendor, index) => (
+                <tr key={index} className="border-t">
+                  <td className="p-2 text-gray-800">
+                    {vendorNames[vendor.vendor_id] || "Loading..."}
+                  </td>
+                  <td className="p-2 text-gray-800">{vendor.bidding_price}</td>
+                  <td className="p-2 text-gray-800">{target_price}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-  </div>
-  
   );
 };
 
 // export default QuotesModal;
-
 
 const VehicleInfoModal = ({
   showVehicleModal,
@@ -89,50 +104,52 @@ const VehicleInfoModal = ({
   //  alert(JSON.stringify(vechileDetails) )
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50 p-4">
-  <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 relative">
-    <button
-      className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-      onClick={() => setShowVehicleModal(false)}
-    >
-      X
-    </button>
-    <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
-      Vehicle Details
-    </h2>
+      <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 relative">
+        <button
+          className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+          onClick={() => setShowVehicleModal(false)}
+        >
+          X
+        </button>
+        <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
+          Vehicle Details
+        </h2>
 
-    <div className="overflow-x-auto">
-      <table className="min-w-full border">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="p-2 text-left font-semibold text-gray-800">Vehicle Number</th>
-            <th className="p-2 text-left font-semibold text-gray-800">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {vechileDetails?.map((vehicle, index) => (
-            <tr key={index} className="border-t">
-              <td className="p-2 text-gray-800">{vehicle.vehicleNo}</td>
-              <td className="p-2 text-gray-800">
-                <div className="flex space-x-2">
-                  <button className="bg-blue-500 text-white px-4 py-2 rounded-md text-sm">
-                    Saarthi
-                  </button>
-                  <button className="bg-green-500 text-white px-4 py-2 rounded-md text-sm">
-                    Fastag Tracking
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+        <div className="overflow-x-auto">
+          <table className="min-w-full border">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="p-2 text-left font-semibold text-gray-800">
+                  Vehicle Number
+                </th>
+                <th className="p-2 text-left font-semibold text-gray-800">
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {vechileDetails?.map((vehicle, index) => (
+                <tr key={index} className="border-t">
+                  <td className="p-2 text-gray-800">{vehicle.vehicleNo}</td>
+                  <td className="p-2 text-gray-800">
+                    <div className="flex space-x-2">
+                      <button className="bg-blue-500 text-white px-4 py-2 rounded-md text-sm">
+                        Saarthi
+                      </button>
+                      <button className="bg-green-500 text-white px-4 py-2 rounded-md text-sm">
+                        Fastag Tracking
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-
   );
 };
-
 
 const VendorDetailsModal = ({
   showVendorDetailsModal,
@@ -172,27 +189,54 @@ const VendorDetailsModal = ({
 
         <div className="overflow-y-auto max-h-96 space-y-2">
           <div className="flex justify-between items-center p-2 border-b">
-            <span className="text-blue-600 font-medium">Name</span>
-            <span className="text-gray-800">{data.name}</span>
+            <span className="text-blue-600 font-medium">Vendor Name</span>
+            <span className="text-gray-800">{data.name} </span>
           </div>
           <div className="flex justify-between items-center p-2 border-b">
-            <span className="text-blue-600 font-medium">Role</span>
-            <span className="text-gray-800">{data.role}</span>
-          </div>
-          <div className="flex justify-between items-center p-2 border-b">
-            <span className="text-blue-600 font-medium">Address</span>
-            <span className="text-gray-800">{data.address}</span>
+            <span className="text-blue-600 font-medium">Owner Name</span>
+            <span className="text-gray-800">{data.owner_name} </span>
           </div>
           <div className="flex justify-between items-center p-2 border-b">
             <span className="text-blue-600 font-medium">Phone</span>
             <span className="text-gray-800">{data.phone}</span>
           </div>
           <div className="flex justify-between items-center p-2 border-b">
+            <span className="text-blue-600 font-medium">Supervisor Name</span>
+            <span className="text-gray-800">{data.supervisor_name} </span>
+          </div>
+          <div className="flex justify-between items-center p-2 border-b">
+            <span className="text-blue-600 font-medium">Supervisor Number</span>
+            <span className="text-gray-800">{data.supervisor_phone1} </span>
+          </div>
+          
+          
+          {/* <div className="flex justify-between items-center p-2 border-b">
+            <span className="text-blue-600 font-medium">Role</span>
+            <span className="text-gray-800">{data.role}</span>
+          </div> */}
+          <div className="flex justify-between items-center p-2 border-b">
+            <span className="text-blue-600 font-medium">Address</span>
+            <span className="text-gray-800">{data.address}</span>
+          </div>
+          <div className="flex justify-between items-center p-2 border-b">
+            <span className="text-blue-600 font-medium">PAN Number</span>
+            <span className="text-gray-800">{data.pan}</span>
+          </div>
+          <div className="flex justify-between items-center p-2 border-b">
+            <span className="text-blue-600 font-medium">GST Number</span>
+            <span className="text-gray-800">{data.gst}</span>
+          </div>
+          <div className="flex justify-between items-center p-2 border-b">
+            <span className="text-blue-600 font-medium">Code</span>
+            <span className="text-gray-800">{data.code}</span>
+          </div>
+        
+          {/* <div className="flex justify-between items-center p-2 border-b">
             <span className="text-blue-600 font-medium">Vehicle Types</span>
             <span className="text-gray-800">
               {renderList(data.vehicle_type)}
             </span>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
@@ -213,7 +257,7 @@ const ResultTable = ({ datas }) => {
   const [selectedVehicleDetails, setSelectedVehicleDetails] = useState([]);
   const [allvendorResponse, setallvendorResponse] = useState(null);
   const [showReponseModel, setshowReponseModel] = useState(false);
-  const [targetPrice, settargetPrice] = useState(null)
+  const [targetPrice, settargetPrice] = useState(null);
   const handleViewVehiclesClick = (vehicleDetails) => {
     setSelectedVehicleDetails(vehicleDetails);
     setShowVehicleModal(true);
@@ -231,13 +275,12 @@ const ResultTable = ({ datas }) => {
     }
   };
 
-  const handleResponseClick = async (allVendorBids,target_price) => {
-    settargetPrice(target_price)
-    setshowReponseModel(true)
-    console.log(allVendorBids)
-    
-    setallvendorResponse(allVendorBids)
-    
+  const handleResponseClick = async (allVendorBids, target_price) => {
+    settargetPrice(target_price);
+    setshowReponseModel(true);
+    console.log(allVendorBids);
+
+    setallvendorResponse(allVendorBids);
   };
 
   const convertToTimeDifference = (updatedAt) => {
@@ -271,8 +314,7 @@ const ResultTable = ({ datas }) => {
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
-};
-
+  };
 
   // const handleAssignedVendorsClick = (data) => {
   //   setSelectedData(data);
@@ -289,7 +331,7 @@ const ResultTable = ({ datas }) => {
       <div className="text-center text-gray-500 py-4">No data available</div>
     );
   }
-  console.log(datas)
+  console.log(datas);
 
   return (
     <>
@@ -301,10 +343,12 @@ const ResultTable = ({ datas }) => {
               <span className="block text-blue-600 font-semibold">
                 #{data.bidNo}
               </span>
-              <span className="block text-red-600">
+              {/* <span className="block text-red-600">
                 {convertToTimeDifference(data.updatedAt)}{" "}
-              </span>
-              <div className="block text-grey-500 mt-12">Remarks</div>
+              </span> */}
+              <div className="block text-grey-500 mt-12">
+                Remarks : {data.bid_remarks}
+              </div>
             </div>
 
             <div className="flex flex-col  pt-1">
@@ -316,32 +360,34 @@ const ResultTable = ({ datas }) => {
               </span>
             </div>
 
-            <div className="flex flex-col  pt-1">
+            <div className="flex flex-col pt-1">
               <span className="block font-medium ml-4">
-                {data.loading_city} {data.loading_state}{" "}
+                {data.loading_city} ({data.loading_state})
               </span>
               <span className="block text-xs text-gray-500 ml-4">
-                {" "}
-                ( {data.loading_address}) {data.loading_pincode}
+                {data.loading_address} ( {data.loading_pincode})
               </span>
             </div>
-
-            <div className="flex flex-col  pt-1">
+            <div className="flex flex-col pt-1">
               <span className="block font-medium">
-                {data.unloading_city} {data.unloading_state}
+                {data.unloading_city} ({data.unloading_state})
               </span>
               <span className="block text-xs text-gray-500">
-                {" "}
-                ( {data.unloading_address}) {data.unloading_pincode}
+                {data.unloading_address} ({data.unloading_pincode})
               </span>
             </div>
 
             <div className="flex flex-col  pt-1 ">
-              <span className="block">Vehicle Required - {data.quantity}</span>
+              <span className="block">Vehicle Quantity - {data.quantity}</span>
+              <span className="block">Vehicle Type- {data.vehicle_type}</span>
               <span className="block">
-                {data.vehicle_type} - {data.vehicle_size}
+                Vehicle Size- {data.vehicle_size} ({data.body_type})
               </span>
-              <span className="block">Equipments</span>
+              <span className="block">Material type- {data.material_type}</span>
+              <span className="block">
+                Material weight- {data.material_weight}
+              </span>
+              {/* <span className="block">Equipments</span> */}
               <a href="#" className="text-blue-600">
                 Distance - {data.route_distance} Km
               </a>
@@ -378,22 +424,26 @@ const ResultTable = ({ datas }) => {
           <div className="flex justify-between items-center mt-2 border-t pt-2 text-sm text-gray-600">
             <span className="block text-xs text-gray-500">
               Target Price - {data.target_price}Rs
-              <span className=" gap-8 text-grey-600 text-sm font-semibold ml-5 px-3 py-1 rounded-lg">
-                {data.assignedToUser.name}({data.assignedToUser.role}, +91
-                {data.createdByUser.phone})
+              <span className="gap-8 text-grey-600 text-sm font-semibold ml-5 px-3 py-1 rounded-lg">
+                Assigned Staff ({data.assignedToUser?.name}, +91
+                {data.createdByUser?.phone})
               </span>
             </span>
             <div
               className="text-blue-600 cursor-pointer"
-              onClick={() =>{ handleViewVehiclesClick(data.vehicleDetails)}}
+              onClick={() => {
+                handleViewVehiclesClick(data.vehicleDetails);
+              }}
             >
-              Vehicle Info
+              Vehicle Info ({data.vehicleDetails.length})
             </div>
             <div
               className="text-blue-600 cursor-pointer"
-              onClick={() => handleResponseClick(data.allVendorBids,data.target_price)}
+              onClick={() =>
+                handleResponseClick(data.allVendorBids, data.target_price)
+              }
             >
-              Responses
+              Responses ({data.vehicleDetails.length})
             </div>
             <div className="mr-15px">
               Created By -{" "}
