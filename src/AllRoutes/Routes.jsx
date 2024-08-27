@@ -55,6 +55,8 @@ import FastagId from "../components/VechileInfo/FastagId";
 import Sarathi from "../components/VechileInfo/Sarathi";
 import SarathiId from "../components/VechileInfo/SarathiId";
 import Vahan from "../components/VechileInfo//Vahan";
+import Profile from "../components/Profile/Profile";
+import Wallet from "../components/Wallet/Wallet";
 const Layout = () => {
   const user = useSelector((state) => state.login.user);
 
@@ -121,7 +123,8 @@ const AllRoutes = () => {
       <Route path="/vahan" element={<Vahan/>}/>
       <Route path="/fastag/:vehicleNumber" element={<FastagId />} />
       <Route path="/sarathi/:vehicleNumber/:dob" element={<SarathiId />} />
-     
+      <Route path='/profile' element={<Profile/>}/>
+      <Route path='/wallet' element={<Wallet/>}/>
       
 
       <Route

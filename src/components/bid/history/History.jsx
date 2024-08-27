@@ -34,6 +34,7 @@ const HistoryPage = () => {
 
   // Function to fetch bid details using bid_id
   const fetchBidDetails = async (bidId) => {
+   
     const url = `https://freighteg.in/freightapi/bids/${bidId}`;
     try {
       const response = await axios.get(url);

@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-// import { XMarkIcon, EyeIcon, CheckIcon } from '@heroicons/react/24/outline'; // Import icons from heroicons
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { FaCheck } from "react-icons/fa";
 
-
-const ViewQuotesModal = ({ data, onClose }) => {
+const ViewQuotesModal = ({ data, onClose, response }) => {
     const [vendors, setVendors] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -43,32 +41,34 @@ const ViewQuotesModal = ({ data, onClose }) => {
                 <div className="bg-blue-700 text-white p-4 rounded-t-lg flex items-center justify-between">
                     <h2 className="text-lg">#{data.bidNo}</h2>
                     <button onClick={onClose}>
-                        {/* <XMarkIcon className="h-6 w-6" /> */}
                         <div className="text-2xl">X</div>
                     </button>
                 </div>
 
                 <div className="border-b p-4">
                     <div className="flex justify-between text-gray-600">
-                        <div>
-                            <p className="text-sm font-medium">ID</p>
-                            <p className="text-sm">{data.id}</p>
-                        </div>
+                        {/* ...other details... */}
+                    </div>
+                </div>
+
+                <div className="p-4">
+                <div className="border-b p-4">
+                    <div className="flex justify-between text-gray-600">
                         <div>
                             <p className="text-sm font-medium">Date</p>
-                            <p className="text-sm">{new Date(data.date).toLocaleDateString()} {new Date(data.date).toLocaleTimeString()}</p>
+                            <p className="text-sm">{data.createdAt}</p>
                         </div>
                         <div>
                             <p className="text-sm font-medium">Loading</p>
-                            <p className="text-sm">● {data.loading_city}, {data.loading_state}</p>
+                            <p className="text-sm">●  {data.loading_city} ({data.loading_state})</p>
                         </div>
                         <div>
                             <p className="text-sm font-medium">Unloading</p>
-                            <p className="text-sm">● {data.unloading_city}, {data.unloading_state}</p>
+                            <p className="text-sm">●{data.unloading_city} ({data.unloading_state})</p>
                         </div>
                         <div>
                             <p className="text-sm font-medium">Details</p>
-                            <p className="text-sm">Vehicle Required: {data.vehicle_required}<br/>Vehicle Type: {data.vehicle_type}<br/>Qty/Vehicle: {data.quantity_per_vehicle}</p>
+                            <p className="text-sm">Vehicle Quantity - {data.quantity}<br/>Vehicle Type: {data.vehicle_type} <br/>  Vehicle Size-  {data.vehicle_size} ({data.body_type}) <br/>  Material type-  {data.material_type} ({data.material_weight}Mt) <br/> Distance - {data.route_distance} Km</p>
                         </div>
                         <div>
                             <p className="text-sm font-medium">Target Price</p>
@@ -76,14 +76,14 @@ const ViewQuotesModal = ({ data, onClose }) => {
                         </div>
                     </div>
                 </div>
-
-                <div className="p-4">
+                
                     <h3 className="text-gray-800 font-medium mb-2">Vendor Information</h3>
                     <div className="space-y-2">
                         <div className="flex justify-between text-gray-600">
                             <p className="text-sm font-medium">Vendor Name</p>
                             <p className="text-sm font-medium">Viewed</p>
                             <p className="text-sm font-medium">Responded</p>
+                            <p className="text-sm font-medium">Bid Price</p>
                             <div className="w-40"></div> {/* Placeholder for buttons alignment */}
                         </div>
                         {isLoading ? (
@@ -91,18 +91,21 @@ const ViewQuotesModal = ({ data, onClose }) => {
                         ) : error ? (
                             <p className="text-red-500">{error}</p>
                         ) : (
-                            [...new Set([...data.viewedBy, ...data.responded_by])].map((id, index) => (<>
+                            [...new Set([...data.viewedBy, ...data.responded_by])].map((id, index) => (
                                 <div key={index} className="flex justify-between mb-5 mt-5 items-center text-gray-600 p-2 border-b">
                                     <p className="font-medium">{vendors[id]?.name || 'Vendor name unavailable'}</p>
                                     <p className="text-sm">
                                         <span className={data.viewedBy.includes(id) ? "text-green-500" : "text-red-500"}>
-                                            {data.viewedBy.includes(id) ? <MdOutlineRemoveRedEye className="h-5 w-5 text-green-500" /> : <MdOutlineRemoveRedEye className="h-5 w-5 text-red-500 line-through" />}
+                                            <MdOutlineRemoveRedEye className={data.viewedBy.includes(id) ? "h-5 w-5 text-green-500" : "h-5 w-5 text-red-500 line-through"} />
                                         </span>
                                     </p>
                                     <p className="text-sm">
                                         <span className={data.responded_by.includes(id) ? "text-green-500" : "text-red-500"}>
-                                            {data.responded_by.includes(id) ? <FaCheck className="h-5 w-5 text-green-500" /> : <FaCheck className="h-5 w-5 text-red-500 line-through" />}
+                                            <FaCheck className={data.responded_by.includes(id) ? "h-5 w-5 text-green-500" : "h-5 w-5 text-red-500 line-through"} />
                                         </span>
+                                    </p>
+                                    <p className="text-sm">
+                                        {response[0]?.[id] || 'N/A'}
                                     </p>
                                     <div className="flex space-x-2">
                                         <button className="bg-blue-500 text-white px-4 py-1 rounded">
@@ -113,8 +116,6 @@ const ViewQuotesModal = ({ data, onClose }) => {
                                         </button>
                                     </div>
                                 </div>
-                                
-                                </>
                             ))
                         )}
                     </div>

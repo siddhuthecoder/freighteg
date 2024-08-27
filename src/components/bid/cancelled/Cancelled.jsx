@@ -235,16 +235,22 @@ const Cancelled = () => {
     ? `https://freighteg.in/freightapi/cancelledBids?branch_id=${branchId}`:
     `https://freighteg.in/freightapi/cancelledBids?company_id=${user?.id}`
     try {
+      // debugger;
+      console.log({url})
+      // alert(url)
       const response = await axios.get(url);
       const bidsData = response.data.data;
-      console.log(bidsData)
-
+      // console.log({bidsData})
+      return bidsData;
+    // alert(bidsData)
       // Extracting bid IDs and their details from the nested structure
-      const bidEntries = Object.entries(bidsData);
-      return bidEntries.map(([bidId, detailsArray]) => ({
-        bidId,
-        details: detailsArray[0], // Assuming you want the first item from the array of details
-      }));
+      // const bidEntries = Object.entries(bidsData);
+      // console.log({bidEntries})
+      // return bidEntries.map(([bid_id, detailsArray]) => ({
+      //   bid_id,
+      //   // details: detailsArray[0], // Assuming you want the first item from the array of details
+      // }));
+      
     } catch (error) {
       console.error('Error fetching bid IDs and details:', error);
       setError('Failed to fetch bid IDs and details');
@@ -255,11 +261,14 @@ const Cancelled = () => {
 
   // Function to fetch bid details using bid_id
   const fetchBidDetails = async (bidId) => {
+    // alert(bidId)
+    console.log(bidId)
     const url = `https://freighteg.in/freightapi/bids/${bidId}`;
     try {
       const response = await axios.get(url);
       return response.data;
     } catch (error) {
+      // alert("Here is the error")
       console.error(`Error fetching details for bid_id ${bidId}:`, error);
       setError(`Failed to fetch details for bid_id ${bidId}`);
       setLoading(false);
@@ -283,9 +292,13 @@ const Cancelled = () => {
   const getAllBidDetails = async () => {
     const bids = await fetchBidIdsAndDetails();
     if (bids && bids.length > 0) {
+      
+      // alert({bids})
+      console.log({bids})
       const allBidDetails = [];
       for (const bid of bids) {
-        const bidDetail = await fetchBidDetails(bid.bidId);
+        // console.log(bid)
+        const bidDetail = await fetchBidDetails(bid.bid_id);
         
         if (bidDetail) {
           const createdByUser = await fetchFreightUserData(bidDetail.created_by);
@@ -302,7 +315,7 @@ const Cancelled = () => {
       }
       setBidDetails(allBidDetails);
     } else {
-      console.log('No bids found.');
+      // console.log('No bids found.');
       setError('No bids found.');
     }
     setLoading(false);

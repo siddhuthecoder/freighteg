@@ -1,0 +1,45 @@
+# Get wallet info by company id
+GET https://freighteg.in/freightapi/freightWalletBalance/665580f353ccced94082681b
+
+###
+
+# Fetch FASTAG paid by company id
+POST https://freighteg.in/freightapi/ULLIPtracking
+Content-Type: application/json
+
+{
+  "company_id": "665580f353ccced94082681b",
+  "tracking_For": "FASTAG",
+  "parameters": {
+    "vehiclenumber": "HR55AQ5994"
+  }
+}
+
+###
+
+# Fetch SARATHI by company id
+POST https://freighteg.in/freightapi/ULLIPtracking
+Content-Type: application/json
+
+{
+  "company_id": "12345",
+  "tracking_For": "SARATHI",
+  "parameters": {
+    "dlnumber": "DL123456789",
+    "dob": "1990-01-01"
+  }
+}
+
+###
+
+# Fetch VAHAN by company id
+POST https://freighteg.in/freightapi/ULLIPtracking
+Content-Type: application/json
+
+{
+  "company_id": "12345",
+  "tracking_For": "VAHAN",
+  "parameters": {
+    "vehiclenumber": "AB1234CD"
+  }
+}

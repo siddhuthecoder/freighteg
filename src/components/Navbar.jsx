@@ -104,6 +104,12 @@ const Navbar = () => {
                   >
                     Sarathi
                   </NavLink>
+                  <NavLink
+                    to="/wallet"
+                    isActive={() => location.pathname === "/wallet"}
+                  >
+                    Wallet
+                  </NavLink>
                 </div>
               </div>
             </div>
@@ -144,12 +150,6 @@ const Navbar = () => {
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition duration-150 ease-in-out"
                     >
                       Profile
-                    </Link>
-                    <Link
-                      to="/contact"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition duration-150 ease-in-out"
-                    >
-                      Contact Us
                     </Link>
                     <button
                       onClick={handleLogout}

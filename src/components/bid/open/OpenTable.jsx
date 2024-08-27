@@ -11,9 +11,41 @@ const OpenTable = ({ datas }) => {
     const [isAssignedVendorsModalOpen, setAssignedVendorsModalOpen] = useState(false);
     const [isViewQuotesModalOpen, setViewQuotesModalOpen] = useState(false);
     const [selectedData, setSelectedData] = useState(null);
+    const [minimum, setMinimum] = useState(null);
+    const [response, setresponse] = useState(null)
     const user = useSelector((state) => state.login.user);
     const itemsPerPage = 5;
     const totalPages = Math.ceil(datas.length / itemsPerPage);
+    useEffect(() => {
+        if (datas && datas.length > 0) {
+            // Calculate the minimum values
+            const minValues = datas.map(data => {
+                if (data.bidding_response && data.bidding_response.length > 0) {
+                    return Math.min(...data.bidding_response.map(response => Math.min(...response.bidding_price)));
+                }
+                return null;
+            }).filter(value => value !== null);
+    
+            if (minValues.length > 0) {
+                setMinimum(Math.min(...minValues)); // Set the minimum value
+            }
+    
+            // Create the responses object
+            const responsess = datas.map(data => {
+                if (data.bidding_response && data.bidding_response.length > 0) {
+                    return data.bidding_response.reduce((acc, response, index) => {
+                        acc[response.vendor_id] = response.bidding_price[index];
+                        return acc;
+                    }, {});
+                }
+                return {};
+            });
+            setresponse(responsess)
+            // console.log('Responses:', response); // For debugging purposes
+            // Now you can use the `responses` variable as needed
+        }
+    }, [datas]);
+    
 
     const calculateTimeLeft = (expiryDate) => {
         const now = new Date();
@@ -77,7 +109,7 @@ const OpenTable = ({ datas }) => {
     if (!datas || datas.length === 0) {
         return <div className="text-center text-gray-500 py-4">No data available</div>;
     }
-    console.log(datas)
+   
 
     return (
         <>
@@ -127,11 +159,11 @@ const OpenTable = ({ datas }) => {
                                    Vehicle Size-  {data.vehicle_size} ({data.body_type})
                                 </span>
                                 <span className="block">
-                                Material type-  {data.material_type}
+                                Material type-  {data.material_type} ({data.material_weight}Mt)
                                 </span>
-                                <span className="block">
+                                {/* <span className="block">
                                 Material weight-  {data.material_weight}
-                                </span>
+                                </span> */}
                                 <a href="#" className="text-blue-600">
                                     Distance - {data.route_distance} Km
                                 </a>
@@ -141,7 +173,7 @@ const OpenTable = ({ datas }) => {
                                     <IoMdMail className='text-2xl text-blue-600 cursor-pointer' />
                                     <MdLocalPrintshop className='text-2xl text-blue-600 cursor-pointer' onClick={() => handlePrintClick(data)} />
                                 </div>
-                                <div className="text-lg font-semibold text-gray-700 mr-5">Rs 85,000</div>
+                                <div className="text-lg font-semibold text-gray-700 mr-5">Rs {minimum}</div>
                                 <div
                                     className="text-blue-600 underline text-sm cursor-pointer"
                                     onClick={() => handleViewQuotesClick(data)}
@@ -200,6 +232,7 @@ const OpenTable = ({ datas }) => {
             {isViewQuotesModalOpen && selectedData && (
                 <ViewQuotesModal
                     data={selectedData}
+                    response={response}
                     onClose={() => setViewQuotesModalOpen(false)}
                 />
             )}

@@ -20,7 +20,7 @@ const Open = () => {
     const branchId = localStorage.getItem('branch_id');
     const url = branchId && branchId !== 'ALL'
       ? `https://freighteg.in/freightapi/liveBids?branch_id=${branchId}`
-      : `https://freighteg.in/freightapi/liveBids?company_id=665580f353ccced94082681b`;
+      : `https://freighteg.in/freightapi/liveBids?company_id=${user?.id}`;
 
     try {
       const response = await axios.get(url);
@@ -85,6 +85,8 @@ const Open = () => {
             createdByUser,
             assignedToUser,
             viewedBy: pageUsersData || [],
+            bidding_response:bid.bidding_response
+            
           };
           allBidDetails.push(mergedData);
         }
