@@ -19,7 +19,7 @@ const Tabs = ({ onFilterClick, onDownloadClick,tabname,length }) => {
     console.log(tabname)
 
     return (
-        <div className="w-[100%] min-w-[1200px] py-1 bg-white flex items-center overflow-x-auto justify-between">
+        <div className="=w-full flex-wrap gap-3 py-1 bg-white flex items-center overflow-x-auto justify-between">
             <div className="mx-2 flex items-center gap-3">
                 {tabs.map((tab, index) => { 
                     const isActive = path.includes(tab.path);
@@ -46,14 +46,14 @@ const Tabs = ({ onFilterClick, onDownloadClick,tabname,length }) => {
                     </button>
                 </div> */}
                 <div className="flex items-center mx-2">
-                    <button 
+                    {/* <button 
                         onClick={onFilterClick} 
                         className="w-12 h-12 flex items-center justify-center border rounded-tl-md rounded-bl-md border-[#0662C6] hover:bg-[#0662C6] hover:text-white text-[#0662C6]">
                         <FaFilter size={20} />
-                    </button>
+                    </button> */}
                     <button 
                         onClick={onDownloadClick} 
-                        className="w-12 h-12 flex items-center justify-center border rounded-tr-md rounded-br-md border-[#0662C6] hover:bg-[#0662C6] hover:text-white text-[#0662C6]">
+                        className="w-12 h-12 flex items-center justify-center border rounded-md border-[#0662C6] hover:bg-[#0662C6] hover:text-white text-[#0662C6]">
                         <FaDownload size={20} />
                     </button>
                 </div>

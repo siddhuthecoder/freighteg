@@ -121,17 +121,31 @@ const Open = () => {
   }, [dataHandling, bidDetails]);
 
   const handleDownloadClick = () => {
-    // Convert filtered data to a plain text string (JSON format for readability)
-    const textData = JSON.stringify(filteredData, null, 2);
+    // Create a new workbook
+    const workbook = XLSX.utils.book_new();
   
-    // Create a Blob object with the text data
-    const blob = new Blob([textData], { type: "text/plain;charset=utf-8" });
+    // Convert the filtered data to a worksheet
+    const worksheet = XLSX.utils.json_to_sheet(filteredData);
+  
+    // Append the worksheet to the workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, "BidsData");
+  
+    // Generate a binary string of the workbook
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+  
+    // Create a Blob from the binary string
+    const blob = new Blob([excelBuffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
+    });
   
     // Create a link element
     const link = document.createElement("a");
   
     // Set the download attribute with the desired file name
-    link.download = "BidsData.txt";
+    link.download = "BidsData.xlsx";
   
     // Create a URL for the Blob and set it as the href of the link
     link.href = window.URL.createObjectURL(blob);
@@ -145,7 +159,6 @@ const Open = () => {
     // Remove the link from the document
     document.body.removeChild(link);
   };
-  
 
 
   return (

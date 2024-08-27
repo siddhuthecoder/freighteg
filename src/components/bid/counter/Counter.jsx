@@ -105,7 +105,7 @@ const BidComponent = () => {
     const { searchTerm, selectedOption, startDate, endDate } = dataHandling;
 
     const filtered = bidDetails.filter(item => {
-      const matchesSearchTerm = searchTerm ? item._id.includes(searchTerm) : true;
+      const matchesSearchTerm = searchTerm ? item.bidNo.includes(searchTerm) : true;
       const matchesOption = selectedOption ? item.vehicle_type === selectedOption : true;
       const matchesStartDate = startDate ? new Date(item.loading_date) >= new Date(startDate) : true;
       const matchesEndDate = endDate ? new Date(item.loading_date) <= new Date(endDate) : true;
@@ -122,17 +122,31 @@ const BidComponent = () => {
   };
 
   const handleDownloadClick = () => {
-    // Convert filtered data to a plain text string (JSON format for readability)
-    const textData = JSON.stringify(filteredData, null, 2);
+    // Create a new workbook
+    const workbook = XLSX.utils.book_new();
   
-    // Create a Blob object with the text data
-    const blob = new Blob([textData], { type: "text/plain;charset=utf-8" });
+    // Convert the filtered data to a worksheet
+    const worksheet = XLSX.utils.json_to_sheet(filteredData);
+  
+    // Append the worksheet to the workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, "BidsData");
+  
+    // Generate a binary string of the workbook
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+  
+    // Create a Blob from the binary string
+    const blob = new Blob([excelBuffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
+    });
   
     // Create a link element
     const link = document.createElement("a");
   
     // Set the download attribute with the desired file name
-    link.download = "BidsData.txt";
+    link.download = "BidsData.xlsx";
   
     // Create a URL for the Blob and set it as the href of the link
     link.href = window.URL.createObjectURL(blob);
