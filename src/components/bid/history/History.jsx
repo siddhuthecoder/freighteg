@@ -17,7 +17,10 @@ const HistoryPage = () => {
 
   // Function to fetch bid result history
   const fetchBidResultHistory = async () => {
-    const url = `https://freighteg.in/freightapi/getBidResultHistory?company_id=${user?.id}`;
+    // const url = `https://freighteg.in/freightapi/getBidResultHistory?company_id=${user?.id}`;
+    const url = branchId && branchId !== 'ALL'
+    ? `https://freighteg.in/freightapi/getBidResults?branch_id=${branchId}`
+    : `https://freighteg.in/freightapi/getBidResults?company_id=${user?.id}`;
     try {
       const response = await axios.get(url);
       return response.data.data;

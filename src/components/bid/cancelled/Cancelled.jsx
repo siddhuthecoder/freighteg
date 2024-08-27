@@ -19,10 +19,11 @@ const Cancelled = () => {
   const user = useSelector((state) => state.login.user);
 
   const fetchBidIdsAndDetails = async () => {
-    const url = `https://freighteg.in/freightapi/counters?company_id=${user.id}`;
+    const url = `https://freighteg.in/freightapi/cancelledBids?company_id=${user?.id}`;
     try {
       const response = await axios.get(url);
       const bidsData = response.data.data;
+      console.log(response.data.data)
 
       const bidEntries = Object.entries(bidsData);
       return bidEntries.map(([bidId, detailsArray]) => ({
