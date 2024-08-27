@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/Navbar';
 import axios from 'axios';
+import BranchModal from './BranchModal';
+import VendorModal from './VendorModal';
+import StaffModal from './StaffModal';
 
 const Branch = () => {
+ 
   const [branches, setBranches] = useState([]);
   const [name, setName] = useState('');
   const [contactPerson, setContactPerson] = useState('');
@@ -125,186 +129,102 @@ const Branch = () => {
     await fetchBranchDetails(branchId);
     setIsStaffModalOpen(true);
   };
-
-  console.log(branches[0]);
   if(true){
     return (
       <>
-         <Navbar />
+      <Navbar/>
       <div>Branch</div>
       </>
     )
   }
   return (
     <>
-   
+      <Navbar />
       <div className="container mx-auto p-4">
-        <h1 className="text-2xl font-bold mb-4">Branches</h1>
-        {message && (
-          <div
-            className={`mb-4 p-2 text-center rounded ${
-              isError ? 'bg-red-500 text-white' : 'bg-green-500 text-white'
-            }`}
-          >
-            {message}
-          </div>
-        )}
+        <h1 className="text-2xl font-bold mb-4">Branch Management</h1>
         <button
           onClick={openModalForCreate}
-          className="bg-blue-500 text-white px-4 py-2 mb-4"
+          className="bg-green-500 text-white px-4 py-2 mb-4"
         >
           Create Branch
         </button>
+        {branches.length > 0 ? (
+          <table className="min-w-full bg-white border border-gray-300">
+            <thead>
+              <tr>
+                <th className="border px-4 py-2">Branch Name</th>
+                <th className="border px-4 py-2">Contact Person</th>
+                <th className="border px-4 py-2">Phone</th>
+                <th className="border px-4 py-2">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {branches.map((branch) => (
+                <tr key={branch._id}>
+                  <td className="border px-4 py-2">{branch.name}</td>
+                  <td className="border px-4 py-2">{branch.contact_person_name}</td>
+                  <td className="border px-4 py-2">{branch.phone}</td>
+                  <td className="border px-4 py-2">
+                    <button
+                      onClick={() => handleEditClick(branch)}
+                      className="bg-blue-500 text-white px-2 py-1 mr-2"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleVendorClick(branch._id)}
+                      className="bg-yellow-500 text-white px-2 py-1 mr-2"
+                    >
+                      View Vendors
+                    </button>
+                    <button
+                      onClick={() => handleStaffClick(branch._id)}
+                      className="bg-purple-500 text-white px-2 py-1"
+                    >
+                      View Staff
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>No branches available.</p>
+        )}
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {branches?.map((branch) => (
-            
-            <div key={branch._id} className="border p-4 rounded shadow">
-              <h2 className="font-bold">{branch.name}</h2>
-              <p>Contact: {branch.contact_person_name}</p>
-              <p>Phone: {branch.phone}</p>
-              <button
-                onClick={() => handleEditClick(branch)}
-                className="bg-green-500 text-white px-4 py-2 mt-2"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => handleVendorClick(branch._id)}
-                className="bg-yellow-500 text-white px-4 py-2 mt-2"
-              >
-                Vendors 
-              </button>
-              <button
-                onClick={() => handleStaffClick(branch._id)}
-                className="bg-purple-500 text-white px-4 py-2 mt-2"
-              >
-                Staff
-              </button>
-            </div>
-          ))}
-        </div>
+        {message && (
+          <p className={`mt-4 ${isError ? 'text-red-500' : 'text-green-500'}`}>{message}</p>
+        )}
+
+        <BranchModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          name={name}
+          contactPerson={contactPerson}
+          phone={phone}
+          password={password}
+          newPassword={newPassword}
+          onNameChange={(e) => setName(e.target.value)}
+          onContactPersonChange={(e) => setContactPerson(e.target.value)}
+          onPhoneChange={(e) => setPhone(e.target.value)}
+          onPasswordChange={(e) => setPassword(e.target.value)}
+          onNewPasswordChange={(e) => setNewPassword(e.target.value)}
+          onSubmit={editingBranchId ? handleEditBranch : handleCreateBranch}
+          isEditing={!!editingBranchId}
+        />
+
+        <VendorModal
+          isOpen={isVendorModalOpen}
+          onClose={() => setIsVendorModalOpen(false)}
+          vendors={vendors}
+        />
+
+        <StaffModal
+          isOpen={isStaffModalOpen}
+          onClose={() => setIsStaffModalOpen(false)}
+          staff={staff}
+        />
       </div>
-
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h2 className="text-xl font-bold mb-4">
-              {editingBranchId ? 'Edit Branch' : 'Create Branch'}
-            </h2>
-            <input
-              type="text"
-              placeholder="Branch Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="border p-2 mb-2 w-full"
-            />
-            <input
-              type="text"
-              placeholder="Contact Person"
-              value={contactPerson}
-              onChange={(e) => setContactPerson(e.target.value)}
-              className="border p-2 mb-2 w-full"
-            />
-            <input
-              type="text"
-              placeholder="Phone Number"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              className="border p-2 mb-2 w-full"
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="border p-2 mb-2 w-full"
-            />
-            {editingBranchId && (
-              <input
-                type="password"
-                placeholder="New Password (optional)"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                className="border p-2 mb-2 w-full"
-              />
-            )}
-            <div className="flex justify-between">
-              {editingBranchId ? (
-                <button
-                  onClick={handleEditBranch}
-                  className="bg-blue-500 text-white px-4 py-2"
-                >
-                  Update Branch
-                </button>
-              ) : (
-                <button
-                  onClick={handleCreateBranch}
-                  className="bg-blue-500 text-white px-4 py-2"
-                >
-                  Create Branch
-                </button>
-              )}
-              <button
-                onClick={closeModal}
-                className="bg-red-500 text-white px-4 py-2"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {isVendorModalOpen && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h2 className="text-xl font-bold mb-4">Vendors</h2>
-            {vendors.length > 0 ? (
-              <ul>
-                {vendors?.map((vendor, index) => (
-                  <li key={index} className="mb-2">
-                    Vendor ID: {vendor}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>No vendors available.</p>
-            )}
-            <button
-              onClick={() => setIsVendorModalOpen(false)}
-              className="bg-blue-500 text-white px-4 py-2 mt-4"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
-
-      {isStaffModalOpen && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h2 className="text-xl font-bold mb-4">Staff</h2>
-            {staff.length > 0 ? (
-              <ul>
-                {staff?.map((staffMember, index) => (
-                  <li key={index} className="mb-2">
-                    Staff ID: {staffMember}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>No staff members available.</p>
-            )}
-            <button
-              onClick={() => setIsStaffModalOpen(false)}
-              className="bg-blue-500 text-white px-4 py-2 mt-4"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
     </>
   );
 };

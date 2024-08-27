@@ -51,7 +51,9 @@ import Branch from "../components/Branch/Branch";
 import { FaS } from "react-icons/fa6";
 
 import Fastag from "../components/VechileInfo/Fastag";
+import FastagId from "../components/VechileInfo/FastagId";
 import Sarathi from "../components/VechileInfo/Sarathi";
+import SarathiId from "../components/VechileInfo/SarathiId";
 import Vahan from "../components/VechileInfo//Vahan";
 const Layout = () => {
   const user = useSelector((state) => state.login.user);
@@ -117,7 +119,8 @@ const AllRoutes = () => {
       <Route path="/fastag" element={<Fastag/>}/>
       <Route path="/sarathi" element={<Sarathi/>}/>
       <Route path="/vahan" element={<Vahan/>}/>
-      
+      <Route path="/fastag/:vehicleNumber" element={<FastagId />} />
+      <Route path="/sarathi/:vehicleNumber/:dob" element={<SarathiId />} />
      
       
 
