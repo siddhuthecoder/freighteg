@@ -44,10 +44,11 @@ const Login = ({ handleAuthentication, setModel }) => {
       if (response.ok) {
         const data = await response.json();
         console.log("data", data);
+        // console.log(data.data)
         if (data && data.token) {
           // Store token and user details in localStorage
           localStorage.setItem("branch_id", data.id); // Store user ID
-          localStorage.setItem('branchName', data.id);
+          // localStorage.setItem('branchName', data.id);
 
 
           store.dispatch(
