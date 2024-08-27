@@ -9,7 +9,8 @@ import ViewQuotesModal from "../repeats/ViewQuotesModal";
 import AssignedVendorsModal from "../repeats/AssignedVendorsModal";
 import { IoMdMail } from "react-icons/io";
 import { MdLocalPrintshop } from "react-icons/md";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
+import { Link } from 'react-router-dom';
 
 const QuotesModal = ({
   showReponseModel,
@@ -134,12 +135,16 @@ const VehicleInfoModal = ({
                   <td className="p-2 text-gray-800">{vehicle.vehicleNo}</td>
                   <td className="p-2 text-gray-800">
                     <div className="flex space-x-2">
-                      <button className="bg-blue-500 text-white px-4 py-2 rounded-md text-sm">
-                        Saarthi
-                      </button>
-                      <button className="bg-green-500 text-white px-4 py-2 rounded-md text-sm">
-                        Fastag Tracking
-                      </button>
+                      <Link to={`/sarathi/${vehicle.vehicleNo}/${vehicle.vehicleNo}`}>
+                        <button className="bg-blue-500 text-white px-4 py-2 rounded-md text-sm">
+                          Saarthi
+                        </button>
+                      </Link>
+                      <Link to={`/fastag/${vehicle.vehicleNo}`}>
+                        <button className="bg-green-500 text-white px-4 py-2 rounded-md text-sm">
+                          Fastag Tracking
+                        </button>
+                      </Link>
                     </div>
                   </td>
                 </tr>
@@ -209,8 +214,7 @@ const VendorDetailsModal = ({
             <span className="text-blue-600 font-medium">Supervisor Number</span>
             <span className="text-gray-800">{data.supervisor_phone1} </span>
           </div>
-          
-          
+
           {/* <div className="flex justify-between items-center p-2 border-b">
             <span className="text-blue-600 font-medium">Role</span>
             <span className="text-gray-800">{data.role}</span>
@@ -231,7 +235,7 @@ const VendorDetailsModal = ({
             <span className="text-blue-600 font-medium">Code</span>
             <span className="text-gray-800">{data.code}</span>
           </div>
-        
+
           {/* <div className="flex justify-between items-center p-2 border-b">
             <span className="text-blue-600 font-medium">Vehicle Types</span>
             <span className="text-gray-800">
@@ -248,9 +252,9 @@ const HistoryTable = ({ datas }) => {
   // console.log(datas)
   const [isAssignedVendorsModalOpen, setAssignedVendorsModalOpen] =
     useState(false);
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 5;
-    const totalPages = Math.ceil(datas.length / itemsPerPage);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  const totalPages = Math.ceil(datas.length / itemsPerPage);
   const [isViewQuotesModalOpen, setViewQuotesModalOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const user = useSelector((state) => state.login.user);
@@ -331,14 +335,12 @@ const HistoryTable = ({ datas }) => {
   //   setViewQuotesModalOpen(true);
   // };
 
-
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
-};
+  };
 
-const startIndex = (currentPage - 1) * itemsPerPage;
-const currentItems = datas.slice(startIndex, startIndex + itemsPerPage);
-
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentItems = datas.slice(startIndex, startIndex + itemsPerPage);
 
   if (datas.length === 0) {
     return (
@@ -353,7 +355,9 @@ const currentItems = datas.slice(startIndex, startIndex + itemsPerPage);
         <div className=" bg-blue-50 rounded-b-lg p-4 - mt-3 relative mx-auto flex flex-col w-[97%] shadow-md rounded-md min-w-[1200px]">
           <div className="w-[100%] text-sm  mt-2 min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
             <div className="flex flex-col  pt-1">
-              <span className="block text-black font-semibold">{user?.name}</span>
+              <span className="block text-black font-semibold">
+                {user?.name}
+              </span>
               <span className="block text-blue-600 font-semibold">
                 #{data.bidNo}
               </span>
@@ -471,26 +475,26 @@ const currentItems = datas.slice(startIndex, startIndex + itemsPerPage);
         </div>
       ))}
 
-       {/* Pagination */}
-       <div className="flex justify-center mt-4">
-                <button
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                    className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
-                >
-                    Previous
-                </button>
-                <span className="px-4 py-2 text-gray-700">
-                    Page {currentPage} of {totalPages}
-                </span>
-                <button
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                    className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
-                >
-                    Next
-                </button>
-            </div>
+      {/* Pagination */}
+      <div className="flex justify-center mt-4">
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
+        >
+          Previous
+        </button>
+        <span className="px-4 py-2 text-gray-700">
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
+        >
+          Next
+        </button>
+      </div>
 
       {isAssignedVendorsModalOpen && (
         <AssignedVendorsModal
