@@ -29,3 +29,36 @@ Accept: application/json
 ###
 ### Cancelled Bids Request
 GET https://freighteg.in/freightapi/cancelledBids?company_id=665580f353ccced94082681b
+
+
+### Create Branch API
+POST https://freighteg.in/freightapi/addBranch
+Content-Type: application/json
+
+{
+  "name": "{{name}}",
+  "contact_person_name": "{{contactname}}",
+  "phone": "{{number}}",
+  "role": "branch",
+  "password": "{{password}}",
+  "company_id": "{{userData?.id}}"
+}
+
+### Update Branch API
+PUT https://freighteg.in/freightapi/updatebranches/{{branchData._id}}
+Content-Type: application/json
+
+{
+  "name": "{{name}}",
+  "contact_person_name": "{{contactName}}",
+  "phone": "{{number}}",
+  {{#if newpassword && newpassword.trim() !== ""}}
+  "password": "{{newpassword}}"
+  {{/if}}
+}
+
+### Get Branch Data by Branch ID
+GET https://freighteg.in/freightapi/getbranchdetails/66b3cb50c07c66605d6909c4
+
+### Get All Branches by Company ID
+GET https://freighteg.in/freightapi/getbranches/company/665580f353ccced94082681b
