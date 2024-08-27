@@ -248,6 +248,9 @@ const HistoryTable = ({ datas }) => {
   // console.log(datas)
   const [isAssignedVendorsModalOpen, setAssignedVendorsModalOpen] =
     useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
+    const totalPages = Math.ceil(datas.length / itemsPerPage);
   const [isViewQuotesModalOpen, setViewQuotesModalOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const user = useSelector((state) => state.login.user);
@@ -328,6 +331,15 @@ const HistoryTable = ({ datas }) => {
   //   setViewQuotesModalOpen(true);
   // };
 
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+};
+
+const startIndex = (currentPage - 1) * itemsPerPage;
+const currentItems = datas.slice(startIndex, startIndex + itemsPerPage);
+
+
   if (datas.length === 0) {
     return (
       <div className="text-center text-gray-500 py-4">No data available</div>
@@ -337,7 +349,7 @@ const HistoryTable = ({ datas }) => {
 
   return (
     <>
-      {datas.map((data) => (
+      {currentItems.map((data) => (
         <div className=" bg-blue-50 rounded-b-lg p-4 - mt-3 relative mx-auto flex flex-col w-[97%] shadow-md rounded-md min-w-[1200px]">
           <div className="w-[100%] text-sm  mt-2 min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
             <div className="flex flex-col  pt-1">
@@ -458,6 +470,27 @@ const HistoryTable = ({ datas }) => {
           </div>
         </div>
       ))}
+
+       {/* Pagination */}
+       <div className="flex justify-center mt-4">
+                <button
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
+                >
+                    Previous
+                </button>
+                <span className="px-4 py-2 text-gray-700">
+                    Page {currentPage} of {totalPages}
+                </span>
+                <button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
+                >
+                    Next
+                </button>
+            </div>
 
       {isAssignedVendorsModalOpen && (
         <AssignedVendorsModal

@@ -232,8 +232,8 @@ const Cancelled = () => {
     const branchId = localStorage.getItem('branch_id');
     // const url = `https://freighteg.in/freightapi/getBidResultHistory?company_id=${user?.id}`;
     const url = branchId && branchId !== user?.id
-    ? `https://freighteg.in/freightapi/counters?branch_id=${branchId}`:
-    `https://freighteg.in/freightapi/cancelledBids?company_id=665580f353ccced94082681b`
+    ? `https://freighteg.in/freightapi/cancelledBids?branch_id=${branchId}`:
+    `https://freighteg.in/freightapi/cancelledBids?company_id=${user?.id}`
     try {
       const response = await axios.get(url);
       const bidsData = response.data.data;
