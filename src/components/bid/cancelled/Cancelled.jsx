@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import * as XLSX from 'xlsx';
 import Header from '../repeats/Header';
 import Tabs from '../repeats/Tabs';
 import CancelledTable from './CancelledTable';
@@ -10,26 +9,32 @@ import Navbar from '../../../components/Navbar';
 const Cancelled = () => {
   const [bidDetails, setBidDetails] = useState([]);
   const [loading, setLoading] = useState(true);
-  const companyId = localStorage.getItem('company_Id');
-  console.log(companyId)
-
   const [error, setError] = useState(null);
   const [dataHandling, setDataHandling] = useState({});
   const [filteredData, setFilteredData] = useState([]);
+  
   const user = useSelector((state) => state.login.user);
+  const companyId = localStorage.getItem('company_Id');
 
+  // Use companyId instead of user?.id in the API request
   const fetchBidIdsAndDetails = async () => {
     const url = `https://freighteg.in/freightapi/cancelledBids?company_id=${user?.id}`;
     try {
       const response = await axios.get(url);
       const bidsData = response.data.data;
-      console.log(response.data.data)
 
-      const bidEntries = Object.entries(bidsData);
-      return bidEntries.map(([bidId, detailsArray]) => ({
-        bidId,
-        details: detailsArray[0],
-      }));
+      // Ensure bidsData exists and has entries before proceeding
+      if (bidsData && Object.keys(bidsData).length > 0) {
+        const bidEntries = Object.entries(bidsData);
+        return bidEntries.map(([bidId, detailsArray]) => ({
+          bidId,
+          details: detailsArray[0],
+        }));
+      } else {
+        setError('No bids found.');
+        setLoading(false);
+        return [];
+      }
     } catch (error) {
       console.error('Error fetching bid IDs and details:', error);
       setError('Failed to fetch bid IDs and details');
@@ -47,6 +52,7 @@ const Cancelled = () => {
       console.error(`Error fetching details for bid_id ${bidId}:`, error);
       setError(`Failed to fetch details for bid_id ${bidId}`);
       setLoading(false);
+      return null; // Return null if there's an error
     }
   };
 
@@ -59,6 +65,7 @@ const Cancelled = () => {
       console.error(`Error fetching user data for id ${userId}:`, error);
       setError(`Failed to fetch user data for id ${userId}`);
       setLoading(false);
+      return null; // Return null if there's an error
     }
   };
 
@@ -102,8 +109,13 @@ const Cancelled = () => {
   };
 
   useEffect(() => {
-    getAllBidDetails();
-  }, []);
+    if (user && companyId) {
+      getAllBidDetails();
+    } else {
+      setError('User or company ID not available.');
+      setLoading(false);
+    }
+  }, [user, companyId]);
 
   useEffect(() => {
     const { searchTerm, selectedOption, startDate, endDate } = dataHandling;
@@ -125,31 +137,16 @@ const Cancelled = () => {
   };
 
   const handleDownloadClick = () => {
-    // Convert filtered data to a plain text string (JSON format for readability)
     const textData = JSON.stringify(filteredData, null, 2);
-  
-    // Create a Blob object with the text data
     const blob = new Blob([textData], { type: "text/plain;charset=utf-8" });
-  
-    // Create a link element
     const link = document.createElement("a");
-  
-    // Set the download attribute with the desired file name
     link.download = "BidsData.txt";
-  
-    // Create a URL for the Blob and set it as the href of the link
     link.href = window.URL.createObjectURL(blob);
-  
-    // Append the link to the document body
     document.body.appendChild(link);
-  
-    // Programmatically trigger a click on the link to trigger the download
     link.click();
-  
-    // Remove the link from the document
     document.body.removeChild(link);
   };
-  
+
   return (
     <>
       <Navbar />
@@ -159,7 +156,7 @@ const Cancelled = () => {
       </div>
       <div className="w-full flex flex-col overflow-x-auto">
         <div className="bg-[#9D9D9D21] w-[97%] h-[60px] items-center ps-2 mt-2 rounded-md min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
-        <div className="font-semibold md:text-lg ps-[30px]">ID</div>
+          <div className="font-semibold md:text-lg ps-[30px]">ID</div>
           <div className="font-semibold md:text-lg ps-[30px]">Loading Date</div>
           <div className="font-semibold md:text-lg ps-[30px]">Loading Point </div>
           <div className="font-semibold md:text-lg ps-[30px]">Unloading Point</div>
@@ -167,15 +164,13 @@ const Cancelled = () => {
           <div className="font-semibold md:text-lg ps-[30px]">Best Quote</div>
         </div>
         {loading ? (
-        <div className="text-center my-4">
-          {/* Loading spinner */}
-          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-900 mx-auto"></div>
-          {/* Loading text */}
-          <p className="text-gray-600 mt-2">Loading...</p>
-        </div>
-      ) : (
-        <CancelledTable datas={filteredData} />
-      )}
+          <div className="text-center my-4">
+            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-900 mx-auto"></div>
+            <p className="text-gray-600 mt-2">Loading...</p>
+          </div>
+        ) : (
+          <CancelledTable datas={filteredData} />
+        )}
       </div>
     </>
   );

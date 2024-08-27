@@ -17,7 +17,12 @@ const BidComponent = () => {
 
   // Function to fetch bid IDs and their corresponding details
   const fetchBidIdsAndDetails = async () => {
-    const url = `https://freighteg.in/freightapi/counters?company_id=${user?.id}`;
+    // const url = `https://freighteg.in/freightapi/counters?company_id=${user?.id}`;
+    const branchId = localStorage.getItem('branch_id');
+    // const url = `https://freighteg.in/freightapi/getBidResultHistory?company_id=${user?.id}`;
+    const url = branchId && branchId !== user?.id
+    ? `https://freighteg.in/freightapi/counters?branch_id=${branchId}`
+    : `https://freighteg.in/freightapi/counters?company_id=${user?.id}`;
     try {
       const response = await axios.get(url);
       const bidsData = response.data.data;

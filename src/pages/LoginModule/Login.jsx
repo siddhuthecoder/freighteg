@@ -47,7 +47,7 @@ const Login = ({ handleAuthentication, setModel }) => {
         if (data && data.token) {
           // Store token and user details in localStorage
           localStorage.setItem("branch_id", data.id); // Store user ID
-          localStorage.setItem('branchName', 'ALL');
+          localStorage.setItem('branchName', data.id);
 
 
           store.dispatch(
