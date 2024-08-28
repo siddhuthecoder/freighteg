@@ -53,7 +53,7 @@ import { FaS } from "react-icons/fa6";
 import Fastag from "../components/VechileInfo/Fastag";
 import FastagId from "../components/VechileInfo/FastagId";
 import Sarathi from "../components/VechileInfo/Sarathi";
-import SarathiId from "../components/VechileInfo/SarathiId";
+import SarathiId from "../components/VechileInfo/VahanId";
 import Vahan from "../components/VechileInfo//Vahan";
 import Profile from "../components/Profile/Profile";
 import Wallet from "../components/Wallet/Wallet";
@@ -122,7 +122,7 @@ const AllRoutes = () => {
       <Route path="/sarathi" element={<Sarathi/>}/>
       <Route path="/vahan" element={<Vahan/>}/>
       <Route path="/fastag/:vehicleNumber" element={<FastagId />} />
-      <Route path="/sarathi/:vehicleNumber/:dob" element={<SarathiId />} />
+      <Route path="/vahan/:vehicleNumber" element={<SarathiId />} />
       <Route path='/profile' element={<Profile/>}/>
       <Route path='/wallet' element={<Wallet/>}/>
       

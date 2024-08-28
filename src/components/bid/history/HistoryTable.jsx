@@ -135,9 +135,9 @@ const VehicleInfoModal = ({
                   <td className="p-2 text-gray-800">{vehicle.vehicleNo}</td>
                   <td className="p-2 text-gray-800">
                     <div className="flex space-x-2">
-                      <Link to={`/sarathi/${vehicle.vehicleNo}/${vehicle.vehicleNo}`}>
+                      <Link to={`/vahan/${vehicle.vehicleNo}`}>
                         <button className="bg-blue-500 text-white px-4 py-2 rounded-md text-sm">
-                          Saarthi
+                          Vahan
                         </button>
                       </Link>
                       <Link to={`/fastag/${vehicle.vehicleNo}`}>
