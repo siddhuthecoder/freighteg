@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import Navbar from '../Navbar';
 import { useSelector } from 'react-redux';
-import AddBalanceModal from './AddBalanceModal'; // Import the AddBalanceModal component
-import BidModal from './BidModal'; // Import the BidModal component
+import AddBalanceModal from './AddBalanceModal';
+import BidModal from './BidModal';
+import TransactionDetailsModal from './TransactionDetailsModal '; // Import the TransactionDetailsModal component
 import './price.css';
 
-// Ensure you set the app element for accessibility
 Modal.setAppElement('#root');
 
 const Wallet = () => {
@@ -18,6 +18,7 @@ const Wallet = () => {
   const [selectedPayment, setSelectedPayment] = useState(null);
   const [isAddBalanceModalOpen, setIsAddBalanceModalOpen] = useState(false);
   const [isBidModalOpen, setIsBidModalOpen] = useState(false);
+  const [isTransactionDetailsModalOpen, setIsTransactionDetailsModalOpen] = useState(false); // Manage the state for the TransactionDetailsModal
   const user = useSelector((state) => state.login.user);
 
   useEffect(() => {
@@ -73,18 +74,23 @@ const Wallet = () => {
   const closeBidModal = () => {
     setIsBidModalOpen(false);
   };
-  if(true){
-    return "Sarathi"
-  }
+
+  const openTransactionDetailsModal = (payment) => {
+    setSelectedPayment(payment);
+    setIsTransactionDetailsModalOpen(true);
+  };
+
+  const closeTransactionDetailsModal = () => {
+    setIsTransactionDetailsModalOpen(false);
+  };
+  
   return (
     <>
       <Navbar />
       <div className="container mx-auto p-4">
         <h1 className="text-2xl font-bold mb-4">Wallet Balance</h1>
 
-        {/* Wallet Info Cards */}
         <div className="flex gap-4 mb-6">
-          {/* Bids Info */}
           <div className="w-1/2 p-4 bg-blue-100 rounded-lg shadow-md">
             <h2 className="text-xl font-semibold">Valid till {new Date(companyDetails['subscriptionExpiryDate']).toLocaleDateString()}</h2>
             <p className="text-lg">Plan: {companyDetails['subscriptionPlan']}</p>
@@ -92,7 +98,6 @@ const Wallet = () => {
             <button onClick={openBidModal} className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg">Add Bid</button>
           </div>
 
-          {/* Wallet Balance */}
           <div className="w-1/2 p-4 bg-blue-200 rounded-lg shadow-md">
             <h2 className="text-xl font-semibold">Wallet</h2>
             <p className="text-3xl font-bold mt-2">₹ {walletBalance.Tracking_Balance}</p>
@@ -100,7 +105,6 @@ const Wallet = () => {
           </div>
         </div>
 
-        {/* Payment History */}
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-4">Transaction History</h2>
           <table className="min-w-full bg-white border">
@@ -123,7 +127,7 @@ const Wallet = () => {
                     {new Date(payment.createdAt).toLocaleDateString()}
                   </td>
                   <td className="py-2 px-4 border">
-                    <a href="#" onClick={() => openBidModal()} className="text-blue-500">View More</a>
+                    <a href="#" onClick={() => openTransactionDetailsModal(payment)} className="text-blue-500">View More</a>
                   </td>
                 </tr>
               ))}
@@ -131,11 +135,13 @@ const Wallet = () => {
           </table>
         </div>
 
-        {/* Add Balance Modal */}
         <AddBalanceModal isOpen={isAddBalanceModalOpen} onRequestClose={closeAddBalanceModal} />
-
-        {/* Bid Modal */}
         <BidModal isOpen={isBidModalOpen} onRequestClose={closeBidModal} />
+        <TransactionDetailsModal 
+          isOpen={isTransactionDetailsModalOpen} 
+          onRequestClose={closeTransactionDetailsModal} 
+          transaction={selectedPayment} 
+        />
       </div>
     </>
   );

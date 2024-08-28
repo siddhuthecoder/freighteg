@@ -2,9 +2,17 @@ import React from "react";
 import Modal from "react-modal";
 import axios from "axios";
 import "./price.css";
+import { useSelector } from 'react-redux';
+
+Modal.setAppElement("#root");
+
+const BASE_URL = 'https://freighteg.in/freightapi'; // Replace with your actual base URL
+const PAYMENT_KEY = 'rzp_live_hUBa71YRLBFQG0'; // Replace with your actual Razorpay key
 
 const BidModal = ({ isOpen, onRequestClose }) => {
   const [plans, setPlans] = React.useState([]);
+  const user = useSelector((state) => state.login.user);
+  
   const [selectedPlanTypes, setSelectedPlanTypes] = React.useState({
     Basic: "Monthly",
     Standard: "Monthly",
@@ -46,9 +54,85 @@ const BidModal = ({ isOpen, onRequestClose }) => {
     return null;
   };
 
+  const createOrder = async (amount) => {
+    const userData = user;
+    try {
+      const response = await axios.post(`${BASE_URL}/order`, {
+        notes: {
+          company_id: userData?.id,
+          amount: amount,
+          payment_for: 'subscription', 
+        },
+        amount: amount * 100, // Amount in paisa
+        currency: 'INR',
+        receipt: `${Date.now()}`
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error creating order:", error);
+      return null;
+    }
+  };
+
+  const verifyPayment = async (paymentData, orderData) => {
+    try {
+      const response = await axios.post(`${BASE_URL}/verifyPayment`, {
+        ...paymentData,
+        order_id: orderData.id,
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error verifying payment:", error);
+      return null;
+    }
+  };
+
   const handleGetStarted = async (planName) => {
-    // Implement the "Get Started" logic here, similar to the one in the Price component.
-    // This is just a placeholder function.
+    const planType = selectedPlanTypes[planName];
+    const plan = getPlanDetails(planName, planType);
+    if (!plan) return;
+
+    const gst = plan.offer_price * 0.18;
+    const totalAmount = plan.offer_price + gst;
+
+    const orderData = await createOrder(totalAmount);
+    if (orderData) {
+      const options = {
+        key: PAYMENT_KEY,
+        amount: orderData.amount,
+        currency: "INR",
+        name: "Your Company Name",
+        description: `Payment for ${planName} ${planType}`,
+        order_id: orderData.id,
+        handler: async (response) => {
+          const paymentData = {
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+          };
+
+          const authResponse = await verifyPayment(paymentData, orderData);
+          if (authResponse && authResponse.success) {
+            alert("Payment successful!");
+            // Optionally handle success logic (e.g., update user subscriptions, navigate, etc.)
+          } else {
+            alert("Payment verification failed.");
+          }
+        },
+        prefill: {
+          name: "Customer Name", // Optional: set this dynamically
+          contact: "Customer Phone Number", // Optional: set this dynamically
+        },
+        theme: {
+          color: "#5E81F4",
+        },
+      };
+
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.open();
+    } else {
+      alert("Failed to create order.");
+    }
   };
 
   return (
