@@ -5,6 +5,8 @@ import ViewQuotesModal from '../repeats/ViewQuotesModal';
 import { IoMdMail } from "react-icons/io";
 import { MdLocalPrintshop } from "react-icons/md";
 import { useSelector } from 'react-redux';
+import { data } from 'autoprefixer';
+import BidEditForm from '../repeats/BidEditForm';
 
 const OpenTable = ({ datas }) => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -110,7 +112,7 @@ const OpenTable = ({ datas }) => {
         return <div className="text-center text-gray-500 py-4">No data available</div>;
     }
    
-
+    console.log(datas[0])
     return (
         <>
             {currentItems.map((data) => {
