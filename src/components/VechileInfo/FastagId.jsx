@@ -75,9 +75,6 @@ const Fastag = () => {
       setLoading(false); // Set loading to false when fetch completes
     }
   };
-  if(true){
-    return "Fastag"
-  }
   return (
     <>  
     <Navbar/>

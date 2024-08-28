@@ -63,9 +63,7 @@ const Fastag = () => {
       handleSearch();
     }
   };
-  if(true){
-    return "Fastag"
-  }
+  
   return (
     <>  
     <Navbar/>

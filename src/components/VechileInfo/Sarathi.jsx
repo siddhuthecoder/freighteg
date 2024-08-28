@@ -72,9 +72,7 @@ const Sarathi = () => {
     { length: endYear - startYear + 1 },
     (_, i) => endYear - i
   );
-  if(true){
-    return "Fastag"
-  }
+  
   return (
     <>
     <Navbar/>

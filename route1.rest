@@ -43,3 +43,23 @@ Content-Type: application/json
     "vehiclenumber": "AB1234CD"
   }
 }
+
+###
+# Get Payment History by User ID
+GET https://freighteg.in/freightapi/paymentHistory/665580f353ccced94082681b
+# Authorization: Bearer your_dummy_access_token
+
+###
+
+# Get Companies by User ID
+GET https://freighteg.in/freightapi/get-companies/665580f353ccced94082681b
+# Authorization: Bearer your_dummy_access_token
+
+###
+
+# Get Freight Wallet Balance by Company ID
+GET https://freighteg.in/freightapi/freightWalletBalance/665580f353ccced94082681b
+# Authorization: Bearer your_dummy_access_token
+
+###
+
