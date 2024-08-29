@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from 'react-modal';
-import { FaTimesCircle } from 'react-icons/fa';
+import { FaTimesCircle, FaCheckCircle } from 'react-icons/fa';
 import { format } from 'date-fns';
 
 const TransactionDetailsModal = ({ isOpen, onRequestClose, transaction }) => {
@@ -17,22 +17,41 @@ const TransactionDetailsModal = ({ isOpen, onRequestClose, transaction }) => {
     payments,
   } = transaction;
 
+  // Determine payment status
+  const isSuccessful = payments && payments.some(payment => payment.status === 'success');
+
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       contentLabel="Transaction Details"
-      className="fixed inset-0 flex items-center justify-center p-4 z-50"
+      className="fixed inset-0 flex items-center justify-center z-50"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50"
     >
-      <div className="bg-white rounded-lg shadow-lg max-w-md w-full">
+      <div className="bg-white rounded-lg shadow-lg max-w-md w-full max-h-[80vh] overflow-y-auto">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b">
           <div className="flex items-center space-x-2">
-            <FaTimesCircle className="text-red-500 text-2xl" />
-            <h2 className="text-xl font-semibold text-gray-800">
-              Incomplete Payment!
-            </h2>
+            {isSuccessful ? (
+              <>
+                <FaCheckCircle className="text-green-500 text-2xl" />
+                <h2 className="text-xl font-semibold text-gray-800">
+                  Transaction Successful!
+                </h2>
+                
+                
+              </>
+            ) : (
+              <>
+                <FaTimesCircle className="text-red-500 text-2xl" />
+                <h2 className="text-xl font-semibold text-gray-800">
+                  Incomplete Payment!
+                </h2>
+                {/* <p className="text-gray-600 mb-6">
+            Your payment was initiated but not completed. Please review the details below.
+          </p> */}
+              </>
+            )}
           </div>
           <button
             onClick={onRequestClose}
@@ -53,15 +72,11 @@ const TransactionDetailsModal = ({ isOpen, onRequestClose, transaction }) => {
 
         {/* Body */}
         <div className="px-6 py-4">
-          <p className="text-gray-600 mb-6">
-            Your payment was initiated but not completed. Please review the details below.
-          </p>
-
           {/* Total Payment */}
           <div className="bg-gray-100 rounded-lg p-4 mb-6">
             <div className="flex items-center justify-between">
               <p className="text-gray-500">Total Payment</p>
-              <p className="text-2xl font-bold text-gray-800">₹{Total_amount?.toFixed(2)}</p>
+              <p className="text-2xl font-bold text-gray-800">₹{Total_amount}</p>
             </div>
           </div>
 
@@ -87,7 +102,7 @@ const TransactionDetailsModal = ({ isOpen, onRequestClose, transaction }) => {
             </div>
             <div className="flex justify-between">
               <p className="text-gray-500">GST (18%)</p>
-              <p className="text-gray-700 font-medium">₹{gst?.toFixed(2) || '0.00'}</p>
+              <p className="text-gray-700 font-medium">₹{gst}</p>
             </div>
           </div>
 

@@ -88,6 +88,7 @@ const AddBalanceModal = ({ isOpen, onRequestClose }) => {
 
   const createOrder = async (totalAmount) => {
     try {
+      debugger;
       const response = await axios.post(`${BASE_URL}/order`, {
         amount: totalAmount * 100, // Amount in paisa
         currency: 'INR',
@@ -100,11 +101,14 @@ const AddBalanceModal = ({ isOpen, onRequestClose }) => {
         },
       });
       if (response.status === 200) {
+        debugger;
         return response.data;
       } else {
+        debugger;
         throw new Error('Failed to create order');
       }
     } catch (error) {
+      debugger;
       console.error('Error creating order:', error);
       return null;
     }
@@ -188,15 +192,15 @@ const AddBalanceModal = ({ isOpen, onRequestClose }) => {
           <div className="border-t border-dashed border-gray-200 pt-4">
             <div className="flex justify-between text-sm">
               <p>Amount</p>
-              <p>{amount ? `IDR ${parseFloat(amount).toLocaleString()}` : 'IDR 0.00'}</p>
+              <p>{amount ? `INR ${parseFloat(amount).toLocaleString()}` : 'IDR 0.00'}</p>
             </div>
             <div className="flex justify-between text-sm">
               <p>GST (18%)</p>
-              <p>{amount ? `IDR ${gst.toFixed(2)}` : 'IDR 0.00'}</p>
+              <p>{amount ? `INR ${gst.toFixed(2)}` : 'IDR 0.00'}</p>
             </div>
             <div className="flex justify-between text-sm font-semibold border-t border-dashed pt-2">
               <p>Total Amount</p>
-              <p>{amount ? `IDR ${finalAmount.toFixed(2)}` : 'IDR 0.00'}</p>
+              <p>{amount ? `INR ${finalAmount.toFixed(2)}` : 'IDR 0.00'}</p>
             </div>
           </div>
         </div>
