@@ -18,10 +18,13 @@ const Open = () => {
 
   const fetchLiveBids = async () => {
     const branchId = localStorage.getItem('branch_id');
-    const url = branchId && branchId !== 'ALL'
+    const branchName = localStorage.getItem('branchName');
+    // alert(branchId);     
+  let url=`https://freighteg.in/freightapi/liveBids?company_id=${user?.id}`;
+     url = branchId && branchName !== 'ALL'
       ? `https://freighteg.in/freightapi/liveBids?branch_id=${branchId}`
       : `https://freighteg.in/freightapi/liveBids?company_id=${user?.id}`;
-
+    // alert(url)
     try {
       const response = await axios.get(url);
       return response.data.data || [];
@@ -104,6 +107,7 @@ const Open = () => {
   };
 
   useEffect(() => {
+    
     getAllBidDetails();
   }, []);
 
@@ -170,7 +174,7 @@ const Open = () => {
       <div className="w-full overflow-x-auto">
         <Tabs onDownloadClick={handleDownloadClick} onFilterClick={() => { /* Handle filter click if needed */ }} />
       </div>
-      <div className="w-full flex flex-col overflow-x-auto">
+      <div className="w-full   flex flex-col overflow-x-auto  bg-white">
         <div className="bg-[#9D9D9D21] w-[97%] h-[60px] items-center ps-2 mt-2 rounded-md min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
           <div className="font-semibold md:text-lg ps-[30px]">ID</div>
           <div className="font-semibold md:text-lg ps-[30px]">Loading Date</div>

@@ -46,10 +46,12 @@ const Login = ({ handleAuthentication, setModel }) => {
         console.log("data", data);
         // console.log(data.data)
         if (data && data.token) {
+          console.log({data});
           // Store token and user details in localStorage
-          localStorage.setItem("branch_id", data.id); // Store user ID
+          localStorage.setItem('branchName','ALL');
+          localStorage.setItem("branch_id", data.user.id); // Store user ID
           // localStorage.setItem('branchName', data.id);
-
+      //  localStorage.setItem
 
           store.dispatch(
             setCredentials({ user: data.user, token: data.token })

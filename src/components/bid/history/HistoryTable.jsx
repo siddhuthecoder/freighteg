@@ -277,6 +277,7 @@ const HistoryTable = ({ datas }) => {
         `https://freighteg.in/freightapi/vendor/${vendorId}`
       );
       setVendorDetails(response.data);
+      console.log(response.data)
       setShowVendorDetailsModal(true);
     } catch (error) {
       console.error("Error fetching vendor details:", error);

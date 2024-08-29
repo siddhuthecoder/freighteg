@@ -51,6 +51,7 @@ const HistoryPage = () => {
     const url = `https://freighteg.in/freightapi/freightusers/${userId}`;
     try {
       const response = await axios.get(url);
+      console.log(response.data)
       return response.data;
     } catch (error) {
       console.error(`Error fetching user data for id ${userId}:`, error);
@@ -170,7 +171,7 @@ const HistoryPage = () => {
       <div className="w-full overflow-x-auto">
         <Tabs onDownloadClick={handleDownloadClick} onFilterClick={() => { /* Handle filter click if needed */ }} />
       </div>
-      <div className="w-full flex flex-col overflow-x-auto">
+      <div className="w-full flex flex-col overflow-x-auto  bg-white">
         <div className=" bg-[#9D9D9D21] w-[97%] h-[60px] items-center ps-2 mt-2  rounded-md min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
         <div className="font-semibold md:text-lg ps-[30px]">ID</div>
           <div className="font-semibold md:text-lg ps-[30px]">Loading Date</div>

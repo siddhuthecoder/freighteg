@@ -129,14 +129,14 @@ const Branch = () => {
     await fetchBranchDetails(branchId);
     setIsStaffModalOpen(true);
   };
-  if(true){
-    return (
-      <>
-      <Navbar/>
-      <div>Branch</div>
-      </>
-    )
-  }
+  // if(true){
+  //   return (
+  //     <>
+  //     <Navbar/>
+  //     <div>Branch</div>
+  //     </>
+  //   )
+  // }
   return (
     <>
       <Navbar />

@@ -230,6 +230,7 @@ const Cancelled = () => {
   const fetchBidIdsAndDetails = async () => {
     // const url = `https://freighteg.in/freightapi/counters?company_id=${user?.id}`;
     const branchId = localStorage.getItem('branch_id');
+    // const branchName = localStorage.getItem('branchName');
     // const url = `https://freighteg.in/freightapi/getBidResultHistory?company_id=${user?.id}`;
     const url = branchId && branchId !== user?.id
     ? `https://freighteg.in/freightapi/cancelledBids?branch_id=${branchId}`:
@@ -397,7 +398,7 @@ const Cancelled = () => {
       <div className="w-full overflow-x-auto">
         <Tabs onDownloadClick={handleDownloadClick} onFilterClick={() => { /* Handle filter click if needed */ }} />
       </div>
-      <div className="w-full flex flex-col overflow-x-auto">
+      <div className="w-full flex flex-col overflow-x-auto  bg-white">
         <div className="bg-[#9D9D9D21] w-[97%] h-[60px] items-center ps-2 mt-2 rounded-md min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
           <div className="font-semibold md:text-lg ps-[30px]">ID</div>
           <div className="font-semibold md:text-lg ps-[30px]">Date</div>
