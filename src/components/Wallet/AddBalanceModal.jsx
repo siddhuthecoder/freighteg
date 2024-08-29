@@ -23,7 +23,6 @@ const AddBalanceModal = ({ isOpen, onRequestClose }) => {
 
   const handlePayNow = async () => {
     try {
-      const userData = user;
       const totalAmount = parseFloat(finalAmount);
       const orderData = await createOrder(totalAmount);
 
@@ -70,8 +69,8 @@ const AddBalanceModal = ({ isOpen, onRequestClose }) => {
             }
           },
           prefill: {
-            contact: userData?.phone,
-            name: userData?.name,
+            contact: user?.phone,
+            name: user?.name,
           },
           theme: {
             color: '#5E81F4',
@@ -89,20 +88,18 @@ const AddBalanceModal = ({ isOpen, onRequestClose }) => {
 
   const createOrder = async (totalAmount) => {
     try {
-      const userData = user;
       const response = await axios.post(`${BASE_URL}/order`, {
         amount: totalAmount * 100, // Amount in paisa
         currency: 'INR',
-        receipt: (userData?.id + totalAmount).toString(),
+        receipt: (user?.id + totalAmount).toString(),
         notes: {
-          company_id: userData?.id,
+          company_id: user?.id,
           amount: totalAmount,
-          payment_for: 'balance', 
-          gst:gst// or other values like 'subscription'
+          payment_for: 'balance',
+          gst: gst.toFixed(2),
         },
       });
       if (response.status === 200) {
-        alert(JSON.stringify(response.data))
         return response.data;
       } else {
         throw new Error('Failed to create order');
@@ -128,9 +125,8 @@ const AddBalanceModal = ({ isOpen, onRequestClose }) => {
 
   const updateWallet = async (amount) => {
     try {
-      const userData = user;
       const response = await axios.put(`${BASE_URL}/updateFreightWalletBalance`, {
-        company_id: userData?.id,
+        company_id: user?.id,
         Tracking_Balance: parseFloat(amount),
       });
       return response.status === 200;
@@ -142,15 +138,14 @@ const AddBalanceModal = ({ isOpen, onRequestClose }) => {
 
   const updateCompany = async (paymentFor) => {
     try {
-      const userData = user;
       const [plan, duration] = paymentFor.split(' ');
       const capitalizedPlan = plan.charAt(0).toUpperCase() + plan.slice(1);
       const newDate = new Date();
       const daysToAdd = duration === 'monthly' ? 30 : duration === 'quarterly' ? 90 : 365;
       newDate.setDate(newDate.getDate() + daysToAdd);
 
-      const response = await axios.put(`${BASE_URL}/update-companies/${userData.id}`, {
-        maxBid: (parseInt(userData?.maxBid, 10) || 0) + (parseInt(amount, 10) || 0),
+      const response = await axios.put(`${BASE_URL}/update-companies/${user.id}`, {
+        maxBid: (parseInt(user?.maxBid, 10) || 0) + (parseInt(amount, 10) || 0),
         subscriptionPlan: capitalizedPlan,
         subscriptionExpiryDate: newDate,
       });
@@ -165,61 +160,56 @@ const AddBalanceModal = ({ isOpen, onRequestClose }) => {
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      className="modal-content max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg"
+      className="modal-content fixed inset-0 flex items-center justify-center p-4"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50"
     >
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-semibold text-gray-800">Add Balance</h2>
-        <button
-          onClick={onRequestClose}
-          className="text-gray-500 hover:text-gray-700 focus:outline-none"
-          aria-label="Close"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+      <div className="bg-white rounded-lg shadow-lg max-w-sm w-full">
+        <div className="flex items-center justify-between p-4 border-b">
+          <h2 className="text-lg font-semibold text-gray-800">Refill Wallet Balance</h2>
+          <button
+            onClick={onRequestClose}
+            className="text-blue-500 hover:text-blue-700 focus:outline-none"
           >
-            <path d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
+            Cancel
+          </button>
+        </div>
+        <div className="p-4">
+          <label htmlFor="amount" className="block text-sm font-medium text-gray-700 mb-2">
+            Enter Amount
+          </label>
+          <input
+            id="amount"
+            type="number"
+            value={amount}
+            onChange={handleAmountChange}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
+            placeholder="Enter amount"
+          />
+          <div className="border-t border-dashed border-gray-200 pt-4">
+            <div className="flex justify-between text-sm">
+              <p>Amount</p>
+              <p>{amount ? `IDR ${parseFloat(amount).toLocaleString()}` : 'IDR 0.00'}</p>
+            </div>
+            <div className="flex justify-between text-sm">
+              <p>GST (18%)</p>
+              <p>{amount ? `IDR ${gst.toFixed(2)}` : 'IDR 0.00'}</p>
+            </div>
+            <div className="flex justify-between text-sm font-semibold border-t border-dashed pt-2">
+              <p>Total Amount</p>
+              <p>{amount ? `IDR ${finalAmount.toFixed(2)}` : 'IDR 0.00'}</p>
+            </div>
+          </div>
+        </div>
+        <div className="p-4">
+          <button
+            onClick={handlePayNow}
+            className="w-full bg-green-500 text-white text-center py-2 rounded-md shadow-md hover:bg-green-600 transition duration-300"
+          >
+            ORDER NOW
+          </button>
+        </div>
       </div>
-      <div className="mb-4">
-        <label htmlFor="amount" className="block text-lg mb-2 text-gray-700">Enter Amount:</label>
-        <input
-          id="amount"
-          type="number"
-          value={amount}
-          onChange={handleAmountChange}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Enter amount"
-        />
-      </div>
-      <div className="mb-4">
-        <p className="text-lg text-gray-800">Your Amount: ₹{amount}</p>
-        <p className="text-lg text-gray-800">GST (18%): ₹{gst.toFixed(2)}</p>
-        <p className="text-lg font-bold text-gray-800">Final Amount: ₹{finalAmount.toFixed(2)}</p>
-      </div>
-      <div className="flex justify-end gap-4">
-        <button
-          onClick={onRequestClose}
-          className="px-4 py-2 bg-gray-300 text-gray-700 font-semibold rounded-lg shadow-md hover:bg-gray-400 transition duration-300"
-        >
-          Close
-        </button>
-        <button
-          onClick={handlePayNow}
-          className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
-        >
-          Pay Now
-        </button>
-      </div>
-    </Modal>     
+    </Modal>
   );
 };
 

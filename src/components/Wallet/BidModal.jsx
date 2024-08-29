@@ -143,10 +143,19 @@ const BidModal = ({ isOpen, onRequestClose }) => {
       className="fixed inset-0 flex items-center justify-center"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50"
     >
-      <div className="bg-white p-6 rounded-lg shadow-lg w-1/2">
+      <div className="bg-white z-[20] p-6 rounded-lg shadow-lg w-[90%] h-[75vh] overflow-y-scroll max-w-[1200px]">
+        <div className="w-full flex md:hidden sticky top-[0px] justify-end items-center">
+          <button
+            type="button"
+            onClick={onRequestClose}
+            className="mt-4 px-4 py-2 bg-gray-600 text-white rounded-lg ml-4"
+          >
+            X
+          </button>
+        </div>
         <h2 className="text-2xl font-semibold mb-4">Add Bid</h2>
         <div className="plans">
-          <div className="planItem__container">
+          <div className="planItem__container flex flex-wrap w-full items-center h-[]">
             {["Basic", "Standard", "Premium"].map((planName) => {
               const planType = selectedPlanTypes[planName];
               const plan = getPlanDetails(planName, planType);
@@ -157,7 +166,7 @@ const BidModal = ({ isOpen, onRequestClose }) => {
               return (
                 <div
                   key={plan ? plan._id : planName}
-                  className={`planItem planItem--${
+                  className={`w-[97%] planItem planItem--${
                     plan && plan.name === "Premium" ? "entp" : ""
                   }`}
                 >
