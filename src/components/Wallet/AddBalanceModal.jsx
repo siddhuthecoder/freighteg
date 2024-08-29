@@ -88,7 +88,7 @@ const AddBalanceModal = ({ isOpen, onRequestClose }) => {
 
   const createOrder = async (totalAmount) => {
     try {
-      debugger;
+      // debugger;
       const response = await axios.post(`${BASE_URL}/order`, {
         amount: totalAmount * 100, // Amount in paisa
         currency: 'INR',
@@ -101,14 +101,14 @@ const AddBalanceModal = ({ isOpen, onRequestClose }) => {
         },
       });
       if (response.status === 200) {
-        debugger;
+        // debugger;
         return response.data;
       } else {
-        debugger;
+        // debugger;
         throw new Error('Failed to create order');
       }
     } catch (error) {
-      debugger;
+      // debugger;
       console.error('Error creating order:', error);
       return null;
     }
