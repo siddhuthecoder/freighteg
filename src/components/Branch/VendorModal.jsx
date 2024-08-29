@@ -31,52 +31,54 @@ const VendorModal = ({ isOpen, onClose, vendors }) => {
 
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-full  max-h-[80vh]">
         <h2 className="text-xl font-bold mb-4">Vendors</h2>
-        {vendorDetails.length > 0 ? (
-          <table className="table-auto w-full border-collapse">
-            <thead>
-              <tr>
-                <th className="border px-4 py-2">Vendor ID</th>
-                <th className="border px-4 py-2">Name</th>
-                <th className="border px-4 py-2">Owner</th>
-                <th className="border px-4 py-2">Phone</th>
-                <th className="border px-4 py-2">State</th>
-                <th className="border px-4 py-2">Vehicle Types</th>
-              </tr>
-            </thead>
-            <tbody>
-              {vendorDetails.map((vendor) => (
-                <tr key={vendor._id}>
-                  <td className="border px-4 py-2">{vendor._id}</td>
-                  <td className="border px-4 py-2">{vendor.name}</td>
-                  <td className="border px-4 py-2">{vendor.owner_name}</td>
-                  <td className="border px-4 py-2">{vendor.phone}</td>
-                  <td className="border px-4 py-2">{vendor.state}</td>
-                  <td className="border px-4 py-2">
-                    <button
-                      onClick={() => toggleVehicleView(vendor._id)}
-                      className="bg-blue-500 text-white px-4 py-2"
-                    >
-                      View
-                    </button>
-                    {expandedVendor === vendor._id && (
-                      <div className="mt-2">
-                        <ul className="list-disc pl-4">
-                          {vendor.vehicle_type.map((vehicle, index) => (
-                            <li key={index}>{vehicle}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </td>
+        <div className="overflow-auto max-h-[60vh]">
+          {vendorDetails.length > 0 ? (
+            <table className="table-auto w-full border-collapse">
+              <thead>
+                <tr>
+                  <th className="border px-4 py-2">Vendor ID</th>
+                  <th className="border px-4 py-2">Name</th>
+                  <th className="border px-4 py-2">Owner</th>
+                  <th className="border px-4 py-2">Phone</th>
+                  <th className="border px-4 py-2">State</th>
+                  <th className="border px-4 py-2">Vehicle Types</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <p>No vendors available.</p>
-        )}
+              </thead>
+              <tbody>
+                {vendorDetails.map((vendor) => (
+                  <tr key={vendor._id}>
+                    <td className="border px-4 py-2">{vendor._id}</td>
+                    <td className="border px-4 py-2">{vendor.name}</td>
+                    <td className="border px-4 py-2">{vendor.owner_name}</td>
+                    <td className="border px-4 py-2">{vendor.phone}</td>
+                    <td className="border px-4 py-2">{vendor.state}</td>
+                    <td className="border px-4 py-2">
+                      <button
+                        onClick={() => toggleVehicleView(vendor._id)}
+                        className="bg-blue-500 text-white px-4 py-2"
+                      >
+                        View
+                      </button>
+                      {expandedVendor === vendor._id && (
+                        <div className="mt-2">
+                          <ul className="list-disc pl-4">
+                            {vendor.vehicle_type.map((vehicle, index) => (
+                              <li key={index}>{vehicle}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>No vendors available.</p>
+          )}
+        </div>
         <button
           onClick={onClose}
           className="bg-blue-500 text-white px-4 py-2 mt-4"
