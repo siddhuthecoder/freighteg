@@ -104,28 +104,36 @@ const AllRoutes = () => {
   return (
     <Routes>
       {/* <Route path="/" element={<LandingPage />} /> */}
+      {/* Route for all */}
       <Route path="/" element={<MainPage />} />
-
       <Route path="/pricing" element={<Price />} />
       <Route path="/about" element={<About />} />
       <Route path="/contact" element={<Contact />} />
+{/* Route for all */}
 
+{/* Routes for Company */}
       <Route path="/his1" element={<HistoryPage />} />
       <Route path="/open" element={<Open />} />
       <Route path="/counter" element={<Counter />} />
       <Route path="/layout" element={<BidLayout />} />
       <Route path="/result" element={<ResultPage />} />
       <Route path="/cancelled" element={<Cancelled />} />
-      
-      <Route path="/branch" element={<Branch/>}/>
-      <Route path="/fastag" element={<Fastag/>}/>
-      <Route path="/sarathi" element={<Sarathi/>}/>
-      <Route path="/vahan" element={<Vahan/>}/>
+      <Route path="/branch" element={<Branch />} />
+      <Route path="/fastag" element={<Fastag />} />
+      <Route path="/sarathi" element={<Sarathi />} />
+      <Route path="/vahan" element={<Vahan />} />
       <Route path="/fastag/:vehicleNumber" element={<FastagId />} />
       <Route path="/vahan/:vehicleNumber" element={<SarathiId />} />
-      <Route path='/profile' element={<Profile/>}/>
-      <Route path='/wallet' element={<Wallet/>}/>
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/wallet" element={<Wallet />} />
+      <Route path="allpodrequest" element={<AllPodRequest />} />
+      <Route path="podform" element={<PodForm />} />
+      <Route path="allvendor" element={<Vendor />} />
+      <Route path="users" element={<User />} />
       
+{/* Routes for Comapny */}
+      
+      {/* <Route path='' */}
 
       <Route
         path="/login"
@@ -201,14 +209,14 @@ const AllRoutes = () => {
               </PrivateRoute>
             }
           />
-          <Route
+          {/* <Route
             path="allvendor"
             element={
               <PrivateRoute>
                 <Vendor />
               </PrivateRoute>
             }
-          />
+          /> */}
           <Route
             path="addvendors"
             element={
@@ -225,14 +233,14 @@ const AllRoutes = () => {
               </PrivateRoute>
             }
           />
-          <Route
+          {/* <Route
             path="allpodrequest"
             element={
               <PrivateRoute>
                 <AllPodRequest />
               </PrivateRoute>
             }
-          />
+          /> */}
           <Route
             path="downloadedpod"
             element={
@@ -353,14 +361,14 @@ const AllRoutes = () => {
               </PrivateRoute>
             }
           />
-          <Route
+          {/* <Route
             path="podform"
             element={
               <PrivateRoute>
                 <PodForm />
               </PrivateRoute>
             }
-          />
+          /> */}
           <Route
             path="editform"
             element={

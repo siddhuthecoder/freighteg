@@ -6,6 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "../css/ToggleSwitch.css";
 import UserAddForm from "./UserAddForm";
 import { updateUserData, useUserById, deleteUser } from "../HelperFunction/api";
+import Navbar from "../components/Navbar";
 
 const User = () => {
   const { usersData, usersLoading, usersError, error, refetch } = useUserById();
@@ -74,6 +75,8 @@ const User = () => {
   if (usersError) return <ErrorState error={error} />;
 
   return (
+    <>
+    <Navbar/>
     <div className="p-5 font-sans min-h-screen bg-gray-100">
       <div className="sticky top-20 bg-gray-100">
         <div className="flex justify-between items-center mb-6">
@@ -185,6 +188,7 @@ const User = () => {
         />
       )}
     </div>
+    </>
   );
 };
 

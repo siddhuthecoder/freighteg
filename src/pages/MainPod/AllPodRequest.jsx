@@ -4,6 +4,7 @@ import { FaUserPlus } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import PodTable from "./PodTable";
 import PodAddForm from "../PodAddForm";
+import Navbar from "../../components/Navbar";
 
 const AllPodRequest = () => {
   const [showPodAddForm, setShowPodAddForm] = useState(false);
@@ -12,6 +13,7 @@ const AllPodRequest = () => {
 
   return (
     <>
+    <Navbar/>
       <nav
         style={{
           boxShadow:
