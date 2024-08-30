@@ -4,9 +4,11 @@ import axios from 'axios';
 import BranchModal from './BranchModal';
 import VendorModal from './VendorModal';
 import StaffModal from './StaffModal';
+import './style.css';
+import { useSelector } from 'react-redux';
+import { FaUserPlus } from 'react-icons/fa';
 
 const Branch = () => {
- 
   const [branches, setBranches] = useState([]);
   const [name, setName] = useState('');
   const [contactPerson, setContactPerson] = useState('');
@@ -21,8 +23,8 @@ const Branch = () => {
   const [staff, setStaff] = useState([]);
   const [isVendorModalOpen, setIsVendorModalOpen] = useState(false);
   const [isStaffModalOpen, setIsStaffModalOpen] = useState(false);
-
-  const userData = { id: '665580f353ccced94082681b' }; // Replace with actual user data
+  const user = useSelector((state) => state.login.user);
+  const userData = { id: user?.id }; // Replace with actual user data
 
   useEffect(() => {
     fetchBranches();
@@ -129,65 +131,66 @@ const Branch = () => {
     await fetchBranchDetails(branchId);
     setIsStaffModalOpen(true);
   };
-  // if(true){
-  //   return (
-  //     <>
-  //     <Navbar/>
-  //     <div>Branch</div>
-  //     </>
-  //   )
-  // }
+
   return (
     <>
       <Navbar />
       <div className="container mx-auto p-4">
-        <h1 className="text-2xl font-bold mb-4">Branch Management</h1>
-        <button
-          onClick={openModalForCreate}
-          className="bg-green-500 text-white px-4 py-2 mb-4"
-        >
-          Create Branch
-        </button>
+        {/* <h1 className="text-2xl font-bold mb-4">Branch Management</h1> */}
+        <div className="flex justify-between items-center mb-4">
+  <h1 className="text-2xl font-bold">Branch </h1>
+  <button
+    onClick={openModalForCreate}
+    className="flex items-center px-4 py-2 bg-blue-900 text-white rounded-full hover:bg-blue-700 transition duration-150 ease-in-out"
+  >
+    <FaUserPlus className="mr-2" />
+    <span>Add Branch</span>
+  </button>
+</div>
+
         {branches.length > 0 ? (
-          <table className="min-w-full bg-white border border-gray-300">
-            <thead>
-              <tr>
-                <th className="border px-4 py-2">Branch Name</th>
-                <th className="border px-4 py-2">Contact Person</th>
-                <th className="border px-4 py-2">Phone</th>
-                <th className="border px-4 py-2">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {branches.map((branch) => (
-                <tr key={branch._id}>
-                  <td className="border px-4 py-2">{branch.name}</td>
-                  <td className="border px-4 py-2">{branch.contact_person_name}</td>
-                  <td className="border px-4 py-2">{branch.phone}</td>
-                  <td className="border px-4 py-2">
-                    <button
-                      onClick={() => handleEditClick(branch)}
-                      className="bg-blue-500 text-white px-2 py-1 mr-2"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleVendorClick(branch._id)}
-                      className="bg-yellow-500 text-white px-2 py-1 mr-2"
-                    >
-                      View Vendors
-                    </button>
-                    <button
-                      onClick={() => handleStaffClick(branch._id)}
-                      className="bg-purple-500 text-white px-2 py-1"
-                    >
-                      View Staff
-                    </button>
-                  </td>
+          <div className="table-container">
+            <table className="min-w-full">
+              <thead>
+                <tr>
+                  <th>Branch Name</th>
+                  <th>Contact Person</th>
+                  <th>Phone</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {branches.map((branch) => (
+                  <tr key={branch._id}>
+                    <td>{branch.name}</td>
+                    <td>{branch.contact_person_name}</td>
+                    <td>{branch.phone}</td>
+                    <td className="actions space-x-2">
+  <button
+    onClick={() => handleEditClick(branch)}
+    className="edit-button bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+  >
+    <i className="fas fa-edit mr-2"></i> Edit
+  </button>
+  <button
+    onClick={() => handleVendorClick(branch._id)}
+    className="view-button bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300"
+  >
+    View Vendors
+  </button>
+  <button
+    onClick={() => handleStaffClick(branch._id)}
+    className="view-button bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition duration-300"
+  >
+    View Staff
+  </button>
+</td>
+
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         ) : (
           <p>No branches available.</p>
         )}
@@ -196,6 +199,7 @@ const Branch = () => {
           <p className={`mt-4 ${isError ? 'text-red-500' : 'text-green-500'}`}>{message}</p>
         )}
 
+        {/* Modals for Branch, Vendor, and Staff */}
         <BranchModal
           isOpen={isModalOpen}
           onClose={closeModal}
