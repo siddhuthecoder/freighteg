@@ -57,6 +57,10 @@ import SarathiId from "../components/VechileInfo/VahanId";
 import Vahan from "../components/VechileInfo//Vahan";
 import Profile from "../components/Profile/Profile";
 import Wallet from "../components/Wallet/Wallet";
+
+import LoginAuth from "../components/auth/Login";
+import PhoneAuth from "../components/auth/Phone";
+
 const Layout = () => {
   const user = useSelector((state) => state.login.user);
 
@@ -125,6 +129,9 @@ const AllRoutes = () => {
       <Route path="/vahan/:vehicleNumber" element={<SarathiId />} />
       <Route path='/profile' element={<Profile/>}/>
       <Route path='/wallet' element={<Wallet/>}/>
+
+      <Route path='/loginAuth' element={<LoginAuth />}/>
+      <Route path='/phoneAuth' element={<PhoneAuth />}/>
       
 
       <Route

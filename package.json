@@ -5,7 +5,7 @@
   "proxy": "https://qiktrack.com",
   "dependencies": {
     "@heroicons/react": "^1.0.6",
-    "@reduxjs/toolkit": "^2.2.5",
+    "@reduxjs/toolkit": "^2.2.7",
     "@tanstack/react-query": "^5.40.0",
     "@tanstack/react-query-devtools": "^5.40.0",
     "@testing-library/jest-dom": "^5.17.0",
@@ -36,6 +36,8 @@
     "react-scripts": "5.0.1",
     "react-select": "^5.8.0",
     "react-time-picker": "^7.0.0",
+    "redux-persist": "^6.0.0",
+    "redux-thunk": "^3.1.0",
     "web-vitals": "^2.1.4",
     "xlsx": "^0.18.5"
   },
