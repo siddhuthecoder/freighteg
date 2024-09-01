@@ -7,6 +7,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateVendorData, useUserById } from "../HelperFunction/api";
 import { useSelector } from "react-redux";
 import OperationalStatesModal from "./VendorStates/OperationalStates"; // Import the modal component
+import Navbar from "../components/Navbar";
 
 const Vendor = () => {
   const [expandedRows, setExpandedRows] = useState({});
@@ -101,7 +102,9 @@ const Vendor = () => {
   );
 
   return (
-    <div className="bg-gray-100 min-h-screen p-5 font-sans">
+    <>
+    <Navbar/>
+     <div className="bg-gray-100 min-h-screen p-5 font-sans">
       <div className="sticky top-20 bg-gray-100">
         <div className="flex justify-between items-center mb-6">
           <h4 className="text-blue-900 text-2xl font-semibold">
@@ -366,6 +369,8 @@ const Vendor = () => {
         operationalStates={selectedOperationalStates}
       />
     </div>
+    </>
+   
   );
 };
 

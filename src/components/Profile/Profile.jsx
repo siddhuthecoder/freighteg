@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import Navbar from '../Navbar';
+import './Profile.css'; // Import custom styles
 
 const Profile = () => {
   const user = useSelector((state) => state.login.user);
@@ -30,21 +31,21 @@ const Profile = () => {
   }, [userId]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="loading-spinner">Loading...</div>;
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <div className="error-message">{error}</div>;
   }
 
   return (
     <>
       <Navbar />
-      <div className="container mx-auto p-4">
-        <div className="bg-white shadow-md rounded-lg p-6">
-          <h1 className="text-2xl font-bold text-center mb-4">{companyDetails?.name}</h1>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-blue-50 p-4 rounded">
+      <div className="container mx-auto p-4 profile-container">
+        <div className="bg-white shadow-lg rounded-lg p-6 profile-card">
+          <h1 className="text-3xl font-bold text-center mb-4 profile-title">{companyDetails?.name}</h1>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="p-6 rounded-lg profile-section animate-slide-in">
               <h2 className="text-xl font-semibold">Company Information</h2>
               <p><strong>Company ID:</strong> {companyDetails?._id}</p>
               <p><strong>Address:</strong> {companyDetails?.address}</p>
@@ -53,34 +54,27 @@ const Profile = () => {
               <p><strong>GST:</strong> {companyDetails?.GST}</p>
               <p><strong>PAN:</strong> {companyDetails?.PAN}</p>
             </div>
-            <div className="bg-blue-50 p-4 rounded">
+            <div className="p-6 rounded-lg profile-section animate-slide-in">
               <h2 className="text-xl font-semibold">Account Information</h2>
-              <p><strong>Password Hash:</strong> {companyDetails?.password}</p>
               <p><strong>Is Active:</strong> {companyDetails?.isActive ? 'Yes' : 'No'}</p>
               <p><strong>Is Deleted:</strong> {companyDetails?.isDeleted ? 'Yes' : 'No'}</p>
               <p><strong>Created At:</strong> {new Date(companyDetails?.createdAt).toLocaleString()}</p>
               <p><strong>Updated At:</strong> {new Date(companyDetails?.updatedAt).toLocaleString()}</p>
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-            <div className="bg-blue-50 p-4 rounded">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+            <div className="p-6 rounded-lg profile-section animate-slide-in">
               <h2 className="text-xl font-semibold">Additional Settings</h2>
               <p><strong>Allow Auto Bid:</strong> {companyDetails?.allowAutoBid ? 'Enabled' : 'Disabled'}</p>
               <p><strong>Auto Assign:</strong> {companyDetails?.auto_assign ? 'Enabled' : 'Disabled'}</p>
             </div>
-            <div className="bg-blue-50 p-4 rounded">
-              <h2 className="text-xl font-semibold">Authentication Details</h2>
-              <p><strong>Login Token:</strong> {companyDetails?.login_token}</p>
-              <p><strong>OTP:</strong> {companyDetails?.otp}</p>
-              <p><strong>OTP Expiry:</strong> {new Date(companyDetails?.otpExpiry).toLocaleString()}</p>
+            <div className="p-6 rounded-lg profile-section animate-slide-in">
+              <h2 className="text-xl font-semibold">Bidding Information</h2>
+              <p><strong>Bids Used:</strong> {companyDetails?.bidsUsed}</p>
+              <p><strong>Max Bids Allowed:</strong> {companyDetails?.maxBid}</p>
+              <p><strong>Subscription Plan:</strong> {companyDetails?.subscriptionPlan}</p>
+              <p><strong>Subscription Expiry:</strong> {new Date(companyDetails?.subscriptionExpiryDate).toLocaleDateString()}</p>
             </div>
-          </div>
-          <div className="bg-blue-50 p-4 rounded mt-4">
-            <h2 className="text-xl font-semibold">Bidding Information</h2>
-            <p><strong>Bids Used:</strong> {companyDetails?.bidsUsed}</p>
-            <p><strong>Max Bids Allowed:</strong> {companyDetails?.maxBid}</p>
-            <p><strong>Subscription Plan:</strong> {companyDetails?.subscriptionPlan}</p>
-            <p><strong>Subscription Expiry:</strong> {new Date(companyDetails?.subscriptionExpiryDate).toLocaleDateString()}</p>
           </div>
         </div>
       </div>

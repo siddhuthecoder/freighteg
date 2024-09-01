@@ -1,0 +1,75 @@
+.profile-container {
+    /* background: linear-gradient(135deg, #5585b5, #53a8b6); */
+    min-height: 100vh;
+    padding: 2rem;
+    animation: fadeIn 1.5s ease-in-out;
+  }
+  
+  .profile-card {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    transform: scale(0.95);
+    animation: scaleUp 0.8s ease-in-out forwards;
+  }
+  
+  .profile-title {
+    color: #5E81F4;
+    animation: slideInTop 0.8s ease-in-out forwards;
+  }
+  
+  .profile-section {
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.4s ease-in-out;
+  }
+  
+  .profile-section:hover {
+    transform: translateY(-10px);
+  }
+  
+  .loading-spinner,
+  .error-message {
+    text-align: center;
+    font-size: 1.5rem;
+    color: white;
+    padding: 2rem;
+    animation: fadeIn 1.5s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideInTop {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes scaleUp {
+    from {
+      transform: scale(0.95);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+  
+  @keyframes slide-in {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+  

@@ -11,6 +11,7 @@ import {
 } from "../HelperFunction/api";
 import Imagepopup from "./customPopUp/Imagepopup";
 import PodAddForm from "./PodAddForm";
+import Navbar from "../components/Navbar";
 
 const PodForm = () => {
   const { getVendorData, getVendorLoading, getVendorError } =
@@ -81,6 +82,8 @@ const PodForm = () => {
     );
 
   return (
+    <>
+    <Navbar/>
     <div className="p-5 font-sans min-h-screen bg-gray-100">
       <div className="sticky top-20  bg-gray-100 ">
         <div className="flex justify-between items-center mb-6">
@@ -228,6 +231,8 @@ const PodForm = () => {
         />
       )}
     </div>
+    </>
+  
   );
 };
 

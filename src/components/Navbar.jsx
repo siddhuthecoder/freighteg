@@ -119,7 +119,7 @@ const Navbar = () => {
 
             {/* Right Side: User Info */}
             <div className="hidden md:flex items-center space-x-4 absolute top-0 right-0 mt-2 mr-4">
-              <div className="bg-white bg-opacity-30 rounded-full flex items-center text-sm focus:outline-none focus:ring-2  transition duration-300 ease-in-out hover:bg-opacity-40 px-4 py-2">
+              {/* <div className="bg-white bg-opacity-30 rounded-full flex items-center text-sm focus:outline-none focus:ring-2  transition duration-300 ease-in-out hover:bg-opacity-40 px-4 py-2">
                 <MdOutlineAccountBalanceWallet className="h-6 w-6 text-blue-600 mr-2" />
                 <div className="flex flex-row">
                   <span className="font-semibold">
@@ -129,7 +129,7 @@ const Navbar = () => {
                     {getBalance?.data?.vendor_balance} Vendor
                   </span>
                 </div>
-              </div>
+              </div> */}
               <div className="relative">
                 <button
                   className="bg-white bg-opacity-30 rounded-full flex items-center text-sm focus:outline-none focus:ring-2  transition duration-300 ease-in-out hover:bg-opacity-40 px-4 py-2"
