@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import img1 from '../../assets/phone.png';
 
-function PhoneAuth() {
+function EnterPhoneAuth() {
   const [phone, setPhone] = useState('');
   const [existsIn, setExistsIn] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -15,31 +15,8 @@ function PhoneAuth() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      console.log("Sending request to check phone...");
-      const response = await axios.post('https://freighteg.in/freightapi/check-phone', { phone });
-
-      const data = response.data;
-      console.log("Response received:", data);
-
-      if (data.existsIn.length === 1) {
-        localStorage.setItem('userType', data.existsIn[0]);
-        console.log("User Type:", data.existsIn[0]);
-        navigate(`/loginAuth?phone=${phone}`);  // Redirect with phone number as query parameter
-      } else if (data.existsIn.length > 1) {
-        console.log("Multiple user types found, opening modal...");
-        setExistsIn(data.existsIn);
-        setShowModal(true); // This should trigger the modal to open
-      }
-      else if (data.existsIn.length === 0) {
-        console.log("Phone not associated with any user type, redirecting to OTP page...");
-        navigate(`/otp?phone=${phone}`);  // Redirect to OTP page with phone number as query parameter
-      }
-    } catch (error) {
-      console.error('Error occurred:', error);
-      alert('An error occurred while checking the phone number. Please try again.');
-    }
+    navigate(navigate(`/otp?phone=${phone}`))
+ 
   };
 
   const handleOptionSelect = (option) => {
@@ -58,8 +35,8 @@ function PhoneAuth() {
             alt="OTP Verification"
             className="mx-auto mb-4"
           />
-          <h2 className="text-2xl font-semibold mb-2">Sign In</h2>
-          <p className="text-gray-600 mb-6">enter your mobile number to continue the process</p>
+          <h2 className="text-2xl font-semibold mb-2">OTP verification</h2>
+          <p className="text-gray-600 mb-6">We will send you a one-time password to your mobile number</p>
         </div>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -81,7 +58,7 @@ function PhoneAuth() {
             type="submit"
             className="w-full py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            Next
+            Send OTP
           </button>
         </form>
         <div className="text-center mt-4">
@@ -116,4 +93,4 @@ function PhoneAuth() {
   );
 }
 
-export default PhoneAuth;
+export default EnterPhoneAuth;
