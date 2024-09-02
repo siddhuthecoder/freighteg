@@ -58,7 +58,7 @@ const Header = () => {
             ))}
           </div>
           <button className="rounded-md lg:mx-5   py-[3px]  text-[18px] bg-[rgb(12,67,255)] text-white px-2 flex items-center">
-          <Link to='/login'> <div className="font-semibold">Login</div></Link>
+          <Link to='/phoneAuth'> <div className="font-semibold">Login</div></Link>
               <div className="text-2xl font-semibold px-2">/</div>
               <div className="font-semibold">Register</div>
           </button>
@@ -85,8 +85,8 @@ const Header = () => {
             </div>
           ))}
           <button className="rounded-md w-[160px] ms-2 lg:mx-5  py-[3px]  text-[18px] bg-[rgb(12,67,255)] text-white px-2 flex items-center">
-             <Link to='/login'> <div className="">Login</div></Link>
-              <div className="text-2xl  px-2">/</div>
+             <Link to='/phoneAuth'> <div className="">Login</div></Link>
+              <div className="text-2xl px-2">/</div>
               <div className="">Register</div>
           </button>
         </div>

@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import img1 from '../../assets/phone.png';
 import { useNavigate, useLocation } from 'react-router-dom';
+
+const BASE_URL = 'https://your-api-url.com'; // Replace with your actual API URL
 
 const OTPverificationAuth = () => {
   const [otp, setOtp] = useState(Array(4).fill(''));
   const [phone, setPhone] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -27,11 +31,33 @@ const OTPverificationAuth = () => {
     }
   };
 
-  const handleSubmit = () => {
-    const enteredOtp = otp.join('');
-    console.log("Submitted OTP: ", enteredOtp);
-    navigate(`/register?phone=${phone}`); 
-    // You can integrate this with your backend for OTP verification
+  const handleSubmit = async () => {
+    const enteredOtp = otp.join('').trim();
+
+    if (enteredOtp.length !== 4) {
+      alert("Please enter the correct OTP!");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const body = { phone, otp: enteredOtp };
+      console.log("body", body);
+      const response = await axios.post(`${BASE_URL}/verify`, body);
+      console.log("response for verify otp", response);
+
+      if (response.status === 200) {
+        alert("Number is Verified. Please add your Details!");
+        navigate(`/register?phone=${phone}`);
+      } else {
+        alert("Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      console.error(error.message);
+      alert("Error: Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -52,6 +78,7 @@ const OTPverificationAuth = () => {
               value={otp[index]}
               onChange={(e) => handleChange(e.target, index)}
               onFocus={(e) => e.target.select()}
+              disabled={loading} // Disable input fields while loading
             />
           ))}
         </div>
@@ -60,12 +87,13 @@ const OTPverificationAuth = () => {
         </p>
         <button
           onClick={handleSubmit}
-          className="w-full py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition duration-200"
+          className={`w-full py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition duration-200 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={loading} // Disable button while loading
         >
-          Verify OTP
+          {loading ? 'Verifying...' : 'Verify OTP'}
         </button>
         <p className="text-sm text-gray-400 mt-4">
-          Already have an account? <span className="text-blue-500 cursor-pointer">Sign In</span>
+          Already have an account? <span onClick={() => navigate(`/phoneAuth?phone=${phone}`)}  className="text-blue-500 cursor-pointer">Sign In</span>
         </p>
       </div>
     </div>

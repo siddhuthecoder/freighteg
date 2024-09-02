@@ -7,6 +7,7 @@ function PhoneAuth() {
   const [phone, setPhone] = useState('');
   const [existsIn, setExistsIn] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [showCreateAccountPrompt, setShowCreateAccountPrompt] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -31,10 +32,9 @@ function PhoneAuth() {
         console.log("Multiple user types found, opening modal...");
         setExistsIn(data.existsIn);
         setShowModal(true); // This should trigger the modal to open
-      }
-      else if (data.existsIn.length === 0) {
-        console.log("Phone not associated with any user type, redirecting to OTP page...");
-        navigate(`/otp?phone=${phone}`);  // Redirect to OTP page with phone number as query parameter
+      } else if (data.existsIn.length === 0) {
+        console.log("Phone not associated with any user type, prompting for account creation...");
+        setShowCreateAccountPrompt(true); // Trigger account creation prompt
       }
     } catch (error) {
       console.error('Error occurred:', error);
@@ -49,6 +49,29 @@ function PhoneAuth() {
     navigate(`/loginAuth?phone=${phone}`);  // Redirect with phone number as query parameter
   };
 
+  const handleOtpSent = async () => {
+    try {
+      const body = { phone };
+      console.log("Sending OTP to:", phone);
+      const response = await axios.post('https://freighteg.in/freightapi/send-otp', body);
+
+      if (response.status === 200) {
+        alert("Success! OTP sent successfully.");
+        navigate(`/otp?phone=${phone}`);  // Redirect to OTP page with phone number as query parameter
+      } else {
+        alert("Error: Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      console.error('Error sending OTP:', error);
+      alert("Error: Something went wrong. Please try again.");
+    }
+  };
+
+  const handleCreateAccount = () => {
+    setShowCreateAccountPrompt(false);
+    handleOtpSent();  // Send OTP and navigate to OTP page
+  };
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50">
       <div className="bg-white p-8 rounded-lg shadow-md w-96">
@@ -59,7 +82,7 @@ function PhoneAuth() {
             className="mx-auto mb-4"
           />
           <h2 className="text-2xl font-semibold mb-2">Sign In</h2>
-          <p className="text-gray-600 mb-6">enter your mobile number to continue the process</p>
+          <p className="text-gray-600 mb-6">Enter your mobile number to continue the process</p>
         </div>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -85,7 +108,7 @@ function PhoneAuth() {
           </button>
         </form>
         <div className="text-center mt-4">
-          <p className="text-gray-600">Already Have An Account? <a href="/signin" className="text-blue-600 font-semibold">Sign In</a></p>
+          <p className="text-gray-600">Don't Have An Account? <span onClick={() => navigate("/signUpPhone")} className="text-blue-600 font-semibold">Sign Up</span></p>
         </div>
       </div>
 
@@ -106,6 +129,28 @@ function PhoneAuth() {
             <button 
               onClick={() => setShowModal(false)}
               className="w-full mt-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Prompt for account creation */}
+      {showCreateAccountPrompt && (
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-80">
+            <h3 className="text-xl font-semibold mb-4">Create an Account</h3>
+            <p className="mb-4">This phone number is not associated with any account. Would you like to create a new account?</p>
+            <button 
+              onClick={handleCreateAccount}
+              className="block w-full py-2 mb-2 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+            >
+              Yes, Create Account
+            </button>
+            <button 
+              onClick={() => setShowCreateAccountPrompt(false)}
+              className="w-full py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500"
             >
               Cancel
             </button>

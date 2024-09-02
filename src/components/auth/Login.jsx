@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAuthData } from '../../store/authSlice';
 import { useNavigate } from 'react-router-dom';
-
+import { setCredentials } from "../../app/features/auth/loginSlice";
 
 const LoginAuth = () => {
   const location = useLocation();
@@ -53,7 +53,9 @@ const LoginAuth = () => {
       if (response.ok) {
         const data = await response.json();
         console.log(data); // Check if data is logged correctly
-        dispatch(setAuthData({ user: data, token: data.token }));
+        dispatch(
+          setCredentials({ user: data, token: data.token })
+        );
 
         alert('Login successful!');
         navigate("/open")
