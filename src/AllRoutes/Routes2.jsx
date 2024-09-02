@@ -58,7 +58,7 @@ const AllRoutes2 = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const authStatus = localStorage.getItem("isAuthenticated");
     if (authStatus === "true") {
@@ -99,6 +99,13 @@ const AllRoutes2 = () => {
           <Route path="/vahan/:vehicleNumber" element={<SarathiId />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/wallet" element={<Wallet />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/wallet" element={<Wallet />} />
+          <Route path="/allpodrequest" element={<AllPodRequest />} />
+          <Route path="/podform" element={<PodForm />} />
+          <Route path="/allvendor" element={<Vendor />} />
+          <Route path="/users" element={<User />} />
+          <Route path="home" element={<Home />} />
         </>
       )}
 

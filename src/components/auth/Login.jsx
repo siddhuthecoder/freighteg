@@ -53,8 +53,11 @@ const LoginAuth = () => {
       if (response.ok) {
         const data = await response.json();
         console.log(data); // Check if data is logged correctly
+        
+        localStorage.setItem('branchName','ALL');
+        localStorage.setItem("branch_id", data.user.id); // Store user ID
         dispatch(
-          setCredentials({ user: data, token: data.token })
+          setCredentials({ user: data.user, token: data.token })
         );
 
         alert('Login successful!');
@@ -70,6 +73,7 @@ const LoginAuth = () => {
   };
 
   return (
+    
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
         <h2 className="text-2xl font-bold text-center mb-6">Login to your account</h2>

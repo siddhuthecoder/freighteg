@@ -27,6 +27,7 @@ import {
   fetchCitiesByState,
   useCreatedBid,
 } from "../HelperFunction/api";
+import Navbar from "../components/Navbar";
 const Home = () => {
   const formRef = useRef(null);
   const user = useSelector((state) => state.login.user);
@@ -44,7 +45,8 @@ const Home = () => {
   const [cities, setCities] = useState([]);
   const [city, setCity] = useState([]);
   const [inputerror, setError] = useState("");
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   useEffect(() => {
     (async () => {
       if (selectedState && selectedState.value) {
@@ -208,6 +210,7 @@ const Home = () => {
     const utcDateTime = `${yearUTC}-${monthUTC}-${dayUTC}T${hoursUTC}:${minutesUTC}:${secondsUTC}.${millisecondsUTC}Z`;
     return utcDateTime;
   }
+
   const PostMutation = useMutation({
     mutationFn: useCreatedBid,
     onSuccess: () => {
@@ -230,7 +233,11 @@ const Home = () => {
   });
   const handleSubmit = useCallback(
     async (e) => {
+    
+      if (isSubmitting) return;
       e.preventDefault();
+      setIsSubmitting(true);
+      alert("Called")
       const formData = new FormData(e.target);
       const formDataObj = Object.fromEntries(formData.entries());
       const requiredFields = [
@@ -257,19 +264,7 @@ const Home = () => {
         "bid_remarks",
         "assigned_to",
       ];
-      // const missingFields = requiredFields.filter(
-      //   (field) =>
-      //     !(field in formDataObj) ||
-      //     formDataObj[field] === null ||
-      //     formDataObj[field] === ""
-      // );
-      // if (missingFields.length > 0) {
-      //   const missingFieldsList = missingFields.join(", ");
-      //   alert(
-      //     `All fields are required to fill. Missing fields: ${missingFieldsList}`
-      //   );
-      //   return;
-      // }
+
       formDataObj.loading_pincode = parseInt(formDataObj.loading_pincode);
       formDataObj.unloading_pincode = parseInt(formDataObj.unloading_pincode);
       formDataObj.route_distance = parseInt(formDataObj.route_distance);
@@ -306,6 +301,7 @@ const Home = () => {
 
   return (
     <>
+    <Navbar/>
       <div className="">
         <form ref={formRef} onSubmit={handleSubmit}>
           {/* Route Card */}
@@ -832,7 +828,13 @@ const Home = () => {
               type="submit"
               className="bg-[#113870] hover:bg-blue-700 text-white font-bold py-2 px-10 rounded-xl"
             >
-              Create
+              {isSubmitting ? (
+                <span>
+                  <i className="fas fa-spinner fa-spin"></i> Creating bid...
+                </span>
+              ) : (
+                "Submit Bid"
+              )}
             </button>
           </div>
         </form>
