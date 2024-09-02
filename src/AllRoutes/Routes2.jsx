@@ -34,6 +34,7 @@ import EnterPhoneAuth from "../components/auth/EnterPhone.jsx";
 import RegisterAuth from "../components/auth/Register.jsx";
 import PhoneRegister from "../components/auth/PhoneRegister.jsx";
 import SignUpPhone from "../components/auth/SignUp_phone.jsx";
+import Home from './../pages/Home';
 
 // const Layout = () => {
 //   const user = useSelector((state) => state.login.user);
