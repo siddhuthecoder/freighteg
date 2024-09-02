@@ -82,7 +82,7 @@ const AllRoutes2 = () => {
       <Route path="/contact" element={<Contact />} />
 
       {/* Conditionally render routes based on userType */}
-      {userType === "company" && (
+      {userType === "Company" && (
         <>
           {/* Routes for Company */}
           <Route path="/his1" element={<HistoryPage />} />
@@ -102,7 +102,7 @@ const AllRoutes2 = () => {
         </>
       )}
 
-      {userType === "staff" && (
+      {userType === "Staff" && (
         <>
           {/* Routes for Staff */}
           <Route path="/profile" element={<Profile />} />
