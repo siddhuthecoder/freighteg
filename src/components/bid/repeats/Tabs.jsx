@@ -15,7 +15,6 @@ const Tabs = ({ onDownloadClick }) => {
         counter: 0,
         cancelled: 0,
     });
-
     // useRef to track if data has been fetched already
     const dataFetchedRef = useRef(false);
 

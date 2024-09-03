@@ -76,42 +76,52 @@ const ViewQuotesModal = ({ data, onClose, response }) => {
                 </div>
                 <div className="p-4">
                     <h3 className="text-gray-800 font-medium mb-2">Vendor Information</h3>
-                    <div className="space-y-2">
-                        <div className="flex justify-between text-gray-600">
-                            <p className="text-sm font-medium ml-4">Vendor Name</p>
-                            <p className="text-sm font-medium">Viewed</p>
-                            <p className="text-sm font-medium">Responded</p>
-                            <p className="text-sm font-medium">Bid Price</p>
-                            <div className="w-40"></div> {/* Placeholder for buttons alignment */}
-                        </div>
-                        {isLoading ? (
-                            <p>Loading vendor information...</p>
-                        ) : error ? (
-                            <p className="text-red-500">{error}</p>
-                        ) : (
-                            [...new Set([...data.vendorIds, ...data.responded_by])].map((id, index) => (
-                                <div key={index} className="flex justify-between mb-5 mt-5 items-center text-gray-600 p-2 border-b">
-                                    <p className="font-medium">{vendors[id]?.name || 'Vendor name unavailable'}</p>
-                                    <p className="text-sm">
-                                        <MdOutlineRemoveRedEye className={data.vendorIds.includes(id) ? "h-5 w-5 text-green-500" : "h-5 w-5 text-red-500 line-through"} />
-                                    </p>
-                                    <p className="text-sm">
-                                        <FaCheck className={data.responded_by.includes(id) ? "h-5 w-5 text-green-500" : "h-5 w-5 text-red-500 line-through"} />
-                                    </p>
-                                    <p className="text-sm pl-9 ">
-                                        {response[id] || 'N/A'}
-                                    </p>
-                                    <div className="flex space-x-2">
-                                        <button className="bg-blue-500 text-white px-4 py-1 rounded">
-                                            Counter
-                                        </button>
-                                        <button className="bg-green-500 text-white px-4 py-1 rounded">
-                                            Assign
-                                        </button>
-                                    </div>
-                                </div>
-                            ))
-                        )}
+                    <div className="overflow-x-auto">
+                        <table className="min-w-full text-left text-sm text-gray-600">
+                            <thead>
+                                <tr>
+                                    <th className="px-4 py-2">Vendor Name</th>
+                                    <th className="px-4 py-2">Viewed</th>
+                                    <th className="px-4 py-2">Responded</th>
+                                    <th className="px-4 py-2">Bid Price</th>
+                                    <th className="px-4 py-2">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {isLoading ? (
+                                    <tr>
+                                        <td colSpan="5" className="text-center py-4">Loading vendor information...</td>
+                                    </tr>
+                                ) : error ? (
+                                    <tr>
+                                        <td colSpan="5" className="text-center py-4 text-red-500">{error}</td>
+                                    </tr>
+                                ) : (
+                                    [...new Set([...data.vendorIds, ...data.responded_by])].map((id, index) => (
+                                        <tr key={index} className="border-b">
+                                            <td className="px-4 py-2 font-medium">{vendors[id]?.name || 'Vendor name unavailable'}</td>
+                                            <td className="px-4 py-2 text-center">
+                                                <MdOutlineRemoveRedEye className={data.vendorIds.includes(id) ? "h-5 w-5 text-green-500" : "h-5 w-5 text-red-500 line-through"} />
+                                            </td>
+                                            <td className="px-4 py-2 text-center">
+                                                <FaCheck className={data.responded_by.includes(id) ? "h-5 w-5 text-green-500" : "h-5 w-5 text-red-500 line-through"} />
+                                            </td>
+                                            <td className="px-4 py-2">{response[id] || 'N/A'}</td>
+                                            <td className="px-4 py-2">
+                                                <div className="flex space-x-2">
+                                                    <button className="bg-blue-500 text-white px-4 py-1 rounded">
+                                                        Counter
+                                                    </button>
+                                                    <button className="bg-green-500 text-white px-4 py-1 rounded">
+                                                        Assign
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
