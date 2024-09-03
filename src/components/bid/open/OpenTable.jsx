@@ -18,35 +18,37 @@ const OpenTable = ({ datas }) => {
     const user = useSelector((state) => state.login.user);
     const itemsPerPage = 5;
     const totalPages = Math.ceil(datas.length / itemsPerPage);
-    useEffect(() => {
-        if (datas && datas.length > 0) {
-            // Calculate the minimum values
-            const minValues = datas.map(data => {
-                if (data.bidding_response && data.bidding_response.length > 0) {
-                    return Math.min(...data.bidding_response.map(response => Math.min(...response.bidding_price)));
-                }
-                return null;
-            }).filter(value => value !== null);
-    
-            if (minValues.length > 0) {
-                setMinimum(Math.min(...minValues)); // Set the minimum value
-            }
-    
-            // Create the responses object
-            const responsess = datas.map(data => {
-                if (data.bidding_response && data.bidding_response.length > 0) {
-                    return data.bidding_response.reduce((acc, response, index) => {
-                        acc[response.vendor_id] = response.bidding_price[index];
-                        return acc;
-                    }, {});
-                }
-                return {};
-            });
-            setresponse(responsess)
-            // console.log('Responses:', response); // For debugging purposes
-            // Now you can use the `responses` variable as needed
+    console.log(datas[1])
+  
+    const getMinimumVendorPrice = (data) => {
+        // debugger;
+        // console.log(data)
+        const vendorPrices=data.bidding_response[0]?.bidding_price || []
+        // alert(JSON.stringify(vendorPrices))
+        // console.log({vendorPrices})
+        if (!vendorPrices || vendorPrices.length === 0) {
+          return null; // Return null or a default value if the array is empty or undefined
         }
-    }, [datas]);
+        return Math.min(...vendorPrices);
+      };
+    
+      const setRes = (data) => {
+        if (data.bidding_response && data.bidding_response.length > 0) {
+            const responses = data.bidding_response.reduce((acc, response) => {
+                response.vendor_id.forEach((vendorId, index) => {
+                    // Make sure that bidding_price has corresponding value
+                    if (index < response.bidding_price.length) {
+                        acc[vendorId] = response.bidding_price[index];
+                    }
+                });
+                return acc;
+            }, {});
+            setresponse(responses);
+            // alert(JSON.stringify(responses));
+        } else {
+            setresponse({});
+        }
+    };
     
 
     const calculateTimeLeft = (expiryDate) => {
@@ -97,6 +99,7 @@ const OpenTable = ({ datas }) => {
     };
 
     const handleViewQuotesClick = (data) => {
+        setRes(data)
         setSelectedData(data);
         setViewQuotesModalOpen(true);
     };
@@ -112,12 +115,12 @@ const OpenTable = ({ datas }) => {
         return <div className="text-center text-gray-500 py-4">No data available</div>;
     }
    
-    console.log(datas[0])
+    // console.log(datas[0])
     return (
         <>
             {currentItems.map((data) => {
                 const timeLeft = calculateTimeLeft(data.expiry_date);
-
+                const minimumPrice = getMinimumVendorPrice(data );
                 return (
                     <div
                         key={data.bidNo}
@@ -175,7 +178,7 @@ const OpenTable = ({ datas }) => {
                                     <IoMdMail className='text-2xl text-blue-600 cursor-pointer' />
                                     <MdLocalPrintshop className='text-2xl text-blue-600 cursor-pointer' onClick={() => handlePrintClick(data)} />
                                 </div>
-                                <div className="text-lg font-semibold text-gray-700 mr-5">Rs {minimum}</div>
+                                <div className="text-lg font-semibold text-gray-700 mr-5">Rs {minimumPrice || 0}</div>
                                 <div
                                     className="text-blue-600 underline text-sm cursor-pointer"
                                     onClick={() => handleViewQuotesClick(data)}

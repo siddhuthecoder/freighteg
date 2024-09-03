@@ -31,7 +31,7 @@ const Sarathi = () => {
     setLoading(true);
     setError(null);
     try {
-      alert(user?.id)
+      // alert(user?.id)
       const response = await axios.post(
         "https://freighteg.in/freightapi/ULLIPtracking",
         {
@@ -76,9 +76,9 @@ const Sarathi = () => {
   return (
     <>
     <Navbar/>
-      <div className="w-full grid grid-cols-1 mt-[10px] lg:grid-cols-12 gap-5 md:gap-2  md:pt-0 pt-3  md:pb-0 pb-2">
+      <div className="w-full grid grid-cols-1 mt-[10px] lg:grid-cols-12 gap-5 md:gap-2  overflow-y-auto md:pt-0 pt-3  md:pb-0 pb-2">
         <div className="md:w-[90%] ms-2 w-[100%] mx-auto max-h-[620px]md:col-span-6 xl:col-span-4 flex flex-col">
-         
+          
           <div className="w-full flex flex-col mt-3">
             <input
               type="text"
@@ -142,74 +142,128 @@ const Sarathi = () => {
                 </div>
               ) : vehicleData ? (
                 <>
-                  <div className="w-full flex items-center justify-between">
-                    <div className="flex flex-col">
-                      <div className="text-lg font-bold">DL Number</div>
-                      <div className="font-semi-bold text-zinc-500">
-                        {vehicleData.licenseInformation.licenseNumber}{" "}
-                        <span className="text-green-500">
-                          ({vehicleData.licenseInformation.status})
+                <div className="w-full flex items-center justify-between">
+                  <div className="flex flex-col">
+                    <div className="text-lg font-bold">DL Number</div>
+                    <div className="font-semi-bold text-zinc-500">
+                      {vehicleData.licenseInformation.licenseNumber}{" "}
+                      <span className="text-green-500">
+                        ({vehicleData.licenseInformation.status})
+                      </span>
+                    </div>
+                  </div>
+                  <img src={car1} alt="" className="m-2" />
+                </div>
+                <hr className="mx-3 my-1" />
+                <div className="text-2xl font-semibold text-[#5E81F4]">
+                  Personal Information
+                </div>
+                <div className="flex flex-col ps-2">
+                  <div className="text-lg font-bold">Name</div>
+                  <div className="text-zinc-500 font-semibold">
+                    {vehicleData.personalInformation.name}
+                  </div>
+                  <div className="grid grid-cols-2 pt-2  gap-4">
+                    <div>
+                      <div className="text-lg font-bold">Father's Name</div>
+                      <div className="text-zinc-500 font-semibold">
+                        {vehicleData.personalInformation.fatherName}
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-lg font-bold">Date of Birth</div>
+                      <div className="text-zinc-500 font-semibold">
+                        {vehicleData.personalInformation.dateOfBirth.replace(
+                          /\*/g,
+                          ""
+                        )}
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-lg font-bold">Aadhaar Number</div>
+                      <div className="text-zinc-500 font-semibold">
+                        {vehicleData.personalInformation.aadhaarNumber}
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="text-lg font-bold">Blood Group</div>
+                      <div className="text-zinc-500 font-semibold">
+                        {vehicleData.personalInformation.bloodGroup}
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-lg font-bold">Mobile Number</div>
+                      <div className="text-zinc-500 font-semibold">
+                        {vehicleData.personalInformation.mobileNumber.replace(
+                          /\*/g,
+                          ""
+                        )}
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-lg font-bold">Gender</div>
+                      <div className="text-zinc-500 font-semibold">
+                        {vehicleData.personalInformation.gender}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr className="mx-3 my-1" />
+                <div className="text-2xl font-semibold text-[#5E81F4]">
+                  License Information
+                </div>
+                <div className="flex flex-col ps-2">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <div className="text-lg font-bold">License Number</div>
+                      <div className="text-zinc-500 font-semibold">
+                        {vehicleData.licenseInformation.licenseNumber}
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-lg font-bold">Issued Authority</div>
+                      <div className="text-zinc-500 font-semibold">
+                        {vehicleData.licenseInformation.issuedAuthority}
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-lg font-bold">Issued Date</div>
+                      <div className="text-zinc-500 font-semibold">
+                        {vehicleData.licenseInformation.issuedDate}
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="text-lg font-bold">
+                        Validity (Transport)
+                      </div>
+                      <div className="text-zinc-500 font-semibold">
+                        {vehicleData.licenseInformation.validity.transport}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr className="mx-3 my-1" />
+                <div className="text-2xl font-semibold text-[#5E81F4]">
+                  Driving Classes
+                </div>
+                <div className="flex flex-col ps-2">
+                  {vehicleData.drivingClasses.map((drivingClass, index) => (
+                    <div key={index} className="mb-2">
+                      <div className="font-bold text-lg">
+                        {drivingClass.class}{" "}
+                        <span className="text-green-500 font-semibold">
+                          ({drivingClass.status})
                         </span>
                       </div>
-                    </div>
-                    <img src={car1} alt="" className="m-2" />
-                  </div>
-                  <hr className="mx-3 my-1" />
-                  <div className="text-2xl font-semibold text-[#5E81F4]">
-                    Personal Information
-                  </div>
-                  <div className="flex flex-col ps-2">
-                    <div className="text-lg font-bold">Name</div>
-                    <div className="text-zinc-500 font-semibold">
-                      {vehicleData.personalInformation.name}
-                    </div>
-                    <div className="grid grid-cols-2 pt-2  gap-4">
-                      <div>
-                        <div className="text-lg font-bold">Father's Name</div>
-                        <div className="text-zinc-500 font-semibold">
-                          {vehicleData.personalInformation.fatherName}
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-lg font-bold">Date of Birth</div>
-                        <div className="text-zinc-500 font-semibold">
-                          {vehicleData.personalInformation.dateOfBirth &&
-                            vehicleData.personalInformation.dateOfBirth.replace(
-                              /\*/g,
-                              ""
-                            )}
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-lg font-bold">Aadhaar Number</div>
-                        <div className="text-zinc-500 font-semibold">
-                          {vehicleData.personalInformation.aadhaarNumber}
-                        </div>
-                      </div>
-
-                      <div>
-                        <div className="text-lg font-bold">Blood Group</div>
-                        <div className="text-zinc-500 font-semibold">
-                          {vehicleData.personalInformation.bloodGroup}
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-lg font-bold">
-                          Contact Information
-                        </div>
-                        <div className="text-zinc-500 font-semibold">
-                          {vehicleData.personalInformation.mobile}
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-lg font-bold">Address</div>
-                        <div className="text-zinc-500 font-semibold">
-                          {vehicleData.personalInformation.address}
-                        </div>
+                      <div className="text-zinc-400">
+                        Issued: {drivingClass.issued}
                       </div>
                     </div>
-                  </div>
-                </>
+                  ))}
+                </div>
+              </>
               ) : (
                 <div className="flex justify-center items-center h-full">
                   Enter DL Number and DOB

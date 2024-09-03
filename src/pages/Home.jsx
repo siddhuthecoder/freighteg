@@ -32,7 +32,7 @@ import axios from 'axios'
 
 const Home = () => {
   const formRef = useRef(null);
-  const user = useSelector((state) => state.login.user.user);
+  const user = useSelector((state) => state.login.user);
   console.log(user)
   const [staff,setStaff] = useState([])
   const { usersData, usersLoading, usersError, error } = useUserById();
@@ -358,7 +358,7 @@ const Home = () => {
       if (isSubmitting) return;
       e.preventDefault();
       setIsSubmitting(true);
-      alert("Called")
+      // alert("Called")
       const formData = new FormData(e.target);
       const formDataObj = Object.fromEntries(formData.entries());
       const requiredFields = [

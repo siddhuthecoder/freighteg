@@ -402,10 +402,9 @@ const HistoryTable = ({ datas }) => {
               <span className="block">
                 Vehicle Size- {data.vehicle_size} ({data.body_type})
               </span>
-              <span className="block">Material type- {data.material_type}</span>
               <span className="block">
-                Material weight- {data.material_weight}
-              </span>
+                                Material type-  {data.material_type} ({data.material_weight}Mt)
+                                </span>
               {/* <span className="block">Equipments</span> */}
               <a href="#" className="text-blue-600">
                 Distance - {data.route_distance} Km
@@ -459,10 +458,15 @@ const HistoryTable = ({ datas }) => {
             <div
               className="text-blue-600 cursor-pointer"
               onClick={() =>
-                handleResponseClick(data.allVendorBids, data.target_price)
+                       {
+                handleResponseClick(data.allVendorBids, data.target_price);
+                    // debugger;
+                    // console.log("hi")
+                     console.log(data.allVendorBids[0].bidding_price.length)
+                       }
               }
             >
-              Responses ({data.vehicleDetails.length})
+              Responses ({data.allVendorBids[0].bidding_price.length})
             </div>
             <div className="mr-15px">
               Created By -{" "}

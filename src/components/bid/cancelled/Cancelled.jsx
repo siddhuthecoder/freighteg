@@ -263,7 +263,7 @@ const Cancelled = () => {
   // Function to fetch bid details using bid_id
   const fetchBidDetails = async (bidId) => {
     // alert(bidId)
-    console.log(bidId)
+    // console.log(bidId)
     const url = `https://freighteg.in/freightapi/bids/${bidId}`;
     try {
       const response = await axios.get(url);
@@ -297,19 +297,22 @@ const Cancelled = () => {
       // alert({bids})
       console.log({bids})
       const allBidDetails = [];
+      console.log("bid[0]",bids[0])
       for (const bid of bids) {
-        // console.log(bid)
+        console.log(bid)
         const bidDetail = await fetchBidDetails(bid.bid_id);
         
         if (bidDetail) {
           const createdByUser = await fetchFreightUserData(bidDetail.created_by);
           const assignedToUser = await fetchFreightUserData(bidDetail.assigned_to);
-
+          //  console.log({bidDetail})
           const mergedData = {
             ...bidDetail,
             createdByUser,  // Embed created_by user data
             assignedToUser, // Embed assigned_to user data
-            counters: bid.details, // Include the counter details from the nested structure
+            counters: bid.details,
+            vendorIds:bid.vendor_ids,
+            vendorPrices:bid.vendor_prices // Include the counter details from the nested structure
           };
           allBidDetails.push(mergedData);
         }

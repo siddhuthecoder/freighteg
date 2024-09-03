@@ -25,7 +25,7 @@ const VahanId = () => {
   useEffect(() => {
     const handleSearch = async () => {
       // const comapny_id = localStorage.getItem("userID");
-      alert("Called")
+      // alert("Called")
       try {
         const response = await axios.post(
           "https://freighteg.in/freightapi/ULLIPtrackingDirect",

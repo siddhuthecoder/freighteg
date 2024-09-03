@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
+import './style.css'
 const VendorModal = ({ isOpen, onClose, vendors }) => {
   const [vendorDetails, setVendorDetails] = useState([]);
   const [expandedVendor, setExpandedVendor] = useState(null);
@@ -35,26 +35,26 @@ const VendorModal = ({ isOpen, onClose, vendors }) => {
         <h2 className="text-xl font-bold mb-4">Vendors</h2>
         <div className="overflow-auto max-h-[60vh]">
           {vendorDetails.length > 0 ? (
-            <table className="table-auto w-full border-collapse">
+            <table className="table-auto w-full border-collapse table">
               <thead>
-                <tr>
-                  <th className="border px-4 py-2">Vendor ID</th>
-                  <th className="border px-4 py-2">Name</th>
-                  <th className="border px-4 py-2">Owner</th>
-                  <th className="border px-4 py-2">Phone</th>
-                  <th className="border px-4 py-2">State</th>
-                  <th className="border px-4 py-2">Vehicle Types</th>
+                <tr className='tr'>
+                  {/* <th className="border px-4 py-2">Vendor ID</th> */}
+                  <th className="border px-4 py-2 th">Name</th>
+                  <th className="border px-4 py-2 th">Owner</th>
+                  <th className="border px-4 py-2 th">Phone</th>
+                  <th className="border px-4 py-2 th">State</th>
+                  <th className="border px-4 py-2 th">Vehicle Types</th>
                 </tr>
               </thead>
               <tbody>
                 {vendorDetails.map((vendor) => (
                   <tr key={vendor._id}>
-                    <td className="border px-4 py-2">{vendor._id}</td>
-                    <td className="border px-4 py-2">{vendor.name}</td>
-                    <td className="border px-4 py-2">{vendor.owner_name}</td>
-                    <td className="border px-4 py-2">{vendor.phone}</td>
-                    <td className="border px-4 py-2">{vendor.state}</td>
-                    <td className="border px-4 py-2">
+                    {/* <td className="border px-4 py-2">{vendor._id}</td> */}
+                    <td className="border px-4 py-2 td  ">{vendor.name}</td>
+                    <td className="border px-4 py-2 td  ">{vendor.owner_name}</td>
+                    <td className="border px-4 py-2 td  ">{vendor.phone}</td>
+                    <td className="border px-4 py-2 td  ">{vendor.state}</td>
+                    <td className="border px-4 py-2 td  ">
                       <button
                         onClick={() => toggleVehicleView(vendor._id)}
                         className="bg-blue-500 text-white px-4 py-2"
