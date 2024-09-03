@@ -35,7 +35,7 @@ import RegisterAuth from "../components/auth/Register.jsx";
 import PhoneRegister from "../components/auth/PhoneRegister.jsx";
 import SignUpPhone from "../components/auth/SignUp_phone.jsx";
 import Home from './../pages/Home';
-
+import LeftMenu from "../components/LeftMenu.jsx";
 // const Layout = () => {
 //   const user = useSelector((state) => state.login.user);
 
@@ -107,6 +107,7 @@ const AllRoutes2 = () => {
           <Route path="/allvendor" element={<Vendor />} />
           <Route path="/users" element={<User />} />
           <Route path="home" element={<Home />} />
+          <Route path="/left" element={<LeftMenu />} />
         </>
       )}
 
@@ -121,6 +122,32 @@ const AllRoutes2 = () => {
           <Route path="/users" element={<User />} />
         </>
       )}
+
+      {
+        userType === "vendors" &&(
+          <>
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/wallet" element={<Wallet />} />
+              <Route path="/allpodrequest" element={<AllPodRequest />} />
+              <Route path="/podform" element={<PodForm />} />
+              <Route path="/allvendor" element={<Vendor />} />
+              <Route path="/users" element={<User />} />
+          </>
+        )
+      }
+
+{
+        userType === "branch" &&(
+          <>
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/wallet" element={<Wallet />} />
+              <Route path="/allpodrequest" element={<AllPodRequest />} />
+              <Route path="/podform" element={<PodForm />} />
+              <Route path="/allvendor" element={<Vendor />} />
+              <Route path="/users" element={<User />} />
+          </>
+        )
+      }
 
       {/* Authentication Routes */}
       <Route path="/loginAuth" element={<LoginAuth />} />
