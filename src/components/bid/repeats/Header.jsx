@@ -6,13 +6,13 @@ import { Link } from 'react-router-dom';
 
 const Header = ({ onSubmit }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const user = useSelector((state) => state.login.user.user);
+  const user = useSelector((state) => state.login.user);
   const [selectedOption, setSelectedOption] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(true);
-  console.log(user)
+  console.log({user})
 
   useEffect(() => {
     // Fetch branch data from the API
@@ -38,7 +38,7 @@ const Header = ({ onSubmit }) => {
     };
 
     fetchBranchData();
-  }, [user.id]);
+  }, [user?.id]);
 
   useEffect(() => {
     // Set the default selected option based on localStorage

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FaTruckLoading, FaRoad, FaFileInvoice, FaTags, FaMapSigns, FaUser, FaChevronDown, FaBars } from 'react-icons/fa';
 // import { ClipboardIcon } from '@heroicons/react/24/outline';
 import { FaGavel } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
 
 const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);

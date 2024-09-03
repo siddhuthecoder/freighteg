@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
+import './style.css'
 const StaffModal = ({ isOpen, onClose, staff }) => {
   const [staffDetails, setStaffDetails] = useState([]);
 
@@ -30,24 +30,24 @@ const StaffModal = ({ isOpen, onClose, staff }) => {
       <div className="bg-white p-6 rounded-lg shadow-lg">
         <h2 className="text-xl font-bold mb-4">Staff</h2>
         {staffDetails.length > 0 ? (
-          <table className="table-auto w-full">
+          <table className="table-auto w-full table">
             <thead>
-              <tr>
-                <th className="px-4 py-2">ID</th>
-                <th className="px-4 py-2">Name</th>
-                <th className="px-4 py-2">Phone</th>
-                <th className="px-4 py-2">Role</th>
-                <th className="px-4 py-2">Active</th>
+              <tr className='tr'>
+                {/* <th className="px-4 py-2">ID</th> */}
+                <th className="px-4 py-2 th">Name</th>
+                <th className="px-4 py-2 th">Phone</th>
+                <th className="px-4 py-2 th">Role</th>
+                <th className="px-4 py-2 th ">Active</th>
               </tr>
             </thead>
             <tbody>
               {staffDetails.map((staffMember, index) => (
-                <tr key={index}>
-                  <td className="border px-4 py-2">{staffMember._id}</td>
-                  <td className="border px-4 py-2">{staffMember.name}</td>
-                  <td className="border px-4 py-2">{staffMember.phone}</td>
-                  <td className="border px-4 py-2">{staffMember.role}</td>
-                  <td className="border px-4 py-2">
+                <tr key={index} className='tr'>
+                  {/* <td className="border px-4 py-2">{staffMember._id}</td> */}
+                  <td className="border px-4 py-2 td">{staffMember.name}</td>
+                  <td className="border px-4 py-2 td">{staffMember.phone}</td>
+                  <td className="border px-4 py-2 td">{staffMember.role}</td>
+                  <td className="border px-4 py-2 td">
                     {staffMember.isActive ? 'Yes' : 'No'}
                   </td>
                 </tr>

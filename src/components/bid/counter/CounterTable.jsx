@@ -162,11 +162,8 @@ const CounterTable = ({ datas }) => {
                                Vehicle Size-  {data.vehicle_size} ({data.body_type})
                             </span>
                             <span className="block">
-                            Material type-  {data.material_type}
-                            </span>
-                            <span className="block">
-                            Material weight-  {data.material_weight}
-                            </span>
+                                Material type-  {data.material_type} ({data.material_weight}Mt)
+                                </span>
                             {/* <span className="block">Equipments</span> */}
                             <a href="#" className="text-blue-600">
                                 Distance - {data.route_distance} Km

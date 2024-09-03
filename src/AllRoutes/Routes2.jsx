@@ -35,6 +35,7 @@ import RegisterAuth from "../components/auth/Register.jsx";
 import PhoneRegister from "../components/auth/PhoneRegister.jsx";
 import SignUpPhone from "../components/auth/SignUp_phone.jsx";
 import Home from './../pages/Home';
+import History from "../components/bid/history/History.jsx";
 
 // const Layout = () => {
 //   const user = useSelector((state) => state.login.user);
@@ -88,6 +89,7 @@ const AllRoutes2 = () => {
           {/* Routes for Company */}
           <Route path="/his1" element={<HistoryPage />} />
           <Route path="/open" element={<Open />} />
+          <Route path="/history" element={<History/>}/>
           <Route path="/counter" element={<Counter />} />
           <Route path="/layout" element={<BidLayout />} />
           <Route path="/result" element={<ResultPage />} />
@@ -107,7 +109,7 @@ const AllRoutes2 = () => {
           <Route path="/allvendor" element={<Vendor />} />
           <Route path="/users" element={<User />} />
           <Route path="home" element={<Home />} />
-        </>
+      </>
       )}
 
       {userType === "Staff" && (

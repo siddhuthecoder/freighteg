@@ -21,7 +21,7 @@ const Fastag = () => {
   
   
   const handleSearch = async () => {
-    alert(user?.id)
+    // alert(user?.id)
     setLoading(true);
     const capitalizedVehicleNumber = vehicleNumber.toUpperCase();
     try {

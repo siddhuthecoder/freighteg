@@ -1,20 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import Navbar from '../../components/Navbar';
-import axios from 'axios';
-import BranchModal from './BranchModal';
-import VendorModal from './VendorModal';
-import StaffModal from './StaffModal';
-import './style.css';
-import { useSelector } from 'react-redux';
-import { FaUserPlus } from 'react-icons/fa';
+import React, { useState, useEffect } from "react";
+import Navbar from "../../components/Navbar";
+import axios from "axios";
+import BranchModal from "./BranchModal";
+import VendorModal from "./VendorModal";
+import StaffModal from "./StaffModal";
+import "./style.css";
+import { useSelector } from "react-redux";
+import { FaUserPlus } from "react-icons/fa";
+import { MdEdit } from 'react-icons/md';
+import { FaRegEdit } from "react-icons/fa";
 
 const Branch = () => {
   const [branches, setBranches] = useState([]);
-  const [name, setName] = useState('');
-  const [contactPerson, setContactPerson] = useState('');
-  const [phone, setPhone] = useState('');
-  const [password, setPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
+  const [name, setName] = useState("");
+  const [contactPerson, setContactPerson] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [editingBranchId, setEditingBranchId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [message, setMessage] = useState(null);
@@ -32,20 +34,24 @@ const Branch = () => {
 
   const fetchBranches = async () => {
     try {
-      const response = await axios.get(`https://freighteg.in/freightapi/getbranches/company/${userData.id}`);
+      const response = await axios.get(
+        `https://freighteg.in/freightapi/getbranches/company/${userData.id}`
+      );
       setBranches(response.data || []);
     } catch (error) {
-      console.error('Error fetching branches:', error);
+      console.error("Error fetching branches:", error);
     }
   };
 
   const fetchBranchDetails = async (branchId) => {
     try {
-      const response = await axios.get(`https://freighteg.in/freightapi/getbranchdetails/${branchId}`);
+      const response = await axios.get(
+        `https://freighteg.in/freightapi/getbranchdetails/${branchId}`
+      );
       setVendors(response.data.vendor_ids || []);
       setStaff(response.data.staff_ids || []);
     } catch (error) {
-      console.error('Error fetching branch details:', error);
+      console.error("Error fetching branch details:", error);
     }
   };
 
@@ -60,15 +66,15 @@ const Branch = () => {
     };
 
     try {
-      console.log('Creating branch:', branchData);
+      console.log("Creating branch:", branchData);
 
-      await axios.post('https://freighteg.in/freightapi/addBranch', branchData);
-      setMessage('Branch successfully created!');
+      await axios.post("https://freighteg.in/freightapi/addBranch", branchData);
+      setMessage("Branch successfully created!");
       setIsError(false);
       fetchBranches(); // Refresh branches after creation
       closeModal(); // Close modal after successful creation
     } catch (error) {
-      console.error('Error creating branch:', error.response || error.message);
+      console.error("Error creating branch:", error.response || error.message);
       setMessage(`Error creating branch: ${error.message}`);
       setIsError(true);
     }
@@ -84,15 +90,18 @@ const Branch = () => {
     };
 
     try {
-      console.log('Updating branch:', branchData);
+      console.log("Updating branch:", branchData);
 
-      await axios.put(`https://freighteg.in/freightapi/updatebranches/${editingBranchId}`, branchData);
-      setMessage('Branch successfully updated!');
+      await axios.put(
+        `https://freighteg.in/freightapi/updatebranches/${editingBranchId}`,
+        branchData
+      );
+      setMessage("Branch successfully updated!");
       setIsError(false);
       fetchBranches(); // Refresh branches after update
       closeModal(); // Close modal after successful update
     } catch (error) {
-      console.error('Error updating branch:', error.response || error.message);
+      console.error("Error updating branch:", error.response || error.message);
       setMessage(`Error updating branch: ${error.message}`);
       setIsError(true);
     }
@@ -103,18 +112,18 @@ const Branch = () => {
     setName(branch.name);
     setContactPerson(branch.contact_person_name);
     setPhone(branch.phone);
-    setPassword(''); // Clear the password field for editing
-    setNewPassword(''); // Clear the new password field for editing
+    setPassword(branch.password); // Clear the password field for editing
+    setNewPassword(""); // Clear the new password field for editing
     setIsModalOpen(true); // Open modal for editing
   };
 
   const openModalForCreate = () => {
     setEditingBranchId(null);
-    setName('');
-    setContactPerson('');
-    setPhone('');
-    setPassword('');
-    setNewPassword('');
+    setName("");
+    setContactPerson("");
+    setPhone("");
+    setPassword("");
+    setNewPassword("");
     setIsModalOpen(true);
   };
 
@@ -138,54 +147,53 @@ const Branch = () => {
       <div className="container mx-auto p-4">
         {/* <h1 className="text-2xl font-bold mb-4">Branch Management</h1> */}
         <div className="flex justify-between items-center mb-4">
-  <h1 className="text-2xl font-bold">Branch </h1>
-  <button
-    onClick={openModalForCreate}
-    className="flex items-center px-4 py-2 bg-blue-900 text-white rounded-full hover:bg-blue-700 transition duration-150 ease-in-out"
-  >
-    <FaUserPlus className="mr-2" />
-    <span>Add Branch</span>
-  </button>
-</div>
+          <h1 className="text-2xl font-bold">Branch </h1>
+          <button
+            onClick={openModalForCreate}
+            className="flex items-center px-4 py-2 bg-blue-900 text-white rounded-full hover:bg-blue-700 transition duration-150 ease-in-out"
+          >
+            <FaUserPlus className="mr-2" />
+            <span>Add Branch</span>
+          </button>
+        </div>
 
         {branches.length > 0 ? (
           <div className="table-container">
-            <table className="min-w-full">
-              <thead>
-                <tr>
-                  <th>Branch Name</th>
-                  <th>Contact Person</th>
-                  <th>Phone</th>
-                  <th>Actions</th>
+            <table className="min-w-full table">
+              <thead className="thead">
+                <tr className="tr">
+                  <th className="th">Branch Name</th>
+                  <th className="th">Contact Person</th>
+                  <th className="th">Phone</th>
+                  <th className="th"> Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {branches.map((branch) => (
-                  <tr key={branch._id}>
-                    <td>{branch.name}</td>
-                    <td>{branch.contact_person_name}</td>
-                    <td>{branch.phone}</td>
-                    <td className="actions space-x-2">
-  <button
-    onClick={() => handleEditClick(branch)}
-    className="edit-button bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
-  >
-    <i className="fas fa-edit mr-2"></i> Edit
-  </button>
-  <button
-    onClick={() => handleVendorClick(branch._id)}
-    className="view-button bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300"
-  >
-    View Vendors
-  </button>
-  <button
-    onClick={() => handleStaffClick(branch._id)}
-    className="view-button bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition duration-300"
-  >
-    View Staff
-  </button>
-</td>
-
+                  <tr key={branch._id} className="tr">
+                    <td className="td">{branch.name}</td>
+                    <td className="td">{branch.contact_person_name}</td>
+                    <td className="td">{branch.phone}</td>
+                    <td className="actions space-x-2 td">
+                      <button
+                        onClick={() => handleEditClick(branch)}
+                        className="text-blue-500 px-2 py-2 rounded hover:text-black "
+                      >
+                       <FaRegEdit className="h-6 w-6 " />
+                      </button>
+                      <button
+                        onClick={() => handleVendorClick(branch._id)}
+                        className="view-button bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300"
+                      >
+                        View Vendors
+                      </button>
+                      <button
+                        onClick={() => handleStaffClick(branch._id)}
+                        className="view-button bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition duration-300"
+                      >
+                        View Staff
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -196,7 +204,9 @@ const Branch = () => {
         )}
 
         {message && (
-          <p className={`mt-4 ${isError ? 'text-red-500' : 'text-green-500'}`}>{message}</p>
+          <p className={`mt-4 ${isError ? "text-red-500" : "text-green-500"}`}>
+            {message}
+          </p>
         )}
 
         {/* Modals for Branch, Vendor, and Staff */}

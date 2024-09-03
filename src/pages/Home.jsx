@@ -32,7 +32,7 @@ import axios from 'axios'
 
 const Home = () => {
   const formRef = useRef(null);
-  const user = useSelector((state) => state.login.user.user);
+  const user = useSelector((state) => state.login.user);
   console.log(user)
   const [staff,setStaff] = useState([])
   const { usersData, usersLoading, usersError, error } = useUserById();
