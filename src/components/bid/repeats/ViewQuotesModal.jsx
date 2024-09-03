@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { MdOutlineRemoveRedEye } from "react-icons/md";
-import { FaCheck } from "react-icons/fa";
-
+import { MdCheck } from "react-icons/md";
+import { FaEyeSlash } from "react-icons/fa";
+import { MdClear } from "react-icons/md";
 const ViewQuotesModal = ({ data, onClose, response }) => {
     const [vendors, setVendors] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+
     useEffect(() => {
         const fetchVendorDetails = async () => {
-            alert(JSON.stringify(response))
             try {
                 const vendorDetails = {};
                 const uniqueIds = [...new Set([...data.viewedBy, ...data.responded_by])];
-                // alert(JSON.stringify(data.viewedBy))
-                // alert(JSON.stringify(data.responded_by))
                 const requests = uniqueIds.map(id =>
                     fetch(`https://freighteg.in/freightapi/vendor/${id}`).then(res => res.json())
                 );
@@ -42,20 +41,11 @@ const ViewQuotesModal = ({ data, onClose, response }) => {
                 
                 <div className="bg-blue-700 text-white p-4 rounded-t-lg flex items-center justify-between">
                     <h2 className="text-lg">#{data.bidNo}</h2>
-                    <button onClick={onClose}>
-                        <div className="text-2xl">X</div>
-                    </button>
+                    <button onClick={onClose} className="text-2xl">X</button>
                 </div>
 
                 <div className="border-b p-4">
-                    <div className="flex justify-between text-gray-600">
-                        {/* ...other details... */}
-                    </div>
-                </div>
-
-                <div className="p-4">
-                <div className="border-b p-4">
-                    <div className="flex justify-between text-gray-600">
+                <div className="flex justify-between text-gray-600">
                         <div>
                             <p className="text-sm font-medium">Date</p>
                             <p className="text-sm">{data.createdAt}</p>
@@ -79,48 +69,51 @@ const ViewQuotesModal = ({ data, onClose, response }) => {
                     </div>
                 </div>
                 
-                    <h3 className="text-gray-800 font-medium mb-2">Vendor Information</h3>
-                    <div className="space-y-2">
-                        <div className="flex justify-between text-gray-600">
-                            <p className="text-sm font-medium">Vendor Name</p>
-                            <p className="text-sm font-medium">Viewed</p>
-                            <p className="text-sm font-medium">Responded</p>
-                            <p className="text-sm font-medium">Bid Price</p>
-                            <div className="w-40"></div> {/* Placeholder for buttons alignment */}
-                        </div>
-                        {isLoading ? (
-                            <p>Loading vendor information...</p>
-                        ) : error ? (
-                            <p className="text-red-500">{error}</p>
-                        ) : (
-                            [...new Set([...data.viewedBy, ...data.responded_by])].map((id, index) => (
-                                <div key={index} className="flex justify-between mb-5 mt-5 items-center text-gray-600 p-2 border-b">
-                                    <p className="font-medium">{vendors[id]?.name || 'Vendor name unavailable'}</p>
-                                    <p className="text-sm">
-                                        <span className={data.viewedBy.includes(id) ? "text-green-500" : "text-red-500"}>
-                                            <MdOutlineRemoveRedEye className={data.viewedBy.includes(id) ? "h-5 w-5 text-green-500" : "h-5 w-5 text-red-500 line-through"} />
-                                        </span>
-                                    </p>
-                                    <p className="text-sm">
-                                        <span className={data.responded_by.includes(id) ? "text-green-500" : "text-red-500"}>
-                                            <FaCheck className={data.responded_by.includes(id) ? "h-5 w-5 text-green-500" : "h-5 w-5 text-red-500 line-through"} />
-                                        </span>
-                                    </p>
-                                    <p className="text-sm">
-                                        {response?.[id] || 'N/A'}
-                                    </p>
-                                    <div className="flex space-x-2">
-                                        <button className="bg-blue-500 text-white px-4 py-1 rounded">
-                                            Counter
-                                        </button>
-                                        <button className="bg-green-500 text-white px-4 py-1 rounded">
-                                            Assign
-                                        </button>
-                                    </div>
-                                </div>
-                            ))
-                        )}
-                    </div>
+                <h3 className="text-gray-800 font-medium mb-4">Vendor Information</h3>
+                <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-50">
+                            <tr>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vendor Name</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Viewed</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Responded</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bid Price</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                            {isLoading ? (
+                                <tr>
+                                    <td colSpan="5" className="px-6 py-4 text-center">Loading vendor information...</td>
+                                </tr>
+                            ) : error ? (
+                                <tr>
+                                    <td colSpan="5" className="px-6 py-4 text-center text-red-500">{error}</td>
+                                </tr>
+                            ) : (
+                                [...new Set([...data.viewedBy, ...data.responded_by])].map((id, index) => (
+                                    <tr key={index} className="hover:bg-gray-50">
+                                        <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                                            {vendors[id]?.name || 'Vendor name unavailable'}
+                                        </td>
+                                        <td className="px-6 py-4 text-sm text-gray-500">
+                                            {data.viewedBy.includes(id) ? <MdOutlineRemoveRedEye className="h-5 w-5 text-green-500" /> :  <FaEyeSlash className="h-5 w-5 text-red-500" />}
+                                        </td>
+                                        <td className="px-6 py-4 text-sm text-gray-500">
+                                            {data.responded_by.includes(id) ? <MdCheck className="h-5 w-5 text-green-500" /> : <MdClear className="h-5 w-5 text-red-500" />}
+                                        </td>
+                                        <td className="px-6 py-4 text-sm text-gray-500">
+                                            {response?.[id] || 'N/A'}
+                                        </td>
+                                        <td className="px-6 py-4 text-sm text-gray-500">
+                                            <button className="bg-blue-500 text-white px-3 py-1 rounded mr-2">Counter</button>
+                                            <button className="bg-green-500 text-white px-3 py-1 rounded">Assign</button>
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
+                        </tbody>
+                    </table>
                 </div>
 
                 <div className="w-full p-4 bg-white border-t">
