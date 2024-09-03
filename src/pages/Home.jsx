@@ -28,9 +28,13 @@ import {
   useCreatedBid,
 } from "../HelperFunction/api";
 import Navbar from "../components/Navbar";
+import axios from 'axios'
+
 const Home = () => {
   const formRef = useRef(null);
-  const user = useSelector((state) => state.login.user);
+  const user = useSelector((state) => state.login.user.user);
+  console.log(user)
+  const [staff,setStaff] = useState([])
   const { usersData, usersLoading, usersError, error } = useUserById();
   const [loadingDate, setLoadingDate] = useState(null);
   const [bidExpDate, setBidExpDate] = useState(null);
@@ -47,6 +51,98 @@ const Home = () => {
   const [inputerror, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loading,setLoading] = useState(false)
+  const [options,setOptions] = useState([])
+  const [selectedOption, setSelectedOption] = useState('');
+  const [staffLoading, setStaffLoading] = useState(true);
+
+  // select branch
+  useEffect(() => {
+    // Fetch branch data from the API
+    const fetchBranchData = async () => {
+      try {
+        const response = await fetch(`https://freighteg.in/freightapi/getbranches/company/${user.id}`);
+        const data = await response.json();
+        console.log(data);
+
+        // Map the data to the options array
+        const branchOptions = [
+          { label: 'ALL', value: user?.id }, // Add "ALL" option
+          ...data.map(branch => ({
+            label: branch.name,
+            value: branch._id
+          })),
+        ];
+        setOptions(branchOptions);
+        setLoading(false);
+
+        // Set the default selected option based on localStorage
+        const storedBranch = localStorage.getItem('branchName') || 'ALL';
+        const defaultOption = branchOptions.find(option => option.value === storedBranch);
+        setSelectedOption(defaultOption);
+      } catch (error) {
+        console.error('Error fetching branch data:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchBranchData();
+  }, [user.id]);
+
+  const handleOptionChange = (selectedOption) => {
+    if (selectedOption) {
+      setSelectedOption(selectedOption);
+
+      // Update localStorage based on the selected option
+      if (selectedOption.value === user?.id) {
+        localStorage.setItem('branch_id',user?.id); // Remove branch_id if "ALL" is selected
+      } else {
+        localStorage.setItem('branch_id', selectedOption.value);
+      }
+      
+      // Update branchName in localStorage with the selectedValue (branch ID or 'ALL')
+      localStorage.setItem('branchName', selectedOption.value);
+
+      window.location.reload(); // Reload the page to apply the change
+    }
+  };
+
+  // console.log(selectedOption.value)
+
+  const branc = localStorage.getItem("branchName")
+  console.log(branc)
+  // select branch
+
+
+  // staff
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`https://freighteg.in/freightapi/freightuser/${branc}`);
+        const data = response.data;
+
+        // Map the user data to the options array
+        if (data && Array.isArray(data.user)) {
+          const userOptions = data.user.map(user => ({
+            label: user.name, // Display userName as label
+            value: user._id    // Use _id as value
+          }));
+          setStaff(userOptions);
+        } else {
+          console.error('Invalid data format');
+        }
+
+        setStaffLoading(false);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        setStaffLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, [branc]);
+
+  //staff end
   useEffect(() => {
     (async () => {
       if (selectedState && selectedState.value) {
@@ -77,6 +173,9 @@ const Home = () => {
       }
     })();
   }, [selectedState, selectedStates]);
+
+
+
   const handleLoadingDateChange = useCallback(
     (date) => {
       if (date !== bidExpDate && bidExpDate !== null) {
@@ -151,6 +250,8 @@ const Home = () => {
     setLoadingTime("");
     setError("");
   };
+
+
   const handleLoadingTimeChange = (event) => {
     const selectedTime = event.target.value;
     if (isTimeValid(selectedTime, expireTime)) {
@@ -767,6 +868,49 @@ const Home = () => {
             </div>
           </div>
 
+          {/* select branch             */}
+          <div className="p-10 pt-0">
+            <div className="p-5 rounded-xl shadow-lg">
+              <div className="flex gap-3 items-center mb-2">
+                <img src={assign} alt="Assign_staff" className="pt-2" />
+                <p className="text-[#113870] font-semibold text-[20px]">
+                  Select Branch
+                </p>
+              </div>
+              <div className="flex gap-9">
+                <div className="flex flex-1 gap-5">
+                  <p className="text-[#888888]">Name</p>
+                  <Select
+                    options={options}
+                    value={selectedOption}
+                    onChange={handleOptionChange}
+                    name="assigned_to"
+                    className="w-full"
+                    placeholder="Select Staff.."
+                    styles={{
+                      control: (provided, state) => ({
+                        ...provided,
+                        color: "white",
+                        backgroundColor: "#e5e7eb",
+                        border: state.isFocused ? "1px solid #e5e7eb" : provided.border,
+                        borderRadius: "7px",
+                        boxShadow: state.isFocused ? "none" : provided.boxShadow,
+                        "&:hover": {
+                          border: "1px solid #e5e7eb",
+                        },
+                      }),
+                      option: (provided, state) => ({
+                        ...provided,
+                        color: state.isSelected ? "black" : "",
+                        backgroundColor: state.isSelected ? "#f0f0f0" : "white",
+                      }),
+                    }}
+                  />
+                </div>
+               
+              </div>
+            </div>
+          </div>
           {/* Assign Staff card */}
           <div className="p-10 pt-0">
             <div className="p-5 rounded-xl shadow-lg">
@@ -780,10 +924,11 @@ const Home = () => {
                 <div className="flex flex-1 gap-5">
                   <p className="text-[#888888]">Name</p>
                   <Select
-                    options={userOptions}
+                    options={staff}
                     name="assigned_to"
                     className="w-full"
                     placeholder="Select Staff.."
+                    // onChange={handleOptionChange}
                     styles={{
                       control: (provided, state) => ({
                         ...provided,
@@ -806,7 +951,7 @@ const Home = () => {
                         backgroundColor: state.isSelected ? "#f0f0f0" : "white",
                       }),
                     }}
-                    onChange={handleUserChange}
+                    onChange={() => console.log("ll")}
                   />
                 </div>
                 <div className="flex flex-1 gap-5">

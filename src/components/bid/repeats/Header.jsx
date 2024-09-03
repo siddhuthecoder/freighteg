@@ -6,12 +6,13 @@ import { Link } from 'react-router-dom';
 
 const Header = ({ onSubmit }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const user = useSelector((state) => state.login.user);
+  const user = useSelector((state) => state.login.user.user);
   const [selectedOption, setSelectedOption] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(true);
+  console.log(user)
 
   useEffect(() => {
     // Fetch branch data from the API
@@ -19,6 +20,7 @@ const Header = ({ onSubmit }) => {
       try {
         const response = await fetch(`https://freighteg.in/freightapi/getbranches/company/${user.id}`);
         const data = await response.json();
+        console.log(data)
         // Map the data to the options array
         const branchOptions = [
           { label: 'ALL', value: 'ALL' }, // Add "ALL" option
