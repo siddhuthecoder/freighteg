@@ -55,6 +55,9 @@ const Home = () => {
   const [options,setOptions] = useState([])
   const [selectedOption, setSelectedOption] = useState('');
   const [staffLoading, setStaffLoading] = useState(true);
+  const [selectedStaff,setSelectedStaff] = useState({})
+  const [staffPhone,setStaffPhone] = useState("")
+  console.log(selectedOption)
 
   // select branch
   useEffect(() => {
@@ -89,23 +92,9 @@ const Home = () => {
     fetchBranchData();
   }, [user.id]);
 
-  const handleOptionChange = (selectedOption) => {
-    if (selectedOption) {
-      setSelectedOption(selectedOption);
+ 
+  
 
-      // Update localStorage based on the selected option
-      if (selectedOption.value === user?.id) {
-        localStorage.setItem('branch_id',user?.id); // Remove branch_id if "ALL" is selected
-      } else {
-        localStorage.setItem('branch_id', selectedOption.value);
-      }
-      
-      // Update branchName in localStorage with the selectedValue (branch ID or 'ALL')
-      localStorage.setItem('branchName', selectedOption.value);
-
-      window.location.reload(); // Reload the page to apply the change
-    }
-  };
 
   // console.log(selectedOption.value)
 
@@ -118,14 +107,14 @@ const Home = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`https://freighteg.in/freightapi/freightuser/${branc}`);
+        const response = await axios.get(`https://freighteg.in/freightapi/freightuser/${selectedOption.value}`);
         const data = response.data;
 
         // Map the user data to the options array
         if (data && Array.isArray(data.user)) {
           const userOptions = data.user.map(user => ({
             label: user.name, // Display userName as label
-            value: user._id    // Use _id as value
+            value: user.phone    // Use _id as value
           }));
           setStaff(userOptions);
         } else {
@@ -140,7 +129,39 @@ const Home = () => {
     };
 
     fetchUserData();
-  }, [branc]);
+  }, [branc,selectedOption]);
+
+  useEffect(() => {
+    setStaffPhone(selectedStaff.value)
+  },[selectedStaff])
+
+  
+  const handleSelectStaff = (selectedOption) => {
+    if (selectedOption) {
+      setSelectedStaff(selectedOption);
+    
+    }
+  };
+
+  const handleOptionChange = (selectedOption) => {
+    console.log(selectedOption)
+    if (selectedOption) {
+      setSelectedOption(selectedOption);
+
+      // Update localStorage based on the selected option
+      // if (selectedOption.value === user?.id) {
+      //   localStorage.setItem('branch_id',user?.id); // Remove branch_id if "ALL" is selected
+      // } else {
+      //   localStorage.setItem('branch_id', selectedOption.value);
+      // }
+      
+      // Update branchName in localStorage with the selectedValue (branch ID or 'ALL')
+      localStorage.setItem('branchName', selectedOption.value);
+
+      // window.location.reload(); // Reload the page to apply the change
+    }
+  };
+  // console.log("selectedStaff")
 
   //staff end
   useEffect(() => {
@@ -173,7 +194,6 @@ const Home = () => {
       }
     })();
   }, [selectedState, selectedStates]);
-
 
 
   const handleLoadingDateChange = useCallback(
@@ -399,6 +419,8 @@ const Home = () => {
   );
   if (usersLoading) return <div>Loading...</div>;
   if (usersError) return <div>Error: {error.message}</div>;
+
+  console.log(selectedStaff)
 
   return (
     <>
@@ -925,6 +947,7 @@ const Home = () => {
                   <p className="text-[#888888]">Name</p>
                   <Select
                     options={staff}
+                    onChange={handleSelectStaff}
                     name="assigned_to"
                     className="w-full"
                     placeholder="Select Staff.."
@@ -951,13 +974,13 @@ const Home = () => {
                         backgroundColor: state.isSelected ? "#f0f0f0" : "white",
                       }),
                     }}
-                    onChange={() => console.log("ll")}
+                    
                   />
                 </div>
                 <div className="flex flex-1 gap-5">
                   <p className="text-[#888888]">Phone Number</p>
                   <input
-                    value={phoneNumber}
+                    value={selectedStaff.value}
                     type="text"
                     className="bg-gray-200 h-10 rounded-md p-2 focus:outline-none border border-gray-400 flex-grow"
                     readOnly
