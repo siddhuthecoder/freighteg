@@ -358,7 +358,7 @@ const Home = () => {
       if (isSubmitting) return;
       e.preventDefault();
       setIsSubmitting(true);
-      alert("Called")
+      // alert("Called")
       const formData = new FormData(e.target);
       const formDataObj = Object.fromEntries(formData.entries());
       const requiredFields = [

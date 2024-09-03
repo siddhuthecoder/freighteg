@@ -6,12 +6,14 @@ const ViewQuotesModal = ({ data, onClose, response }) => {
     const [vendors, setVendors] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-
     useEffect(() => {
         const fetchVendorDetails = async () => {
+            alert(JSON.stringify(response))
             try {
                 const vendorDetails = {};
                 const uniqueIds = [...new Set([...data.viewedBy, ...data.responded_by])];
+                // alert(JSON.stringify(data.viewedBy))
+                // alert(JSON.stringify(data.responded_by))
                 const requests = uniqueIds.map(id =>
                     fetch(`https://freighteg.in/freightapi/vendor/${id}`).then(res => res.json())
                 );
@@ -105,7 +107,7 @@ const ViewQuotesModal = ({ data, onClose, response }) => {
                                         </span>
                                     </p>
                                     <p className="text-sm">
-                                        {response[0]?.[id] || 'N/A'}
+                                        {response?.[id] || 'N/A'}
                                     </p>
                                     <div className="flex space-x-2">
                                         <button className="bg-blue-500 text-white px-4 py-1 rounded">
