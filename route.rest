@@ -62,3 +62,14 @@ GET https://freighteg.in/freightapi/getbranchdetails/66b3cb50c07c66605d6909c4
 
 ### Get All Branches by Company ID
 GET https://freighteg.in/freightapi/getbranches/company/665580f353ccced94082681b
+
+
+### Login to Freight API
+POST https://freighteg.in/freightapi/freightuser/login
+Content-Type: application/json
+
+{
+    "role": "Staff",
+    "phone": "1234567890",
+    "password": "123456"
+}

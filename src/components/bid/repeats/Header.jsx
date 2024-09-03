@@ -12,7 +12,6 @@ const Header = ({ onSubmit }) => {
   const [endDate, setEndDate] = useState('');
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(true);
-  console.log({user})
 
   useEffect(() => {
     // Fetch branch data from the API

@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 // Import all your components here
 import Navbar from "../components/Navbar";
-import StaffNavbar from "../components/StaffNavbar";
+import StaffNavbar from "../components/StaffNavbar.jsx";
 import MainPage from "../LandingPageComponents/MainPage";
 import Price from "../pages/Pricing/Price";
 import About from "../pages/AboutUs/About";
@@ -34,8 +34,24 @@ import EnterPhoneAuth from "../components/auth/EnterPhone.jsx";
 import RegisterAuth from "../components/auth/Register.jsx";
 import PhoneRegister from "../components/auth/PhoneRegister.jsx";
 import SignUpPhone from "../components/auth/SignUp_phone.jsx";
-import Home from './../pages/Home';
+import Home from "./../pages/Home";
 import History from "../components/bid/history/History.jsx";
+import CreateBid from "../staff/CreateBid.jsx";
+import ViewBids from "../staff/ViewBids/ViewBids.jsx";
+import ViewResult from "../staff/ViewResults/ViewResult.jsx";
+import ViewResultHistory from "../staff/ViewResultHistory/ViewResultHistory.jsx";
+import StaffFastag from "../staff/VechileInfo/Fastag.jsx";
+import StaffVahan from "../staff/VechileInfo/Vahan.jsx";
+import StaffSarathi from "../staff/VechileInfo/Sarathi.jsx";
+import ChangePassword from "./../Transporter/Profile/ChangePassword";
+import Companies from "../Transporter/Profile/Companies.jsx";
+import Profilee from "../Transporter/Profile/Profile.jsx";
+import StateSelection from "../Transporter/Profile/StateSelection.jsx";
+import VehicleSelection from "../Transporter/Profile/VehicleSelection.jsx";
+import PODUpload from "../Transporter/PODUpload/PODUpload.jsx";
+import NewLoad from "../Transporter/NewLoad/NewLoad.jsx";
+import MyRank from "../Transporter/MyRank/MyRank.jsx";
+import AssignedStaff from "../Transporter/AssignedStaff/AssignedStaff.jsx";
 
 // const Layout = () => {
 //   const user = useSelector((state) => state.login.user);
@@ -89,7 +105,7 @@ const AllRoutes2 = () => {
           {/* Routes for Company */}
           <Route path="/his1" element={<HistoryPage />} />
           <Route path="/open" element={<Open />} />
-          <Route path="/history" element={<History/>}/>
+          <Route path="/history" element={<History />} />
           <Route path="/counter" element={<Counter />} />
           <Route path="/layout" element={<BidLayout />} />
           <Route path="/result" element={<ResultPage />} />
@@ -100,21 +116,63 @@ const AllRoutes2 = () => {
           <Route path="/vahan" element={<Vahan />} />
           <Route path="/fastag/:vehicleNumber" element={<FastagId />} />
           <Route path="/vahan/:vehicleNumber" element={<SarathiId />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/wallet" element={<Wallet />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/wallet" element={<Wallet />} />
           <Route path="/allpodrequest" element={<AllPodRequest />} />
           <Route path="/podform" element={<PodForm />} />
           <Route path="/allvendor" element={<Vendor />} />
           <Route path="/users" element={<User />} />
           <Route path="home" element={<Home />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/wallet" element={<Wallet />} />
         </>
       )}
 
       {userType === "Staff" && (
         <>
-          {/* Routes for Staff */}
+        <Route path="/staff/createBid" element={<CreateBid />} />
+<Route path="/staff/viewBid" element={<ViewBids />} />
+<Route path="/staff/viewResult" element={<ViewResult />} />
+<Route path="/staff/viewResultHistory" element={<ViewResultHistory />} />
+<Route path="/staff/fastag" element={<StaffFastag />} />
+<Route path="/staff/vahan" element={<StaffVahan />} />
+<Route path="/staff/sarathi" element={<StaffSarathi />} />
+
+        </>
+      )}
+
+      {userType === "Transporter" && (
+        <>
+          {/* <Route path="/profile" element={<Profile />} />
+              <Route path="/wallet" element={<Wallet />} />
+              <Route path="/allpodrequest" element={<AllPodRequest />} />
+              <Route path="/podform" element={<PodForm />} />
+              <Route path="/allvendor" element={<Vendor />} />
+              <Route path="/users" element={<User />} /> */}
+          <Route
+            path="/transporter/changePassword"
+            element={<ChangePassword />}
+          />
+          <Route path="/transporter/companies" element={<Companies />} />
+          <Route path="/transporter/profile" element={<Profilee />} />
+          <Route
+            path="/transporter/stateSelection"
+            element={<StateSelection />}
+          />
+          <Route
+            path="/transporter/vehicleSelection"
+            element={<VehicleSelection />}
+          />
+          <Route path="/transporter/PODUpload" element={<PODUpload />} />
+          <Route path="/transporter/newLoad" element={<NewLoad />} />
+          <Route path="/transporter/rank" element={<MyRank />} />
+          <Route
+            path="/transporter/assignedStaff"
+            element={<AssignedStaff />}
+          />
+        </>
+      )}
+
+      {userType === "branch" && (
+        <>
           <Route path="/profile" element={<Profile />} />
           <Route path="/wallet" element={<Wallet />} />
           <Route path="/allpodrequest" element={<AllPodRequest />} />
@@ -123,32 +181,6 @@ const AllRoutes2 = () => {
           <Route path="/users" element={<User />} />
         </>
       )}
-
-      {
-        userType === "vendors" &&(
-          <>
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/wallet" element={<Wallet />} />
-              <Route path="/allpodrequest" element={<AllPodRequest />} />
-              <Route path="/podform" element={<PodForm />} />
-              <Route path="/allvendor" element={<Vendor />} />
-              <Route path="/users" element={<User />} />
-          </>
-        )
-      }
-
-{
-        userType === "branch" &&(
-          <>
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/wallet" element={<Wallet />} />
-              <Route path="/allpodrequest" element={<AllPodRequest />} />
-              <Route path="/podform" element={<PodForm />} />
-              <Route path="/allvendor" element={<Vendor />} />
-              <Route path="/users" element={<User />} />
-          </>
-        )
-      }
 
       {/* Authentication Routes */}
       <Route path="/loginAuth" element={<LoginAuth />} />
