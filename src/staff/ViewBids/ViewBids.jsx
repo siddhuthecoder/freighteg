@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import OpenTable from "../../components/bid/open/OpenTable";
+// import OpenTable from "../../components/bid/open/OpenTable";
+import OpenTable from "./OpenTable";
 import Header from '../../components/bid/repeats/Header';
 import { useSelector } from "react-redux";
 import StaffNavbar from '../StaffNavBarr';
@@ -10,6 +11,7 @@ const ViewBids = () => {
   const [loading, setLoading] = useState(true); // Set loading to true initially
   const [error, setError] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
+  const [vendorData, setVendorData] = useState([]);
   const user = useSelector((state) => state.login.user);
 
   const fetchActiveBids = async () => {
@@ -17,15 +19,37 @@ const ViewBids = () => {
   
     try {
       const response = await axios.get(url);
-      console.log('Data fetched successfully:', response.data.data);
+      // console.log('Data fetched successfully:', response.data.data);
       setBidDetails(response.data.data); // Set the bid details from the response
+      console.log(bidDetails)
+      setVendorData(bidDetails.assigned_transporter)
+      // console.log(vendorData)
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      // console.error('Error fetching data:', error);
       setError('Failed to fetch data');
       setLoading(false);
     }
   };
+
+
+  useEffect(() => {
+    const fetchVendorData = async () => {
+      try {
+        const promises = bidDetails?.assigned_transporter?.map(id => 
+          fetch(`https://freighteg.in/freightapi/vendor/${id}`)
+            .then(response => response.json())
+        );
+        
+        const results = await Promise.all(promises);
+        // setVendorData(results);
+      } catch (error) {
+        // console.error('Error fetching vendor data:', error);
+      }
+    };
+
+    fetchVendorData();
+  }, []);
 
   useEffect(() => {
     fetchActiveBids();
@@ -35,10 +59,10 @@ const ViewBids = () => {
     try {
       // Handle form submission logic here
     } catch (error) {
-      console.error('Error handling form submission:', error);
+      // console.error('Error handling form submission:', error);
     }
   };
-  console.log(bidDetails)
+  // console.log(bidDetails)
 
   return (
 
