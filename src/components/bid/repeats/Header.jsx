@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 const Header = ({ onSubmit }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const user = useSelector((state) => state.login.user);
+  const user = useSelector((state) => state.login.user.user);
   const [selectedOption, setSelectedOption] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
