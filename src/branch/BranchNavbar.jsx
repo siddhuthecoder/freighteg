@@ -122,7 +122,7 @@ const Navbar = () => {
       {/* Spacer to prevent content from going under the fixed navbar */}
       <div className="h-16"></div>
 
-      {showMenu && <LeftMenu />}
+      {showMenu && <LeftMenu user={user} tabs={routes} />}
     </>
   );
 };

@@ -4,7 +4,7 @@ const Branch = () => {
   return (
     <div>
       <BranchNavBar/>
-      hi 
+      
     </div>
   )
 }

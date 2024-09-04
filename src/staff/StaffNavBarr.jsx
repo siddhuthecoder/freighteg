@@ -109,7 +109,7 @@ const Navbar = () => {
 
       <div className="h-16"></div>
 
-      {showMenu && <LeftMenu />}
+      {showMenu && <LeftMenu tabs={routes} user={user}/>}
     </>
   );
 };
