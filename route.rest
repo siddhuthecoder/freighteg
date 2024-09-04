@@ -64,12 +64,14 @@ GET https://freighteg.in/freightapi/getbranchdetails/66b3cb50c07c66605d6909c4
 GET https://freighteg.in/freightapi/getbranches/company/665580f353ccced94082681b
 
 
-### Login to Freight API
-POST https://freighteg.in/freightapi/freightuser/login
-Content-Type: application/json
+668d158260d1af2a06fa2a89
 
-{
-    "role": "Staff",
-    "phone": "1234567890",
-    "password": "123456"
-}
+
+###
+# Fetch Bid Results
+GET https://freighteg.in/freightapi/getBidResults?assigned_to=668d158260d1af2a06fa2a89&page=1&limit=10
+
+
+
+###
+GET https://freighteg.in/freightapi/activeBids/668d158260d1af2a06fa2a89

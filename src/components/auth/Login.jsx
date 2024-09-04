@@ -73,7 +73,7 @@ const LoginAuth = () => {
           navigate('/transporter/changePassword')
         }
         else if(rolee==='Branch'){
-          navigate('/branch')
+          navigate('/branch/open')
         }
         else{
           alert("Invalid Role")
