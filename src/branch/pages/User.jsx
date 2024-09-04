@@ -8,7 +8,7 @@ import UserAddForm from "./UserAddForm";
 import { updateUserData, useUserById, deleteUser } from "../../HelperFunction/api";
 import BranchNavbar from '../BranchNavbar';
 
-const User = () => {
+const BranchUser = () => {
   const { usersData, usersLoading, usersError, error, refetch } = useUserById();
   const [showUserForm, setShowUserForm] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
@@ -230,4 +230,4 @@ const ErrorState = ({ error }) => (
   </div>
 );
 
-export default User;
+export default BranchUser;

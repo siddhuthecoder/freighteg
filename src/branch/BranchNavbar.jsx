@@ -10,15 +10,15 @@ import { logOut } from "../app/features/auth/loginSlice";
 import logo from "../components/Freight Logo.png"; // Import the logo image
 
 const routes = [
-  { path: "/branch/bid", name: "Bid" },
+  { path: "/branch/open", name: "Bid" },
   { path: "/branch/vendor", name: "Vendor" },
   { path: "/branch/staff", name: "Staff" },
-  { path: "/branch/pod", name: "PODD" },
+  { path: "/branch/pod", name: "POD" },
   { path: "/branch/fastag", name: "Fastag" },
   { path: "/branch/vahan", name: "Vahan" },
   { path: "/branch/sarathi", name: "Sarathi" },
-  { path: "/branch/fastag/:vehicleNumber", name: "Fastag Details" },
-  { path: "/branch/vahan/:vehicleNumber", name: "Vahan Details" },
+  // { path: "/branch/fastag/:vehicleNumber", name: "Fastag Details" },
+  // { path: "/branch/vahan/:vehicleNumber", name: "Vahan Details" },
   { path: "/branch/createBid", name: "Create Bid" },
 ];
 

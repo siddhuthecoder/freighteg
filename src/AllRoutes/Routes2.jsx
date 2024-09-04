@@ -78,8 +78,8 @@ import BranchVahanId from "../branch/VechileInfo/VahanId";
 import BranchSarathi from "../branch/VechileInfo/Sarathi";
 import branchAllPodRequest from "../pages/MainPod/AllPodRequest";
 import branchPodForm from "../branch/pages/PodForm";
-import branchVendor from "../branch/pages/Vendor";
-import branchUser from "../branch/pages/User";
+import BranchVendor from "../branch/pages/Vendor.jsx";
+import BranchUser from '../branch/pages/User.jsx'
 import BranchCreateBid from "../branch/pages/CreateBid.jsx";
 import TransporterCounter from "../Transporter/Counter/TransporterCounter.jsx";
 
@@ -229,8 +229,9 @@ const AllRoutes2 = () => {
           <Route path="/branch/history" element={<BranchHistory />} />
           <Route path="/branch/counter" element={<BranchCounter />} />
           <Route path="/branch/cancelled" element={<BranchCancelled />} />
-          <Route path="/branch/vendor" element={<Open />} />
-          <Route path="/branch/staff" element={<Open />} />
+          <Route path="/branch/vendor" element={<BranchVendor />} />
+          {/* <Route path="/branch/staff" element={<Open />} /> */}
+          <Route path="/branch/staff" element={<BranchUser />} />
           <Route path="/branch/pod" element={<BranchAllPodRequest  />} />
           <Route path="/branch/historypod" element={<Open />} />
           <Route path="/branch/fastag" element={<BranchFastag />} />

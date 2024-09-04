@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import OperationalStatesModal from "./VendorStates/OperationalStates"; // Import the modal component
 import BranchNavbar from '../BranchNavbar';
 
-const Vendor = () => {
+const BranchVendor = () => {
   const [expandedRows, setExpandedRows] = useState({});
   const [expandedDetails, setExpandedDetails] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -374,4 +374,4 @@ const Vendor = () => {
   );
 };
 
-export default Vendor;
+export default BranchVendor;
