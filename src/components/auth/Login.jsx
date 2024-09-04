@@ -37,6 +37,7 @@ const LoginAuth = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const rolee=localStorage.getItem('userType');
     try {
       const response = await fetch('https://freighteg.in/freightapi/freightuser/login', {
         method: 'POST',
@@ -61,7 +62,22 @@ const LoginAuth = () => {
         );
 
         alert('Login successful!');
-        navigate("/open")
+        if(rolee==='Company'){
+          
+          navigate("/open")
+        }
+        else if(rolee==='Staff'){
+          navigate('/staff/createBid')
+        }
+        else if(rolee==='Transporter'){
+          navigate('/transporter/changePassword')
+        }
+        else if(rolee==='Branch'){
+          navigate('/branch')
+        }
+        else{
+          alert("Invalid Role")
+        }
         // You can navigate to a different page or perform other actions here
       } else {
         alert('Login failed. Please check your credentials.');
