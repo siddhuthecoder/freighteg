@@ -75,3 +75,7 @@ GET https://freighteg.in/freightapi/getBidResults?assigned_to=668d158260d1af2a06
 
 ###
 GET https://freighteg.in/freightapi/activeBids/668d158260d1af2a06fa2a89
+
+
+###
+GET https://freighteg.in/freightapi/bids/66cddd1c96d7983205fed01f

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 const BASE_URL = 'https://freighteg.in/freightapi';
 
-const MyRank = () => {
+const TransporterCounter = () => {
   const [ranks, setRanks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -16,7 +16,7 @@ const MyRank = () => {
   useEffect(() => {
     const fetchRanks = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/rank-by-vendor/${user?.id}`);
+        const response = await axios.get(`${BASE_URL}/counter/${user?.id}`);
         setRanks(response.data.activeBids);
 
         // Fetch details for each bid
@@ -31,7 +31,7 @@ const MyRank = () => {
 
         setBidDetails(detailsMap);
       } catch (err) {
-        setError('Failed to fetch ranks or bid details');
+        setError('No Counter Bids');
       } finally {
         setLoading(false);
       }
@@ -141,4 +141,4 @@ const MyRank = () => {
   );
 };
 
-export default MyRank;
+export default TransporterCounter;

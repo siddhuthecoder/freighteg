@@ -28,6 +28,8 @@ import AllPodRequest from "../pages/MainPod/AllPodRequest";
 import PodForm from "../pages/PodForm";
 import Vendor from "../pages/Vendor";
 import User from "../pages/User";
+import AddVendor from "../pages/AddVendor";
+
 
 import LoginAuth from "../components/auth/Login";
 import PhoneAuth from "../components/auth/Phone";
@@ -46,7 +48,7 @@ import StaffFastag from "../staff/VechileInfo/Fastag.jsx";
 import StaffVahan from "../staff/VechileInfo/Vahan.jsx";
 import StaffSarathi from "../staff/VechileInfo/Sarathi.jsx";
 import StaffFastagId from "../staff/VechileInfo/FastagId.jsx";
-import StaffVahanId from "../staff/VechileInfo/VahanId.jsx"
+import StaffVahanId from "../staff/VechileInfo/VahanId.jsx";
 import ChangePassword from "./../Transporter/Profile/ChangePassword";
 import Companies from "../Transporter/Profile/Companies.jsx";
 import Profilee from "../Transporter/Profile/Profile.jsx";
@@ -75,6 +77,7 @@ import branchAllPodRequest from "../pages/MainPod/AllPodRequest";
 import branchPodForm from "../branch/pages/PodForm";
 import branchVendor from "../branch/pages/Vendor";
 import branchUser from "../branch/pages/User";
+import TransporterCounter from "../Transporter/Counter/TransporterCounter.jsx";
 
 // const Layout = () => {
 //   const user = useSelector((state) => state.login.user);
@@ -146,21 +149,31 @@ const AllRoutes2 = () => {
           <Route path="home" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/wallet" element={<Wallet />} />
+          <Route path="addvendors" element={<AddVendor />} />
         </>
       )}
 
       {userType === "Staff" && (
         <>
-        <Route path="home" element={<Home />} />
-        <Route path="/staff/createBid" element={<CreateBid />} />
-        <Route path="/staff/viewBid" element={<ViewBids />} />
-        <Route path="/staff/viewResult" element={<ViewResult />} />
-        <Route path="/staff/viewResultHistory" element={<ViewResultHistory />} />
-        <Route path="/staff/fastag" element={<StaffFastag />} />
-        <Route path="/staff/vahan" element={<StaffVahan />} />
-        <Route path="/staff/sarathi" element={<StaffSarathi />} />
-        <Route path="/staff/fastag/:vehicleNumber" element={<StaffFastagId />} />
-        <Route path="/staff/vahan/:vehicleNumber" element={<StaffVahanId />} />
+          <Route path="home" element={<Home />} />
+          <Route path="/staff/createBid" element={<CreateBid />} />
+          <Route path="/staff/viewBid" element={<ViewBids />} />
+          <Route path="/staff/viewResult" element={<ViewResult />} />
+          <Route
+            path="/staff/viewResultHistory"
+            element={<ViewResultHistory />}
+          />
+          <Route path="/staff/fastag" element={<StaffFastag />} />
+          <Route path="/staff/vahan" element={<StaffVahan />} />
+          <Route path="/staff/sarathi" element={<StaffSarathi />} />
+          <Route
+            path="/staff/fastag/:vehicleNumber"
+            element={<StaffFastagId />}
+          />
+          <Route
+            path="/staff/vahan/:vehicleNumber"
+            element={<StaffVahanId />}
+          />
         </>
       )}
 
@@ -189,8 +202,10 @@ const AllRoutes2 = () => {
           <Route path="/transporter/PODUpload" element={<PODUpload />} />
           <Route path="/transporter/newLoad" element={<NewLoad />} />
           <Route path="/transporter/rank" element={<MyRank />} />
+          <Route path="/transporter/Counter" element={<TransporterCounter />} />
+
           <Route
-            path="/transporter/assignedStaff"
+            path="/transporter/assignedRequest"
             element={<AssignedStaff />}
           />
         </>
@@ -204,22 +219,28 @@ const AllRoutes2 = () => {
           <Route path="/podform" element={<PodForm />} />
           <Route path="/allvendor" element={<Vendor />} />
           <Route path="/users" element={<User />} /> */}
-           
+
           <Route path="/branch/layout" element={<BidLayout />} />
-          <Route path='/branch/open' element={<branchOpen/>}/>
-          <Route path='/branch/result' element={<Open/>}/>
-          <Route path='/branch/history' element={<Open/>}/>
-          <Route path='/branch/counter' element={<Open/>}/>
-          <Route path='/branch/vendor' element={<Open/>}/>
-          <Route path='/branch/staff' element={<Open/>}/>
-          <Route path='/branch/pod' element={<Open/>}/>
-          <Route path='/branch/historypod' element={<Open/>}/>
-          <Route path='/branch/fastag' element={<Open/>}/>
-          <Route path='/branch/vahan' element={<Open/>}/>
-          <Route path='/branch/sarathi' element={<Open/>}/>
-          <Route path="/branch/fastag/:vehicleNumber" element={<StaffFastagId />} />
-          <Route path="/branch/vahan/:vehicleNumber" element={<StaffVahanId />} />
-          <Route path="/branch/createBid" element={<CreateBid/>}/>
+          <Route path="/branch/open" element={<branchOpen />} />
+          <Route path="/branch/result" element={<Open />} />
+          <Route path="/branch/history" element={<Open />} />
+          <Route path="/branch/counter" element={<Open />} />
+          <Route path="/branch/vendor" element={<Open />} />
+          <Route path="/branch/staff" element={<Open />} />
+          <Route path="/branch/pod" element={<Open />} />
+          <Route path="/branch/historypod" element={<Open />} />
+          <Route path="/branch/fastag" element={<Open />} />
+          <Route path="/branch/vahan" element={<Open />} />
+          <Route path="/branch/sarathi" element={<Open />} />
+          <Route
+            path="/branch/fastag/:vehicleNumber"
+            element={<StaffFastagId />}
+          />
+          <Route
+            path="/branch/vahan/:vehicleNumber"
+            element={<StaffVahanId />}
+          />
+          <Route path="/branch/createBid" element={<CreateBid />} />
         </>
       )}
 

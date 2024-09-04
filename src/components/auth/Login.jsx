@@ -38,6 +38,23 @@ const LoginAuth = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const rolee=localStorage.getItem('userType');
+    let roleee;
+    if(rolee==='Company'){
+      roleee='company';
+    }
+    else if (rolee==='Staff'){
+      roleee='Field staff';
+    }
+    else if(rolee==='Transporter'){
+      roleee='vendor'
+    }
+    else if(rolee==='Branch'){
+      roleee='branch'
+    }
+    else{
+      roleee='company'
+    }
+    
     try {
       const response = await fetch('https://freighteg.in/freightapi/freightuser/login', {
         method: 'POST',
@@ -45,7 +62,7 @@ const LoginAuth = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          role: 'company',
+          role: roleee,
           phone: formData.phone,
           password: formData.password,
         }),

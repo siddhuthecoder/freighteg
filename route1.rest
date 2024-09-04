@@ -63,3 +63,38 @@ GET https://freighteg.in/freightapi/freightWalletBalance/665580f353ccced94082681
 
 ###
 
+POST https://freighteg.in/freightapi/freightuser/login
+Content-Type: application/json
+
+{
+    "role": "vendor",
+    "phone": "1234567890",
+    "password": "123456"
+}
+
+###
+GET https://freighteg.in/freightapi/rank-by-vendor/668d168060d1af2a06fa2ab4
+Content-Type: application/json
+
+####
+GET https://freighteg.in/freightapi/get-companies/665580f353ccced94082681b
+
+
+###
+POST https://freighteg.in/freightapi/freightuser
+Content-Type: application/json
+{
+    "name": "hfihi",
+    "phone": "1234567899",
+    "role": "Field staff",
+    "password": "12345",
+    "company_id": "665580f353ccced94082681b",
+    "branch_id":"66c03d9a7d7b083d83c04e10"
+}
+###
+GET https://freighteg.in/freightapi/pod/pending/668d168060d1af2a06fa2ab4
+
+
+###
+GET https://freighteg.in/freightapi/pod/history/668d168060d1af2a06fa2ab4
+

@@ -16,6 +16,7 @@ import { vehicleTypeData } from "./VehicleTypesAndState/Vehicletype";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import Panpopup from "./customPopUp/Panpopup";
+import Navbar from "../components/Navbar";
 
 const AddVendor = () => {
   const user = useSelector((state) => state.login.user);
@@ -294,28 +295,8 @@ const AddVendor = () => {
 
   return (
     <>
-      <nav className="bg-gray-100 h-16 flex items-center justify-between px-4 shadow-md">
-        <div className="flex items-center space-x-4">
-          <h4 className="text-blue-900 text-2xl font-semibold">All Vendors</h4>
-          <div className="relative">
-            <FiSearch className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search vendors"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 pr-4 py-2 w-64 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-150 ease-in-out"
-            />
-          </div>
-        </div>
-        <button
-          onClick={() => Navigate("/addvendors")}
-          className="flex items-center px-4 py-2 bg-blue-900 text-white rounded-full hover:bg-blue-900 transition duration-150 ease-in-out"
-        >
-          <FaUserPlus className="mr-2" />
-          <span>Add Vendor</span>
-        </button>
-      </nav>
+      <Navbar/>
+     
 
       <div className="bg-gray-100 p-6">
         {getAllVendorLoading && usersLoading && <h1>Data is Fetching...</h1>}

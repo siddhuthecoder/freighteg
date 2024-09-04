@@ -1,7 +1,9 @@
 import React from 'react'
 import TransportNavBar from '../TransportNavBar';
+
+
 const Profile = () => {
-    
+ 
   return (
     <>
     <TransportNavBar/>
