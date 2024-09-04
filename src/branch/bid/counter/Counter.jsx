@@ -5,24 +5,23 @@ import * as XLSX from 'xlsx';
 import Header from '../repeats/Header';
 import CounterTable from './CounterTable';
 import Tabs from '../repeats/Tabs';
-import Navbar from '../../../components/Navbar';
+import BranchNavbar from '../../BranchNavbar';
 
-const BidComponent = () => {
+const BranchCounter = () => {
   const [bidDetails, setBidDetails] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [dataHandling, setDataHandling] = useState({});
   const [filteredData, setFilteredData] = useState([]);
   const user = useSelector((state) => state.login.user);
+  console.log(user)
 
   // Function to fetch bid IDs and their corresponding details
   const fetchBidIdsAndDetails = async () => {
     // const url = `https://freighteg.in/freightapi/counters?company_id=${user?.id}`;
     const branchId = localStorage.getItem('branch_id');
     // const url = `https://freighteg.in/freightapi/getBidResultHistory?company_id=${user?.id}`;
-    const url = branchId && branchId !== user?.id
-    ? `https://freighteg.in/freightapi/counters?branch_id=${branchId}`
-    : `https://freighteg.in/freightapi/counters?company_id=${user?.id}`;
+    const url =  `https://freighteg.in/freightapi/counters?branch_id=${user?.id}`
     try {
       const response = await axios.get(url);
       const bidsData = response.data.data;
@@ -168,7 +167,7 @@ const BidComponent = () => {
 
   return (
     <>
-      <Navbar />
+      <BranchNavbar />
       <Header onSubmit={handleFormSubmit} />
       <div className="w-full overflow-x-auto">
         <Tabs onDownloadClick={handleDownloadClick} onFilterClick={() => { /* Handle filter click if needed */ }} />
@@ -197,4 +196,4 @@ const BidComponent = () => {
   );
 };
 
-export default BidComponent;
+export default BranchCounter;

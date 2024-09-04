@@ -63,20 +63,24 @@ import Branch1 from "../branch/Branch.jsx";
 //branch
 
 import branchHistoryPage from "../branch/bid/history/History.jsx";
-import branchOpen from "../branch/bid/open/Open";
-import branchCounter from "../branch/bid/counter/Counter";
+import BranchOpen from "../branch/bid/open/Open";
 import branchBidLayout from "../branch/bid/Layout";
 import branchResultPage from "../branch/bid/result/Result";
-import branchCancelled from "../branch/bid/cancelled/Cancelled";
-import branchFastag from "../branch/VechileInfo/Fastag";
-import branchFastagId from "../branch/VechileInfo/FastagId";
-import branchSarathi from "../branch/VechileInfo/Sarathi";
-import branchVahanId from "../branch/VechileInfo/VahanId";
-import branchVahan from "../branch/VechileInfo/Vahan";
+import BranchCancelled from "../branch/bid/cancelled/Cancelled";
+import BranchAllPodRequest from "../branch/pages/MainPod/AllPodRequest.jsx";
+import BranchCounter from '../branch/bid/counter/Counter.jsx'
+import BranchHistory from "../branch/bid/history/History.jsx";
+import BranchResult from "../branch/bid/result/Result";
+import BranchFastag from "../branch/VechileInfo/Fastag.jsx";
+import BranchFastagId from "../branch/VechileInfo/FastagId";
+import BranchVahan from "../branch/VechileInfo/Vahan";
+import BranchVahanId from "../branch/VechileInfo/VahanId";
+import BranchSarathi from "../branch/VechileInfo/Sarathi";
 import branchAllPodRequest from "../pages/MainPod/AllPodRequest";
 import branchPodForm from "../branch/pages/PodForm";
 import branchVendor from "../branch/pages/Vendor";
 import branchUser from "../branch/pages/User";
+import BranchCreateBid from "../branch/pages/CreateBid.jsx";
 import TransporterCounter from "../Transporter/Counter/TransporterCounter.jsx";
 
 // const Layout = () => {
@@ -219,19 +223,21 @@ const AllRoutes2 = () => {
           <Route path="/podform" element={<PodForm />} />
           <Route path="/allvendor" element={<Vendor />} />
           <Route path="/users" element={<User />} /> */}
-
           <Route path="/branch/layout" element={<BidLayout />} />
-          <Route path="/branch/open" element={<branchOpen />} />
-          <Route path="/branch/result" element={<Open />} />
-          <Route path="/branch/history" element={<Open />} />
-          <Route path="/branch/counter" element={<Open />} />
+          <Route path="/branch/open" element={<BranchOpen />} />
+          <Route path="/branch/result" element={<BranchResult />} />
+          <Route path="/branch/history" element={<BranchHistory />} />
+          <Route path="/branch/counter" element={<BranchCounter />} />
+          <Route path="/branch/cancelled" element={<BranchCancelled />} />
           <Route path="/branch/vendor" element={<Open />} />
           <Route path="/branch/staff" element={<Open />} />
-          <Route path="/branch/pod" element={<Open />} />
+          <Route path="/branch/pod" element={<BranchAllPodRequest  />} />
           <Route path="/branch/historypod" element={<Open />} />
-          <Route path="/branch/fastag" element={<Open />} />
-          <Route path="/branch/vahan" element={<Open />} />
-          <Route path="/branch/sarathi" element={<Open />} />
+          <Route path="/branch/fastag" element={<BranchFastag />} />
+          <Route path="/branch/fastag/:id" element={<BranchFastagId />} />
+          <Route path="/branch/vahan" element={<BranchVahan />} />
+          <Route path="/branch/vahan" element={<BranchVahanId />} />
+          <Route path="/branch/sarathi" element={<BranchSarathi />} />
           <Route
             path="/branch/fastag/:vehicleNumber"
             element={<StaffFastagId />}
@@ -240,7 +246,7 @@ const AllRoutes2 = () => {
             path="/branch/vahan/:vehicleNumber"
             element={<StaffVahanId />}
           />
-          <Route path="/branch/createBid" element={<CreateBid />} />
+          <Route path="/branch/createBid" element={<BranchCreateBid />} />
         </>
       )}
 

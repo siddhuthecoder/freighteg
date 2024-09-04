@@ -4,9 +4,10 @@ import { FaUserPlus } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import PodTable from "./PodTable";
 import PodAddForm from "../PodAddForm";
-import BranchNavbar from '../BranchNavbar';
+import BranchNavbar from "../../BranchNavbar";
 
-const AllPodRequest = () => {
+
+const BranchAllPodRequest = () => {
   const [showPodAddForm, setShowPodAddForm] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const location = useLocation();
@@ -76,4 +77,4 @@ const AllPodRequest = () => {
   );
 };
 
-export default AllPodRequest;
+export default BranchAllPodRequest;

@@ -428,8 +428,10 @@ const formRef = useRef(null);
   return (
       <>
         <StaffNavBarr/>
+        <div className="w-full overflow-x-auto">
+
         <div className="">
-          <form ref={formRef} onSubmit={handleSubmit}>
+          <form ref={formRef} className="overflow-x-auto" onSubmit={handleSubmit}>
             {/* Route Card */}
             <div className="p-10 pt-3">
               <div className="p-5 rounded-xl shadow-lg">
@@ -943,6 +945,8 @@ const formRef = useRef(null);
             </div>
           </form>
         </div>
+        </div>
+        
       </>
   )
 }

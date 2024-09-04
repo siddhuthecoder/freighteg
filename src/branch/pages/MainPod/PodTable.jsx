@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useGetPodByCompany } from "../../HelperFunction/api";
+import { useGetPodByCompany } from "../../../HelperFunction/api";
 import { format, toZonedTime } from "date-fns-tz";
 import { MdOutlineFileDownload, MdRemoveRedEye } from "react-icons/md";
 import { FaRegEyeSlash } from "react-icons/fa";
-import Imagepopup from "../customPopUp/Imagepopup";
-import Confirmationpopup from "../customPopUp/Confirmationpopup";
-import { updatePODdata } from "../../HelperFunction/api";
+import Imagepopup from "../../../pages/customPopUp/Imagepopup";
+import Confirmationpopup from "../../../pages/customPopUp/Confirmationpopup";
+import { updatePODdata } from "../../../HelperFunction/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const PodTable = () => {

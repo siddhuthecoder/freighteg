@@ -60,11 +60,11 @@ const Tabs = ({ onDownloadClick }) => {
     }, [user?.id]); // Ensure the effect only runs once when the component mounts
 
     const tabs = [
-        { name: "Open", path: "open", count: counts.open },
-        { name: "Result", path: "result", count: counts.result },
-        { name: "History", path: "history", count: counts.history },
-        { name: "Counter", path: "counter", count: counts.counter },
-        { name: "Cancelled", path: "cancelled", count: counts.cancelled }
+        { name: "Open", path: "branch/open", count: counts.open },
+        { name: "Result", path: "branch/result", count: counts.result },
+        { name: "History", path: "branch/history", count: counts.history },
+        { name: "Counter", path: "branch/counter", count: counts.counter },
+        { name: "Cancelled", path: "branch/cancelled", count: counts.cancelled }
     ];
 
     return (

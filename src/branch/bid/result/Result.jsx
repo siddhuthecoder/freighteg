@@ -5,9 +5,9 @@ import * as XLSX from 'xlsx';
 import Header from '../repeats/Header';
 import ResultTable from './ResultTable';
 import Tabs from '../repeats/Tabs';
-import Navbar from '../../../components/Navbar';
+import BranchNavbar from '../../BranchNavbar';
 
-const ResultPage = () => {
+const BranchResult = () => {
   const [bidDetails, setBidDetails] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -19,9 +19,8 @@ const ResultPage = () => {
   // Function to fetch bid details
   const fetchBidDetails = async () => {
     const branchId = localStorage.getItem('branch_id');
-    const url = branchId && branchId !== 'ALL'
-      ? `https://freighteg.in/freightapi/getBidResults?branch_id=${branchId}`
-      : `https://freighteg.in/freightapi/getBidResults?company_id=${user?.id}`;
+    const url =  `https://freighteg.in/freightapi/getBidResults?branch_id=${user?.id}`
+      
     try {
       const response = await axios.get(url);
       setResponse(response.data.data);
@@ -159,7 +158,7 @@ const ResultPage = () => {
 
   return (
     <>
-      <Navbar />
+      <BranchNavbar />
       <Header onSubmit={handleFormSubmit} />
       <div className="w-full overflow-x-auto">
         <Tabs onDownloadClick={handleDownloadClick} onFilterClick={() => { /* Handle filter click if needed */ }} />
@@ -186,4 +185,4 @@ const ResultPage = () => {
   );
 };
 
-export default ResultPage;
+export default BranchResult;

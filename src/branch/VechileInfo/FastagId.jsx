@@ -8,7 +8,9 @@ import { useDispatch } from 'react-redux';
 // import { signInSuccess } from '../../store/authSlice';
 import { useSelector } from 'react-redux';
 import BranchNavbar from '../BranchNavbar';
-const Fastag = () => {
+
+
+const BranchFastagId = () => {
   const [trackingData, setTrackingData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -126,4 +128,4 @@ const Fastag = () => {
   );
 }
 
-export default Fastag;
+export default BranchFastagId;

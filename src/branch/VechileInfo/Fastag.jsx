@@ -9,7 +9,7 @@ import BranchNavbar from '../BranchNavbar';
 // import { signInSuccess } from '../../store/authSlice';
 import { useSelector } from 'react-redux';
 
-const Fastag = () => {
+const BranchFastag = () => {
   const [vehicleNumber, setVehicleNumber] = useState('');
   const [trackingData, setTrackingData] = useState([]);
   const [error, setError] = useState(null);
@@ -154,4 +154,4 @@ const Fastag = () => {
   );
 }
 
-export default Fastag;
+export default BranchFastag;

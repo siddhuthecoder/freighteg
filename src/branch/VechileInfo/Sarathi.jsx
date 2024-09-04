@@ -13,7 +13,7 @@ import BranchNavbar from '../BranchNavbar';
 import { useSelector } from 'react-redux';
 
 
-const Sarathi = () => {
+const BranchSarathi = () => {
   const [dlNumber, setDlNumber] = useState("");
   const [dob, setDob] = useState(null);
   const [vehicleData, setVehicleData] = useState(null);
@@ -280,4 +280,4 @@ const Sarathi = () => {
   );
 };
 
-export default Sarathi;
+export default BranchSarathi;

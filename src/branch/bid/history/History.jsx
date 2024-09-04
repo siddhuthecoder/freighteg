@@ -5,9 +5,9 @@ import * as XLSX from 'xlsx';
 import Header from '../repeats/Header';
 import HistoryTable from './HistoryTable';
 import Tabs from '../repeats/Tabs';
-import Navbar from '../../../components/Navbar';
+import BranchNavbar from '../../BranchNavbar';
 
-const HistoryPage = () => {
+const BranchHistory = () => {
   const [bidDetails, setBidDetails] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -19,9 +19,8 @@ const HistoryPage = () => {
   const fetchBidResultHistory = async () => {
     const branchId = localStorage.getItem('branch_id');
     // const url = `https://freighteg.in/freightapi/getBidResultHistory?company_id=${user?.id}`;
-    const url = branchId && branchId !== user?.id
-    ? `https://freighteg.in/freightapi/getBidResultHistory?branch_id=${branchId}`
-    : `https://freighteg.in/freightapi/getBidResultHistory?company_id=${user?.id}`;
+    const url = `https://freighteg.in/freightapi/getBidResultHistory?branch_id=${user?.id}`
+   
     try {
       const response = await axios.get(url);
       return response.data.data;
@@ -166,7 +165,7 @@ const HistoryPage = () => {
 
   return (
     <>
-      <Navbar />
+      <BranchNavbar />
       <Header onSubmit={handleFormSubmit} />
       <div className="w-full overflow-x-auto">
         <Tabs onDownloadClick={handleDownloadClick} onFilterClick={() => { /* Handle filter click if needed */ }} />
@@ -195,4 +194,4 @@ const HistoryPage = () => {
   );
 };
 
-export default HistoryPage;
+export default BranchHistory;

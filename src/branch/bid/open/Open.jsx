@@ -8,25 +8,24 @@ import Tabs from '../repeats/Tabs';
 import BranchNavBar from '../../BranchNavbar'
 import { useSelector } from "react-redux";
 
-const Open = () => {
+const BranchOpen = () => {
   const [bidDetails, setBidDetails] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [dataHandling, setDataHandling] = useState({});
   const [filteredData, setFilteredData] = useState([]);
   const user = useSelector((state) => state.login.user);
-
+  console.log(user)
   const fetchLiveBids = async () => {
     const branchId = localStorage.getItem('branch_id');
     const branchName = localStorage.getItem('branchName');
     // alert(branchId);     
-  let url=`https://freighteg.in/freightapi/liveBids?company_id=${user?.id}`;
-     url = branchId && branchName !== 'ALL'
-      ? `https://freighteg.in/freightapi/liveBids?branch_id=${branchId}`
-      : `https://freighteg.in/freightapi/liveBids?company_id=${user?.id}`;
+  let url=`https://freighteg.in/freightapi/liveBids?branch_id=${user?.id}`;
+     
     // alert(url)
     try {
       const response = await axios.get(url);
+      console.log("hh",response.data)
       return response.data.data || [];
     } catch (error) {
       console.error("Error fetching live bids:", error);
@@ -198,4 +197,4 @@ const Open = () => {
   );
 };
 
-export default Open;
+export default BranchOpen;

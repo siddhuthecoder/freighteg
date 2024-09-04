@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import BranchNavbar from '../BranchNavbar';
 // import { signInSuccess } from '../../store/authSlice';
 import { useSelector } from 'react-redux';
-const Vahan = () => {
+const BranchVahan = () => {
   const [vehicleNumber, setVehicleNumber] = useState("");
   const [vehicleData, setVehicleData] = useState(null);
   const [error, setError] = useState("");
@@ -536,4 +536,4 @@ const Vahan = () => {
   );
 };
 
-export default Vahan;
+export default BranchVahan;

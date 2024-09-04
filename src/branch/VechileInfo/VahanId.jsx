@@ -10,7 +10,9 @@ import { useDispatch } from 'react-redux';
 
 import { useSelector } from 'react-redux';
 import BranchNavbar from '../BranchNavbar';
-const VahanId = () => {
+
+
+const BranchVahanId = () => {
   const { vehicleNumber } = useParams(); 
   const id=vehicleNumber// Get vehicleNumber from URL parameters
   const [vehicleData, setVehicleData] = useState(null);
@@ -575,4 +577,4 @@ const VahanId = () => {
   );
 };
 
-export default VahanId;
+export default BranchVahanId;

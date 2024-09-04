@@ -10,13 +10,10 @@ import { logOut } from "../app/features/auth/loginSlice";
 import logo from "../components/Freight Logo.png"; // Import the logo image
 
 const routes = [
-  { path: "/branch/open", name: "Open" },
-  { path: "/branch/result", name: "Result" },
-  { path: "/branch/history", name: "History" },
-  { path: "/branch/counter", name: "Counter" },
+  { path: "/branch/bid", name: "Bid" },
   { path: "/branch/vendor", name: "Vendor" },
   { path: "/branch/staff", name: "Staff" },
-  { path: "/branch/pod", name: "POD" },
+  { path: "/branch/pod", name: "PODD" },
   { path: "/branch/fastag", name: "Fastag" },
   { path: "/branch/vahan", name: "Vahan" },
   { path: "/branch/sarathi", name: "Sarathi" },
@@ -25,7 +22,7 @@ const routes = [
   { path: "/branch/createBid", name: "Create Bid" },
 ];
 
-const Navbar = () => {
+const BranchNavbar = () => {
   const user = useSelector((state) => state.login.user);
   const [showMenu, setShowMenu] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -142,4 +139,4 @@ const NavLink = ({ to, children, isActive }) => {
   );
 };
 
-export default Navbar;
+export default BranchNavbar;
