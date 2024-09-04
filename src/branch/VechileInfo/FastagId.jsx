@@ -7,9 +7,7 @@ import Map from './openstreetMap/Map';
 import { useDispatch } from 'react-redux';
 // import { signInSuccess } from '../../store/authSlice';
 import { useSelector } from 'react-redux';
-// import Navbar from './../Navbar';
-import StaffNavBarr from '../StaffNavBarr'
-
+import BranchNavbar from '../BranchNavbar';
 const Fastag = () => {
   const [trackingData, setTrackingData] = useState([]);
   const [error, setError] = useState(null);
@@ -79,7 +77,7 @@ const Fastag = () => {
   };
   return (
     <>  
-    <StaffNavBarr/>
+    <BranchNavbar/>
       <div className="w-full grid grid-cols-1 mt-[10px] lg:grid-cols-12 gap-5 md:gap-2  md:pt-0 pt-3  md:pb-0 ">
         <div className="md:w-[90%] w-[95%] mx-auto md:max-h-[620px] md:col-span-6 xl:col-span-4 flex flex-col overflow-hidden">
          

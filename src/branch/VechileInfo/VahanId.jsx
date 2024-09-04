@@ -7,13 +7,11 @@ import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Map from "./openstreetMap/Map";
 import { useDispatch } from 'react-redux';
-import StaffNavBarr from '../StaffNavBarr'
 
 import { useSelector } from 'react-redux';
-// import Navbar from "../Navbar";
+import BranchNavbar from '../BranchNavbar';
 const VahanId = () => {
   const { vehicleNumber } = useParams(); 
-  // alert(vehicleNumber)
   const id=vehicleNumber// Get vehicleNumber from URL parameters
   const [vehicleData, setVehicleData] = useState(null);
   const [error, setError] = useState("");
@@ -198,7 +196,7 @@ const VahanId = () => {
 
   return (
     <>
-    <StaffNavBarr/>
+    <BranchNavbar/>
       <div className="w-full grid grid-cols-1 mt-[10px] lg:grid-cols-12 gap-5  md:gap-2  md:pt-0 pt-3  md:pb-0 pb-2">
         <div className="md:w-[90%] ms-2 w-[100%] mx-auto max-h-[620px]  md:col-span-4  flex flex-col ">
           <div className="w-full flex flex-col">

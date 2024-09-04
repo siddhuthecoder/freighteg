@@ -9,6 +9,7 @@ import MainPage from "../LandingPageComponents/MainPage";
 import Price from "../pages/Pricing/Price";
 import About from "../pages/AboutUs/About";
 import Contact from "../pages/Contact/Contact";
+
 import HistoryPage from "../components/bid/history/History";
 import Open from "../components/bid/open/Open";
 import Counter from "../components/bid/counter/Counter";
@@ -27,6 +28,7 @@ import AllPodRequest from "../pages/MainPod/AllPodRequest";
 import PodForm from "../pages/PodForm";
 import Vendor from "../pages/Vendor";
 import User from "../pages/User";
+
 import LoginAuth from "../components/auth/Login";
 import PhoneAuth from "../components/auth/Phone";
 import OTPverificationAuth from "../components/auth/OTPverification.jsx";
@@ -43,6 +45,8 @@ import ViewResultHistory from "../staff/ViewResultHistory/ViewResultHistory.jsx"
 import StaffFastag from "../staff/VechileInfo/Fastag.jsx";
 import StaffVahan from "../staff/VechileInfo/Vahan.jsx";
 import StaffSarathi from "../staff/VechileInfo/Sarathi.jsx";
+import StaffFastagId from "../staff/VechileInfo/FastagId.jsx";
+import StaffVahanId from "../staff/VechileInfo/VahanId.jsx"
 import ChangePassword from "./../Transporter/Profile/ChangePassword";
 import Companies from "../Transporter/Profile/Companies.jsx";
 import Profilee from "../Transporter/Profile/Profile.jsx";
@@ -52,6 +56,25 @@ import PODUpload from "../Transporter/PODUpload/PODUpload.jsx";
 import NewLoad from "../Transporter/NewLoad/NewLoad.jsx";
 import MyRank from "../Transporter/MyRank/MyRank.jsx";
 import AssignedStaff from "../Transporter/AssignedStaff/AssignedStaff.jsx";
+import Branch1 from "../branch/Branch.jsx";
+
+//branch
+
+import branchHistoryPage from "../branch/bid/history/History.jsx";
+import branchOpen from "../branch/bid/open/Open";
+import branchCounter from "../branch/bid/counter/Counter";
+import branchBidLayout from "../branch/bid/Layout";
+import branchResultPage from "../branch/bid/result/Result";
+import branchCancelled from "../branch/bid/cancelled/Cancelled";
+import branchFastag from "../branch/VechileInfo/Fastag";
+import branchFastagId from "../branch/VechileInfo/FastagId";
+import branchSarathi from "../branch/VechileInfo/Sarathi";
+import branchVahanId from "../branch/VechileInfo/VahanId";
+import branchVahan from "../branch/VechileInfo/Vahan";
+import branchAllPodRequest from "../pages/MainPod/AllPodRequest";
+import branchPodForm from "../branch/pages/PodForm";
+import branchVendor from "../branch/pages/Vendor";
+import branchUser from "../branch/pages/User";
 
 // const Layout = () => {
 //   const user = useSelector((state) => state.login.user);
@@ -136,7 +159,8 @@ const AllRoutes2 = () => {
         <Route path="/staff/fastag" element={<StaffFastag />} />
         <Route path="/staff/vahan" element={<StaffVahan />} />
         <Route path="/staff/sarathi" element={<StaffSarathi />} />
-
+        <Route path="/staff/fastag/:vehicleNumber" element={<StaffFastagId />} />
+        <Route path="/staff/vahan/:vehicleNumber" element={<StaffVahanId />} />
         </>
       )}
 
@@ -172,14 +196,30 @@ const AllRoutes2 = () => {
         </>
       )}
 
-      {userType === "branch" && (
+      {userType === "Branch" && (
         <>
-          <Route path="/profile" element={<Profile />} />
+          {/* <Route path="/profile" element={<Profile />} />
           <Route path="/wallet" element={<Wallet />} />
           <Route path="/allpodrequest" element={<AllPodRequest />} />
           <Route path="/podform" element={<PodForm />} />
           <Route path="/allvendor" element={<Vendor />} />
-          <Route path="/users" element={<User />} />
+          <Route path="/users" element={<User />} /> */}
+           
+          <Route path="/branch/layout" element={<BidLayout />} />
+          <Route path='/branch/open' element={<branchOpen/>}/>
+          <Route path='/branch/result' element={<Open/>}/>
+          <Route path='/branch/history' element={<Open/>}/>
+          <Route path='/branch/counter' element={<Open/>}/>
+          <Route path='/branch/vendor' element={<Open/>}/>
+          <Route path='/branch/staff' element={<Open/>}/>
+          <Route path='/branch/pod' element={<Open/>}/>
+          <Route path='/branch/historypod' element={<Open/>}/>
+          <Route path='/branch/fastag' element={<Open/>}/>
+          <Route path='/branch/vahan' element={<Open/>}/>
+          <Route path='/branch/sarathi' element={<Open/>}/>
+          <Route path="/branch/fastag/:vehicleNumber" element={<StaffFastagId />} />
+          <Route path="/branch/vahan/:vehicleNumber" element={<StaffVahanId />} />
+          <Route path="/branch/createBid" element={<CreateBid/>}/>
         </>
       )}
 
