@@ -21,16 +21,21 @@ const OpenTable = ({ datas }) => {
     console.log(datas[1])
   
     const getMinimumVendorPrice = (data) => {
-        // debugger;
-        // console.log(data)
-        const vendorPrices=data.bidding_response[0]?.bidding_price || []
-        // alert(JSON.stringify(vendorPrices))
-        // console.log({vendorPrices})
-        if (!vendorPrices || vendorPrices.length === 0) {
-          return null; // Return null or a default value if the array is empty or undefined
+        // Check if bidding_response exists and is an array with at least one element
+        if (!data?.bidding_response || data.bidding_response.length === 0) {
+            return null; // Return null or a default value if the array is empty or undefined
         }
+    
+        // Ensure the bidding_price array exists and has values
+        const vendorPrices = data.bidding_response[0]?.bidding_price || [];
+        
+        if (vendorPrices.length === 0) {
+            return null; // Return null if there are no bidding prices
+        }
+    
         return Math.min(...vendorPrices);
-      };
+    };
+    
     
       const setRes = (data) => {
         if (data.bidding_response && data.bidding_response.length > 0) {
@@ -118,7 +123,7 @@ const OpenTable = ({ datas }) => {
     // console.log(datas[0])
     return (
         <>
-            {currentItems.map((data) => {
+            {currentItems?.map((data) => {
                 const timeLeft = calculateTimeLeft(data.expiry_date);
                 const minimumPrice = getMinimumVendorPrice(data );
                 return (
@@ -232,7 +237,7 @@ const OpenTable = ({ datas }) => {
                 <AssignedVendorsModal
                     data={selectedData}
                     onClose={() => setAssignedVendorsModalOpen(false)}
-                />
+                />  
             )}
             {isViewQuotesModalOpen && selectedData && (
                 <ViewQuotesModal

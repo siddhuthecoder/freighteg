@@ -128,13 +128,14 @@ const AllRoutes2 = () => {
 
       {userType === "Staff" && (
         <>
+        <Route path="home" element={<Home />} />
         <Route path="/staff/createBid" element={<CreateBid />} />
-<Route path="/staff/viewBid" element={<ViewBids />} />
-<Route path="/staff/viewResult" element={<ViewResult />} />
-<Route path="/staff/viewResultHistory" element={<ViewResultHistory />} />
-<Route path="/staff/fastag" element={<StaffFastag />} />
-<Route path="/staff/vahan" element={<StaffVahan />} />
-<Route path="/staff/sarathi" element={<StaffSarathi />} />
+        <Route path="/staff/viewBid" element={<ViewBids />} />
+        <Route path="/staff/viewResult" element={<ViewResult />} />
+        <Route path="/staff/viewResultHistory" element={<ViewResultHistory />} />
+        <Route path="/staff/fastag" element={<StaffFastag />} />
+        <Route path="/staff/vahan" element={<StaffVahan />} />
+        <Route path="/staff/sarathi" element={<StaffSarathi />} />
 
         </>
       )}
