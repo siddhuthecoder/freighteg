@@ -81,6 +81,7 @@ import BranchPodForm from "../branch/pages/PodForm.jsx";
 import BranchVendor from "../branch/pages/Vendor.jsx";
 import BranchUser from '../branch/pages/User.jsx'
 import BranchCreateBid from "../branch/pages/CreateBid.jsx";
+import BranchAddVendor from '../branch/pages/AddVendor.jsx'
 import TransporterCounter from "../Transporter/Counter/TransporterCounter.jsx";
 import AssignedRequestHistory from "../Transporter/AssignedRequest/AssignedReqHistory.jsx";
 import AssignedRequest from "../Transporter/AssignedRequest/AssignedRequest.jsx";
@@ -245,6 +246,7 @@ const AllRoutes2 = () => {
           <Route path="/branch/vahan" element={<BranchVahan />} />
           <Route path="/branch/vahan" element={<BranchVahanId />} />
           <Route path="/branch/sarathi" element={<BranchSarathi />} />
+          <Route path="/branch/addvendors" element={< BranchAddVendor/>} />
           <Route
             path="/branch/fastag/:vehicleNumber"
             element={<StaffFastagId />}

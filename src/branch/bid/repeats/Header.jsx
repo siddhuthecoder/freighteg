@@ -105,25 +105,8 @@ const Header = ({ onSubmit }) => {
         </button>
       </div>
       <div className="flex items-center mx-2 gap-2">
-        <select
-          value={selectedOption}
-          onChange={handleOptionChange}
-          className="block focus:text-blue-600 h-[45px] w-full bg-white border border-gray-300 text-gray-700 py-2 px-3 pr-8 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          disabled={loading} // Disable the dropdown while loading
-        >
-          {/* <option value="">-- SELECT BRANCH --</option> */}
-          {loading ? (
-            <option>Loading...</option>
-          ) : (
-            options.map((option, index) => (
-              <option key={index} value={option.value}>
-                {option.label}
-              </option>
-            ))
-          )}
-        </select>
        
-       <Link to="/home" ><button 
+       <Link to="/branch/createBid" ><button 
           className="px-2 py-2 bg-blue-600 h-[45px] text-white rounded-md"
           onClick={handleFormSubmit}
         >

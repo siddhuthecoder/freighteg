@@ -100,6 +100,7 @@ const BranchVendor = () => {
       vendor.phone.includes(searchTerm) ||
       vendor.vtype.toLowerCase().includes(searchTerm.toLowerCase())
   );
+  console.log({filteredVendors})
 
   return (
     <>
@@ -148,7 +149,7 @@ const BranchVendor = () => {
                   "Vendor Type",
                   "Vendor Name",
                   "GST Number / PAN Number",
-                  "Assign Staff",
+                  // "Assign Staff",
                   "View State",
                   "Action",
                 ].map((header) => (
@@ -162,20 +163,20 @@ const BranchVendor = () => {
               {filteredVendors && filteredVendors.length > 0 ? (
                 filteredVendors.map((item, index) => {
                   const comIndx = item?.company_id.indexOf(user?.id);
-                  const code = comIndx !== -1 ? item.code[comIndx] : "NA";
+                  const code = comIndx !== -1 ? item.code[comIndx] : item.code[0];
                   const vehicleTypeDisplay = item.vehicle_type
                     ? item.vehicle_type.join(", ")
                     : "NA";
                   const assignedId =
                     comIndx !== -1 && item.assigned_staff
                       ? item.assigned_staff[comIndx]
-                      : "NA";
+                      : item.assigned_staff[0];
                   const assignedStaff = usersData?.user?.find(
                     (user) => user._id === assignedId
                   );
                   const assignedStaffName = assignedStaff
                     ? assignedStaff.name
-                    : "Unknown";
+                    : "N/A";
                   return (
                     <React.Fragment key={index}>
                       <tr
@@ -206,7 +207,7 @@ const BranchVendor = () => {
                           <br />
                           {item.pan}
                         </td>
-                        <td className="px-4 py-2 w-44">{assignedStaffName}</td>
+                        {/* <td className="px-4 py-2 w-44">{assignedStaffName}</td> */}
                         <td className="px-4 py-2">
                           <button onClick={() => toggleDetailsVisibility(item)}>
                             <label className="text-blue-600 cursor-pointer hover:underline">
