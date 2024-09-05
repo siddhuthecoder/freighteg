@@ -28,11 +28,11 @@ const Tabs = ({ onDownloadClick }) => {
         const fetchData = async () => {
             try {
                 const [openRes, resultRes, historyRes, counterRes, cancelledRes] = await Promise.all([
-                    fetch(`https://freighteg.in/freightapi/liveBids?company_id=${company_id}`),
-                    fetch(`https://freighteg.in/freightapi/getBidResults?company_id=${company_id}`),
-                    fetch(`https://freighteg.in/freightapi/getBidResultHistory?company_id=${company_id}`),
-                    fetch(`https://freighteg.in/freightapi/counters?company_id=${company_id}`),
-                    fetch(`https://freighteg.in/freightapi/cancelledBids?company_id=${company_id}`)
+                    fetch(`https://freighteg.in/freightapi/liveBids?branch_id=${company_id}`),
+                    fetch(`https://freighteg.in/freightapi/getBidResults?branch_id=${company_id}`),
+                    fetch(`https://freighteg.in/freightapi/getBidResultHistory?branch_id=${company_id}`),
+                    fetch(`https://freighteg.in/freightapi/counters?branch_id=${company_id}`),
+                    fetch(`https://freighteg.in/freightapi/cancelledBids?branch_id=${company_id}`)
                 ]);
     
                 if (!openRes.ok || !resultRes.ok || !historyRes.ok || !counterRes.ok || !cancelledRes.ok) {
@@ -44,7 +44,11 @@ const Tabs = ({ onDownloadClick }) => {
                 const historyData = await historyRes.json();
                 const counterData = await counterRes.json();
                 const cancelledData = await cancelledRes.json();
-    
+                console.log({openData})
+                console.log({resultData})
+                console.log({historyData})
+                console.log({counterData})
+                console.log({cancelledData})
                 // Update state after fetching all data
                 setCounts({
                     open: openData?.totalBids || openData?.length || 0,
