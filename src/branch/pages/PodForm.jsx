@@ -13,7 +13,7 @@ import Imagepopup from "../../pages/customPopUp/CustomPopup.jsx";
 import PodAddForm from "./PodAddForm";
 import BranchNavbar from '../BranchNavbar';
 
-const PodForm = () => {
+const BranchPodForm = () => {
   const { getVendorData, getVendorLoading, getVendorError } =
     useGetVendorByCompany();
   const {
@@ -89,7 +89,7 @@ const PodForm = () => {
         <div className="flex justify-between items-center mb-6">
           <div className="flex gap-8">
             <Link
-              to="/allpodrequest"
+              to="/branch/pod"
               className="text-gray-500 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out"
             >
               Live POD
@@ -236,4 +236,4 @@ const PodForm = () => {
   );
 };
 
-export default PodForm;
+export default BranchPodForm;

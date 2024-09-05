@@ -105,39 +105,42 @@ import React, {
     const branc = localStorage.getItem("branchName")
     console.log(branc)
     // select branch
+
+    
   
   
     // staff
-    useEffect(() => {
-      const fetchUserData = async () => {
-        try {
-          const response = await axios.get(`https://freighteg.in/freightapi/freightuser/${selectedOption.value}`);
-          const data = response.data;
-  
-          // Map the user data to the options array
-          if (data && Array.isArray(data.user)) {
-            const userOptions = data.user.map(user => ({
-              label: user.name, // Display userName as label
-              value: user.phone    // Use _id as value
-            }));
-            setStaff(userOptions);
-          } else {
-            console.error('Invalid data format');
-          }
-  
-          setStaffLoading(false);
-        } catch (error) {
-          console.error('Error fetching user data:', error);
-          setStaffLoading(false);
+  // staff
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`https://freighteg.in/freightapi/freightuser/${user?.id}`);
+        const data = response.data;
+
+        // Map the user data to the options array
+        if (data && Array.isArray(data.user)) {
+          const userOptions = data.user.map(user => ({
+            label: user.name, // Display userName as label
+            value: user.phone    // Use _id as value
+          }));
+          setStaff(userOptions);
+        } else {
+          console.error('Invalid data format');
         }
-      };
-  
-      fetchUserData();
-    }, [branc,selectedOption]);
-  
-    useEffect(() => {
-      setStaffPhone(selectedStaff.value)
-    },[selectedStaff])
+
+        setStaffLoading(false);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        setStaffLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, [branc,selectedOption]);
+
+  useEffect(() => {
+    setStaffPhone(selectedStaff.value)
+  },[selectedStaff])
   
     
     const handleSelectStaff = (selectedOption) => {
@@ -896,36 +899,60 @@ import React, {
              
               {/* Assign Staff card */}
               <div className="p-10 pt-0">
-                <div className="p-5 rounded-xl shadow-lg">
-                  <div className="flex gap-3 items-center mb-2">
-                    <img src={assign} alt="Assign_staff" className="pt-2" />
-                    <p className="text-[#113870] font-semibold text-[20px]">
-                      Assigned Staff
-                    </p>
-                  </div>
-                  <div className="flex gap-9">
-                    <div className="flex flex-1 gap-5">
-                      <p className="text-[#888888]">Name</p>
-                      <input
-                        value={user.name}
-                        type="text"
-                        className="bg-gray-200 h-10 rounded-md p-2 focus:outline-none border border-gray-400 flex-grow"
-                        readOnly
-                      />
-                    </div>
-                    <div className="flex flex-1 gap-5">
-                      <p className="text-[#888888]">Phone Number</p>
-                      <input
-                        value={user.phone}
-                        type="text"
-                        className="bg-gray-200 h-10 rounded-md p-2 focus:outline-none border border-gray-400 flex-grow"
-                        readOnly
-                      />
-                    </div>
-                  </div>
+            <div className="p-5 rounded-xl shadow-lg">
+              <div className="flex gap-3 items-center mb-2">
+                <img src={assign} alt="Assign_staff" className="pt-2" />
+                <p className="text-[#113870] font-semibold text-[20px]">
+                  Assign Staff
+                </p>
+              </div>
+              <div className="flex gap-9">
+                <div className="flex flex-1 gap-5">
+                  <p className="text-[#888888]">Name</p>
+                  <Select
+                    options={staff}
+                    onChange={handleSelectStaff}
+                    name="assigned_to"
+                    className="w-full"
+                    placeholder="Select Staff.."
+                    // onChange={handleOptionChange}
+                    styles={{
+                      control: (provided, state) => ({
+                        ...provided,
+                        color: "white",
+                        backgroundColor: "#e5e7eb",
+                        border: state.isFocused
+                          ? "1px solid #e5e7eb"
+                          : provided.border,
+                        borderRadius: "7px",
+                        boxShadow: state.isFocused
+                          ? "none"
+                          : provided.boxShadow,
+                        "&:hover": {
+                          border: "1px solid #e5e7eb",
+                        },
+                      }),
+                      option: (provided, state) => ({
+                        ...provided,
+                        color: state.isSelected ? "black" : "",
+                        backgroundColor: state.isSelected ? "#f0f0f0" : "white",
+                      }),
+                    }}
+                    
+                  />
+                </div>
+                <div className="flex flex-1 gap-5">
+                  <p className="text-[#888888]">Phone Number</p>
+                  <input
+                    value={selectedStaff.value}
+                    type="text"
+                    className="bg-gray-200 h-10 rounded-md p-2 focus:outline-none border border-gray-400 flex-grow"
+                    readOnly
+                  />
                 </div>
               </div>
-  
+            </div>
+          </div>
               {/* Create button */}
               <div className="p-5 text-center w-full flex justify-end pr-10">
                 <button

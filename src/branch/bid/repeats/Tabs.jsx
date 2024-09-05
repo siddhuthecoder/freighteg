@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 const Tabs = ({ onDownloadClick }) => {
     const location = useLocation();
-    const path = location.pathname.split("/");
+    const path = location.pathname.split("/")[2]; // Get the correct part of the path
     const user = useSelector((state) => state.login.user);
     const [counts, setCounts] = useState({
         open: 0,
@@ -15,16 +15,16 @@ const Tabs = ({ onDownloadClick }) => {
         counter: 0,
         cancelled: 0,
     });
-    // useRef to track if data has been fetched already
     const dataFetchedRef = useRef(false);
+    console.log(path)
 
     useEffect(() => {
         if (dataFetchedRef.current) {
-            return; // If data has been fetched already, do nothing
+            return;
         }
-
+    
         const company_id = user?.id;
-
+    
         const fetchData = async () => {
             try {
                 const [openRes, resultRes, historyRes, counterRes, cancelledRes] = await Promise.all([
@@ -34,31 +34,34 @@ const Tabs = ({ onDownloadClick }) => {
                     fetch(`https://freighteg.in/freightapi/counters?company_id=${company_id}`),
                     fetch(`https://freighteg.in/freightapi/cancelledBids?company_id=${company_id}`)
                 ]);
+    
+                if (!openRes.ok || !resultRes.ok || !historyRes.ok || !counterRes.ok || !cancelledRes.ok) {
+                    throw new Error("Failed to fetch one or more of the resources.");
+                }
 
                 const openData = await openRes.json();
                 const resultData = await resultRes.json();
                 const historyData = await historyRes.json();
                 const counterData = await counterRes.json();
                 const cancelledData = await cancelledRes.json();
-
+    
+                // Update state after fetching all data
                 setCounts({
-                    open: openData.totalBids || 0,
-                    result: resultData.totalBids,
-                    history: historyData.totalBids,
-                    counter: counterData.total,
-                    cancelled: cancelledData.total,
+                    open: openData?.totalBids || openData?.length || 0,
+                    result: resultData?.totalBids || resultData?.length || 0,
+                    history: historyData?.totalBids || historyData?.length || 0,
+                    counter: counterData?.total || counterData?.length || 0,
+                    cancelled: cancelledData?.total || cancelledData?.length || 0,
                 });
-
-                // Set the ref to true after data has been fetched
-                dataFetchedRef.current = true;
+    
+                dataFetchedRef.current = true; // Ensure data is fetched only once
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         };
-
+    
         fetchData();
-    }, [user?.id]); // Ensure the effect only runs once when the component mounts
-
+    }, [user?.id]);
     const tabs = [
         { name: "Open", path: "branch/open", count: counts.open },
         { name: "Result", path: "branch/result", count: counts.result },
@@ -67,11 +70,13 @@ const Tabs = ({ onDownloadClick }) => {
         { name: "Cancelled", path: "branch/cancelled", count: counts.cancelled }
     ];
 
+    console.log(tabs[0].name.toLowerCase())
+
     return (
         <div className="w-full flex-wrap gap-3 py-1 bg-white flex items-center overflow-x-auto justify-between">
             <div className="mx-2 flex items-center gap-3">
                 {tabs.map((tab, index) => {
-                    const isActive = path.includes(tab.path);
+                    const isActive = path.includes(tab.name.toLowerCase());
                     return (
                         <Link to={`/${tab.path}`}
                             key={index}

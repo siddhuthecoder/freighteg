@@ -11,6 +11,7 @@ const BranchAllPodRequest = () => {
   const [showPodAddForm, setShowPodAddForm] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const location = useLocation();
+  const [tab,setTab] = useState("allPodForm")
 
   return (
     <>
@@ -26,7 +27,7 @@ const BranchAllPodRequest = () => {
           <Link
             to="/allpodrequest"
             className={`${
-              location.pathname === "/allpodrequest"
+              location.pathname === "/branch/pod"
                 ? "text-blue-600 border-b-2 border-blue-600"
                 : "text-gray-500 hover:text-blue-600"
             } px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out`}
@@ -34,9 +35,9 @@ const BranchAllPodRequest = () => {
             Live POD
           </Link>
           <Link
-            to="/podform"
+            to="/branch/podform"
             className={`${
-              location.pathname === "/podform"
+              location.pathname === "/branch/podform"
                 ? "text-blue-600 border-b-2 border-blue-600"
                 : "text-gray-500 hover:text-blue-600"
             } px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out`}
