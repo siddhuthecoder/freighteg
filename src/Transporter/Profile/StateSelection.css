@@ -1,0 +1,105 @@
+/* Container */
+.state-selection-container {
+    max-width: 800px;
+    margin: 40px auto;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .state-selection-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Heading */
+  .state-selection-container h2 {
+    text-align: center;
+    font-size: 24px;
+    color: #5e81f4;
+    margin-bottom: 20px;
+  }
+  
+  /* Table */
+  .state-selection-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .state-selection-table th,
+  .state-selection-table td {
+    padding: 12px 15px;
+    text-align: center;
+  }
+  
+  .state-selection-table th {
+    background-color: #5e81f4;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  .state-selection-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .state-selection-table tr:hover {
+    background-color: #eef2ff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Input Radio */
+  .state-selection-table input[type="radio"] {
+    accent-color: #5e81f4;
+    transform: scale(1.2);
+    cursor: pointer;
+  }
+  
+  /* Loading */
+  .loading {
+    text-align: center;
+    font-size: 18px;
+    color: #5e81f4;
+  }
+  
+  /* Button */
+  .update-button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #5e81f4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .update-button:hover {
+    background-color: #3d5eca;
+    transform: translateY(-3px);
+  }
+  
+  /* Media Query for Responsiveness */
+  @media (max-width: 768px) {
+    .state-selection-container {
+      padding: 15px;
+    }
+  
+    .state-selection-table th,
+    .state-selection-table td {
+      padding: 10px;
+    }
+  
+    .update-button {
+      font-size: 14px;
+      padding: 10px;
+    }
+  }
+  

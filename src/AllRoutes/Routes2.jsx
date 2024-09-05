@@ -57,7 +57,7 @@ import VehicleSelection from "../Transporter/Profile/VehicleSelection.jsx";
 import PODUpload from "../Transporter/PODUpload/PODUpload.jsx";
 import NewLoad from "../Transporter/NewLoad/NewLoad.jsx";
 import MyRank from "../Transporter/MyRank/MyRank.jsx";
-import AssignedStaff from "../Transporter/AssignedStaff/AssignedStaff.jsx";
+// import AssignedStaff from "../Transporter/AssignedStaff/AssignedStaff.jsx";
 import Branch1 from "../branch/Branch.jsx";
 
 //branch
@@ -82,6 +82,8 @@ import BranchVendor from "../branch/pages/Vendor.jsx";
 import BranchUser from '../branch/pages/User.jsx'
 import BranchCreateBid from "../branch/pages/CreateBid.jsx";
 import TransporterCounter from "../Transporter/Counter/TransporterCounter.jsx";
+import AssignedRequestHistory from "../Transporter/AssignedRequest/AssignedReqHistory.jsx";
+import AssignedRequest from "../Transporter/AssignedRequest/AssignedRequest.jsx";
 
 // const Layout = () => {
 //   const user = useSelector((state) => state.login.user);
@@ -209,8 +211,12 @@ const AllRoutes2 = () => {
           <Route path="/transporter/Counter" element={<TransporterCounter />} />
 
           <Route
-            path="/transporter/assignedRequest"
-            element={<AssignedStaff />}
+            path="/transporter/assignedRequestHistory"
+            element={<AssignedRequestHistory/>}
+          />
+           <Route
+            path="/transporter/assignedRequests"
+            element={<AssignedRequest/>}
           />
         </>
       )}

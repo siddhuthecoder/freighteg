@@ -83,6 +83,7 @@ GET https://freighteg.in/freightapi/get-companies/665580f353ccced94082681b
 ###
 POST https://freighteg.in/freightapi/freightuser
 Content-Type: application/json
+
 {
     "name": "hfihi",
     "phone": "1234567899",
@@ -101,3 +102,9 @@ GET https://freighteg.in/freightapi/pod/history/66c03d9a7d7b083d83c04e10
 
 ###
 GET https://freighteg.in/freightapi/pod/history/66c03d9a7d7b083d83c04e10
+
+
+###
+### Get Bids for a Vendor
+GET https://freighteg.in/freightapi/bids/66c61fa6aaf20bee82564c72
+Content-Type: application/json

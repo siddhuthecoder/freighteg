@@ -1,0 +1,91 @@
+/* VehicleSelection.css */
+
+.vehicle-selection-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f9fafb;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .vehicle-selection-container h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+  
+  .loading {
+    font-size: 18px;
+    color: #5E81F4;
+    margin-top: 20px;
+  }
+  
+  .vehicle-selection-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .vehicle-item {
+    margin-bottom: 15px;
+    font-size: 18px;
+  }
+  
+  .vehicle-item label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .vehicle-item input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.2);
+  }
+  
+  .vehicle-item input[type="checkbox"]:checked {
+    accent-color: #5E81F4;
+  }
+  
+  .update-button {
+    background-color: #5E81F4;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+  }
+  
+  .update-button:hover {
+    background-color: #3b60d5;
+  }
+  
+  .update-button:active {
+    background-color: #2a49b7;
+  }
+  
+  @media (max-width: 768px) {
+    .vehicle-selection-container {
+      width: 90%;
+      padding: 15px;
+    }
+  
+    .vehicle-selection-container h2 {
+      font-size: 20px;
+    }
+  
+    .vehicle-item {
+      font-size: 16px;
+    }
+  
+    .update-button {
+      font-size: 14px;
+      padding: 8px 16px;
+    }
+  }
+  
