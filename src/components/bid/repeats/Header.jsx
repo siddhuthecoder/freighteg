@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 const Header = ({ onSubmit }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const user = useSelector((state) => state.login.user);
+  const user = useSelector((state) => state.login.user.user);
   const [selectedOption, setSelectedOption] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -17,7 +17,7 @@ const Header = ({ onSubmit }) => {
     // Fetch branch data from the API
     const fetchBranchData = async () => {
       try {
-        const response = await fetch(`https://freighteg.in/freightapi/getbranches/company/${user.id}`);
+        const response = await fetch(`https://freighteg.in/freightapi/getbranches/company/${user?.id}`);
         const data = await response.json();
         console.log(data)
         // Map the data to the options array

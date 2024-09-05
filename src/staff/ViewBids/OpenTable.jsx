@@ -29,14 +29,14 @@ const OpenTable = ({ datas }) => {
   
     const getMinimumVendorPrice = (data) => {
         // Check if bidding_response exists and is an array with at least one element
-        if (!data?.bidding_response || data.bidding_response.length === 0) {
+        if (!data?.bidding_response || data.bidding_response?.length === 0) {
             return null; // Return null or a default value if the array is empty or undefined
         }
     
         // Ensure the bidding_price array exists and has values
-        const vendorPrices = data.bidding_response[0]?.bidding_price || [];
+        const vendorPrices = data?.bidding_response[0]?.bidding_price || [];
         
-        if (vendorPrices.length === 0) {
+        if (vendorPrices?.length === 0) {
             return null; // Return null if there are no bidding prices
         }
     
@@ -45,12 +45,12 @@ const OpenTable = ({ datas }) => {
     
     
       const setRes = (data) => {
-        if (data.bidding_response && data.bidding_response.length > 0) {
-            const responses = data.bidding_response.reduce((acc, response) => {
-                response.vendor_id.forEach((vendorId, index) => {
+        if (data?.bidding_response && data.bidding_response?.length > 0) {
+            const responses = data?.bidding_response?.reduce((acc, response) => {
+                response?.vendor_id?.forEach((vendorId, index) => {
                     // Make sure that bidding_price has corresponding value
-                    if (index < response.bidding_price.length) {
-                        acc[vendorId] = response.bidding_price[index];
+                    if (index < response?.bidding_price?.length) {
+                        acc[vendorId] = response?.bidding_price[index];
                     }
                 });
                 return acc;
@@ -123,7 +123,7 @@ const OpenTable = ({ datas }) => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const currentItems = datas.slice(startIndex, startIndex + itemsPerPage);
 
-    if (!datas || datas.length === 0) {
+    if (!datas || datas?.length === 0) {
         return <div className="text-center text-gray-500 py-4">No data available</div>;
     }
    
