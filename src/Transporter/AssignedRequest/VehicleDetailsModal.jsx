@@ -1,24 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const VehicleDetailsModal = ({ isOpen, onClose, quantity }) => {
+const VehicleDetailsModal = ({ isOpen, onClose, quantity = 1 }) => {
     const initialVehicleData = {
-        vehicleNumber: '',
+        vehicleNo: '',
         driverName: '',
-        driverNumber: '',
-        gpsLink: '',
-        time: '',
-        remark: ''
+        driverPhone: '',
+        gpsLink: null,
+        reportingTime: null,
+        remarks: null
     };
 
-    // Use Array.from to create a separate instance of initialVehicleData for each vehicle
-    const [vehicles, setVehicles] = useState(Array.from({ length: quantity }, () => ({ ...initialVehicleData })));
-    const [currentVehicleIndex, setCurrentVehicleIndex] = useState(0); // Track current vehicle being filled
+    const [vehicles, setVehicles] = useState([]);
+    const [currentVehicleIndex, setCurrentVehicleIndex] = useState(0);
+
+    // Update vehicles state when quantity changes
+    useEffect(() => {
+        setVehicles(Array.from({ length: quantity }, () => ({ ...initialVehicleData })));
+    }, [quantity]);
 
     const handleVehicleChange = (field, event) => {
         const newVehicles = [...vehicles];
         newVehicles[currentVehicleIndex] = {
             ...newVehicles[currentVehicleIndex],
-            [field]: event.target.value
+            [field]: event.target.value || null // Use null if input is empty
         };
         setVehicles(newVehicles);
     };
@@ -60,16 +64,18 @@ const VehicleDetailsModal = ({ isOpen, onClose, quantity }) => {
                 </h2>
 
                 <div className="mb-4">
-                    <h3 className="font-semibold text-lg text-gray-700">Vehicle {currentVehicleIndex + 1} of {quantity}:</h3>
+                    <h3 className="font-semibold text-lg text-gray-700">
+                        Vehicle {currentVehicleIndex + 1} of {quantity}:
+                    </h3>
                     <div className="mt-2">
-                        <label htmlFor="vehicleNumber" className="block text-gray-600">
+                        <label htmlFor="vehicleNo" className="block text-gray-600">
                             Vehicle Number:
                         </label>
                         <input
                             type="text"
-                            id="vehicleNumber"
-                            value={vehicles[currentVehicleIndex].vehicleNumber}
-                            onChange={(event) => handleVehicleChange('vehicleNumber', event)}
+                            id="vehicleNo"
+                            value={vehicles[currentVehicleIndex]?.vehicleNo || ''}
+                            onChange={(event) => handleVehicleChange('vehicleNo', event)}
                             className="border border-gray-300 rounded-md p-2 w-full mt-1 focus:ring focus:ring-blue-200 focus:border-blue-400"
                         />
                     </div>
@@ -80,20 +86,20 @@ const VehicleDetailsModal = ({ isOpen, onClose, quantity }) => {
                         <input
                             type="text"
                             id="driverName"
-                            value={vehicles[currentVehicleIndex].driverName}
+                            value={vehicles[currentVehicleIndex]?.driverName || ''}
                             onChange={(event) => handleVehicleChange('driverName', event)}
                             className="border border-gray-300 rounded-md p-2 w-full mt-1 focus:ring focus:ring-blue-200 focus:border-blue-400"
                         />
                     </div>
                     <div className="mt-4">
-                        <label htmlFor="driverNumber" className="block text-gray-600">
-                            Driver Number:
+                        <label htmlFor="driverPhone" className="block text-gray-600">
+                            Driver Phone:
                         </label>
                         <input
                             type="text"
-                            id="driverNumber"
-                            value={vehicles[currentVehicleIndex].driverNumber}
-                            onChange={(event) => handleVehicleChange('driverNumber', event)}
+                            id="driverPhone"
+                            value={vehicles[currentVehicleIndex]?.driverPhone || ''}
+                            onChange={(event) => handleVehicleChange('driverPhone', event)}
                             className="border border-gray-300 rounded-md p-2 w-full mt-1 focus:ring focus:ring-blue-200 focus:border-blue-400"
                         />
                     </div>
@@ -104,32 +110,32 @@ const VehicleDetailsModal = ({ isOpen, onClose, quantity }) => {
                         <input
                             type="text"
                             id="gpsLink"
-                            value={vehicles[currentVehicleIndex].gpsLink}
+                            value={vehicles[currentVehicleIndex]?.gpsLink || ''}
                             onChange={(event) => handleVehicleChange('gpsLink', event)}
                             className="border border-gray-300 rounded-md p-2 w-full mt-1 focus:ring focus:ring-blue-200 focus:border-blue-400"
                         />
                     </div>
                     <div className="mt-4">
-                        <label htmlFor="time" className="block text-gray-600">
-                            Time:
+                        <label htmlFor="reportingTime" className="block text-gray-600">
+                            Reporting Time:
                         </label>
                         <input
                             type="text"
-                            id="time"
-                            value={vehicles[currentVehicleIndex].time}
-                            onChange={(event) => handleVehicleChange('time', event)}
+                            id="reportingTime"
+                            value={vehicles[currentVehicleIndex]?.reportingTime || ''}
+                            onChange={(event) => handleVehicleChange('reportingTime', event)}
                             className="border border-gray-300 rounded-md p-2 w-full mt-1 focus:ring focus:ring-blue-200 focus:border-blue-400"
                         />
                     </div>
                     <div className="mt-4">
-                        <label htmlFor="remark" className="block text-gray-600">
-                            Remark:
+                        <label htmlFor="remarks" className="block text-gray-600">
+                            Remarks:
                         </label>
                         <input
                             type="text"
-                            id="remark"
-                            value={vehicles[currentVehicleIndex].remark}
-                            onChange={(event) => handleVehicleChange('remark', event)}
+                            id="remarks"
+                            value={vehicles[currentVehicleIndex]?.remarks || ''}
+                            onChange={(event) => handleVehicleChange('remarks', event)}
                             className="border border-gray-300 rounded-md p-2 w-full mt-1 focus:ring focus:ring-blue-200 focus:border-blue-400"
                         />
                     </div>

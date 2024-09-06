@@ -28,8 +28,8 @@ const AssignedRequest = () => {
   const [qunatity, setqunatity] = useState(0);
 
   const openModal = (qunatityOfVehicle) => {
-    setqunatity(5);
-    alert(qunatity);
+    setqunatity(2);
+    // alert(qunatity);
     setIsModalOpen(true);
   };
 
@@ -41,7 +41,7 @@ const AssignedRequest = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `${BASE_URL}/getBidResultHistory?vendor_id=669be1f26d77579092b9b435&page=${currentPage}&limit=5`
+          `${BASE_URL}/getBidResults?vendor_id=${user?.id}&page=${currentPage}&limit=5`
         );
         const bidData = response.data.data;
 

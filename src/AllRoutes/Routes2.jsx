@@ -87,6 +87,7 @@ import AssignedRequestHistory from "../Transporter/AssignedRequest/AssignedReque
 import AssignedRequest from "../Transporter/AssignedRequest/AssignedRequest1.jsx";
 import TransporterFastagId from "../Transporter/VechileInfo/FastagId.jsx"
 import TransporterVahanId from "../Transporter/VechileInfo/VahanId.jsx"
+import TransCounter from "../Transporter/Counter/Counter.jsx"
 
 // const Layout = () => {
 //   const user = useSelector((state) => state.login.user);
@@ -211,7 +212,7 @@ const AllRoutes2 = () => {
           <Route path="/transporter/PODUpload" element={<PODUpload />} />
           <Route path="/transporter/newLoad" element={<NewLoad />} />
           <Route path="/transporter/rank" element={<MyRank />} />
-          <Route path="/transporter/Counter" element={<TransporterCounter />} />
+          <Route path="/transporter/Counter" element={<TransCounter />} />
 
           <Route
             path="/transporter/assignedRequestHistory"
