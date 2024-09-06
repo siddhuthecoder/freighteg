@@ -62,6 +62,8 @@ const ViewResult = () => {
         }
     };
 
+    console.log(data)
+
     return (
         <>
             <StaffNavbarr />
