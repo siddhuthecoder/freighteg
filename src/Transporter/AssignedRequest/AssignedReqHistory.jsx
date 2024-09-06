@@ -3,6 +3,9 @@ import TransportNavBar from '../TransportNavBar';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import 'tailwindcss/tailwind.css'; // Import Tailwind CSS
+import { Link } from 'react-router-dom';
+import { format, toZonedTime } from 'date-fns-tz';
+
 
 const BASE_URL = 'https://freighteg.in/freightapi'; // Assuming this is the base URL for all your APIs
 
@@ -12,6 +15,12 @@ const AssignedRequestHistory = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const [loading, setLoading] = useState(true);
+    
+    const [isAssignedVendorsModalOpen, setAssignedVendorsModalOpen] = useState(false);
+    const [isViewQuotesModalOpen, setViewQuotesModalOpen] = useState(false);
+    const [selectedData, setSelectedData] = useState(null);
+    const [minimum, setMinimum] = useState(null);
+    const [response, setresponse] = useState(null)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -62,11 +71,33 @@ const AssignedRequestHistory = () => {
         }
     };
 
+
+    
+    const formatTo12HourTime = (utcDate) => {
+        const timeZone = "Asia/Kolkata";
+        const zonedDate = toZonedTime(new Date(utcDate), timeZone);
+        return format(zonedDate, "hh:mm a", { timeZone });
+    };
+
     return (
         <>
             <TransportNavBar />
             <div className="container mx-auto p-6 bg-gray-100 min-h-screen">
-                <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">Assigned Request History</h2>
+                {/* <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">Assigned Request History</h2> */}
+                <div className="flex gap-8 my-2">
+                    <Link
+                        to="/transporter/assignedRequests"
+                        className={`cursor-pointer  px-3 py-2 text-gray-500 hover:text-blue-600 rounded-md text-sm font-medium transition duration-150 ease-in-out`}
+                    >
+                        Assigned Requests
+                    </Link>
+                    <Link
+                        to="#"
+                        className={`cursor-pointer text-blue-600 border-b-2 border-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out`}
+                    >
+                        Assigned History
+                    </Link>
+                </div>
                 {loading ? (
                     <div className="flex justify-center items-center">
                         <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-32 w-32"></div>
@@ -75,42 +106,90 @@ const AssignedRequestHistory = () => {
                 ) : (
                     <>
                         <ul className="space-y-4">
-                            {data.map((item) => (
-                                <li key={item._id} className="p-6 bg-white rounded-lg shadow-md">
-                                    <p className="text-lg font-semibold text-gray-700">Bid ID: <span className="text-blue-500">{item.bid_id}</span></p>
-                                    <p className="text-lg text-gray-600">Bid No: {item.bidNo}</p>
-                                    <p className="text-lg text-gray-600">Vendor Price: {item.vendorPrice}</p>
-                                    <p className="text-lg text-gray-600">Vendor Rank: {item.vendorRank}</p>
-                                    <p className="text-lg text-gray-600">Body Type: {item.body_type}</p>
-                                    <p className="text-lg text-gray-600">Material Type: {item.material_type}</p>
-                                    <p className="text-lg text-gray-600">Material Weight: {item.material_weight} tons</p>
-                                    <p className="text-lg text-gray-600">Vehicle Type: {item.vehicle_type}</p>
-                                    <p className="text-lg text-gray-600">Vehicle Size: {item.vehicle_size}</p>
-                                    <p className="text-lg text-gray-600">Loading City: {item.loading_city}</p>
-                                    <p className="text-lg text-gray-600">Loading Address: {item.loading_address}</p>
-                                    <p className="text-lg text-gray-600">Loading Pincode: {item.loading_pincode}</p>
-                                    <p className="text-lg text-gray-600">Loading State: {item.loading_state}</p>
-                                    <p className="text-lg text-gray-600">Loading Date: {new Date(item.loading_date).toLocaleDateString()}</p>
-                                    <p className="text-lg text-gray-600">Loading Time: {item.loading_time}</p>
-                                    <p className="text-lg text-gray-600">Unloading City: {item.unloading_city}</p>
-                                    <p className="text-lg text-gray-600">Unloading Address: {item.unloading_address}</p>
-                                    <p className="text-lg text-gray-600">Unloading Pincode: {item.unloading_pincode}</p>
-                                    <p className="text-lg text-gray-600">Unloading State: {item.unloading_state}</p>
-                                    <p className="text-lg text-gray-600">Route Distance: {item.route_distance} km</p>
-                                    <p className="text-lg text-gray-600">Target Price: ₹{item.target_price}</p>
-                                    <p className="text-lg text-gray-600">Bid Expired: {item.bidExpired ? 'Yes' : 'No'}</p>
-                                    <p className="text-lg text-gray-600">Bid Remarks: {item.bid_remarks}</p>
-                                    <p className="text-lg text-gray-600">Created At: {new Date(item.createdAt).toLocaleString()}</p>
-                                    <p className="text-lg text-gray-600">Expiry Date: {new Date(item.expiry_date).toLocaleDateString()}</p>
-                                    <p className="text-lg text-gray-600">Expiry Time: {item.expiry_time}</p>
-                                    <p className="text-lg text-gray-600">Assigned To: {item.assigned_to}</p>
-                                    <p className="text-lg text-gray-600">Assigned Transporter: {item.assigned_transporter.join(', ')}</p>
-                                    <p className="text-lg text-gray-600">Responded By: {item.responded_by.join(', ')}</p>
-                                    <p className="text-lg text-gray-600">Vehicle Details: {JSON.stringify(item.vehicleDetails)}</p>
-                                    <p className="text-lg text-gray-600">Is CNG: {item.is_cng ? 'Yes' : 'No'}</p>
-                                    <p className="text-lg text-gray-600">Is Active: {item.isActive ? 'Yes' : 'No'}</p>
-                                    <p className="text-lg text-gray-600">Is Deleted: {item.isDeleted ? 'Yes' : 'No'}</p>
-                                </li>
+                            {data.map((data) => (
+                                <div
+                                key={data.bidNo}
+                                className="bg-blue-50 rounded-b-lg p-4 mt-3 relative mx-auto flex flex-col w-[97%] shadow-md rounded-md min-w-[1200px]"
+                            >
+                                <div className="w-[100%] text-sm mt-2 min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
+                                    <div className="flex flex-col pt-1">
+                                        <span className="block text-black font-semibold">{user?.name}</span>
+                                        <span className="block text-blue-600 font-semibold">#{data.bidNo}</span>
+                                        <span className="block text-red-600">
+                                          {/* Time Remaining : {timeLeft.expired ? 'Expired' : `${timeLeft.days}d ${timeLeft.hours}hr ${timeLeft.minutes}min`} */}
+                                        </span>
+                                        <div className="block text-grey-500 mt-12">Remarks :  {data.bid_remarks}</div>
+                                    </div>
+                                    <div className="flex flex-col pt-1">
+                                        {/* <span className="block font-medium ml-6">{data.createdAt.slice(0, 10)}</span> */}
+                                        <span className="block ml-6">{formatTo12HourTime(data.createdAt)}</span>
+                                    </div>
+                                    <div className="flex flex-col pt-1">
+                                        <span className="block font-medium ml-4">
+                                            {data.loading_city} ({data.loading_state})
+                                        </span>
+                                        <span className="block text-xs text-gray-500 ml-4">
+                                            {data.loading_address} ( {data.loading_pincode})
+                                        </span>
+                                    </div>
+                                    <div className="flex flex-col pt-1">
+                                        <span className="block font-medium">
+                                            {data.unloading_city} ({data.unloading_state})
+                                        </span>
+                                        <span className="block text-xs text-gray-500">
+                                            {data.unloading_address} ({data.unloading_pincode})
+                                        </span>
+                                    </div>
+                                    <div className="flex flex-col pt-1">
+                                        <span className="block">Vehicle Quantity - {data.quantity}</span>
+                                        <span className="block">
+                                           Vehicle Type-  {data.vehicle_type} 
+                                        </span>
+                                        <span className="block">
+                                           Vehicle Size-  {data.vehicle_size} ({data.body_type})
+                                        </span>
+                                        <span className="block">
+                                        Material type-  {data.material_type} ({data.material_weight}Mt)
+                                        </span>
+                                        {/* <span className="block">
+                                        Material weight-  {data.material_weight}
+                                        </span> */}
+                                        <a href="#" className="text-blue-600">
+                                            Distance - {data.route_distance} Km
+                                        </a>
+                                    </div>
+                                    <div className="flex flex-col pt-1">
+                                        <div className="w-full flex items-center justify-end gap-3">
+                                            {/* <IoMdMail className='text-2xl text-blue-600 cursor-pointer' />
+                                            <MdLocalPrintshop className='text-2xl text-blue-600 cursor-pointer' onClick={() => handlePrintClick(data)} /> */}
+                                        </div>
+                                        {/* <div className="text-lg font-semibold text-gray-700 mr-5">Rs {minimumPrice || 0}</div> */}
+                                        <div className=""></div>
+                                        <div
+                                            className="text-blue-600 underline text-sm cursor-pointer"
+                                         //    onClick={() => handleViewQuotesClick(data)}
+                                        >
+                                            View all quotes
+                                        </div>
+                                    </div>
+                                </div>
+        
+                                <div className="flex justify-between items-center mt-2 border-t pt-2 text-sm text-gray-600">
+                                    <span className="block text-xs text-gray-500">
+                                        Target Price - {data.target_price}Rs
+                                        <span className="gap-8 text-grey-600 text-sm font-semibold ml-5 px-3 py-1 rounded-lg">
+                                            Assigned Staff ({data.assignedToUser?.name}, +91
+                                            {data.createdByUser?.phone})
+                                        </span>
+                                    </span>
+                                    <div className="mr-15px">
+                                        Created By - <span className="font-semibold">{data.createdByUser?.name}</span>
+                                        <span>
+                                            {/* ({data.createdAt.slice(0, 10)}, {formatTo12HourTime(data.createdAt)}) */}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
                             ))}
                         </ul>
                         <div className="flex justify-between items-center mt-6">

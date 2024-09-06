@@ -19,7 +19,7 @@
   
   .loading {
     font-size: 18px;
-    color: #5E81F4;
+    color: #1e3a8a;
     margin-top: 20px;
   }
   
@@ -45,11 +45,11 @@
   }
   
   .vehicle-item input[type="checkbox"]:checked {
-    accent-color: #5E81F4;
+    accent-color: #1e3a8a;
   }
   
   .update-button {
-    background-color: #5E81F4;
+    background-color: #1e3a8a;
     color: #fff;
     border: none;
     padding: 10px 20px;

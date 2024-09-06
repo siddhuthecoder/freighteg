@@ -85,8 +85,8 @@ const ChangePassword = () => {
     <>
       <TransportNavBar />
       <div className="change-password-container">
-        <h2 className="title">Change Password</h2>
-        <button className="yes-button" onClick={handleYes}>
+        <h2 className="text-2xl font-semibold py-3 text-[#1e3a8a]">Change Password</h2>
+        <button className=" px-3 py-2 rounded-md text-white bg-[#1e3a8a]" onClick={handleYes}>
           Yes, I want to change my password
         </button>
         {show && (
@@ -113,9 +113,10 @@ const ChangePassword = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
             <button
-              className={`submit-button ${load ? "loading" : ""}`}
+              className={`px-3 py-2 rounded-md text-white bg-[#1e3a8a] ${load ? "loading" : ""}`}
               onClick={handleSubmit}
               disabled={load}
+              classNam
             >
               {load ? "Submitting..." : "Submit"}
             </button>

@@ -18,7 +18,7 @@ const routes = [
   { path: "/transporter/newLoad", name: "New Load" },
   { path: "/transporter/rank", name: "My Rank" },
   { path: "/transporter/assignedRequests", name: "Assigned Requests" },
-  { path: "/transporter/assignedRequestHistory", name: "Assigned Request Histroy" },
+  // { path: "/transporter/assignedRequestHistory", name: "Assigned Request Histroy" },
 ];
 
 const Navbar = () => {

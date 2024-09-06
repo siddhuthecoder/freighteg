@@ -40,50 +40,145 @@ const PODUpload = () => {
     setSelectedImage(null);
   };
 
+  console.log(pendingPODs)
+
   return (
     <>
       <TransportNavBar />
       <div className="pod-upload-container">
-        <nav className="pod-nav">
-          <button className={activeTab === 'pending' ? 'active' : ''} onClick={() => setActiveTab('pending')}>Pending</button>
-          <button className={activeTab === 'history' ? 'active' : ''} onClick={() => setActiveTab('history')}>History</button>
-        </nav>
+      <div className="flex gap-8 my-2">
+          <div
+            onClick={() => setActiveTab("pending")}
+            className={`cursor-pointer ${
+              activeTab === "pending"
+                ? "text-blue-600 border-b-2 border-blue-600"
+                : "text-gray-500 hover:text-blue-600"
+            } px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out`}
+          >
+            Live POD
+          </div>
+          <div
+            to="/branch/podform"
+            className={`cursor-pointer ${
+              activeTab === "history"
+                ? "text-blue-600 border-b-2 border-blue-600"
+                : "text-gray-500 hover:text-blue-600"
+            } px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out`}
+            onClick={() => setActiveTab("history")}
+          >
+            History POD
+          </div>
+        </div>
 
         {activeTab === 'pending' && (
-          <div className="pod-list">
-            <h2 className="pod-title">Pending PODs</h2>
-            {pendingPODs.map((pod) => (
-              <div className="pod-item" key={pod._id}>
-                <p><strong>LR Number:</strong> {pod.lrNumber}</p>
-                <p><strong>Vehicle Number:</strong> {pod.vehicleNumber}</p>
-                <button className="upload-button" onClick={() => document.getElementById(`file-input-${pod._id}`).click()}>
-                  Upload File
-                </button>
-                <input
-                  type="file"
-                  id={`file-input-${pod._id}`}
-                  style={{ display: 'none' }}
-                  onChange={(event) => handleFileUpload(pod._id, event)}
-                />
-              </div>
-            ))}
+          <div className="container mx-auto p-4">
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-white border border-gray-200 shadow-md rounded-lg">
+              <thead>
+                <tr className="bg-blue-900 text-white">
+                  <th className="text-left py-3 px-4 uppercase text-nowrap font-semibold text-sm">Lr Number</th>
+                  <th className="text-left py-3 px-4 uppercase text-nowrap font-semibold text-sm">Vehicle Number</th>
+                  <th className="text-left py-3 px-4 uppercase text-nowrap font-semibold text-sm">Status</th>
+                  <th className="text-center py-3 px-4 uppercase text-nowrap font-semibold text-sm">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {pendingPODs.map((user, index) => (
+                  <tr
+                    key={index}
+                    className={`border-t ${index % 2 === 0 ? "bg-gray-100" : "bg-white"}`}
+                  >
+                    <td className="text-left py-3 px-4">{user.lrNumber}</td>
+                    <td className="text-left py-3 px-4">{user.vehicleNumber}</td>
+                    <td className="text-left py-3 px-4">
+                      {user.approved?(
+                        <span className="px-2 py-1 bg-green-200 rounded-md text-green-600">Approved</span>
+                      ):(
+                        <span className="px-2 py-1 bg-red-200 rounded-md text-red-600">Not Approved</span>
+                      )
+                      }
+                    </td>
+                    <td className="text-center py-3 px-4">
+                      <div className="flex items-center justify-center gap-4">
+                        <button className="text-blue-600 hover:text-blue-800">
+                          <i className="fas fa-edit"></i>
+                        </button>
+                        <button className="text-red-600 hover:text-red-800">
+                          <i className="fas fa-trash"></i>
+                        </button>
+                        <label className="inline-flex relative items-center cursor-pointer">
+                          <input
+                            type="checkbox"
+                            className="sr-only peer"
+                            checked={user.isActive}
+                            readOnly
+                          />
+                          <div className="w-10 h-5 bg-gray-200 rounded-full peer-checked:bg-blue-600"></div>
+                          <div className="absolute left-0.5 top-0.5 w-4 h-4 bg-white border rounded-full transform peer-checked:translate-x-5"></div>
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           </div>
         )}
 
         {activeTab === 'history' && (
-          <div className="pod-list">
-            <h2 className="pod-title">History PODs</h2>
-            {historyPODs.map((pod) => (
-              <div className="pod-item" key={pod._id}>
-                <p><strong>LR Number:</strong> {pod.lrNumber}</p>
-                <p><strong>Vehicle Number:</strong> {pod.vehicleNumber}</p>
-                {pod.documents.map((doc, index) => (
-                  <button className="view-button" key={index} onClick={() => openImageModal(doc)}>
-                    View Document
-                  </button>
+          <div className="container mx-auto p-4">
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-white border border-gray-200 shadow-md rounded-lg">
+              <thead>
+                <tr className="bg-blue-900 text-white">
+                  <th className="text-left py-3 px-4 uppercase text-nowrap font-semibold text-sm">Lr Number</th>
+                  <th className="text-left py-3 px-4 uppercase text-nowrap font-semibold text-sm">Vehicle Number</th>
+                  <th className="text-left py-3 px-4 uppercase text-nowrap font-semibold text-sm">Status</th>
+                  <th className="text-center py-3 px-4 uppercase text-nowrap font-semibold text-sm">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {historyPODs.map((user, index) => (
+                  <tr
+                    key={index}
+                    className={`border-t ${index % 2 === 0 ? "bg-gray-100" : "bg-white"}`}
+                  >
+                    <td className="text-left py-3 px-4">{user.lrNumber}</td>
+                    <td className="text-left py-3 px-4">{user.vehicleNumber}</td>
+                    <td className="text-left py-3 px-4">
+                      {user.approved?(
+                        <span className="px-2 py-1 bg-green-200 rounded-md text-green-600 w-[120px]">Approved</span>
+                      ):(
+                        <span className="px-2 py-1 bg-red-200 rounded-md text-red-600">Not Approved</span>
+                      )
+                      }
+                    </td>
+                    <td className="text-center py-3 px-4">
+                      <div className="flex items-center justify-center gap-4">
+                        <button className="text-blue-600 hover:text-blue-800">
+                          <i className="fas fa-edit"></i>
+                        </button>
+                        <button className="text-red-600 hover:text-red-800">
+                          <i className="fas fa-trash"></i>
+                        </button>
+                        <label className="inline-flex relative items-center cursor-pointer">
+                          <input
+                            type="checkbox"
+                            className="sr-only peer"
+                            checked={user.isActive}
+                            readOnly
+                          />
+                          <div className="w-10 h-5 bg-gray-200 rounded-full peer-checked:bg-blue-600"></div>
+                          <div className="absolute left-0.5 top-0.5 w-4 h-4 bg-white border rounded-full transform peer-checked:translate-x-5"></div>
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
                 ))}
-              </div>
-            ))}
+              </tbody>
+            </table>
+          </div>
           </div>
         )}
 
