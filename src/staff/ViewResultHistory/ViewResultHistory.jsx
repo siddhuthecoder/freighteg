@@ -9,6 +9,93 @@ import { IoMdMail } from "react-icons/io";
 import { MdLocalPrintshop } from "react-icons/md";
 const BASE_URL = 'https://freighteg.in/freightapi'; 
 
+
+const VehicleInfoModal = ({
+    showVehicleModal,
+    setShowVehicleModal,
+    vechileDetails,
+  }) => {
+    if (!showVehicleModal) return null;
+  
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50 p-4">
+        <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 relative">
+          <button
+            className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+            onClick={() => setShowVehicleModal(false)}
+          >
+            X
+          </button>
+          <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
+            Vehicle Details
+          </h2>
+  
+          <div className="overflow-x-auto">
+            <table className="min-w-full border">
+              <thead>
+                <tr className="bg-gray-100">
+                  <th className="p-2 text-left font-semibold text-nowrap text-gray-800">
+                    Vehicle Number
+                  </th>
+                  <th className="p-2 text-left font-semibold text-nowrap text-gray-800">
+                    Driver Name
+                  </th>
+                  <th className="p-2 text-left font-semibold text-nowrap text-gray-800">
+                    Driver Number
+                  </th>
+                  <th className="p-2 text-left font-semibold text-nowrap text-gray-800">
+                    GPS link
+                  </th>
+                  <th className="p-2 text-left font-semibold text-nowrap text-gray-800">
+                    Remark
+                  </th>
+                 
+                  <th className="p-2 text-left font-semibold text-nowrap text-gray-800">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {/* Handle null or empty data */}
+                {vechileDetails && vechileDetails.length > 0 ? (
+                  vechileDetails.map((vehicle, index) => (
+                    <tr key={index} className="border-t">
+                      <td className="p-2 text-gray-800">{vehicle.vehicleNo}</td>
+                      <td className="p-2 text-gray-800">{vehicle.driverName}</td>
+                      <td className="p-2 text-gray-800">{vehicle.drverPhone}</td>
+                      <td className="p-2 text-gray-800">{vehicle.gpsLink}</td>
+                      <td className="p-2 text-gray-800">{vehicle.remarks}</td>
+                      <td className="p-2 gap-2 text-gray-800 flex items-center">
+                        
+                          <Link to={`/staff/vahan/${vehicle.vehicleNo}`}>
+                            <button className="bg-blue-500 text-white px-4 py-2 rounded-md text-sm">
+                              Vahan
+                            </button>
+                          </Link>
+                          <Link to={`/staff/fastag/${vehicle.vehicleNo}`}>
+                            <button className="bg-green-500 text-nowrap text-white px-4 py-2 rounded-md text-sm">
+                              Fastag Tracking
+                            </button>
+                          </Link>
+                        
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="2" className="p-4 text-center text-gray-600">
+                      No Data Available
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
 const ViewResultHistory = () => {
     const user = useSelector((state) => state.login.user);
     const [data, setData] = useState([]);
@@ -17,6 +104,13 @@ const ViewResultHistory = () => {
     const [loading, setLoading] =useState(true);
     const [selectedVendorIds, setSelectedVendorIds] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [showVehicleModal, setShowVehicleModal] = useState(false);
+    const [selectedVehicleDetails, setSelectedVehicleDetails] = useState([]);
+
+    const handleViewVehiclesClick = (vehicleDetails) => {
+        setSelectedVehicleDetails(vehicleDetails);
+        setShowVehicleModal(true);
+      };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -230,10 +324,13 @@ const ViewResultHistory = () => {
                                          </div>
                                          <div className="text-lg font-semibold text-gray-700 mr-5">Rs {minimumPrice || 0}</div>
                                          <div
-                                             className="text-blue-600 underline text-sm cursor-pointer"
+                                            onClick={() => {
+                                                handleViewVehiclesClick(data.vehicleDetails);
+                                              }}
+                                             className="bg-blue-600 max-w-[140px] text-center text-white px-3 py-1 rounded-md  text-sm cursor-pointer"
                                             //  onClick={() => handleRowClick(data.assigned_transporter)}
                                          >
-                                             Vendor Transports
+                                             Vehicle Info
                                          </div>
                                      </div>
                                  </div>
@@ -278,6 +375,11 @@ const ViewResultHistory = () => {
                 )}
                 </div>
             </div>
+            <VehicleInfoModal
+                showVehicleModal={showVehicleModal}
+                setShowVehicleModal={setShowVehicleModal}
+                vechileDetails={selectedVehicleDetails}
+            />
         </>
     );
 };

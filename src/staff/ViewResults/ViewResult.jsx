@@ -9,65 +9,92 @@ import { format, toZonedTime } from 'date-fns-tz';
 import { IoMdMail } from "react-icons/io";
 import { MdLocalPrintshop } from "react-icons/md";
 
-// const VehicleInfoModal = ({
-//     showVehicleModal,
-//     setShowVehicleModal,
-//     vechileDetails,
-//   }) => {
-//     if (!showVehicleModal) return null;
-//     //  alert(JSON.stringify(vechileDetails) )
-//     return (
-//       <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50 p-4">
-//         <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 relative">
-//           <button
-//             className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-//             onClick={() => setShowVehicleModal(false)}
-//           >
-//             X
-//           </button>
-//           <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
-//             Vehicle Details
-//           </h2>
+const VehicleInfoModal = ({
+    showVehicleModal,
+    setShowVehicleModal,
+    vechileDetails,
+  }) => {
+    if (!showVehicleModal) return null;
   
-//           <div className="overflow-x-auto">
-//             <table className="min-w-full border">
-//               <thead>
-//                 <tr className="bg-gray-100">
-//                   <th className="p-2 text-left font-semibold text-gray-800">
-//                     Vehicle Number
-//                   </th>
-//                   <th className="p-2 text-left font-semibold text-gray-800">
-//                     Action
-//                   </th>
-//                 </tr>
-//               </thead>
-//               <tbody>
-//                 {vechileDetails?.map((vehicle, index) => (
-//                   <tr key={index} className="border-t">
-//                     <td className="p-2 text-gray-800">{vehicle.vehicleNo}</td>
-//                     <td className="p-2 text-gray-800">
-//                       <div className="flex space-x-2">
-//                         <Link to={`/vahan/${vehicle.vehicleNo}`}>
-//                           <button className="bg-blue-500 text-white px-4 py-2 rounded-md text-sm">
-//                             Vahan
-//                           </button>
-//                         </Link>
-//                         <Link to={`/fastag/${vehicle.vehicleNo}`}>
-//                           <button className="bg-green-500 text-white px-4 py-2 rounded-md text-sm">
-//                             Fastag Tracking
-//                           </button>
-//                         </Link>
-//                       </div>
-//                     </td>
-//                   </tr>
-//                 ))}
-//               </tbody>
-//             </table>
-//           </div>
-//         </div>
-//       </div>
-//     );
-//   };
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50 p-4">
+        <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 relative">
+          <button
+            className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+            onClick={() => setShowVehicleModal(false)}
+          >
+            X
+          </button>
+          <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
+            Vehicle Details
+          </h2>
+  
+          <div className="overflow-x-auto">
+            <table className="min-w-full border">
+              <thead>
+                <tr className="bg-gray-100">
+                  <th className="p-2 text-left font-semibold text-nowrap text-gray-800">
+                    Vehicle Number
+                  </th>
+                  <th className="p-2 text-left font-semibold text-nowrap text-gray-800">
+                    Driver Name
+                  </th>
+                  <th className="p-2 text-left font-semibold text-nowrap text-gray-800">
+                    Driver Number
+                  </th>
+                  <th className="p-2 text-left font-semibold text-nowrap text-gray-800">
+                    GPS link
+                  </th>
+                  <th className="p-2 text-left font-semibold text-nowrap text-gray-800">
+                    Remark
+                  </th>
+                 
+                  <th className="p-2 text-left font-semibold text-nowrap text-gray-800">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {/* Handle null or empty data */}
+                {vechileDetails && vechileDetails.length > 0 ? (
+                  vechileDetails.map((vehicle, index) => (
+                    <tr key={index} className="border-t">
+                      <td className="p-2 text-gray-800">{vehicle.vehicleNo}</td>
+                      <td className="p-2 text-gray-800">{vehicle.driverName}</td>
+                      <td className="p-2 text-gray-800">{vehicle.drverPhone}</td>
+                      <td className="p-2 text-gray-800">{vehicle.gpsLink}</td>
+                      <td className="p-2 text-gray-800">{vehicle.remarks}</td>
+                      <td className="p-2 gap-2 text-gray-800 flex items-center">
+                        
+                          <Link to={`/staff/vahan/${vehicle.vehicleNo}`}>
+                            <button className="bg-blue-500 text-white px-4 py-2 rounded-md text-sm">
+                              Vahan
+                            </button>
+                          </Link>
+                          <Link to={`/staff/fastag/${vehicle.vehicleNo}`}>
+                            <button className="bg-green-500 text-nowrap text-white px-4 py-2 rounded-md text-sm">
+                              Fastag Tracking
+                            </button>
+                          </Link>
+                        
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="2" className="p-4 text-center text-gray-600">
+                      No Data Available
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    );
+  };
+  
   
 
 const BASE_URL = 'https://freighteg.in/freightapi'; 
@@ -83,6 +110,14 @@ const ViewResult = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showVehicleModal, setShowVehicleModal] = useState(false);
     const [vendorDetails, setVendorDetails] = useState(null);
+    const [selectedVehicleDetails, setSelectedVehicleDetails] = useState([]);
+
+    const handleViewVehiclesClick = (vehicleDetails) => {
+        setSelectedVehicleDetails(vehicleDetails);
+        setShowVehicleModal(true);
+      };
+
+
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
@@ -222,7 +257,7 @@ const ViewResult = () => {
                 </div>
                 <div className="w-full flex flex-col overflow-x-scroll">
                 <div className="bg-[#9D9D9D21] w-[97%] h-[60px] items-center ps-2 mt-2 rounded-md min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
-                    <div className="font-semibold md:text-lg ps-[30px]">ID</div>
+                    <div className="font-semibold text-nowrap md:text-lg ps-[30px]">ID</div>
                     <div className="font-semibold md:text-lg ps-[30px]">Loading Date</div>
                     <div className="font-semibold md:text-lg ps-[30px]">Loading Point </div>
                     <div className="font-semibold md:text-lg ps-[30px]">Unloading Point</div>
@@ -299,10 +334,13 @@ const ViewResult = () => {
                                          </div>
                                          <div className="text-lg font-semibold text-gray-700 mr-5">Rs {minimumPrice || 0}</div>
                                          <div
+                                            onClick={() => {
+                                                handleViewVehiclesClick(data.vehicleDetails);
+                                              }}
                                              className="bg-blue-600 max-w-[140px] text-center text-white px-3 py-1 rounded-md  text-sm cursor-pointer"
                                             //  onClick={() => handleRowClick(data.assigned_transporter)}
                                          >
-                                             View Details
+                                             Vehicle Info
                                          </div>
                                      </div>
                                  </div>
@@ -347,11 +385,11 @@ const ViewResult = () => {
                 )}
                 </div>
             </div>
-            {/* <VehicleInfoModal
+            <VehicleInfoModal
                 showVehicleModal={showVehicleModal}
                 setShowVehicleModal={setShowVehicleModal}
                 vechileDetails={selectedVehicleDetails}
-            /> */}
+            />
         </>
     );
 };
