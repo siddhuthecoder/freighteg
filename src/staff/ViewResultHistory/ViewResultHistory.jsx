@@ -142,13 +142,13 @@ const ViewResultHistory = () => {
                         to="/staff/viewResult"
                         className={`text-gray-500 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out`}
                     >
-                        Live POD
+                        View Result
                     </Link>
                     <Link
                         to="#"
                         className={` text-blue-600 border-b-2 border-blue-600  px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out`}
                     >
-                        History POD
+                        Result History
                     </Link>
                 </div>
                 <div className="w-full flex flex-col overflow-x-scroll">

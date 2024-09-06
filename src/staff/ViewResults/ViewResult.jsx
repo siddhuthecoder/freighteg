@@ -9,7 +9,66 @@ import { format, toZonedTime } from 'date-fns-tz';
 import { IoMdMail } from "react-icons/io";
 import { MdLocalPrintshop } from "react-icons/md";
 
-
+// const VehicleInfoModal = ({
+//     showVehicleModal,
+//     setShowVehicleModal,
+//     vechileDetails,
+//   }) => {
+//     if (!showVehicleModal) return null;
+//     //  alert(JSON.stringify(vechileDetails) )
+//     return (
+//       <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50 p-4">
+//         <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 relative">
+//           <button
+//             className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+//             onClick={() => setShowVehicleModal(false)}
+//           >
+//             X
+//           </button>
+//           <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
+//             Vehicle Details
+//           </h2>
+  
+//           <div className="overflow-x-auto">
+//             <table className="min-w-full border">
+//               <thead>
+//                 <tr className="bg-gray-100">
+//                   <th className="p-2 text-left font-semibold text-gray-800">
+//                     Vehicle Number
+//                   </th>
+//                   <th className="p-2 text-left font-semibold text-gray-800">
+//                     Action
+//                   </th>
+//                 </tr>
+//               </thead>
+//               <tbody>
+//                 {vechileDetails?.map((vehicle, index) => (
+//                   <tr key={index} className="border-t">
+//                     <td className="p-2 text-gray-800">{vehicle.vehicleNo}</td>
+//                     <td className="p-2 text-gray-800">
+//                       <div className="flex space-x-2">
+//                         <Link to={`/vahan/${vehicle.vehicleNo}`}>
+//                           <button className="bg-blue-500 text-white px-4 py-2 rounded-md text-sm">
+//                             Vahan
+//                           </button>
+//                         </Link>
+//                         <Link to={`/fastag/${vehicle.vehicleNo}`}>
+//                           <button className="bg-green-500 text-white px-4 py-2 rounded-md text-sm">
+//                             Fastag Tracking
+//                           </button>
+//                         </Link>
+//                       </div>
+//                     </td>
+//                   </tr>
+//                 ))}
+//               </tbody>
+//             </table>
+//           </div>
+//         </div>
+//       </div>
+//     );
+//   };
+  
 
 const BASE_URL = 'https://freighteg.in/freightapi'; 
 
@@ -22,6 +81,8 @@ const ViewResult = () => {
     const location = useLocation()
     const [selectedVendorIds, setSelectedVendorIds] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [showVehicleModal, setShowVehicleModal] = useState(false);
+    const [vendorDetails, setVendorDetails] = useState(null);
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
@@ -150,13 +211,13 @@ const ViewResult = () => {
                             : "text-gray-500 hover:text-blue-600"
                         } px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out`}
                     >
-                        Live POD
+                        View Result
                     </Link>
                     <Link
                         to="/staff/viewResultHistory"
                         className={`text-gray-500 hover:text-blue-600  px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out`}
                     >
-                        History POD
+                        Result History
                     </Link>
                 </div>
                 <div className="w-full flex flex-col overflow-x-scroll">
@@ -238,10 +299,10 @@ const ViewResult = () => {
                                          </div>
                                          <div className="text-lg font-semibold text-gray-700 mr-5">Rs {minimumPrice || 0}</div>
                                          <div
-                                             className="text-blue-600 underline text-sm cursor-pointer"
+                                             className="bg-blue-600 max-w-[140px] text-center text-white px-3 py-1 rounded-md  text-sm cursor-pointer"
                                             //  onClick={() => handleRowClick(data.assigned_transporter)}
                                          >
-                                             Vendor Transports
+                                             View Details
                                          </div>
                                      </div>
                                  </div>
@@ -286,6 +347,11 @@ const ViewResult = () => {
                 )}
                 </div>
             </div>
+            {/* <VehicleInfoModal
+                showVehicleModal={showVehicleModal}
+                setShowVehicleModal={setShowVehicleModal}
+                vechileDetails={selectedVehicleDetails}
+            /> */}
         </>
     );
 };

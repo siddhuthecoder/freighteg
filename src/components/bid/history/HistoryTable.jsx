@@ -253,7 +253,7 @@ const HistoryTable = ({ datas }) => {
   const [isAssignedVendorsModalOpen, setAssignedVendorsModalOpen] =
     useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 5;const [vendorDetails, setVendorDetails] = useState(null);
   const totalPages = Math.ceil(datas.length / itemsPerPage);
   const [isViewQuotesModalOpen, setViewQuotesModalOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
@@ -262,7 +262,6 @@ const HistoryTable = ({ datas }) => {
   const [showVendorsModal, setShowVendorsModal] = useState(false);
   const [showVendorDetailsModal, setShowVendorDetailsModal] = useState(false);
   const [showVehicleModal, setShowVehicleModal] = useState(false);
-  const [vendorDetails, setVendorDetails] = useState(null);
   const [selectedVehicleDetails, setSelectedVehicleDetails] = useState([]);
   const [allvendorResponse, setallvendorResponse] = useState(null);
   const [showReponseModel, setshowReponseModel] = useState(false);
