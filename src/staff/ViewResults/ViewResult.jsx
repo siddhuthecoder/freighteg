@@ -3,6 +3,13 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import 'tailwindcss/tailwind.css';
 import StaffNavbarr from '../StaffNavBarr';
+import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { format, toZonedTime } from 'date-fns-tz';
+import { IoMdMail } from "react-icons/io";
+import { MdLocalPrintshop } from "react-icons/md";
+
+
 
 const BASE_URL = 'https://freighteg.in/freightapi'; 
 
@@ -12,7 +19,9 @@ const ViewResult = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const [loading, setLoading] =useState(true);
-
+    const location = useLocation()
+    const [selectedVendorIds, setSelectedVendorIds] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
@@ -62,6 +71,69 @@ const ViewResult = () => {
         }
     };
 
+    const calculateTimeLeft = (expiryDate) => {
+        const now = new Date();
+        const expiration = new Date(expiryDate);
+        const difference = expiration - now;
+
+        let timeLeft = {};
+
+        if (difference > 0) {
+            timeLeft = {
+                days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+                hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+                minutes: Math.floor((difference / 1000 / 60) % 60),
+                seconds: Math.floor((difference / 1000) % 60),
+            };
+        } else {
+            timeLeft = {
+                expired: true
+            };
+        }
+
+        return timeLeft;
+    };
+
+    const formatTo12HourTime = (utcDate) => {
+        const timeZone = "Asia/Kolkata";
+        const zonedDate = toZonedTime(new Date(utcDate), timeZone);
+        return format(zonedDate, "hh:mm a", { timeZone });
+    };
+
+      
+    const getMinimumVendorPrice = (data) => {
+        // Check if bidding_response exists and is an array with at least one element
+        if (!data?.bidding_response || data.bidding_response?.length === 0) {
+            return null; // Return null or a default value if the array is empty or undefined
+        }
+    
+        // Ensure the bidding_price array exists and has values
+        const vendorPrices = data?.bidding_response[0]?.bidding_price || [];
+        
+        if (vendorPrices?.length === 0) {
+            return null; // Return null if there are no bidding prices
+        }
+    
+        return Math.min(...vendorPrices);
+    };
+
+    const handleRowClick = (vendorIds) => {
+        setSelectedVendorIds(vendorIds);
+        setIsModalOpen(true);
+      };
+
+      const handlePrintClick = (data) => {
+        const dataStr = JSON.stringify(data, null, 2);
+        const blob = new Blob([dataStr], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `data-${data._id}.txt`; // Save as a .txt file
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    };
     console.log(data)
 
     return (
@@ -69,6 +141,33 @@ const ViewResult = () => {
             <StaffNavbarr />
             <div className="container mx-auto p-6 bg-gray-100 min-h-screen">
                 <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">View Result</h2>
+                <div className="flex gap-8 ">
+                    <Link
+                        to="#"
+                        className={` text-blue-600 border-b-2 border-blue-600 ${
+                        location.pathname === "/staff/viewResult"
+                            ? "text-blue-600 border-b-2 border-blue-600"
+                            : "text-gray-500 hover:text-blue-600"
+                        } px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out`}
+                    >
+                        Live POD
+                    </Link>
+                    <Link
+                        to="/staff/viewResultHistory"
+                        className={`text-gray-500 hover:text-blue-600  px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out`}
+                    >
+                        History POD
+                    </Link>
+                </div>
+                <div className="w-full flex flex-col overflow-x-scroll">
+                <div className="bg-[#9D9D9D21] w-[97%] h-[60px] items-center ps-2 mt-2 rounded-md min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
+                    <div className="font-semibold md:text-lg ps-[30px]">ID</div>
+                    <div className="font-semibold md:text-lg ps-[30px]">Loading Date</div>
+                    <div className="font-semibold md:text-lg ps-[30px]">Loading Point </div>
+                    <div className="font-semibold md:text-lg ps-[30px]">Unloading Point</div>
+                    <div className="font-semibold md:text-lg ps-[30px]">Details</div>
+                    <div className="font-semibold md:text-lg ps-[30px]">Best Quote</div>
+                    </div>
                 {loading ? (
                     <div className="flex justify-center items-center">
                         <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-32 w-32"></div>
@@ -77,50 +176,94 @@ const ViewResult = () => {
                 ) : (
                     <>
                         <ul className="space-y-4">
-                            {data.map((item) => (
-                                <li key={item._id} className="p-6 bg-white rounded-lg shadow-md">
-                                    <p className="text-lg font-semibold text-gray-700">Bid ID: <span className="text-blue-500">{item.bid_id}</span></p>
-                                    <p className="text-lg text-gray-600">Vendor Price: {item.vendorPrice}</p>
-                                    <p className="text-lg text-gray-600">Vendor Rank: {item.vendorRank}</p>
-                                    <p className="text-lg text-gray-600">Target Price: ₹{item.target_price}</p>
-                                    <p className="text-lg text-gray-600">Bid Expired: {item.bidExpired ? 'Yes' : 'No'}</p>
-                                    <p className="text-lg text-gray-600">Created At: {new Date(item.createdAt).toLocaleString()}</p>
-                                    <p className="text-lg text-gray-600">Updated At: {new Date(item.updatedAt).toLocaleString()}</p>
-
-                                    {item.vehicleDetails.length > 0 && (
-                                        <>
-                                            <h3 className="text-lg font-semibold text-gray-700 mt-4">Vehicle Details:</h3>
-                                            <ul className="ml-4 list-disc">
-                                                {item.vehicleDetails.map((vehicle) => (
-                                                    <li key={vehicle._id} className="text-gray-600">
-                                                        Vehicle No: {vehicle.vehicleNo}, Driver Name: {vehicle.driverName || 'N/A'}, Driver Phone: {vehicle.driverPhone}
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </>
-                                    )}
-
-                                    {item.allVendorBids.length > 0 && (
-                                        <>
-                                            <h3 className="text-lg font-semibold text-gray-700 mt-4">All Vendor Bids:</h3>
-                                            <ul className="ml-4 list-disc">
-                                                {item.allVendorBids.map((bid, index) => (
-                                                    <li key={index} className="text-gray-600">
-                                                        Vendor ID: {bid.vendor_id.join(', ')}, Bidding Price: ₹{bid.bidding_price.join(', ')}
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </>
-                                    )}
-
-                                    <h3 className="text-lg font-semibold text-gray-700 mt-4">Bid Details:</h3>
-                                    <p className="text-lg text-gray-600">Loading City: {item.loading_city}</p>
-                                    <p className="text-lg text-gray-600">Unloading City: {item.unloading_city}</p>
-                                    <p className="text-lg text-gray-600">Vehicle Type: {item.vehicle_type}</p>
-                                    <p className="text-lg text-gray-600">Material Type: {item.material_type}</p>
-                                    <p className="text-lg text-gray-600">Route Distance: {item.route_distance} km</p>
-                                </li>
-                            ))}
+                            {data.map((data) => {
+                                const timeLeft = calculateTimeLeft(data.expiry_date);
+                                const minimumPrice = getMinimumVendorPrice(data );
+                                return (
+                                 <div
+                                 key={data.bidNo}
+                                 className="bg-blue-50 rounded-b-lg p-4 mt-3 relative mx-auto flex flex-col w-[97%] shadow-md rounded-md min-w-[1200px]"
+                             >
+                                 <div className="w-[100%] text-sm mt-2 min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
+                                     <div className="flex flex-col pt-1">
+                                         <span className="block text-black font-semibold">{user?.name}</span>
+                                         <span className="block text-blue-600 font-semibold">#{data.bidNo}</span>
+                                         <span className="block text-red-600">
+                                           Time Remaining : {timeLeft.expired ? 'Expired' : `${timeLeft.days}d ${timeLeft.hours}hr ${timeLeft.minutes}min`}
+                                         </span>
+                                         <div className="block text-grey-500 mt-12">Remarks :  {data.bid_remarks}</div>
+                                     </div>
+                                     <div className="flex flex-col pt-1">
+                                         <span className="block font-medium ml-6">{data.createdAt.slice(0, 10)}</span>
+                                         <span className="block ml-6">{formatTo12HourTime(data.createdAt)}</span>
+                                     </div>
+                                     <div className="flex flex-col pt-1">
+                                         <span className="block font-medium ml-4">
+                                             {data.loading_city} ({data.loading_state})
+                                         </span>
+                                         <span className="block text-xs text-gray-500 ml-4">
+                                             {data.loading_address} ( {data.loading_pincode})
+                                         </span>
+                                     </div>
+                                     <div className="flex flex-col pt-1">
+                                         <span className="block font-medium">
+                                             {data.unloading_city} ({data.unloading_state})
+                                         </span>
+                                         <span className="block text-xs text-gray-500">
+                                             {data.unloading_address} ({data.unloading_pincode})
+                                         </span>
+                                     </div>
+                                     <div className="flex flex-col pt-1">
+                                         <span className="block">Vehicle Quantity - {data.quantity}</span>
+                                         <span className="block">
+                                            Vehicle Type-  {data.vehicle_type} 
+                                         </span>
+                                         <span className="block">
+                                            Vehicle Size-  {data.vehicle_size} ({data.body_type})
+                                         </span>
+                                         <span className="block">
+                                         Material type-  {data.material_type} ({data.material_weight}Mt)
+                                         </span>
+                                         {/* <span className="block">
+                                         Material weight-  {data.material_weight}
+                                         </span> */}
+                                         <a href="#" className="text-blue-600">
+                                             Distance - {data.route_distance} Km
+                                         </a>
+                                     </div>
+                                     <div className="flex flex-col pt-1">
+                                         <div className="w-full flex items-center justify-end gap-3">
+                                             <IoMdMail className='text-2xl text-blue-600 cursor-pointer' />
+                                             <MdLocalPrintshop className='text-2xl text-blue-600 cursor-pointer' onClick={() => handlePrintClick(data)} />
+                                         </div>
+                                         <div className="text-lg font-semibold text-gray-700 mr-5">Rs {minimumPrice || 0}</div>
+                                         <div
+                                             className="text-blue-600 underline text-sm cursor-pointer"
+                                            //  onClick={() => handleRowClick(data.assigned_transporter)}
+                                         >
+                                             Vendor Transports
+                                         </div>
+                                     </div>
+                                 </div>
+         
+                                 <div className="flex justify-between items-center mt-2 border-t pt-2 text-sm text-gray-600">
+                                     <span className="block text-xs text-gray-500">
+                                         Target Price - {data.target_price}Rs
+                                         <span className="gap-8 text-grey-600 text-sm font-semibold ml-5 px-3 py-1 rounded-lg">
+                                             Assigned Staff ({data.assignedToUser?.name}, +91
+                                             {data.createdByUser?.phone})
+                                         </span>
+                                     </span>
+                                     <div className="mr-15px">
+                                         Created By - <span className="font-semibold">{data.createdByUser?.name}</span>
+                                         <span>
+                                             ({data.createdAt.slice(0, 10)}, {formatTo12HourTime(data.createdAt)})
+                                         </span>
+                                     </div>
+                                 </div>
+                                 </div>
+                                )
+                        })}
                         </ul>
                         <div className="flex justify-between items-center mt-6">
                             <button 
@@ -141,6 +284,7 @@ const ViewResult = () => {
                         </div>
                     </>
                 )}
+                </div>
             </div>
         </>
     );

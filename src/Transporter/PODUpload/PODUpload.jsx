@@ -10,14 +10,14 @@ import { FaFileUpload } from "react-icons/fa";
 import { format, toZonedTime } from "date-fns-tz";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { MdOutlineFileUpload } from "react-icons/md";
-import Imagepopup from '../../pages/customPopUp/Imagepopup';
+import Imagepopup  from '../../pages/customPopUp/Imagepopup';
 
 
 const PODUpload = () => {
   const user = useSelector((state) => state.login.user);
   const [activeTab, setActiveTab] = useState('pending');
   const [pendingPODs, setPendingPODs] = useState([]);
-  const [historyPODs, setHistoryPODs] = useState([]);
+  const [historyPODs, setHistoryPODs] = useState([]); 
   const [selectedImage, setSelectedImage] = useState(null);
   const [viewImage, setViewImage] = useState({ show: false, imageUrl: "" });
 

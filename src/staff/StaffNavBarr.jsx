@@ -14,7 +14,7 @@ const Navbar = () => {
     { path: "/staff/createBid", label: "Create Bid" },
     { path: "/staff/viewBid", label: "View Bid" },
     { path: "/staff/viewResult", label: "View Result" },
-    { path: "/staff/viewResultHistory", label: "View Result History" },
+    // { path: "/staff/viewResultHistory", label: "View Result History" },
     { path: "/staff/fastag", label: "Fastag" },
     { path: "/staff/vahan", label: "Vaahan" },
     { path: "/staff/sarathi", label: "Sarathi" },
