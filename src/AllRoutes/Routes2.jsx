@@ -83,8 +83,10 @@ import BranchUser from '../branch/pages/User.jsx'
 import BranchCreateBid from "../branch/pages/CreateBid.jsx";
 import BranchAddVendor from '../branch/pages/AddVendor.jsx'
 import TransporterCounter from "../Transporter/Counter/TransporterCounter.jsx";
-import AssignedRequestHistory from "../Transporter/AssignedRequest/AssignedReqHistory.jsx";
-import AssignedRequest from "../Transporter/AssignedRequest/AssignedRequest.jsx";
+import AssignedRequestHistory from "../Transporter/AssignedRequest/AssignedRequestHistory1.jsx";
+import AssignedRequest from "../Transporter/AssignedRequest/AssignedRequest1.jsx";
+import TransporterFastagId from "../Transporter/VechileInfo/FastagId.jsx"
+import TransporterVahanId from "../Transporter/VechileInfo/VahanId.jsx"
 
 // const Layout = () => {
 //   const user = useSelector((state) => state.login.user);
@@ -219,6 +221,14 @@ const AllRoutes2 = () => {
             path="/transporter/assignedRequests"
             element={<AssignedRequest/>}
           />
+           <Route
+            path="/transporter/fastag/:vehicleNumber"
+            element={<TransporterFastagId/>}
+          />
+          <Route
+            path="/transporter/vahan/:vehicleNumber"
+            element={<TransporterVahanId/>}
+            />
         </>
       )}
 

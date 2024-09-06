@@ -76,8 +76,6 @@ const NewLoadTable = ({ datas }) => {
 
     const handleSubmit =async () => {
        const data=currentData;
-       alert(JSON.stringify(data))
-       alert(JSON.stringify(data))
         if (!bidAmount ) {
             alert('Please fill in all fields');
             return;
@@ -92,9 +90,9 @@ const NewLoadTable = ({ datas }) => {
             let body
             if(data?.details.branch_id!==null){
                 body= {
-                    bid_id: data?.details.bidNo,
-                    vendor_id:user?.id,
-                    bidding_price:bidAmount,
+                    bid_id: currentBidData?.bid_id,
+                    vendor_id: user?.id,
+                    bidding_price: bidAmount,
                     branch_id:data?.details.branch_id
                 };
             }
@@ -106,7 +104,7 @@ const NewLoadTable = ({ datas }) => {
                 };
             }
             console.log('Submitting new bid:', body);
-            const response = await axios.post(`https://freighteg.in/freightapi/addBidding`, body);
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/addBidding`, body);
             if (response?.status === 200) {
                 alert('Bid Added Successfully');
                 await handleUpdateBid(user?.id,data);

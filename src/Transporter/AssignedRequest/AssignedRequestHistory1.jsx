@@ -83,7 +83,7 @@ const AssignedRequestHistory = () => {
         <>
             <TransportNavBar />
             <div className="container mx-auto p-6 bg-gray-100 min-h-screen">
-                <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">Assigned Request History</h2>
+                
                 <div className="flex gap-8 my-2">
                     <Link
                         to="/transporter/assignedRequests"

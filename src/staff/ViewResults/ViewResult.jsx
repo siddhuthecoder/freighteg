@@ -15,7 +15,7 @@ const VehicleInfoModal = ({
     vechileDetails,
   }) => {
     if (!showVehicleModal) return null;
-  
+ 
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50 p-4">
         <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 relative">
@@ -59,11 +59,11 @@ const VehicleInfoModal = ({
                 {vechileDetails && vechileDetails.length > 0 ? (
                   vechileDetails.map((vehicle, index) => (
                     <tr key={index} className="border-t">
-                      <td className="p-2 text-gray-800">{vehicle.vehicleNo}</td>
-                      <td className="p-2 text-gray-800">{vehicle.driverName}</td>
-                      <td className="p-2 text-gray-800">{vehicle.drverPhone}</td>
-                      <td className="p-2 text-gray-800">{vehicle.gpsLink}</td>
-                      <td className="p-2 text-gray-800">{vehicle.remarks}</td>
+                      <td className="p-2 text-gray-800">{vehicle.vehicleNo || 'N/A'}</td>
+                      <td className="p-2 text-gray-800">{vehicle.driverName || 'N/A'}</td>
+                      <td className="p-2 text-gray-800">{vehicle.drverPhone || 'N/A'}</td>
+                      <td className="p-2 text-gray-800">{vehicle.gpsLink || 'N/A'}</td>
+                      <td className="p-2 text-gray-800">{vehicle.remarks || 'N/A'}</td>
                       <td className="p-2 gap-2 text-gray-800 flex items-center">
                         
                           <Link to={`/staff/vahan/${vehicle.vehicleNo}`}>
@@ -122,14 +122,18 @@ const ViewResult = () => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(`${BASE_URL}/getBidResultHistory?assigned_to=669dae7a05b20689c41f417b&page=${currentPage}&limit=5`);
+                const response = await axios.get(`${BASE_URL}/getBidResults?assigned_to=${user?.id}&page=${currentPage}&limit=5`);
                 const bidData = response.data.data;
                 setTotalPages(response.data.totalPages);
 
                 // Fetch bid details for all bids and merge them into bidData
                 const bidsDetailsPromises = bidData.map(async (item) => {
                     const bidDetails = await fetchBidDetails(item.bid_id);
-                    return { ...item, ...bidDetails };
+                    const createdByUser = await fetchFreightUserData(bidDetails.created_by);
+                    const assignedToUser = await fetchFreightUserData(bidDetails.assigned_to);
+                    const vendorData=await fetchVendorData(item.vendor_id)
+                    // const vendorDeatisl=await fetchVendorDetails(bidDetails.vd)
+                    return { ...item, ...bidDetails,createdByUser,assignedToUser,vendorData };
                 });
                 const mergedData = await Promise.all(bidsDetailsPromises);
 
@@ -217,6 +221,30 @@ const ViewResult = () => {
         setSelectedVendorIds(vendorIds);
         setIsModalOpen(true);
       };
+    
+      const fetchFreightUserData = async (userId) => {
+        const url = `https://freighteg.in/freightapi/freightusers/${userId}`;
+        try {
+          const response = await axios.get(url);
+          return response.data || null;
+        } catch (error) {
+          console.error(`Error fetching user data for id ${userId}:`, error);
+          return null; // Return null if there's an error
+        }
+      };
+      const fetchVendorData = async (id) => {
+        const url = `https://freighteg.in/freightapi/vendor/${id}`;
+        try {
+            // alert(id)
+          const response = await axios.get(url);
+       
+          return response.data || null;
+          
+        } catch (error) {
+          console.error(`Error fetching user data for id ${id}:`, error);
+          return null; // Return null if there's an error
+        }
+      };
 
       const handlePrintClick = (data) => {
         const dataStr = JSON.stringify(data, null, 2);
@@ -230,13 +258,13 @@ const ViewResult = () => {
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
     };
-    console.log(data)
+    console.log({data})
 
     return (
         <>
             <StaffNavbarr />
             <div className="container mx-auto p-6 bg-gray-100 min-h-screen">
-                <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">View Result</h2>
+              
                 <div className="flex gap-8 ">
                     <Link
                         to="#"
@@ -262,7 +290,7 @@ const ViewResult = () => {
                     <div className="font-semibold md:text-lg ps-[30px]">Loading Point </div>
                     <div className="font-semibold md:text-lg ps-[30px]">Unloading Point</div>
                     <div className="font-semibold md:text-lg ps-[30px]">Details</div>
-                    <div className="font-semibold md:text-lg ps-[30px]">Best Quote</div>
+                    <div className="font-semibold md:text-lg ps-[30px]">View Results</div>
                     </div>
                 {loading ? (
                     <div className="flex justify-center items-center">
@@ -329,15 +357,17 @@ const ViewResult = () => {
                                      </div>
                                      <div className="flex flex-col pt-1">
                                          <div className="w-full flex items-center justify-end gap-3">
-                                             <IoMdMail className='text-2xl text-blue-600 cursor-pointer' />
                                              <MdLocalPrintshop className='text-2xl text-blue-600 cursor-pointer' onClick={() => handlePrintClick(data)} />
                                          </div>
-                                         <div className="text-lg font-semibold text-gray-700 mr-5">Rs {minimumPrice || 0}</div>
+                                         <span className="block">
+                                            Vendor -  {data.vendorData.data.name} ({data.vendorData.data.phone})
+                                         </span>
+                                        
                                          <div
                                             onClick={() => {
                                                 handleViewVehiclesClick(data.vehicleDetails);
                                               }}
-                                             className="bg-blue-600 max-w-[140px] text-center text-white px-3 py-1 rounded-md  text-sm cursor-pointer"
+                                             className="bg-blue-600 max-w-[140px] mt-3 text-center text-white px-3 py-1 rounded-md  text-sm cursor-pointer"
                                             //  onClick={() => handleRowClick(data.assigned_transporter)}
                                          >
                                              Vehicle Info
@@ -364,11 +394,11 @@ const ViewResult = () => {
                                 )
                         })}
                         </ul>
-                        <div className="flex justify-between items-center mt-6">
+                        <div className="flex justify-center items-center mt-6">
                             <button 
                                 onClick={handlePreviousPage} 
                                 disabled={currentPage === 1}
-                                className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50"
+                                className="px-4 py-2 bg-blue-500 mx-4 text-white rounded-md hover:bg-blue-600 disabled:opacity-50"
                             >
                                 Previous
                             </button>
@@ -376,7 +406,7 @@ const ViewResult = () => {
                             <button 
                                 onClick={handleNextPage} 
                                 disabled={currentPage === totalPages}
-                                className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50"
+                                className="px-4 py-2 bg-blue-500 mx-4 text-white rounded-md hover:bg-blue-600 disabled:opacity-50"
                             >
                                 Next
                             </button>
