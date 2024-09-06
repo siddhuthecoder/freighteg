@@ -3,6 +3,12 @@ import TransportNavBar from '../TransportNavBar';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import './PODUpload.css'; // Import the CSS file for styles
+import { FaEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
+import { FaFileDownload } from "react-icons/fa";
+
+
+
 
 const PODUpload = () => {
   const user = useSelector((state) => state.login.user);
@@ -76,9 +82,9 @@ const PODUpload = () => {
             <table className="min-w-full bg-white border border-gray-200 shadow-md rounded-lg">
               <thead>
                 <tr className="bg-blue-900 text-white">
-                  <th className="text-left py-3 px-4 uppercase text-nowrap font-semibold text-sm">Lr Number</th>
-                  <th className="text-left py-3 px-4 uppercase text-nowrap font-semibold text-sm">Vehicle Number</th>
-                  <th className="text-left py-3 px-4 uppercase text-nowrap font-semibold text-sm">Status</th>
+                  <th className="text-left  py-3 px-4 uppercase text-nowrap font-semibold text-sm">Lr Number</th>
+                  <th className="text-left  py-3 px-4 uppercase text-nowrap font-semibold text-sm">Vehicle Number</th>
+                  <th className="text-left  py-3 px-4 uppercase text-nowrap font-semibold text-sm">Status</th>
                   <th className="text-center py-3 px-4 uppercase text-nowrap font-semibold text-sm">Actions</th>
                 </tr>
               </thead>
@@ -88,9 +94,9 @@ const PODUpload = () => {
                     key={index}
                     className={`border-t ${index % 2 === 0 ? "bg-gray-100" : "bg-white"}`}
                   >
-                    <td className="text-left py-3 px-4">{user.lrNumber}</td>
-                    <td className="text-left py-3 px-4">{user.vehicleNumber}</td>
-                    <td className="text-left py-3 px-4">
+                    <td className="text-left text-nowrap py-3 px-4">{user.lrNumber}</td>
+                    <td className="text-left text-nowrap py-3 px-4">{user.vehicleNumber}</td>
+                    <td className="text-left text-nowrap py-3 px-4">
                       {user.approved?(
                         <span className="px-2 py-1 bg-green-200 rounded-md text-green-600">Approved</span>
                       ):(
@@ -100,13 +106,17 @@ const PODUpload = () => {
                     </td>
                     <td className="text-center py-3 px-4">
                       <div className="flex items-center justify-center gap-4">
-                        <button className="text-blue-600 hover:text-blue-800">
-                          <i className="fas fa-edit"></i>
+                        <button className="text-blue-600  p-2 rounded-md bg-blue-200 hover:text-blue-800">
+                          <FaEdit className="text-[#1e3a8a]  text-2xl" />
                         </button>
-                        <button className="text-red-600 hover:text-red-800">
-                          <i className="fas fa-trash"></i>
+                        <button className="p-2 text-red-600 bg-red-200 rounded-md">
+                          <MdDelete className='text-2xl ' />
                         </button>
-                        <label className="inline-flex relative items-center cursor-pointer">
+                        <button className="text-blue-600  p-2 rounded-md bg-blue-200 hover:text-blue-800">
+                          <FaFileDownload className="text-[#1e3a8a]  text-2xl" />
+                        </button>
+
+                        {/* <label className="inline-flex relative items-center cursor-pointer">
                           <input
                             type="checkbox"
                             className="sr-only peer"
@@ -115,7 +125,7 @@ const PODUpload = () => {
                           />
                           <div className="w-10 h-5 bg-gray-200 rounded-full peer-checked:bg-blue-600"></div>
                           <div className="absolute left-0.5 top-0.5 w-4 h-4 bg-white border rounded-full transform peer-checked:translate-x-5"></div>
-                        </label>
+                        </label> */}
                       </div>
                     </td>
                   </tr>
@@ -132,9 +142,9 @@ const PODUpload = () => {
             <table className="min-w-full bg-white border border-gray-200 shadow-md rounded-lg">
               <thead>
                 <tr className="bg-blue-900 text-white">
-                  <th className="text-left py-3 px-4 uppercase text-nowrap font-semibold text-sm">Lr Number</th>
-                  <th className="text-left py-3 px-4 uppercase text-nowrap font-semibold text-sm">Vehicle Number</th>
-                  <th className="text-left py-3 px-4 uppercase text-nowrap font-semibold text-sm">Status</th>
+                  <th className="text-left text-nowrap py-3 px-4 uppercase text-nowrap font-semibold text-sm">Lr Number</th>
+                  <th className="text-left text-nowrap py-3 px-4 uppercase text-nowrap font-semibold text-sm">Vehicle Number</th>
+                  <th className="text-left text-nowrap py-3 px-4 uppercase text-nowrap font-semibold text-sm">Status</th>
                   <th className="text-center py-3 px-4 uppercase text-nowrap font-semibold text-sm">Actions</th>
                 </tr>
               </thead>
@@ -144,9 +154,9 @@ const PODUpload = () => {
                     key={index}
                     className={`border-t ${index % 2 === 0 ? "bg-gray-100" : "bg-white"}`}
                   >
-                    <td className="text-left py-3 px-4">{user.lrNumber}</td>
-                    <td className="text-left py-3 px-4">{user.vehicleNumber}</td>
-                    <td className="text-left py-3 px-4">
+                    <td className="text-left text-nowrap py-3 px-4">{user.lrNumber}</td>
+                    <td className="text-left text-nowrap py-3 px-4">{user.vehicleNumber}</td>
+                    <td className="text-left text-nowrap py-3 px-4">
                       {user.approved?(
                         <span className="px-2 py-1 bg-green-200 rounded-md text-green-600 w-[120px]">Approved</span>
                       ):(
@@ -155,14 +165,19 @@ const PODUpload = () => {
                       }
                     </td>
                     <td className="text-center py-3 px-4">
+                    <td className="flex justify-center items-center py-3 px-4">
                       <div className="flex items-center justify-center gap-4">
-                        <button className="text-blue-600 hover:text-blue-800">
-                          <i className="fas fa-edit"></i>
+                        <button className="text-blue-600  p-2 rounded-md bg-blue-200 hover:text-blue-800">
+                          <FaEdit className="text-[#1e3a8a]  text-2xl" />
                         </button>
-                        <button className="text-red-600 hover:text-red-800">
-                          <i className="fas fa-trash"></i>
+                        <button className="p-2 text-red-600 bg-red-200 rounded-md">
+                          <MdDelete className='text-2xl ' />
                         </button>
-                        <label className="inline-flex relative items-center cursor-pointer">
+                        <button className="text-blue-600  p-2 rounded-md bg-blue-200 hover:text-blue-800">
+                          <FaFileDownload className="text-[#1e3a8a]  text-2xl" />
+                        </button>
+
+                        {/* <label className="inline-flex relative items-center cursor-pointer">
                           <input
                             type="checkbox"
                             className="sr-only peer"
@@ -171,8 +186,9 @@ const PODUpload = () => {
                           />
                           <div className="w-10 h-5 bg-gray-200 rounded-full peer-checked:bg-blue-600"></div>
                           <div className="absolute left-0.5 top-0.5 w-4 h-4 bg-white border rounded-full transform peer-checked:translate-x-5"></div>
-                        </label>
+                        </label> */}
                       </div>
+                    </td>
                     </td>
                   </tr>
                 ))}
