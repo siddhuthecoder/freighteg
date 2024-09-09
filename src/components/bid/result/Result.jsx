@@ -19,11 +19,13 @@ const ResultPage = () => {
   // Function to fetch bid details
   const fetchBidDetails = async () => {
     const branchId = localStorage.getItem('branch_id');
-    const url = branchId && branchId !== 'ALL'
+    const branchName = localStorage.getItem('branchName');
+    const url = branchId && branchName !== 'ALL'
       ? `https://freighteg.in/freightapi/getBidResults?branch_id=${branchId}`
       : `https://freighteg.in/freightapi/getBidResults?company_id=${user?.id}`;
     try {
       const response = await axios.get(url);
+      // alert(JSON.stringify(response.data))
       setResponse(response.data.data);
       return response.data.data;
     } catch (error) {

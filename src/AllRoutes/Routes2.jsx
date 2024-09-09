@@ -83,8 +83,8 @@ import BranchUser from '../branch/pages/User.jsx'
 import BranchCreateBid from "../branch/pages/CreateBid.jsx";
 import BranchAddVendor from '../branch/pages/AddVendor.jsx'
 import TransporterCounter from "../Transporter/Counter/TransporterCounter.jsx";
-import AssignedRequestHistory from "../Transporter/AssignedRequest/AssignedRequestHistory1.jsx";
-import AssignedRequest from "../Transporter/AssignedRequest/AssignedRequest1.jsx";
+import AssignedRequestHistory from "../Transporter/AssignedRequest/AssignedRequestHistory.jsx";
+import AssignedRequest from "../Transporter/AssignedRequest/AssignedRequest.jsx";
 import TransporterFastagId from "../Transporter/VechileInfo/FastagId.jsx"
 import TransporterVahanId from "../Transporter/VechileInfo/VahanId.jsx"
 import TransCounter from "../Transporter/Counter/Counter.jsx"

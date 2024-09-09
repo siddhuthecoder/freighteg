@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { MdOutlineRemoveRedEye } from "react-icons/md";
-import { MdCheck } from "react-icons/md";
+import { MdOutlineRemoveRedEye, MdCheck, MdClear } from "react-icons/md";
 import { FaEyeSlash } from "react-icons/fa";
-import { MdClear } from "react-icons/md";
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+
 const ViewQuotesModal = ({ data, onClose, response }) => {
     const [vendors, setVendors] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-
+    const [selectedVendor, setSelectedVendor] = useState(null);
+    const [isCounterModalOpen, setIsCounterModalOpen] = useState(false);
+    const [counterPrice, setCounterPrice] = useState('');
+    const user = useSelector((state) => state.login.user);
     useEffect(() => {
         const fetchVendorDetails = async () => {
             try {
@@ -33,19 +37,91 @@ const ViewQuotesModal = ({ data, onClose, response }) => {
         fetchVendorDetails();
     }, [data]);
 
+    const handleAssign = (name, vendorId, index) => {
+        if (window.confirm(`Do you really want to assign this bid to "${name}"?`)) {
+            handleAssignBid(vendorId, index);
+        }
+    };
+
+    const handleAssignBid = async (vendorId, index) => {
+        try {
+            const body = {
+                vendor_id: vendorId,
+                bid_id: data._id,
+                vendorPrice: response?.[vendorId],
+                vendorRank: index + 1,
+            };
+            console.log({body})
+
+            const response1 = await axios.post(`https://freighteg.in/freightapi/assignBid`, body);
+            if (response1.status === 200) {
+                alert(`Thank you! This Bid is now Assigned to "${vendors[vendorId]?.name}"`);
+                onClose();  // Close the modal after assignment
+            } else {
+                throw new Error("Something went wrong in assigning the bid!");
+            }
+        } catch (error) {
+            console.error("Error assigning bid:", error);
+            alert(error?.response?.data?.message || "Something went wrong in assigning the bid!");
+        }
+    };
+
+    const openCounterModal = (vendorId) => {
+        setSelectedVendor(vendorId);
+        setIsCounterModalOpen(true);
+    };
+
+    const handleCounterOffer = async () => {
+        try {
+           
+            var body;
+            if (data?.branch_id){
+             body={
+                company_id: user?.id,
+                vendor_id: selectedVendor,
+                counter_price: counterPrice,
+                bid_id: data?._id,
+                branch_id:data?.branch_id
+            }
+            }
+            else{
+                body={
+                    company_id: user?.id,
+                    vendor_id: selectedVendor,
+                    counter_price: counterPrice,
+                    bid_id: data?._id,
+                }
+            }
+            
+            // console.log({data})
+            console.log({body})
+           
+
+            const response = await axios.post(`https://freighteg.in/freightapi/counter`, body);
+            if (response.status === 200) {
+                alert(`Counter offer sent successfully to ${vendors[selectedVendor]?.name}`);
+                setIsCounterModalOpen(false);
+            } else {
+                throw new Error("Failed to send counter offer!");
+            }
+        } catch (error) {
+            console.error("Error sending counter offer:", error);
+            alert(error?.response?.data?.message || "Failed to send counter offer!");
+        }
+    };
+
     if (!data) return null;
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
             <div className="bg-white rounded-lg shadow-lg w-11/12 md:w-3/4 p-6 relative">
-                
                 <div className="bg-blue-700 text-white p-4 rounded-t-lg flex items-center justify-between">
                     <h2 className="text-lg">#{data.bidNo}</h2>
                     <button onClick={onClose} className="text-2xl">X</button>
                 </div>
 
                 <div className="border-b p-4">
-                <div className="flex justify-between text-gray-600">
+                    <div className="flex justify-between text-gray-600">
                         <div>
                             <p className="text-sm font-medium">Date</p>
                             <p className="text-sm">{data.createdAt}</p>
@@ -106,8 +182,8 @@ const ViewQuotesModal = ({ data, onClose, response }) => {
                                             {response?.[id] || 'N/A'}
                                         </td>
                                         <td className="px-6 py-4 text-sm text-gray-500">
-                                            <button className="bg-blue-500 text-white px-3 py-1 rounded mr-2">Counter</button>
-                                            <button className="bg-green-500 text-white px-3 py-1 rounded">Assign</button>
+                                            <button onClick={() => openCounterModal(id)} className="bg-blue-500 text-white px-3 py-1 rounded mr-2">Counter</button>
+                                            <button onClick={() => handleAssign(vendors[id]?.name, id, index)} className="bg-green-500 text-white px-3 py-1 rounded">Assign</button>
                                         </td>
                                     </tr>
                                 ))
@@ -117,11 +193,38 @@ const ViewQuotesModal = ({ data, onClose, response }) => {
                 </div>
 
                 <div className="w-full p-4 bg-white border-t">
-                    <button onClick={onClose} className="px-4 py-2 bg-blue-500 text-white rounded w-full">
-                        Close
-                    </button>
+                    <button onClick={onClose} className="px-4 py-2 text-white bg-red-600 rounded">Close</button>
                 </div>
             </div>
+
+            {isCounterModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
+                    <div className="bg-white rounded-lg shadow-lg w-96 p-6">
+                        <h3 className="text-lg font-medium mb-4">Counter Offer</h3>
+                        <input 
+                            type="text" 
+                            className="w-full p-2 mb-4 border border-gray-300 rounded" 
+                            placeholder="Enter counter price" 
+                            value={counterPrice} 
+                            onChange={(e) => setCounterPrice(e.target.value)} 
+                        />
+                        <div className="flex justify-end">
+                            <button 
+                                onClick={() => setIsCounterModalOpen(false)} 
+                                className="px-4 py-2 mr-2 text-white bg-gray-500 rounded"
+                            >
+                                Cancel
+                            </button>
+                            <button 
+                                onClick={handleCounterOffer} 
+                                className="px-4 py-2 text-white bg-blue-600 rounded"
+                            >
+                                Submit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

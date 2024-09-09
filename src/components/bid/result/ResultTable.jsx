@@ -425,7 +425,10 @@ const ResultTable = ({ datas }) => {
               </div>
               <div
                 className="text-blue-600 underline text-sm cursor-pointer"
-                onClick={() => handleVendorDetails(data.vendor_idd)}
+                onClick={() => {
+                  console.log("Dsfdsf")
+                  console.log({data})
+                  handleVendorDetails(data.vendor_id)}}
                 //   onClick={() => setshowReponseModel(true)}
               >
                 Vendor Info
@@ -460,8 +463,7 @@ const ResultTable = ({ datas }) => {
               onClick={() =>
                 handleResponseClick(data.allVendorBids, data.target_price)
               }
-            >
-              Responses ({data.vehicleDetails.length})
+            > Responses ({data.allVendorBids[0].bidding_price.length})   
             </div>
             <div className="mr-15px">
               Created By -{" "}

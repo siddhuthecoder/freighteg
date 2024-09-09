@@ -461,7 +461,7 @@ const ResultTable = ({ datas }) => {
                 handleResponseClick(data.allVendorBids, data.target_price)
               }
             >
-              Responses ({data.vehicleDetails.length})
+              Responses ({data.allVendorBids[0].bidding_price.length})   
             </div>
             <div className="mr-15px">
               Created By -{" "}

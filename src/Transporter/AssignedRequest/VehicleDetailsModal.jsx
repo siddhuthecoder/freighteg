@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+ // Replace with your actual base URL
+const BASE_URL = "https://freighteg.in/freightapi"; // Assuming this is the base URL for all your APIs
 
-const VehicleDetailsModal = ({ isOpen, onClose, quantity = 1 }) => {
+
+const VehicleDetailsModal = ({ isOpen, onClose, quantity, modalData }) => {
     const initialVehicleData = {
         vehicleNo: '',
         driverName: '',
@@ -9,9 +13,10 @@ const VehicleDetailsModal = ({ isOpen, onClose, quantity = 1 }) => {
         reportingTime: null,
         remarks: null
     };
-
+    console.log({modalData})
     const [vehicles, setVehicles] = useState([]);
     const [currentVehicleIndex, setCurrentVehicleIndex] = useState(0);
+    const [loading, setLoading] = useState(false);
 
     // Update vehicles state when quantity changes
     useEffect(() => {
@@ -39,9 +44,32 @@ const VehicleDetailsModal = ({ isOpen, onClose, quantity = 1 }) => {
         }
     };
 
-    const handleSubmit = () => {
-        console.log('Vehicle Details:', vehicles);
-        onClose();
+    const handleSubmit = async () => {
+        setLoading(true);
+
+        try {
+            // Prepare the data for the API request
+            const updatedVehicleData = vehicles.map(vehicle => ({
+                vehicleNo: vehicle.vehicleNo,
+                driverName: vehicle.driverName,
+                driverPhone: vehicle.driverPhone,
+                gpsLink: vehicle.gpsLink,
+                reportingTime: vehicle.reportingTime,
+                remarks: vehicle.remarks,
+            }));
+
+            // Call the API function to update vehicle details
+            console.log({modalData})
+            await handleVehicleDetails(updatedVehicleData, modalData.idofBid);
+
+            // Close the modal after successful submission
+            onClose();
+        } catch (error) {
+            console.error("Error submitting vehicle details:", error);
+            // Handle error if necessary
+        } finally {
+            setLoading(false);
+        }
     };
 
     if (!isOpen) return null;
@@ -154,9 +182,10 @@ const VehicleDetailsModal = ({ isOpen, onClose, quantity = 1 }) => {
                     {currentVehicleIndex === quantity - 1 ? (
                         <button
                             onClick={handleSubmit}
-                            className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600"
+                            disabled={loading}
+                            className={`bg-blue-500 text-white px-6 py-2 rounded ${loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-600'}`}
                         >
-                            Submit
+                            {loading ? 'Submitting...' : 'Submit'}
                         </button>
                     ) : (
                         <button
@@ -170,6 +199,33 @@ const VehicleDetailsModal = ({ isOpen, onClose, quantity = 1 }) => {
             </div>
         </div>
     );
+};
+
+// Separate API function to handle vehicle details update
+const handleVehicleDetails = async (updatedVehicleData, modalId) => {
+    try {
+        const body = {
+            vehicleDetails: updatedVehicleData,
+        };
+        console.log("Body in API request", body);
+
+        const response = await axios.patch(
+            `${BASE_URL}/updateAssignedBid/${modalId}`,
+            body
+        );
+        console.log("Response from API", response.data);
+        if (response?.status === 200) {
+            alert("Success", "Vehicle details sent Successfully!!");
+            // Handle post-success actions here
+        } else {
+            throw new Error("Something went wrong!! Try Again.");
+        }
+    } catch (error) {
+        console.log("Error in API request", error);
+        const errorMessage =
+            error?.response?.data?.message || "Something went wrong!! Try Again.";
+        alert("Error", errorMessage);
+    }
 };
 
 export default VehicleDetailsModal;

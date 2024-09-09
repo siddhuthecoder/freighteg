@@ -3,6 +3,7 @@ import axios from 'axios';
 import TransportNavBar from '../TransportNavBar';
 import { useSelector } from 'react-redux';
 import MyRankTable from './MyRankTable';
+import { Link } from 'react-router-dom';
 
 const BASE_URL = 'https://freighteg.in/freightapi';
 
@@ -25,7 +26,9 @@ const Counter = () => {
       // Fetch details for each bid and combine with rank data
       const combinedDataPromises = activeBids.map(async (rank) => {
         const bidDetails = await fetchBidDetails(rank.bid_id);
-        return { ...rank, ...bidDetails };
+        const counterId=rank._id;
+        
+        return { ...rank, ...bidDetails ,counterId};
       });
 
       const combinedData = await Promise.all(combinedDataPromises);
@@ -109,6 +112,22 @@ const Counter = () => {
   return (
     <>
       <TransportNavBar />
+      <div className="container mx-auto p-6 bg-gray-100 min-h-screen">
+      <div className="flex gap-8 my-2">
+          <Link
+            to="/transporter/rank"
+            className={`cursor-pointer  text-gray-500  px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out`}
+
+          >
+            My Rank
+          </Link>
+          <Link
+            to="#"
+            className={`cursor-pointer  px-3 py-2 text-blue-600 border-b-2 border-blue-600 hover:text-blue-600 rounded-md text-sm font-medium transition duration-150 ease-in-out`}
+          >
+            Counter
+          </Link>
+        </div>
       <div className="w-full flex flex-col overflow-x-auto bg-white">
         <div className="bg-[#9D9D9D21] w-[97%] h-[60px] items-center ps-2 mt-2 rounded-md min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
           <div className="font-semibold md:text-lg ps-[30px]">ID</div>
@@ -136,7 +155,7 @@ const Counter = () => {
           <MyRankTable datas={ranks} />
         )}
       </div>
-
+     </div>
       {/* Info Modal */}
       {infoModalVisible && (
   <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">

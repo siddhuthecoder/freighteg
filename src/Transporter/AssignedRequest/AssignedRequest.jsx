@@ -25,11 +25,14 @@ const AssignedRequest = () => {
   const [selectedData, setSelectedData] = useState(null);
   const [minimum, setMinimum] = useState(null);
   const [response, setresponse] = useState(null);
+
   const [qunatity, setqunatity] = useState(0);
 
-  const openModal = (qunatityOfVehicle) => {
-    setqunatity(2);
-    // alert(qunatity);
+  const openModal = (data,qunatityOfVehicle) => {
+    setSelectedData(data)
+    console.log({data})
+    // alert(JSON.stringify(data))
+    setqunatity(qunatityOfVehicle);
     setIsModalOpen(true);
   };
 
@@ -47,10 +50,11 @@ const AssignedRequest = () => {
 
         const detailedBidData = await Promise.all(
           bidData.map(async (bid) => {
+            const idofBid=bid._id;
             const bidDetails = await fetchBidDetails(bid.bid_id);
             const createdByUser = await fetchFreightUserData(bidDetails.created_by);
             const assignedToUser = await fetchFreightUserData(bidDetails.assigned_to);
-            return { ...bid, ...bidDetails ,createdByUser,assignedToUser};
+            return { ...bid, ...bidDetails ,createdByUser,assignedToUser,idofBid};
           })
         );
 
@@ -175,7 +179,7 @@ const AssignedRequest = () => {
     URL.revokeObjectURL(url);
   };
 
-  console.log(data[0]);
+
 
   return (
     <>
@@ -298,7 +302,7 @@ const AssignedRequest = () => {
                             //    onClick={() => handleViewQuotesClick(data)}
                           >
                             <button
-                              onClick={()=>openModal(data.quantity)}
+                              onClick={()=>openModal(data,data.quantity)}
                               className="bg-blue-500 text-white px-4 py-2 rounded"
                             >
                               Add Vehicle Details
@@ -352,7 +356,7 @@ const AssignedRequest = () => {
               </div>
             </>
           )}
-          <VehicleDetailsModal isOpen={isModalOpen} onClose={closeModal} quantity={qunatity} />
+          <VehicleDetailsModal isOpen={isModalOpen} onClose={closeModal} quantity={qunatity} modalData={selectedData}/>
         </div>
       </div>
     </>

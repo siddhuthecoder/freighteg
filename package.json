@@ -4,6 +4,8 @@
   "private": true,
   "proxy": "https://qiktrack.com",
   "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@heroicons/react": "^1.0.6",
     "@reduxjs/toolkit": "^2.2.7",
     "@tanstack/react-query": "^5.40.0",

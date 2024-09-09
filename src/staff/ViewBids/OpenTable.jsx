@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
 import { format, toZonedTime } from 'date-fns-tz';
+import React, { useState } from 'react';
 // import AssignedVendorsModal from '../repeats/AssignedVendorsModal';
-import VendorModal from './VendorModal';
 import { IoMdMail } from "react-icons/io";
 import { MdLocalPrintshop } from "react-icons/md";
 import { useSelector } from 'react-redux';
-import { data } from 'autoprefixer';
+import VendorModal from './VendorModal';
+import  axios  from 'axios';
 
 const OpenTable = ({ datas }) => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -14,18 +14,34 @@ const OpenTable = ({ datas }) => {
     const [selectedData, setSelectedData] = useState(null);
     const [minimum, setMinimum] = useState(null);
     const [response, setresponse] = useState(null)
+    const [respondedBy, setrespondedBy] = useState([])
+    const [viewedBy, setviewedBy] = useState([])
     const user = useSelector((state) => state.login.user);
     const itemsPerPage = 5;
     const totalPages = Math.ceil(datas.length / itemsPerPage);
-    console.log(datas[1])
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedVendorIds, setSelectedVendorIds] = useState([]);
-  
-    const handleRowClick = (vendorIds) => {
-      setSelectedVendorIds(vendorIds);
-      setIsModalOpen(true);
+    const handleRowClick = async (item) => {
+        const viewed = await fetchPageUsers([item._id]);
+        console.log("Viewed By Data:", viewed); // Debugging line
+        setviewedBy(viewed);
+        console.log("Responded By Data:", item.responded_by); // Debugging line
+        setrespondedBy(item.responded_by);
+        setSelectedVendorIds(item.assigned_transporter);
+        setIsModalOpen(true);
     };
-  
+    
+    const fetchPageUsers = async (bidIds) => {
+        const url = `https://freighteg.in/freightapi/pageusers`;
+        try {
+          const response = await axios.post(url, { bidIds });
+          return response.data || [];
+        } catch (error) {
+          console.error("Error fetching page users:", error);
+          return []; // Return an empty array if there's an error
+        }
+      };
   
     const getMinimumVendorPrice = (data) => {
         // Check if bidding_response exists and is an array with at least one element
@@ -190,10 +206,9 @@ const OpenTable = ({ datas }) => {
                                     <IoMdMail className='text-2xl text-blue-600 cursor-pointer' />
                                     <MdLocalPrintshop className='text-2xl text-blue-600 cursor-pointer' onClick={() => handlePrintClick(data)} />
                                 </div>
-                                <div className="text-lg font-semibold text-gray-700 mr-5">Rs {minimumPrice || 0}</div>
                                 <div
                                     className="text-blue-600 underline text-sm cursor-pointer"
-                                    onClick={() => handleRowClick(data.assigned_transporter)}
+                                    onClick={() => handleRowClick(data)}
                                 >
                                     Vendor Transports
                                 </div>
@@ -242,9 +257,11 @@ const OpenTable = ({ datas }) => {
 
 
             <VendorModal 
-                isOpen={isModalOpen} 
-                onClose={() => setIsModalOpen(false)} 
-                vendorIds={selectedVendorIds} 
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                vendorIds={selectedVendorIds}
+                respondedBy={respondedBy}
+                viewedBy={viewedBy}
             />
 
             

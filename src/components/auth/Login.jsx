@@ -78,7 +78,7 @@ const LoginAuth = () => {
           setCredentials({ user: data.user, token: data.token })
         );
 
-        alert('Login successful!');
+        // alert('Login successful!');
         if(rolee==='Company'){
           
           navigate("/open")
@@ -87,7 +87,7 @@ const LoginAuth = () => {
           navigate('/staff/createBid')
         }
         else if(rolee==='Transporter'){
-          navigate('/transporter/changePassword')
+          navigate('/transporter/newLoad')
         }
         else if(rolee==='Branch'){
           navigate('/branch/open')

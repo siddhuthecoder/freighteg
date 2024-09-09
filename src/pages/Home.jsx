@@ -28,13 +28,15 @@ import {
   useCreatedBid,
 } from "../HelperFunction/api";
 import Navbar from "../components/Navbar";
-import axios from 'axios'
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const formRef = useRef(null);
   const user = useSelector((state) => state.login.user);
-  console.log(user)
-  const [staff,setStaff] = useState([])
+  // console.log(user)
+  const [staff, setStaff] = useState([]);
+  const navigate=useNavigate();
   const { usersData, usersLoading, usersError, error } = useUserById();
   const [loadingDate, setLoadingDate] = useState(null);
   const [bidExpDate, setBidExpDate] = useState(null);
@@ -51,40 +53,45 @@ const Home = () => {
   const [inputerror, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [loading,setLoading] = useState(false)
-  const [options,setOptions] = useState([])
-  const [selectedOption, setSelectedOption] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [options, setOptions] = useState([]);
+  const [selectedOption, setSelectedOption] = useState("");
   const [staffLoading, setStaffLoading] = useState(true);
-  const [selectedStaff,setSelectedStaff] = useState({})
-  const [staffPhone,setStaffPhone] = useState("")
-  console.log(selectedOption)
+  const [selectedStaff, setSelectedStaff] = useState({});
+  const [staffPhone, setStaffPhone] = useState("");
+  // console.log(selectedOption)
 
   // select branch
   useEffect(() => {
     // Fetch branch data from the API
     const fetchBranchData = async () => {
       try {
-        const response = await fetch(`https://freighteg.in/freightapi/getbranches/company/${user.id}`);
+        const response = await fetch(
+          `https://freighteg.in/freightapi/getbranches/company/${user.id}`
+        );
         const data = await response.json();
-        console.log(data);
+        // console.log("brnach data")
+        // console.log(data);
 
         // Map the data to the options array
         const branchOptions = [
-          { label: 'ALL', value: user?.id }, // Add "ALL" option
-          ...data.map(branch => ({
+          { label: "ALL", value: user?.id }, // Add "ALL" option
+          ...data.map((branch) => ({
             label: branch.name,
-            value: branch._id
+            value: branch._id,
           })),
         ];
         setOptions(branchOptions);
         setLoading(false);
 
         // Set the default selected option based on localStorage
-        const storedBranch = localStorage.getItem('branchName') || 'ALL';
-        const defaultOption = branchOptions.find(option => option.value === storedBranch);
+        const storedBranch = localStorage.getItem("branchName") || "ALL";
+        const defaultOption = branchOptions.find(
+          (option) => option.value === storedBranch
+        );
         setSelectedOption(defaultOption);
       } catch (error) {
-        console.error('Error fetching branch data:', error);
+        console.error("Error fetching branch data:", error);
         setLoading(false);
       }
     };
@@ -92,59 +99,56 @@ const Home = () => {
     fetchBranchData();
   }, [user.id]);
 
- 
-  
-
-
   // console.log(selectedOption.value)
 
-  const branc = localStorage.getItem("branchName")
-  console.log(branc)
+  const branc = localStorage.getItem("branchName");
+  // console.log(branc)
   // select branch
-
 
   // staff
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`https://freighteg.in/freightapi/freightuser/${selectedOption.value}`);
+        const response = await axios.get(
+          `https://freighteg.in/freightapi/freightuser/${selectedOption.value}`
+        );
         const data = response.data;
-
+        // console.log({data})
         // Map the user data to the options array
         if (data && Array.isArray(data.user)) {
-          const userOptions = data.user.map(user => ({
+          const userOptions = data.user.map((user) => ({
+            id: user._id,
             label: user.name, // Display userName as label
-            value: user.phone    // Use _id as value
+            value: user._id, // Use _id as value
           }));
           setStaff(userOptions);
         } else {
-          console.error('Invalid data format');
+          console.error("Invalid data format");
         }
 
         setStaffLoading(false);
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error("Error fetching user data:", error);
         setStaffLoading(false);
       }
     };
 
     fetchUserData();
-  }, [branc,selectedOption]);
+  }, [branc, selectedOption]);
 
   useEffect(() => {
-    setStaffPhone(selectedStaff.value)
-  },[selectedStaff])
+    setStaffPhone(selectedStaff.id);
+  }, [selectedStaff]);
 
-  
   const handleSelectStaff = (selectedOption) => {
     if (selectedOption) {
+      console.log({ selectedOption });
       setSelectedStaff(selectedOption);
-    
     }
   };
 
   const handleOptionChange = (selectedOption) => {
-    console.log(selectedOption)
+    // console.log(selectedOption)
     if (selectedOption) {
       setSelectedOption(selectedOption);
 
@@ -154,9 +158,9 @@ const Home = () => {
       // } else {
       //   localStorage.setItem('branch_id', selectedOption.value);
       // }
-      
+
       // Update branchName in localStorage with the selectedValue (branch ID or 'ALL')
-      localStorage.setItem('branchName', selectedOption.value);
+      localStorage.setItem("branchName", selectedOption.value);
 
       // window.location.reload(); // Reload the page to apply the change
     }
@@ -195,7 +199,6 @@ const Home = () => {
     })();
   }, [selectedState, selectedStates]);
 
-
   const handleLoadingDateChange = useCallback(
     (date) => {
       if (date !== bidExpDate && bidExpDate !== null) {
@@ -222,6 +225,7 @@ const Home = () => {
   const userOptions = useMemo(
     () =>
       usersData?.user?.map((user) => ({
+        id: user._id,
         value: user._id,
         label: user.name,
       })),
@@ -229,7 +233,7 @@ const Home = () => {
   );
   const handleUserChange = (selectedOption) => {
     const user = usersData?.user?.find(
-      (user) => user._id === selectedOption.value
+      (user) => user._id === selectedOption.id
     );
     setPhoneNumber(user ? user.phone : "");
   };
@@ -270,7 +274,6 @@ const Home = () => {
     setLoadingTime("");
     setError("");
   };
-
 
   const handleLoadingTimeChange = (event) => {
     const selectedTime = event.target.value;
@@ -354,13 +357,14 @@ const Home = () => {
   });
   const handleSubmit = useCallback(
     async (e) => {
-    
       if (isSubmitting) return;
       e.preventDefault();
       setIsSubmitting(true);
       // alert("Called")
       const formData = new FormData(e.target);
+      console.log({ formData });
       const formDataObj = Object.fromEntries(formData.entries());
+      console.log({ formDataObj });
       const requiredFields = [
         "loading_state",
         "loading_city",
@@ -405,14 +409,19 @@ const Home = () => {
       formDataObj.expiry_time = convertToAmPm(formDataObj.expiry_time);
       formDataObj.company_id = user?.id;
       formDataObj.created_by = formDataObj.assigned_to;
+      console.log(formDataObj.assigned_to);
       formDataObj.assigned_transporter = [];
       formDataObj.responded_by = [];
       formDataObj.isActive = true;
       formDataObj.isDeleted = false;
       try {
         PostMutation.mutate(formDataObj);
+        setIsSubmitting(false)
+        // window.location.relaod()
+        navigate('/open')
       } catch (error) {
         console.error("Error occurred while posting data:", error);
+        setIsSubmitting(false)
       }
     },
     [PostMutation]
@@ -420,11 +429,12 @@ const Home = () => {
   if (usersLoading) return <div>Loading...</div>;
   if (usersError) return <div>Error: {error.message}</div>;
 
-  console.log(selectedStaff)
+  // console.log()
+  // console.log({selectedStaff})
 
   return (
     <>
-    <Navbar/>
+      <Navbar />
       <div className="">
         <form ref={formRef} onSubmit={handleSubmit}>
           {/* Route Card */}
@@ -914,9 +924,13 @@ const Home = () => {
                         ...provided,
                         color: "white",
                         backgroundColor: "#e5e7eb",
-                        border: state.isFocused ? "1px solid #e5e7eb" : provided.border,
+                        border: state.isFocused
+                          ? "1px solid #e5e7eb"
+                          : provided.border,
                         borderRadius: "7px",
-                        boxShadow: state.isFocused ? "none" : provided.boxShadow,
+                        boxShadow: state.isFocused
+                          ? "none"
+                          : provided.boxShadow,
                         "&:hover": {
                           border: "1px solid #e5e7eb",
                         },
@@ -929,7 +943,6 @@ const Home = () => {
                     }}
                   />
                 </div>
-               
               </div>
             </div>
           </div>
@@ -974,16 +987,6 @@ const Home = () => {
                         backgroundColor: state.isSelected ? "#f0f0f0" : "white",
                       }),
                     }}
-                    
-                  />
-                </div>
-                <div className="flex flex-1 gap-5">
-                  <p className="text-[#888888]">Phone Number</p>
-                  <input
-                    value={selectedStaff.value}
-                    type="text"
-                    className="bg-gray-200 h-10 rounded-md p-2 focus:outline-none border border-gray-400 flex-grow"
-                    readOnly
                   />
                 </div>
               </div>
@@ -994,7 +997,8 @@ const Home = () => {
           <div className="p-5 text-center w-full flex justify-end pr-10">
             <button
               type="submit"
-              className="bg-[#113870] hover:bg-blue-700 text-white font-bold py-2 px-10 rounded-xl"
+              className="bg-[#113870] hover:bg-blue-700 text-white font-bold py-2 px-10 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={isSubmitting}
             >
               {isSubmitting ? (
                 <span>

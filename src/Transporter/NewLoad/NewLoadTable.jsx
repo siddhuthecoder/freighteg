@@ -85,12 +85,12 @@ const NewLoadTable = ({ datas }) => {
             return;
         }
         setLoad(true);
-        
+         console.log({data})
         try {
             let body
             if(data?.details.branch_id!==null){
                 body= {
-                    bid_id: currentBidData?.bid_id,
+                    bid_id: data?.bidId,
                     vendor_id: user?.id,
                     bidding_price: bidAmount,
                     branch_id:data?.details.branch_id
@@ -98,7 +98,7 @@ const NewLoadTable = ({ datas }) => {
             }
             else{
                 body= {
-                    bid_id: data?.details.bidNo,
+                    bid_id: data?.bidId,
                     vendor_id:user?.id,
                     bidding_price:bidAmount,
                 };
@@ -129,11 +129,11 @@ const NewLoadTable = ({ datas }) => {
             const body = {
                 responded_by: [vendorId],
             };
-            const response = await axios.patch(`https://freighteg.in/freightap/updateBid/${data?.details.bidNo}`, body);
+            const response = await axios.patch(`https://freighteg.in/freightap/updateBid/${data?.bidId}`, body);
             if (response?.status === 200) {
                 window.location.reload() 
             } else {
-                alert('Something went wrong with updating bid status! Try Again.');
+                // alert('Something went wrong with updating bid status! Try Again.');
             }
         } catch (error) {
             console.log('Error:', error);
@@ -147,7 +147,7 @@ const NewLoadTable = ({ datas }) => {
 
     const startIndex = (currentPage - 1) * itemsPerPage;
     const currentItems = datas.slice(startIndex, startIndex + itemsPerPage);
-
+    console.log(datas)
     if (!datas || datas.length === 0) {
         return <div className="text-center text-gray-500 py-4">No data available</div>;
     }

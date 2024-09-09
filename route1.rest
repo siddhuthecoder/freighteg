@@ -108,3 +108,7 @@ GET https://freighteg.in/freightapi/pod/history/66c03d9a7d7b083d83c04e10
 ### Get Bids for a Vendor
 GET https://freighteg.in/freightapi/bids/66c61fa6aaf20bee82564c72
 Content-Type: application/json
+
+###
+PATCH https://freighteg.in/freightapi/updateAssignedBid/66db24a3e7f994365d160980
+Content-Type: application/json

@@ -68,24 +68,41 @@ const PODUpload = () => {
 
   
   const handleDownload = async (url) => {
+    if (!url) {
+      console.log("URL is null or undefined");
+      return;
+    }
+  
     const fileExtension = url.split(".").pop().toLowerCase();
     const isImage = fileExtension.match(/(jpeg|jpg|png)$/i) !== null;
     const isPDF = fileExtension.match(/pdf$/i) !== null;
-    const response = await fetch(url);
-    const blob = await response.blob();
-    const urlBlob = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = urlBlob;
-    if (isImage) {
-      link.download = `downloaded_image.${fileExtension}`;
-    } else if (isPDF) {
-      link.download = "document.pdf";
-    } else {
-      console.log("File extension is not defined");
+  
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        console.log("Failed to fetch the file");
+        return;
+      }
+      const blob = await response.blob();
+      const urlBlob = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = urlBlob;
+  
+      if (isImage) {
+        link.download = `downloaded_image.${fileExtension}`;
+      } else if (isPDF) {
+        link.download = "document.pdf";
+      } else {
+        console.log("File extension is not defined");
+      }
+  
+      link.click();
+      URL.revokeObjectURL(urlBlob);
+    } catch (error) {
+      console.log("An error occurred while downloading the file:", error);
     }
-    link.click();
-    URL.revokeObjectURL(urlBlob);
   };
+  
 
   console.log(pendingPODs)
 

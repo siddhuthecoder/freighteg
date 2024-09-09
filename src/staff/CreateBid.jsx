@@ -15,9 +15,7 @@ import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useMutation } from "@tanstack/react-query";
-import StaffNavBarr from './StaffNavBarr'
-
-
+import StaffNavBarr from "./StaffNavBarr";
 
 import {
   vehicleTypeData,
@@ -33,14 +31,14 @@ import {
   useCreatedBid,
 } from "../HelperFunction/api";
 import Navbar from "../components/Navbar";
-import axios from 'axios'
+import axios from "axios";
 
 const CreateBid = () => {
-const user = useSelector((state) => state.login.user);
+  const user = useSelector((state) => state.login.user);
 
-const formRef = useRef(null);
-  console.log(user)
-  const [staff,setStaff] = useState([])
+  const formRef = useRef(null);
+  // console.log(user);
+  const [staff, setStaff] = useState([]);
   const { usersData, usersLoading, usersError, error } = useUserById();
   const [loadingDate, setLoadingDate] = useState(null);
   const [bidExpDate, setBidExpDate] = useState(null);
@@ -57,40 +55,44 @@ const formRef = useRef(null);
   const [inputerror, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [loading,setLoading] = useState(false)
-  const [options,setOptions] = useState([])
-  const [selectedOption, setSelectedOption] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [options, setOptions] = useState([]);
+  const [selectedOption, setSelectedOption] = useState("");
   const [staffLoading, setStaffLoading] = useState(true);
-  const [selectedStaff,setSelectedStaff] = useState({})
-  const [staffPhone,setStaffPhone] = useState("")
-  console.log(selectedOption)
+  const [selectedStaff, setSelectedStaff] = useState({});
+  const [staffPhone, setStaffPhone] = useState("");
+  console.log(selectedOption);
 
   // select branch
   useEffect(() => {
     // Fetch branch data from the API
     const fetchBranchData = async () => {
       try {
-        const response = await fetch(`https://freighteg.in/freightapi/getbranches/company/${user.id}`);
+        const response = await fetch(
+          `https://freighteg.in/freightapi/getbranches/company/${user.id}`
+        );
         const data = await response.json();
         console.log(data);
 
         // Map the data to the options array
         const branchOptions = [
-          { label: 'ALL', value: user?.id }, // Add "ALL" option
-          ...data.map(branch => ({
+          { label: "ALL", value: user?.id }, // Add "ALL" option
+          ...data.map((branch) => ({
             label: branch.name,
-            value: branch._id
+            value: branch._id,
           })),
         ];
         setOptions(branchOptions);
         setLoading(false);
 
         // Set the default selected option based on localStorage
-        const storedBranch = localStorage.getItem('branchName') || 'ALL';
-        const defaultOption = branchOptions.find(option => option.value === storedBranch);
+        const storedBranch = localStorage.getItem("branchName") || "ALL";
+        const defaultOption = branchOptions.find(
+          (option) => option.value === storedBranch
+        );
         setSelectedOption(defaultOption);
       } catch (error) {
-        console.error('Error fetching branch data:', error);
+        console.error("Error fetching branch data:", error);
         setLoading(false);
       }
     };
@@ -98,59 +100,55 @@ const formRef = useRef(null);
     fetchBranchData();
   }, [user.id]);
 
- 
-  
-
-
   // console.log(selectedOption.value)
 
-  const branc = localStorage.getItem("branchName")
-  console.log(branc)
+  const branc = localStorage.getItem("branchName");
+  // console.log(branc);
+  
   // select branch
-
 
   // staff
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`https://freighteg.in/freightapi/freightuser/${selectedOption.value}`);
+        const response = await axios.get(
+          `https://freighteg.in/freightapi/freightuser/${selectedOption.value}`
+        );
         const data = response.data;
 
         // Map the user data to the options array
         if (data && Array.isArray(data.user)) {
-          const userOptions = data.user.map(user => ({
+          const userOptions = data.user.map((user) => ({
             label: user.name, // Display userName as label
-            value: user.phone    // Use _id as value
+            value: user._id, // Use _id as value
           }));
           setStaff(userOptions);
         } else {
-          console.error('Invalid data format');
+          console.error("Invalid data format");
         }
 
         setStaffLoading(false);
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error("Error fetching user data:", error);
         setStaffLoading(false);
       }
     };
 
     fetchUserData();
-  }, [branc,selectedOption]);
+  }, [branc, selectedOption]);
 
   useEffect(() => {
-    setStaffPhone(selectedStaff.value)
-  },[selectedStaff])
+    setStaffPhone(selectedStaff.value);
+  }, [selectedStaff]);
 
-  
   const handleSelectStaff = (selectedOption) => {
     if (selectedOption) {
       setSelectedStaff(selectedOption);
-    
     }
   };
 
   const handleOptionChange = (selectedOption) => {
-    console.log(selectedOption)
+    // console.log(selectedOption);
     if (selectedOption) {
       setSelectedOption(selectedOption);
 
@@ -160,9 +158,9 @@ const formRef = useRef(null);
       // } else {
       //   localStorage.setItem('branch_id', selectedOption.value);
       // }
-      
+
       // Update branchName in localStorage with the selectedValue (branch ID or 'ALL')
-      localStorage.setItem('branchName', selectedOption.value);
+      localStorage.setItem("branchName", selectedOption.value);
 
       // window.location.reload(); // Reload the page to apply the change
     }
@@ -200,7 +198,6 @@ const formRef = useRef(null);
       }
     })();
   }, [selectedState, selectedStates]);
-
 
   const handleLoadingDateChange = useCallback(
     (date) => {
@@ -276,7 +273,6 @@ const formRef = useRef(null);
     setLoadingTime("");
     setError("");
   };
-
 
   const handleLoadingTimeChange = (event) => {
     const selectedTime = event.target.value;
@@ -360,13 +356,15 @@ const formRef = useRef(null);
   });
   const handleSubmit = useCallback(
     async (e) => {
-    
       if (isSubmitting) return;
       e.preventDefault();
       setIsSubmitting(true);
       // alert("Called")
       const formData = new FormData(e.target);
+      console.log({ formData });
       const formDataObj = Object.fromEntries(formData.entries());
+      formDataObj.created_by = user?.id;
+      console.log({ formDataObj });
       const requiredFields = [
         "loading_state",
         "loading_city",
@@ -409,16 +407,19 @@ const formRef = useRef(null);
       );
       formDataObj.loading_time = convertToAmPm(formDataObj.loading_time);
       formDataObj.expiry_time = convertToAmPm(formDataObj.expiry_time);
-      formDataObj.company_id = user?.id;
-      formDataObj.created_by = formDataObj.assigned_to;
+      formDataObj.company_id = user?.company_id;
+      formDataObj.created_by = user?.id;
       formDataObj.assigned_transporter = [];
       formDataObj.responded_by = [];
       formDataObj.isActive = true;
       formDataObj.isDeleted = false;
       try {
         PostMutation.mutate(formDataObj);
+        setIsSubmitting(false);
+        // window.location.reload()
       } catch (error) {
         console.error("Error occurred while posting data:", error);
+        setIsSubmitting(false);
       }
     },
     [PostMutation]
@@ -426,12 +427,15 @@ const formRef = useRef(null);
   if (usersLoading) return <div>Loading...</div>;
   if (usersError) return <div>Error: {error.message}</div>;
   return (
-      <>
-        <StaffNavBarr/>
-        <div className="w-full overflow-x-auto">
-
+    <>
+      <StaffNavBarr />
+      <div className="w-full overflow-x-auto">
         <div className="">
-          <form ref={formRef} className="overflow-x-auto" onSubmit={handleSubmit}>
+          <form
+            ref={formRef}
+            className="overflow-x-auto"
+            onSubmit={handleSubmit}
+          >
             {/* Route Card */}
             <div className="p-10 pt-3">
               <div className="p-5 rounded-xl shadow-lg">
@@ -632,7 +636,9 @@ const formRef = useRef(null);
                 <div className="mt-8">
                   <div className="border-b border-dotted border-[#8b8b8b]"></div>
                   <div className="flex items-center gap-3 mt-8">
-                    <p className="text-[#508af1] font-semibold">Route Distance</p>
+                    <p className="text-[#508af1] font-semibold">
+                      Route Distance
+                    </p>
                     <input
                       type="text"
                       name="route_distance"
@@ -681,7 +687,9 @@ const formRef = useRef(null);
                         option: (provided, state) => ({
                           ...provided,
                           color: state.isSelected ? "black" : "",
-                          backgroundColor: state.isSelected ? "#f0f0f0" : "white",
+                          backgroundColor: state.isSelected
+                            ? "#f0f0f0"
+                            : "white",
                         }),
                       }}
                     />
@@ -712,7 +720,9 @@ const formRef = useRef(null);
                         option: (provided, state) => ({
                           ...provided,
                           color: state.isSelected ? "black" : "",
-                          backgroundColor: state.isSelected ? "#f0f0f0" : "white",
+                          backgroundColor: state.isSelected
+                            ? "#f0f0f0"
+                            : "white",
                         }),
                       }}
                     />
@@ -743,7 +753,9 @@ const formRef = useRef(null);
                         option: (provided, state) => ({
                           ...provided,
                           color: state.isSelected ? "black" : "",
-                          backgroundColor: state.isSelected ? "#f0f0f0" : "white",
+                          backgroundColor: state.isSelected
+                            ? "#f0f0f0"
+                            : "white",
                         }),
                       }}
                     />
@@ -825,7 +837,11 @@ const formRef = useRef(null);
             <div className="p-10 pt-0">
               <div className="p-5 rounded-xl shadow-lg">
                 <div className="flex gap-3 items-center mb-2">
-                  <img src={additional} alt="Additional_Info" className="pt-1" />
+                  <img
+                    src={additional}
+                    alt="Additional_Info"
+                    className="pt-1"
+                  />
                   <p className="text-[#113870] font-semibold text-[20px]">
                     Additional info.
                   </p>
@@ -850,7 +866,9 @@ const formRef = useRef(null);
                     />
                   </div>
                   <div className=" flex flex-1 gap-5">
-                    <p className="text-[#888888]">Vehicle Loading Date & Time</p>
+                    <p className="text-[#888888]">
+                      Vehicle Loading Date & Time
+                    </p>
                     <div className="flex flex-col">
                       <div className="flex gap-5">
                         <DatePicker
@@ -869,7 +887,9 @@ const formRef = useRef(null);
                           className="bg-gray-200 h-10 rounded-md p-2 focus:outline-none border border-gray-400 w-50"
                         />
                       </div>
-                      {inputerror && <p style={{ color: "red" }}>{inputerror}</p>}
+                      {inputerror && (
+                        <p style={{ color: "red" }}>{inputerror}</p>
+                      )}
                     </div>
                   </div>
                   <div className="flex items-center gap-10">
@@ -895,7 +915,6 @@ const formRef = useRef(null);
               </div>
             </div>
 
-           
             {/* Assign Staff card */}
             <div className="p-10 pt-0">
               <div className="p-5 rounded-xl shadow-lg">
@@ -911,16 +930,17 @@ const formRef = useRef(null);
                     <input
                       value={user.name}
                       type="text"
+                      name="assigned_to"
                       className="bg-gray-200 h-10 rounded-md p-2 focus:outline-none border border-gray-400 flex-grow"
                       readOnly
                     />
                   </div>
                   <div className="flex flex-1 gap-5">
-                    <p className="text-[#888888]">Phone Number</p>
                     <input
-                      value={user.phone}
+                      value={user.id}
+                      name="assigned_to"
                       type="text"
-                      className="bg-gray-200 h-10 rounded-md p-2 focus:outline-none border border-gray-400 flex-grow"
+                      className="bg-gray-200 h-10 rounded-md p-2 hidden focus:outline-none border border-gray-400 flex-grow"
                       readOnly
                     />
                   </div>
@@ -932,7 +952,8 @@ const formRef = useRef(null);
             <div className="p-5 text-center w-full flex justify-end pr-10">
               <button
                 type="submit"
-                className="bg-[#113870] hover:bg-blue-700 text-white font-bold py-2 px-10 rounded-xl"
+                className="bg-[#113870] hover:bg-blue-700 text-white font-bold py-2 px-10 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={isSubmitting}
               >
                 {isSubmitting ? (
                   <span>
@@ -945,10 +966,9 @@ const formRef = useRef(null);
             </div>
           </form>
         </div>
-        </div>
-        
-      </>
-  )
-}
+      </div>
+    </>
+  );
+};
 
-export default CreateBid
+export default CreateBid;

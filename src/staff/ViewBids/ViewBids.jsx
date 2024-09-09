@@ -56,7 +56,16 @@ const ViewBids = () => {
       console.error('Error handling form submission:', error);
     }
   };
-
+  const fetchPageUsers = async (bidIds) => {
+    const url = `https://freighteg.in/freightapi/pageusers`;
+    try {
+      const response = await axios.post(url, { bidIds });
+      return response.data || [];
+    } catch (error) {
+      console.error("Error fetching page users:", error);
+      return []; // Return an empty array if there's an error
+    }
+  };
   return (
     <>
       <StaffNavbar />

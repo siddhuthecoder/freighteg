@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 
 const MyRankTable = ({ datas }) => {
+  
+const BASE_URL = 'https://freighteg.in/freightapi';
   const [currentPage, setCurrentPage] = useState(1);
   const [showModal, setShowModal] = useState(false);
   const [newBidPrice, setNewBidPrice] = useState("");
@@ -12,7 +14,6 @@ const MyRankTable = ({ datas }) => {
   const user = useSelector((state) => state.login.user);
   const itemsPerPage = 5;
   const totalPages = Math.ceil(datas.length / itemsPerPage);
-  console.log({datas})
   const calculateTimeLeft = (expiryDate) => {
     const now = new Date();
     const expiration = new Date(expiryDate);
@@ -67,7 +68,60 @@ const MyRankTable = ({ datas }) => {
     setShowModal(false);
     setNewBidPrice("");
   };
+  const handleAcceptBtn = async (item) => {
+    setLoad(true);
+    console.log({item})
+    try {
+      const response = await axios.patch( 
+        `${BASE_URL}/updateCounter/${item.counterId}`,
+        { accepted: true }
+      ); 
+     console.log({response})
+      if (response?.status === 200) {
+        await handleAssignBid(item);
+      } else {
+        throw new Error("Something went wrong in Updating Counter !!");
+      }
+    } catch (error) {
+      const errorMessage =
+        error?.response?.data?.message ||
+        "Something went wrong in Updating Counter ";
+      alert(errorMessage);
+    } finally {
+      setLoad(false);
+    }
+  };
+  const handleAssignBid = async (item) => {
+    setLoad(true);
+    // console.log(JSON.stringify(item))
+    try {
+      const body = {
+        vendor_id: item?.vendor_id,
+        bid_id: item?.bid_id,
+        vendorPrice: item?.counter_price,
+        vendorRank: "199",
+        branch_id: item?.branch_id || undefined,
+      };
 
+      const response = await axios.post(`${BASE_URL}/assignBid`, body);
+
+      if (response?.status === 200) {
+        alert("Thank you! This Bid is now Assigned to you.");
+        setTimeout(() => {
+          // Replace fetchVendorCounter with your function to update the bid data
+        }, 2000);
+      } else {
+        throw new Error("Something went wrong in assigning bid in counter !!");
+      }
+    } catch (error) {
+      const errorMessage =
+        error?.response?.data?.message ||
+        "Something went wrong in assigning bid in counter !!";
+      alert(errorMessage);
+    } finally {
+      setLoad(false);
+    }
+  };
   const handleSubmit = async () => {
     if (newBidPrice <= currentBidData?.target_price * 0.6) {
       alert("Please enter a valid bid price.");
@@ -115,7 +169,7 @@ const MyRankTable = ({ datas }) => {
       <div className="text-center text-gray-500 py-4">No data available</div>
     );
   }
-  console.log(datas[0]);
+  // console.log(datas[0]);
   return (
     <>
       {currentItems.map((data) => {
@@ -219,7 +273,7 @@ const MyRankTable = ({ datas }) => {
                 ) : (
                   <button
                     className="px-4 py-2 bg-blue-600 text-white rounded mt-2"
-                    onClick={() => handleAddBidClick(data)}
+                    onClick={ ()=>{handleAcceptBtn(data)}}
                   >
                     Accept
                   </button>
