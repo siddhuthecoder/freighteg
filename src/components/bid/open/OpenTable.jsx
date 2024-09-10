@@ -18,7 +18,7 @@ const OpenTable = ({ datas }) => {
     const user = useSelector((state) => state.login.user);
     const itemsPerPage = 5;
     const totalPages = Math.ceil(datas.length / itemsPerPage);
-    console.log(datas[1])
+    // console.log(datas[1])
   
     const getMinimumVendorPrice = (data) => {
         // Check if bidding_response exists and is an array with at least one element
@@ -197,8 +197,7 @@ const OpenTable = ({ datas }) => {
                             <span className="block text-xs text-gray-500">
                                 Target Price - {data.target_price}Rs
                                 <span className="gap-8 text-grey-600 text-sm font-semibold ml-5 px-3 py-1 rounded-lg">
-                                    Assigned Staff ({data.assignedToUser?.name}, +91
-                                    {data.createdByUser?.phone})
+                                Assigned Staff ({data.assignedToUser?.name}, +91{data.assignedToUser?.phone})
                                 </span>
                             </span>
                             <div className="mr-15px">

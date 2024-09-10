@@ -4,8 +4,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 
 const MyRankTable = ({ datas }) => {
-  
-const BASE_URL = 'https://freighteg.in/freightapi';
+  const BASE_URL = "https://freighteg.in/freightapi";
   const [currentPage, setCurrentPage] = useState(1);
   const [showModal, setShowModal] = useState(false);
   const [newBidPrice, setNewBidPrice] = useState("");
@@ -70,13 +69,13 @@ const BASE_URL = 'https://freighteg.in/freightapi';
   };
   const handleAcceptBtn = async (item) => {
     setLoad(true);
-    console.log({item})
+    console.log({ item });
     try {
-      const response = await axios.patch( 
+      const response = await axios.patch(
         `${BASE_URL}/updateCounter/${item.counterId}`,
         { accepted: true }
-      ); 
-     console.log({response})
+      );
+      console.log({ response });
       if (response?.status === 200) {
         await handleAssignBid(item);
       } else {
@@ -122,6 +121,7 @@ const BASE_URL = 'https://freighteg.in/freightapi';
       setLoad(false);
     }
   };
+  
   const handleSubmit = async () => {
     if (newBidPrice <= currentBidData?.target_price * 0.6) {
       alert("Please enter a valid bid price.");
@@ -191,7 +191,7 @@ const BASE_URL = 'https://freighteg.in/freightapi';
             <div className="w-[100%] text-sm mt-2 min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
               <div className="flex flex-col pt-1">
                 <span className="block text-black font-semibold">
-                  {user?.name}
+                {data?.companyName}
                 </span>
                 <span className="block text-blue-600 font-semibold">
                   #{data.bidNo}
@@ -254,15 +254,13 @@ const BASE_URL = 'https://freighteg.in/freightapi';
                   {/* <MdLocalPrintshop className='text-2xl text-blue-600 cursor-pointer' onClick={() => handlePrintClick(data.} /> */}
                 </div>
                 <div className="flex items-center mb-2">
-                  <span
-                    className="text-[18px]"
-                  >Counter price : </span>
+                  <span className="text-[18px]">Counter price : </span>
                   {/* Colored dot */}
                   <p className="text-[18px] font-bold text-blue-500">
                     {data.counter_price}
                   </p>
                 </div>
-                
+
                 {data.vendor_bidding_count >= 3 ? (
                   <button
                     className="px-4 py-2 bg-red-600 text-white rounded mt-2 cursor-not-allowed"
@@ -273,7 +271,9 @@ const BASE_URL = 'https://freighteg.in/freightapi';
                 ) : (
                   <button
                     className="px-4 py-2 bg-blue-600 text-white rounded mt-2"
-                    onClick={ ()=>{handleAcceptBtn(data)}}
+                    onClick={() => {
+                      handleAcceptBtn(data);
+                    }}
                   >
                     Accept
                   </button>
@@ -283,13 +283,16 @@ const BASE_URL = 'https://freighteg.in/freightapi';
 
             <div className="flex justify-between items-center mt-2 border-t pt-2 text-sm text-gray-600">
               <span className="block text-xs text-gray-500">
-                Target Price - {data.target_price} Rs
-                <span className="gap-8 text-grey-600 text-sm font-semibold ml-5 px-3 py-1 rounded-lg">
-                  Assigned Staff ({user?.name}, +91{user?.phone})
+                <span className="gap-8 text-grey-600 text-sm font-semibold  px-1 py-1 rounded-lg">
+                  Assigned Staff ({data.assignedToUser?.name}, +91
+                  {data.assignedToUser?.phone})
                 </span>
               </span>
               <div className="mr-15px">
-                Created By - <span className="font-semibold">{user?.name}</span>
+                Created By -{" "}
+                <span className="font-semibold">
+                  {data.createdByUser?.name}
+                </span>
                 <span>
                   ({data.createdAt.slice(0, 10)},{" "}
                   {formatTo12HourTime(data.createdAt)})

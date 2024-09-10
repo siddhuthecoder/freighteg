@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MdOutlineRemoveRedEye } from "react-icons/md";
-import { FaCheck } from "react-icons/fa";
-
+import { MdCheck, MdClear } from "react-icons/md";
+import { FaEyeSlash } from "react-icons/fa";
 const ViewQuotesModal = ({ data, onClose, response }) => {
     const [vendors, setVendors] = useState({});
     const [isLoading, setIsLoading] = useState(true);
@@ -11,7 +11,8 @@ const ViewQuotesModal = ({ data, onClose, response }) => {
         const fetchVendorDetails = async () => {
             try {
                 const vendorDetails = {};
-                const uniqueIds = [...new Set([...data.vendorIds, ...data.responded_by])];
+                
+                const uniqueIds = [...new Set([...data.vendorIds, ...data.responded_by, ...data.assigned_transporter])];
                 const requests = uniqueIds.map(id =>
                     fetch(`https://freighteg.in/freightapi/vendor/${id}`).then(res => res.json())
                 );
@@ -36,7 +37,7 @@ const ViewQuotesModal = ({ data, onClose, response }) => {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
-            <div className="bg-white rounded-lg shadow-lg w-11/12 md:w-3/4 p-6 relative">
+            <div className="bg-white rounded-lg shadow-lg w-11/12 md:w-3/4 p-6 relative max-w-7xl w-full h-auto max-h-[90vh] overflow-y-auto p-6 relative">
                 
                 <div className="bg-blue-700 text-white p-4 rounded-t-lg flex items-center justify-between">
                     <h2 className="text-lg">#{data.bidNo}</h2>
@@ -97,14 +98,16 @@ const ViewQuotesModal = ({ data, onClose, response }) => {
                                         <td colSpan="5" className="text-center py-4 text-red-500">{error}</td>
                                     </tr>
                                 ) : (
-                                    [...new Set([...data.vendorIds, ...data.responded_by])].map((id, index) => (
+                                    data.assigned_transporter.map((id, index) => (
                                         <tr key={index} className="border-b">
                                             <td className="px-4 py-2 font-medium">{vendors[id]?.name || 'Vendor name unavailable'}</td>
                                             <td className="px-4 py-2 text-center">
-                                                <MdOutlineRemoveRedEye className={data.vendorIds.includes(id) ? "h-5 w-5 text-green-500" : "h-5 w-5 text-red-500 line-through"} />
+                                                {/* <MdOutlineRemoveRedEye className={data.vendorIds.includes(id) ? "h-5 w-5 text-green-500" : "h-5 w-5 text-red-500 line-through"} /> */}
+                                                {data.vendorIds.includes(id) ? <MdOutlineRemoveRedEye className="h-5 w-5 text-green-500" /> : <FaEyeSlash className="h-5 w-5 text-red-500" />}
                                             </td>
                                             <td className="px-4 py-2 text-center">
-                                                <FaCheck className={data.responded_by.includes(id) ? "h-5 w-5 text-green-500" : "h-5 w-5 text-red-500 line-through"} />
+                                                {/* <FaCheck className={data.responded_by.includes(id) ? "h-5 w-5 text-green-500" : "h-5 w-5 text-red-500 line-through"} /> */}
+                                                {data.responded_by.includes(id) ? <MdCheck className="h-5 w-5 text-green-500" /> : <MdClear className="h-5 w-5 text-red-500" />}
                                             </td>
                                             <td className="px-4 py-2">{response[id] || 'N/A'}</td>
                                             <td className="px-4 py-2">

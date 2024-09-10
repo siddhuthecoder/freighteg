@@ -133,7 +133,7 @@ const VehicleDetailsModal = ({ isOpen, onClose, quantity, modalData }) => {
                     </div>
                     <div className="mt-4">
                         <label htmlFor="gpsLink" className="block text-gray-600">
-                            GPS Link:
+                            GPS Link:(Optional)
                         </label>
                         <input
                             type="text"
@@ -145,7 +145,7 @@ const VehicleDetailsModal = ({ isOpen, onClose, quantity, modalData }) => {
                     </div>
                     <div className="mt-4">
                         <label htmlFor="reportingTime" className="block text-gray-600">
-                            Reporting Time:
+                            Reporting Time:(Optional)
                         </label>
                         <input
                             type="text"
@@ -157,7 +157,7 @@ const VehicleDetailsModal = ({ isOpen, onClose, quantity, modalData }) => {
                     </div>
                     <div className="mt-4">
                         <label htmlFor="remarks" className="block text-gray-600">
-                            Remarks:
+                            Remarks:(Optional)
                         </label>
                         <input
                             type="text"
