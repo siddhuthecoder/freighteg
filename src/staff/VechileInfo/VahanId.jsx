@@ -32,7 +32,7 @@ const VahanId = () => {
         const response = await axios.post(
           "https://freighteg.in/freightapi/ULLIPtrackingDirect",
           {
-            company_id: user?.id,
+            company_id: user?.company_id,
             tracking_For: "VAHAN",
             parameters: {
               vehiclenumber: id,

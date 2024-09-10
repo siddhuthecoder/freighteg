@@ -109,8 +109,12 @@ const MyRank = () => {
 
   const handleSubmit = async () => {
     if (newBidPrice.trim() === '') return;
-
+    alert( selectedBid?.target_price * 1.15)
     if (newBidPrice <= selectedBid?.target_price * 0.6) {
+      alert("Sorry, please enter a valid bid price.");
+      return;
+    }
+    if (newBidPrice >= selectedBid?.target_price * 1.15) {
       alert("Sorry, please enter a valid bid price.");
       return;
     }

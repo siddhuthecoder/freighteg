@@ -81,7 +81,13 @@ const NewLoadTable = ({ datas }) => {
             alert('Please fill in all fields');
             return;
         }
+        // alert( data?.details.target_price * 1.15)
         if (bidAmount <=data?.details.target_price * 0.6) {
+            alert('Sorry, please enter a valid bid price.');
+            return;
+        }
+        
+        if (bidAmount >= (data?.details.target_price * 1.05)) {
             alert('Sorry, please enter a valid bid price.');
             return;
         }
@@ -108,6 +114,7 @@ const NewLoadTable = ({ datas }) => {
             const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/addBidding`, body);
             if (response?.status === 200) {
                 alert('Bid Added Successfully');
+                
                 await handleUpdateBid(user?.id,data);
                 handleModalClose();
                 setBidAmount('');

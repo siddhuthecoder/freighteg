@@ -35,7 +35,7 @@ const Sarathi = () => {
       const response = await axios.post(
         "https://freighteg.in/freightapi/ULLIPtracking",
         {
-          company_id: user?.id,
+          company_id: user?.company_id,
           tracking_For: "SARATHI",
           parameters: {
             dlnumber: capitalizedVehicleNumber,

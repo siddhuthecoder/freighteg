@@ -26,7 +26,7 @@ const Fastag = () => {
     const capitalizedVehicleNumber = vehicleNumber.toUpperCase();
     try {
       const payload = {
-        "company_id": user?.id,
+        "company_id": user?.company_id,
         "tracking_For": "FASTAG",
         "parameters": { "vehiclenumber": capitalizedVehicleNumber }
       };
