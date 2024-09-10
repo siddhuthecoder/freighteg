@@ -6,7 +6,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import {  FaPencilAlt, FaStore, FaUsers, FaBuilding, FaTag, FaCar, FaBook, FaWallet } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { RiAuctionFill } from "react-icons/ri";
-
+import { AiFillDashboard } from "react-icons/ai";
 import { logOut } from "../app/features/auth/loginSlice";
 import logo from "./Freight Logo.png"; // Import the logo image
 
@@ -19,7 +19,8 @@ const routes = [
   { path: "/fastag", name: "Fastag", icon: <FaTag className="h-5 w-5" /> },
   { path: "/vahan", name: "Vahan", icon: <FaCar className="h-5 w-5" /> },
   { path: "/sarathi", name: "Sarathi", icon: <FaBook className="h-5 w-5" /> },
-  { path: "/wallet", name: "Wallet", icon: <FaWallet className="h-5 w-5" /> }
+  { path: "/wallet", name: "Wallet", icon: <FaWallet className="h-5 w-5" /> },
+  { path: "/dashboard", name: "Dashboard", icon: <AiFillDashboard className="h-5 w-5" /> }
 ];
 
 const Navbar = () => {
@@ -48,7 +49,7 @@ const Navbar = () => {
             </div>
 
             {/* Center: Navigation Links for Desktop */}
-            <div className="hidden lg:flex items-center space-x-4">
+            <div className="hidden lg:flex items-center space-x-2">
               {routes.map(({ path, name, icon }) => (
                 <NavLink
                   key={path}

@@ -88,6 +88,7 @@ import AssignedRequest from "../Transporter/AssignedRequest/AssignedRequest.jsx"
 import TransporterFastagId from "../Transporter/VechileInfo/FastagId.jsx"
 import TransporterVahanId from "../Transporter/VechileInfo/VahanId.jsx"
 import TransCounter from "../Transporter/Counter/Counter.jsx"
+import Details from '../components/Details/Details.jsx';
 
 // const Layout = () => {
 //   const user = useSelector((state) => state.login.user);
@@ -160,6 +161,7 @@ const AllRoutes2 = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/wallet" element={<Wallet />} />
           <Route path="addvendors" element={<AddVendor />} />
+          <Route path="/dashboard" element={<Details/>}/>
         </>
       )}
 
