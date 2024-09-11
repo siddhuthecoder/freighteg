@@ -29,7 +29,10 @@ const NewLoad = () => {
         const detailedBids = await Promise.all(validBids.map(async (bid) => {
           await handlePageVisit(bid.bidId);
           const bidDetails = await fetchBidDetails(bid.bidId);
-          return { ...bid, details: bidDetails };
+          const createdByUser = await fetchFreightUserData(bidDetails.created_by);
+          const assignedToUser = await fetchFreightUserData(bidDetails.assigned_to);
+          const companyName=await getCompanyName(bidDetails.company_id)
+          return { ...bid, details: bidDetails ,createdByUser,assignedToUser,companyName};
         }));
 
         setVendorBids(detailedBids);
@@ -44,7 +47,17 @@ const NewLoad = () => {
       setLoading(false);
     }
   };
-
+  const fetchFreightUserData = async (userId) => {
+    const url = `https://freighteg.in/freightapi/freightusers/${userId}`;
+    try {
+      const response = await axios.get(url);
+      return response.data || null;
+    } catch (error) {
+      console.error(`Error fetching user data for id ${userId}:`, error);
+      return null; // Return null if there's an error
+    }
+  };
+  
   const handlePageVisit = async (bidNo) => {
     const url = `${BASE_URL}/page-visit`;
     const body = {
@@ -64,6 +77,37 @@ const NewLoad = () => {
       console.error("Error logging page visit:", error);
     }
   };
+  async function getCompanyName(companyId) {
+    const apiUrl = `https://freighteg.in/freightapi/get-companies/${companyId}`;
+  
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const companyData = await response.json();
+      return companyData.name; // Return the company name
+    } catch (error) {
+      console.error('Error fetching company data:', error);
+      return null;
+    }
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
   const fetchBidDetails = async (bidId) => {
     const url = `${BASE_URL}/bids/${bidId}`;

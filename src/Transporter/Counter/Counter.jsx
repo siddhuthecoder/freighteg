@@ -26,9 +26,12 @@ const Counter = () => {
       // Fetch details for each bid and combine with rank data
       const combinedDataPromises = activeBids.map(async (rank) => {
         const bidDetails = await fetchBidDetails(rank.bid_id);
+        const createdByUser = await fetchFreightUserData(bidDetails.created_by);
+        const assignedToUser = await fetchFreightUserData(bidDetails.assigned_to);
+        const companyName=await getCompanyName(bidDetails.company_id)
         const counterId=rank._id;
         
-        return { ...rank, ...bidDetails ,counterId};
+        return { ...rank, ...bidDetails ,counterId,createdByUser,assignedToUser,companyName};
       });
 
       const combinedData = await Promise.all(combinedDataPromises);
@@ -39,7 +42,38 @@ const Counter = () => {
       setLoading(false);
     }
   };
-
+  async function getCompanyName(companyId) {
+    const apiUrl = `https://freighteg.in/freightapi/get-companies/${companyId}`;
+  
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const companyData = await response.json();
+      return companyData.name; // Return the company name
+    } catch (error) {
+      console.error('Error fetching company data:', error);
+      return null;
+    }
+  }
+  const fetchFreightUserData = async (userId) => {
+    const url = `https://freighteg.in/freightapi/freightusers/${userId}`;
+    try {
+      const response = await axios.get(url);
+      return response.data || null;
+    } catch (error) {
+      console.error(`Error fetching user data for id ${userId}:`, error);
+      return null; // Return null if there's an error
+    }
+  };
   useEffect(() => {
     fetchRanks();
   }, [user?.id]);

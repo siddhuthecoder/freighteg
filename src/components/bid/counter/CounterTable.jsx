@@ -133,8 +133,8 @@ const CounterTable = ({ datas }) => {
                             <div className="block text-grey-500 mt-12">Remarks</div>
                         </div>
                         <div className="flex flex-col pt-1">
-                            <span className="block font-medium ml-6">{data.createdAt.slice(0, 10)}</span>
-                            <span className="block ml-6">{formatTo12HourTime(data.createdAt)}</span>
+                            <span className="block font-medium ml-6">{data.loading_date.slice(0, 10)}</span>
+                            <span className="block ml-6">{formatTo12HourTime(data.loading_date)}</span>
                         </div>
                         <div className="flex flex-col pt-1">
                             <span className="block font-medium ml-4">

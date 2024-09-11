@@ -76,6 +76,8 @@ Content-Type: application/json
 GET https://freighteg.in/freightapi/rank-by-vendor/668d168060d1af2a06fa2ab4
 Content-Type: application/json
 
+
+https://freighteg.in/freightapi/vendor/${id}
 ####
 GET https://freighteg.in/freightapi/get-companies/665580f353ccced94082681b
 

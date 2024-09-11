@@ -5,6 +5,7 @@ import { MdLocalPrintshop } from "react-icons/md";
 import { useSelector } from 'react-redux';
 import axios from 'axios'; // Make sure axios is imported
 const NewLoadTable = ({ datas }) => {
+    console.log(datas)
     const [currentPage, setCurrentPage] = useState(1);
     const [showModal, setShowModal] = useState(false);
     const [bidAmount, setBidAmount] = useState('');
@@ -80,7 +81,13 @@ const NewLoadTable = ({ datas }) => {
             alert('Please fill in all fields');
             return;
         }
+        // alert( data?.details.target_price * 1.15)
         if (bidAmount <=data?.details.target_price * 0.6) {
+            alert('Sorry, please enter a valid bid price.');
+            return;
+        }
+        
+        if (bidAmount >= (data?.details.target_price * 1.05)) {
             alert('Sorry, please enter a valid bid price.');
             return;
         }
@@ -107,6 +114,7 @@ const NewLoadTable = ({ datas }) => {
             const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/addBidding`, body);
             if (response?.status === 200) {
                 alert('Bid Added Successfully');
+                
                 await handleUpdateBid(user?.id,data);
                 handleModalClose();
                 setBidAmount('');
@@ -124,12 +132,13 @@ const NewLoadTable = ({ datas }) => {
     };
     const handleUpdateBid = async (vendorId,data) => {
         setLoad(true);
-
+        console.log({data})
         try {
             const body = {
                 responded_by: [vendorId],
             };
-            const response = await axios.patch(`https://freighteg.in/freightap/updateBid/${data?.bidId}`, body);
+            console.log({body})
+            const response = await axios.patch(`https://freighteg.in/freightapi/updateBid/${data?.bidId}`, body);
             if (response?.status === 200) {
                 window.location.reload() 
             } else {
@@ -164,7 +173,7 @@ const NewLoadTable = ({ datas }) => {
                     >
                         <div className="w-[100%] text-sm mt-2 min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
                             <div className="flex flex-col pt-1">
-                                <span className="block text-black font-semibold">{user?.name}</span>
+                                <span className="block text-black font-semibold">{data?.companyName}</span>
                                 <span className="block text-blue-600 font-semibold">#{data.details.bidNo}</span>
                                 <span className="block text-red-600">
                                     Time Remaining: {timeLeft.expired ? 'Expired' : `${timeLeft.days}d ${timeLeft.hours}hr ${timeLeft.minutes}min`}
@@ -222,13 +231,13 @@ const NewLoadTable = ({ datas }) => {
 
                         <div className="flex justify-between items-center mt-2 border-t pt-2 text-sm text-gray-600">
                             <span className="block text-xs text-gray-500">
-                                Target Price - {data.details.target_price} Rs
-                                <span className="gap-8 text-grey-600 text-sm font-semibold ml-5 px-3 py-1 rounded-lg">
-                                    Assigned Staff ({user?.name}, +91{user?.phone})
+                                
+                                <span className="gap-8 text-grey-600 text-sm font-semibold px-1 py-1 rounded-lg">
+                                     Assigned Staff ({data.assignedToUser?.name}, +91{data.assignedToUser?.phone})
                                 </span>
                             </span>
                             <div className="mr-15px">
-                                Created By - <span className="font-semibold">{user?.name}</span>
+                            Created By - <span className="font-semibold">{data.createdByUser?.name}</span>
                                 <span>
                                     ({data.details.createdAt.slice(0, 10)}, {formatTo12HourTime(data.details.createdAt)})
                                 </span>

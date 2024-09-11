@@ -18,7 +18,7 @@ const VehicleInfoModal = ({
  
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50 p-4">
-        <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 relative">
+        <div className="bg-white rounded-lg shadow-lg w-full max-w-2lg p-6 relative">
           <button
             className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
             onClick={() => setShowVehicleModal(false)}
@@ -132,8 +132,9 @@ const ViewResult = () => {
                     const createdByUser = await fetchFreightUserData(bidDetails.created_by);
                     const assignedToUser = await fetchFreightUserData(bidDetails.assigned_to);
                     const vendorData=await fetchVendorData(item.vendor_id)
+                    const companyName=await getCompanyName(bidDetails.company_id)
                     // const vendorDeatisl=await fetchVendorDetails(bidDetails.vd)
-                    return { ...item, ...bidDetails,createdByUser,assignedToUser,vendorData };
+                    return { ...item, ...bidDetails,createdByUser,assignedToUser,vendorData ,companyName};
                 });
                 const mergedData = await Promise.all(bidsDetailsPromises);
 
@@ -158,7 +159,29 @@ const ViewResult = () => {
             return {}; // Return an empty object if there's an error
         }
     };
-
+    async function getCompanyName(companyId) {
+      const apiUrl = `https://freighteg.in/freightapi/get-companies/${companyId}`;
+    
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+    
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+    
+        const companyData = await response.json();
+        return companyData.name; // Return the company name
+      } catch (error) {
+        console.error('Error fetching company data:', error);
+        return null;
+      }
+    }
+    
     const handleNextPage = () => {
         if (currentPage < totalPages) {
             setCurrentPage(prevPage => prevPage + 1);
@@ -310,7 +333,7 @@ const ViewResult = () => {
                              >
                                  <div className="w-[100%] text-sm mt-2 min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
                                      <div className="flex flex-col pt-1">
-                                         <span className="block text-black font-semibold">{user?.name}</span>
+                                         <span className="block text-black font-semibold">{data?.companyName}</span>
                                          <span className="block text-blue-600 font-semibold">#{data.bidNo}</span>
                                          <span className="block text-red-600">
                                            Time Remaining : {timeLeft.expired ? 'Expired' : `${timeLeft.days}d ${timeLeft.hours}hr ${timeLeft.minutes}min`}
@@ -377,10 +400,10 @@ const ViewResult = () => {
          
                                  <div className="flex justify-between items-center mt-2 border-t pt-2 text-sm text-gray-600">
                                      <span className="block text-xs text-gray-500">
-                                         Target Price - {data.target_price}Rs
-                                         <span className="gap-8 text-grey-600 text-sm font-semibold ml-5 px-3 py-1 rounded-lg">
+                                        
+                                         <span className="gap-8 text-grey-600 text-sm font-semibold  py-1 rounded-lg">
                                              Assigned Staff ({data.assignedToUser?.name}, +91
-                                             {data.createdByUser?.phone})
+                                             {data.assignedToUser?.phone})
                                          </span>
                                      </span>
                                      <div className="mr-15px">

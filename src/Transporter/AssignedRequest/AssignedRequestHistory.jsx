@@ -33,7 +33,8 @@ const AssignedRequestHistory = () => {
             const bidDetails = await fetchBidDetails(bid.bid_id);
             const createdByUser = await fetchFreightUserData(bidDetails.created_by);
             const assignedToUser = await fetchFreightUserData(bidDetails.assigned_to);
-            return { ...bid, ...bidDetails, createdByUser,assignedToUser };
+            const companyName=await getCompanyName(bidDetails.company_id)
+            return { ...bid, ...bidDetails, createdByUser,assignedToUser,companyName };
           })
         );
 
@@ -82,7 +83,28 @@ const AssignedRequestHistory = () => {
       setCurrentPage((prevPage) => prevPage - 1);
     }
   };
-
+  async function getCompanyName(companyId) {
+    const apiUrl = `https://freighteg.in/freightapi/get-companies/${companyId}`;
+  
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const companyData = await response.json();
+      return companyData.name; // Return the company name
+    } catch (error) {
+      console.error('Error fetching company data:', error);
+      return null;
+    }
+  }
   const handleViewVehiclesClick = (vehicleDetails) => {
     setSelectedVehicleData(vehicleDetails || []);
     setAssignedVendorsModalOpen(true);
@@ -144,7 +166,7 @@ const AssignedRequestHistory = () => {
                     <div className="w-[100%] text-sm mt-2 min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
                       <div className="flex flex-col pt-1">
                         <span className="block text-black font-semibold">
-                          {user?.name}
+                        {data?.companyName}
                         </span>
                         <span className="block text-blue-600 font-semibold">
                           #{data.bidNo}
@@ -210,20 +232,24 @@ const AssignedRequestHistory = () => {
                     </div>
 
                     <div className="flex justify-between items-center mt-2 border-t pt-2 text-sm text-gray-600">
-                      <span className="block text-xs text-gray-500">
-                        Target Price - {data.target_price}Rs
-                        <span className="gap-8 text-grey-600 text-sm font-semibold ml-5 px-3 py-1 rounded-lg">
-                        Assigned Staff ({data.assignedToUser?.name}, +91
-                            {data.createdByUser?.phone})
+                        <span className="block text-xs text-gray-500">
+                        
+                          <span className="gap-8 text-grey-600 text-sm font-semibold   py-1 rounded-lg">
+                            Assigned Staff ({data.assignedToUser?.name}, +91
+                            {data.assignedToUser?.phone})
+                          </span>
                         </span>
-                      </span>
-                      <div className="mr-15px">
-                        Created By -{" "}
-                        <span className="font-semibold">
-                          {data.createdByUser?.name}
-                        </span>
+                        <div className="mr-15px">
+                          Created By -{" "}
+                          <span className="font-semibold">
+                            {data.createdByUser?.name}
+                          </span>
+                          <span>
+                            ({data.createdAt.slice(0, 10)},{" "}
+                            {formatTo12HourTime(data.createdAt)})
+                          </span>
+                        </div>
                       </div>
-                    </div>
                   </div>
                 ))}
               </ul>

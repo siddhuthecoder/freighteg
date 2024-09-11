@@ -3,6 +3,7 @@ import { MdOutlineDownloading } from "react-icons/md";
 
 const Imagepopup = ({ imageUrl, onClose }) => {
   console.log("imageUrl", imageUrl);
+
   const handleDownload = async (url) => {
     const response = await fetch(url);
     const blob = await response.blob();
@@ -17,13 +18,13 @@ const Imagepopup = ({ imageUrl, onClose }) => {
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-75 z-50">
-      <div className="bg-white p-6 rounded-lg max-h-full overflow-y-auto">
+      <div className="bg-white p-6 rounded-lg w-96 h-96 max-w-full max-h-full overflow-y-auto">
         <div className="relative">
           <img src={imageUrl} alt="Popup Image" className="rounded-lg" />
           <div>
             <button
               onClick={onClose}
-              className="absolute top-2 right-2 bg-gray-200 text-gray-700 p-2 rounded-full"
+              className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

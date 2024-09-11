@@ -43,7 +43,7 @@ const Fastag = () => {
     setLoading(true); // Set loading to true when fetch starts
     try {
       const payload = {
-        "company_id": user?.id,
+        "company_id": user?.company_id,
         "tracking_For": "FASTAG",
         "parameters": { "vehiclenumber": vehicleNumber }
       };

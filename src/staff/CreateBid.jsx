@@ -32,12 +32,14 @@ import {
 } from "../HelperFunction/api";
 import Navbar from "../components/Navbar";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const CreateBid = () => {
   const user = useSelector((state) => state.login.user);
 
   const formRef = useRef(null);
   // console.log(user);
+  const navigate=useNavigate()
   const [staff, setStaff] = useState([]);
   const { usersData, usersLoading, usersError, error } = useUserById();
   const [loadingDate, setLoadingDate] = useState(null);
@@ -416,6 +418,7 @@ const CreateBid = () => {
       try {
         PostMutation.mutate(formDataObj);
         setIsSubmitting(false);
+        navigate('/staff/viewBid')
         // window.location.reload()
       } catch (error) {
         console.error("Error occurred while posting data:", error);
