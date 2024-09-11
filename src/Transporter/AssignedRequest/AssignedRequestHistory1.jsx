@@ -26,7 +26,7 @@ const AssignedRequestHistory = () => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(`${BASE_URL}/getBidResultHistory?vendor_id=669be1f26d77579092b9b435&page=${currentPage}&limit=5`);
+                const response = await axios.get(`${BASE_URL}/getBidResultHistory?vendor_id=${user?.id}&page=${currentPage}&limit=5`);
                 const bidData = response.data.data;
 
                 const detailedBidData = await Promise.all(

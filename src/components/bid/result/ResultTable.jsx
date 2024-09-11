@@ -372,10 +372,10 @@ const ResultTable = ({ datas }) => {
 
             <div className="flex flex-col  pt-1">
               <span className="block font-medium ml-6">
-                {data.createdAt.slice(0, 10)}
+                {data.loading_date.slice(0, 10)}
               </span>
               <span className="block ml-6">
-                {formatTo12HourTime(data.createdAt)}
+                {formatTo12HourTime(data.loading_date)}
               </span>
             </div>
 
