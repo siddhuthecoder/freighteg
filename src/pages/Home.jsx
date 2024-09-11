@@ -440,7 +440,7 @@ const Home = () => {
           {/* Route Card */}
           <div className="p-10 pt-3">
             <div className="p-5 rounded-xl shadow-lg">
-              <div className="flex gap-3 items-center mb-2">
+              <div className="flex gap-3 items-center flex-wrap mb-2">
                 <img src={routes} alt="icons" className="h-9 w-9" />
                 <p className="text-[#113870] font-semibold text-[20px]">
                   Route Details
