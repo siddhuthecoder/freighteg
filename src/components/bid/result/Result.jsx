@@ -6,9 +6,18 @@ import Header from '../repeats/Header';
 import ResultTable from './ResultTable';
 import Tabs from '../repeats/Tabs';
 import Navbar from '../../../components/Navbar';
+import { CountsContext } from '../repeats/CountsContext';
+import { useContext } from 'react';
 
 const ResultPage = () => {
+  const { counts } = useContext(CountsContext);
+  const resultCount = counts.result
+  // console.log("history count :",resultCount)
   const [bidDetails, setBidDetails] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  const [totalPages, settotalPages] = useState(0);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [dataHandling, setDataHandling] = useState({});
@@ -21,12 +30,13 @@ const ResultPage = () => {
     const branchId = localStorage.getItem('branch_id');
     const branchName = localStorage.getItem('branchName');
     const url = branchId && branchName !== 'ALL'
-      ? `https://freighteg.in/freightapi/getBidResults?branch_id=${branchId}`
-      : `https://freighteg.in/freightapi/getBidResults?company_id=${user?.id}`;
+      ? `https://freighteg.in/freightapi/getBidResults?branch_id=${branchId}&page=${currentPage}&limit=5`
+      : `https://freighteg.in/freightapi/getBidResults?company_id=${user?.id}&page=${currentPage}&limit=5`;
     try {
       const response = await axios.get(url);
       // alert(JSON.stringify(response.data))
       setResponse(response.data.data);
+      settotalPages(Math.ceil(resultCount / itemsPerPage));
       return response.data.data;
     } catch (error) {
       console.error('Error fetching bid details:', error);
@@ -98,7 +108,7 @@ const ResultPage = () => {
 
   useEffect(() => {
     getAllBidDetails();
-  }, []);
+  }, [currentPage]);
 
   useEffect(() => {
     const { searchTerm, selectedOption, startDate, endDate } = dataHandling;
@@ -159,6 +169,11 @@ const ResultPage = () => {
     document.body.removeChild(link);
   };
 
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
   return (
     <>
       <Navbar />
@@ -183,6 +198,26 @@ const ResultPage = () => {
         ) : (
           <ResultTable datas={filteredData} />
         )}
+        {/* Pagination */}
+      <div className="flex justify-center mt-4">
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
+        >
+          Previous
+        </button>
+        <span className="px-4 py-2 text-gray-700">
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
+        >
+          Next
+        </button>
+      </div>
       </div>
     </>
   );

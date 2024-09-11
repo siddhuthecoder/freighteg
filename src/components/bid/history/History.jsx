@@ -6,6 +6,9 @@ import Header from "../repeats/Header";
 // import HistoryTable from './HistoryTable';
 import Tabs from "../repeats/Tabs";
 import Navbar from "../../../components/Navbar";
+import { CountsContext } from "../repeats/CountsContext";
+import { useContext } from "react";
+import HistoryTable from "./HistoryTable";
 
 import { MdEmail } from "react-icons/md";
 import { BsFillPrinterFill } from "react-icons/bs";
@@ -21,6 +24,10 @@ import { MdLocalPrintshop } from "react-icons/md";
 import { Link } from "react-router-dom";
 
 const HistoryPage = () => {
+  const { counts } = useContext(CountsContext);
+  const historyCount = counts.history
+  console.log("history count :",historyCount)
+  
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -35,6 +42,7 @@ const HistoryPage = () => {
   // Function to get all bid details and merge with user and assigned_to data
   const getAllBidDetails = async () => {
     const bids = await fetchBidResultHistory();
+    
     if (bids && bids.length > 0) {
       const allBidDetails = [];
       for (const bid of bids) {
@@ -73,292 +81,8 @@ const HistoryPage = () => {
   };
   // Function to fetch bid details using bid_id
 
-  const HistoryTable = ({ datas }) => {
-    
-    const [isAssignedVendorsModalOpen, setAssignedVendorsModalOpen] =
-      useState(false);
-   
-    const [vendorDetails, setVendorDetails] = useState(null);
-
-    const [isViewQuotesModalOpen, setViewQuotesModalOpen] = useState(false);
-    const [selectedData, setSelectedData] = useState(null);
-    const user = useSelector((state) => state.login.user);
-    // const [showModal, setshowReponseModel] = useState(false);
-    const [showVendorsModal, setShowVendorsModal] = useState(false);
-    const [showVendorDetailsModal, setShowVendorDetailsModal] = useState(false);
-    const [showVehicleModal, setShowVehicleModal] = useState(false);
-    const [selectedVehicleDetails, setSelectedVehicleDetails] = useState([]);
-    const [allvendorResponse, setallvendorResponse] = useState(null);
-    const [showReponseModel, setshowReponseModel] = useState(false);
-    const [targetPrice, settargetPrice] = useState(null);
-    const handleViewVehiclesClick = (vehicleDetails) => {
-      setSelectedVehicleDetails(vehicleDetails);
-      setShowVehicleModal(true);
-    };
-    const handleVendorDetails = async (vendorId) => {
-      try {
-        const response = await axios.get(
-          `https://freighteg.in/freightapi/vendor/${vendorId}`
-        );
-        setVendorDetails(response.data);
-        console.log(response.data);
-        setShowVendorDetailsModal(true);
-      } catch (error) {
-        console.error("Error fetching vendor details:", error);
-        // Handle error if necessary
-      }
-    };
-
-    const handleResponseClick = async (allVendorBids, target_price) => {
-      settargetPrice(target_price);
-      setshowReponseModel(true);
-      console.log(allVendorBids);
-
-      setallvendorResponse(allVendorBids);
-    };
-
-    const convertToTimeDifference = (updatedAt) => {
-      const now = new Date();
-      const updatedDate = new Date(updatedAt);
-
-      const diffInMs = now - updatedDate;
-      const diffInMinutes = Math.floor(diffInMs / 60000);
-
-      const days = Math.floor(diffInMinutes / (24 * 60));
-      const hours = Math.floor((diffInMinutes % (24 * 60)) / 60);
-      const minutes = diffInMinutes % 60;
-
-      return `${days}d ${hours}hr ${minutes}min`;
-    };
-
-    const formatTo12HourTime = (utcDate) => {
-      const timeZone = "Asia/Kolkata";
-      const zonedDate = toZonedTime(new Date(utcDate), timeZone);
-      return format(zonedDate, "hh:mm a", { timeZone });
-    };
-
-    const handlePrintClick = (data) => {
-      const dataStr = JSON.stringify(data, null, 2);
-      const blob = new Blob([dataStr], { type: "text/plain" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `data-${data._id}.txt`; // Save as a .txt file
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-    };
-
-    // const handleAssignedVendorsClick = (data) => {
-    //   setSelectedData(data);
-    //   setAssignedVendorsModalOpen(true);
-    // };
-
-    // const handleViewQuotesClick = (data) => {
-    //   setSelectedData(data);
-    //   setViewQuotesModalOpen(true);
-    // };
-
-    const handlePageChange = async (newPage) => {
-      await getAllBidDetails();
-      setCurrentPage(newPage);
-    };
-
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const currentItems = datas.slice(startIndex, startIndex + itemsPerPage);
-
-    if (datas.length === 0) {
-      return (
-        <div className="text-center text-gray-500 py-4">No data available</div>
-      );
-    }
-
-    return (
-      <>
-        {currentItems.map((data) => (
-          <div className=" bg-blue-50 rounded-b-lg p-4 - mt-3 relative mx-auto flex flex-col w-[97%] shadow-md rounded-md min-w-[1200px]">
-            <div className="w-[100%] text-sm  mt-2 min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
-              <div className="flex flex-col  pt-1">
-                <span className="block text-black font-semibold">
-                  {user?.name}
-                </span>
-                <span className="block text-blue-600 font-semibold">
-                  #{data.bidNo}
-                </span>
-                {/* <span className="block text-red-600">
-                  {convertToTimeDifference(data.updatedAt)}{" "}
-                </span> */}
-                <div className="block text-grey-500 mt-12">
-                  Remarks : {data.bid_remarks}
-                </div>
-              </div>
-
-              <div className="flex flex-col  pt-1">
-                <span className="block font-medium ml-6">
-                  {data.loading_date.slice(0, 10)}
-                </span>
-                <span className="block ml-6">
-                  {formatTo12HourTime(data.loading_date)}
-                </span>
-              </div>
-
-              <div className="flex flex-col pt-1">
-                <span className="block font-medium ml-4">
-                  {data.loading_city} ({data.loading_state})
-                </span>
-                <span className="block text-xs text-gray-500 ml-4">
-                  {data.loading_address} ( {data.loading_pincode})
-                </span>
-              </div>
-              <div className="flex flex-col pt-1">
-                <span className="block font-medium">
-                  {data.unloading_city} ({data.unloading_state})
-                </span>
-                <span className="block text-xs text-gray-500">
-                  {data.unloading_address} ({data.unloading_pincode})
-                </span>
-              </div>
-
-              <div className="flex flex-col  pt-1 ">
-                <span className="block">
-                  Vehicle Quantity - {data.quantity}
-                </span>
-                <span className="block">Vehicle Type- {data.vehicle_type}</span>
-                <span className="block">
-                  Vehicle Size- {data.vehicle_size} ({data.body_type})
-                </span>
-                <span className="block">
-                  Material type- {data.material_type} ({data.material_weight}Mt)
-                </span>
-                {/* <span className="block">Equipments</span> */}
-                <a href="#" className="text-blue-600">
-                  Distance - {data.route_distance} Km
-                </a>
-              </div>
-
-              <div className="flex flex-col  pt-1 ">
-                <div className="w-full flex items-center justify-end gap-3">
-                  <IoMdMail className="text-2xl text-blue-600 cursor-pointer" />
-                  <MdLocalPrintshop
-                    className="text-2xl text-blue-600 cursor-pointer"
-                    onClick={() => handlePrintClick(data)}
-                  />
-                </div>
-                <div className="text-lg font-semibold text-gray-700 mr-5">
-                  {" "}
-                  Rs {data.vendorPrice}
-                </div>
-                <div
-                  className="text-blue-600 underline text-sm cursor-pointer"
-                  onClick={() => handleVendorDetails(data.vendor_idd)}
-                  //   onClick={() => setshowReponseModel(true)}
-                >
-                  Vendor Info
-                </div>
-
-                <div className="absolute top-0 right-[-100px] mt-1 mr-1 flex space-x-2">
-                  {/* <EnvelopeIcon className="h-5 w-5 text-blue-600" />
-                          <PrinterIcon className="h-5 w-5 text-blue-600 cursor-pointer"/>
-                          <PencilIcon className="h-5 w-5 text-blue-600 cursor-pointer" /> */}
-                </div>
-              </div>
-            </div>
-
-            <div className="flex justify-between items-center mt-2 border-t pt-2 text-sm text-gray-600">
-              <span className="block text-xs text-gray-500">
-                Target Price - {data.target_price}Rs
-                <span className="gap-8 text-grey-600 text-sm font-semibold ml-5 px-3 py-1 rounded-lg">
-                  Assigned Staff ({data.assignedToUser?.name}, +91
-                  {data.createdByUser?.phone})
-                </span>
-              </span>
-              <div
-                className="text-blue-600 cursor-pointer"
-                onClick={() => {
-                  handleViewVehiclesClick(data.vehicleDetails);
-                }}
-              >
-                Vehicle Info ({data.vehicleDetails.length})
-              </div>
-              <div
-                className="text-blue-600 cursor-pointer"
-                onClick={() => {
-                  handleResponseClick(data.allVendorBids, data.target_price);
-                  // debugger;
-                  // console.log("hi")
-                  console.log(data.allVendorBids[0].bidding_price.length);
-                }}
-              >
-                Responses ({data.allVendorBids[0].bidding_price.length})
-              </div>
-              <div className="mr-15px">
-                Created By -{" "}
-                <span className="font-semibold">{data.createdByUser.name}</span>
-                <span>
-                  ( {data.createdAt.slice(0, 10)} ,{" "}
-                  {formatTo12HourTime(data.createdAt)})
-                </span>
-              </div>
-            </div>
-          </div>
-        ))}
-
-        {/* Pagination */}
-        <div className="flex justify-center mt-4">
-          <button
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-            className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
-          >
-            Previous
-          </button>
-          <span className="px-4 py-2 text-gray-700">
-            Page {currentPage} of {totalPages}
-          </span>
-          <button
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-            className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
-          >
-            Next
-          </button>
-        </div>
-
-        {isAssignedVendorsModalOpen && (
-          <AssignedVendorsModal
-            data={selectedData}
-            onClose={() => setAssignedVendorsModalOpen(false)}
-          />
-        )}
-        {isViewQuotesModalOpen && (
-          <ViewQuotesModal
-            data={selectedData}
-            onClose={() => setViewQuotesModalOpen(false)}
-          />
-        )}
-        <QuotesModal
-          showReponseModel={showReponseModel}
-          setshowReponseModel={setshowReponseModel}
-          allvendorResponse={allvendorResponse}
-          target_price={targetPrice}
-        />
-        <VehicleInfoModal
-          showVehicleModal={showVehicleModal}
-          setShowVehicleModal={setShowVehicleModal}
-          vechileDetails={selectedVehicleDetails}
-        />
-        <VendorDetailsModal
-          showVendorDetailsModal={showVendorDetailsModal}
-          setShowVendorDetailsModal={setShowVendorDetailsModal}
-          vendorDetails={vendorDetails}
-        />
-      </>
-    );
-  };
 
   // Function to fetch bid result history
-useEffect(() => {
   const fetchBidResultHistory = async () => {
     const branchId = localStorage.getItem("branch_id");
     // const url = `https://freighteg.in/freightapi/getBidResultHistory?company_id=${user?.id}`;
@@ -376,8 +100,8 @@ useEffect(() => {
       setLoading(false);
     }
   };
-  fetchBidResultHistory()
-},[currentPage])
+
+
 
   const fetchBidDetails = async (bidId) => {
     const url = `https://freighteg.in/freightapi/bids/${bidId}`;
@@ -489,18 +213,23 @@ useEffect(() => {
 
       const historyData = await historyRes.json();
       // alert(historyData.totalBids)
-      settotalPages(Math.ceil(historyData.totalBids / itemsPerPage));
+      settotalPages(Math.ceil(historyCount / itemsPerPage));
     }
     getCount();
     getAllBidDetails();
-  }, []);
+  }, [currentPage]);
   // useEffect(() => {
   //   async function getData() {
   //     await getAllBidDetails();
   //   }
   //   getData();
   // }, []);
+
+  console.log("filtered data : ",filteredData)
   
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
   return (
     <>
       <Navbar />
@@ -536,6 +265,26 @@ useEffect(() => {
         ) : (
           <HistoryTable datas={filteredData} />
         )}
+           {/* Pagination */}
+      <div className="flex justify-center mt-4">
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
+        >
+          Previous
+        </button>
+        <span className="px-4 py-2 text-gray-700">
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
+        >
+          Next
+        </button>
+      </div>
       </div>
     </>
   );

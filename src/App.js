@@ -7,6 +7,7 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
 import { useSelector } from "react-redux";
+import { CountsProvider } from "./components/bid/repeats/CountsContext";
 
 const queryClient = new QueryClient();
 
@@ -18,8 +19,10 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools />
         <Provider store={store}>
-          <Toaster />
-          <AllRoutes2 />
+          <CountsProvider>
+            <Toaster />
+            <AllRoutes2 />
+          </CountsProvider>
         </Provider>
       </QueryClientProvider>
     </>
