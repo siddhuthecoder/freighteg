@@ -4,6 +4,7 @@ import { UserDataMutation, updateUserData } from "../HelperFunction/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { FiUser, FiPhone, FiLock, FiX } from "react-icons/fi";
+import axios from "axios";
 
 const UserAddForm = ({ editedData, id, onClose }) => {
   const user = useSelector((state) => state.login.user);
@@ -11,11 +12,55 @@ const UserAddForm = ({ editedData, id, onClose }) => {
     name: "",
     phone: "",
     role: "",
+    branch_id: "", // Add branchId to formData
     password: "",
     company_id: user?.id,
   });
   const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState(null);
+  const [branches, setBranches] = useState([]);
+  const [branchOptions, setBranchOptions] = useState([]);
+  const [defaultBranch, setDefaultBranch] = useState(null);
+
+  // Fetch branches when component mounts
+  useEffect(() => {
+    const fetchBranches = async () => {
+      try {
+        const response = await axios.get(
+          `https://freighteg.in/freightapi/getbranches/company/${user?.id}`
+        );
+        const branchesData = response.data;
+
+        // Prepare branch options
+        const options = branchesData.map((branch) => ({
+          value: branch._id,
+          label: branch.name,
+        }));
+
+        // Get branch_id from localStorage
+        const storedBranchId = localStorage.getItem("branch_id");
+
+        // Check if branch_id from localStorage exists in the response
+        const defaultOption =
+          options.find((option) => option.value === storedBranchId) || {
+            value: user?.id, // Fallback to company_id
+            label: "All",
+          };
+
+        setBranches(branchesData);
+        setBranchOptions(options);
+        setDefaultBranch(defaultOption); // Set the default selected branch
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          branch_id: defaultOption.value, // Set the default branchId
+        }));
+      } catch (error) {
+        console.error("Error fetching branches:", error);
+      }
+    };
+
+    fetchBranches();
+  }, [user?.id]);
 
   useEffect(() => {
     if (editedData && id) {
@@ -73,10 +118,17 @@ const UserAddForm = ({ editedData, id, onClose }) => {
     }));
   }, []);
 
-  const handleSelectChange = (selectedOption) => {
+  const handleRoleSelectChange = (selectedOption) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
       role: selectedOption ? selectedOption.value : "",
+    }));
+  };
+
+  const handleBranchSelectChange = (selectedOption) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      branchId: selectedOption ? selectedOption.value : "",
     }));
   };
 
@@ -89,6 +141,7 @@ const UserAddForm = ({ editedData, id, onClose }) => {
           name: formData.name,
           phone: formData.phone,
           role: formData.role,
+          branch_id: formData.branch_id, // Include branchId
           ...(isEditing ? {} : { password: formData.password }),
           company_id: user?.id,
         };
@@ -126,6 +179,7 @@ const UserAddForm = ({ editedData, id, onClose }) => {
           </div>
         )}
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* User Name */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               User Name
@@ -143,6 +197,8 @@ const UserAddForm = ({ editedData, id, onClose }) => {
               />
             </div>
           </div>
+
+          {/* Phone Number */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Phone Number
@@ -160,6 +216,8 @@ const UserAddForm = ({ editedData, id, onClose }) => {
               />
             </div>
           </div>
+
+          {/* Role */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Role
@@ -169,7 +227,7 @@ const UserAddForm = ({ editedData, id, onClose }) => {
                 roleOptions.find((option) => option.value === formData.role) ||
                 null
               }
-              onChange={handleSelectChange}
+              onChange={handleRoleSelectChange}
               options={roleOptions}
               className="w-full"
               styles={{
@@ -187,13 +245,50 @@ const UserAddForm = ({ editedData, id, onClose }) => {
                 option: (provided, state) => ({
                   ...provided,
                   backgroundColor: state.isSelected ? "#e5e7eb" : "white",
-                  color: state.isSelected ? "black" : "inherit",
+                  "&:hover": {
+                    backgroundColor: "#f3f4f6",
+                  },
                 }),
               }}
               placeholder="Select role"
-              required
             />
           </div>
+
+          {/* Branch */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Branch
+            </label>
+            <Select
+              value={defaultBranch}
+              onChange={handleBranchSelectChange}
+              options={branchOptions}
+              className="w-full"
+              styles={{
+                control: (provided, state) => ({
+                  ...provided,
+                  backgroundColor: "#f9fafb",
+                  borderColor: state.isFocused ? "#3b82f6" : "#d1d5db",
+                  borderRadius: "0.5rem",
+                  height: "48px",
+                  boxShadow: state.isFocused ? "0 0 0 2px #93c5fd" : "none",
+                  "&:hover": {
+                    borderColor: "#3b82f6",
+                  },
+                }),
+                option: (provided, state) => ({
+                  ...provided,
+                  backgroundColor: state.isSelected ? "#e5e7eb" : "white",
+                  "&:hover": {
+                    backgroundColor: "#f3f4f6",
+                  },
+                }),
+              }}
+              placeholder="Select branch"
+            />
+          </div>
+
+          {/* Password (only if not editing) */}
           {!isEditing && (
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -208,15 +303,23 @@ const UserAddForm = ({ editedData, id, onClose }) => {
                   onChange={handleChange}
                   className="w-full bg-gray-50 h-12 rounded-lg pl-10 pr-3 focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-300 transition duration-300"
                   placeholder="Enter password"
-                  required
+                  required={!isEditing}
                 />
               </div>
             </div>
           )}
-          <div className="flex justify-end">
+
+          <div className="flex justify-end space-x-4">
+            <button
+              type="button"
+              onClick={onClose}
+              className="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg hover:bg-gray-400"
+            >
+              Cancel
+            </button>
             <button
               type="submit"
-              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 px-6 py-3 rounded-lg text-white text-lg font-semibold transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700"
             >
               {isEditing ? "Update User" : "Create User"}
             </button>

@@ -358,6 +358,7 @@ const HistoryPage = () => {
   };
 
   // Function to fetch bid result history
+useEffect(() => {
   const fetchBidResultHistory = async () => {
     const branchId = localStorage.getItem("branch_id");
     // const url = `https://freighteg.in/freightapi/getBidResultHistory?company_id=${user?.id}`;
@@ -375,6 +376,8 @@ const HistoryPage = () => {
       setLoading(false);
     }
   };
+  fetchBidResultHistory()
+},[currentPage])
 
   const fetchBidDetails = async (bidId) => {
     const url = `https://freighteg.in/freightapi/bids/${bidId}`;

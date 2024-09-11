@@ -4,6 +4,7 @@ import { UserDataMutation, updateUserData } from "../../HelperFunction/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { FiUser, FiPhone, FiLock, FiX } from "react-icons/fi";
+import axios from "axios";
 
 const UserAddForm = ({ editedData, id, onClose }) => {
   const user = useSelector((state) => state.login.user);
@@ -13,9 +14,33 @@ const UserAddForm = ({ editedData, id, onClose }) => {
     role: "",
     password: "",
     company_id: user?.id,
+    branch: user?.branch || "", // Default branch value from global state
   });
   const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState(null);
+  const [branchOptions, setBranchOptions] = useState([]);
+
+  // Fetching branches from API for the dropdown
+  const fetchBranches = async () => {
+    try {
+      const response = await axios.get(
+        `https://freighteg.in/freightapi/getbranches/company/${user.company_id}`
+      );
+      const branches = response.data.map((branch) => ({
+        value: branch.id,
+        label: branch.name,
+      }));
+      setBranchOptions(branches);
+    } catch (error) {
+      console.error("Error fetching branches:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (isEditing) {
+      fetchBranches();
+    }
+  }, [isEditing]);
 
   useEffect(() => {
     if (editedData && id) {
@@ -80,6 +105,13 @@ const UserAddForm = ({ editedData, id, onClose }) => {
     }));
   };
 
+  const handleBranchSelectChange = (selectedOption) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      branch: selectedOption ? selectedOption.value : "",
+    }));
+  };
+
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
@@ -89,6 +121,7 @@ const UserAddForm = ({ editedData, id, onClose }) => {
           name: formData.name,
           phone: formData.phone,
           role: formData.role,
+          branch: formData.branch,
           ...(isEditing ? {} : { password: formData.password }),
           company_id: user?.id,
         };
@@ -160,6 +193,8 @@ const UserAddForm = ({ editedData, id, onClose }) => {
               />
             </div>
           </div>
+
+          {/* Role Field */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Role
@@ -194,6 +229,54 @@ const UserAddForm = ({ editedData, id, onClose }) => {
               required
             />
           </div>
+
+          {/* Branch Field */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Branch
+            </label>
+            {isEditing ? (
+              <Select
+                value={branchOptions.find(
+                  (option) => option.value === formData.branch
+                )}
+                onChange={handleBranchSelectChange}
+                options={branchOptions}
+                className="w-full"
+                styles={{
+                  control: (provided, state) => ({
+                    ...provided,
+                    backgroundColor: "#f9fafb",
+                    borderColor: state.isFocused ? "#3b82f6" : "#d1d5db",
+                    borderRadius: "0.5rem",
+                    height: "48px",
+                    boxShadow: state.isFocused ? "0 0 0 2px #93c5fd" : "none",
+                    "&:hover": {
+                      borderColor: "#3b82f6",
+                    },
+                  }),
+                  option: (provided, state) => ({
+                    ...provided,
+                    backgroundColor: state.isSelected ? "#e5e7eb" : "white",
+                    color: state.isSelected ? "black" : "inherit",
+                  }),
+                }}
+                placeholder="Select branch"
+              />
+            ) : (
+              <input
+                type="text"
+                value={user.name}
+                onChange={handleChange}
+                name="branch"
+                className="w-full bg-gray-50 h-12 rounded-lg pl-3 pr-3 focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-300 transition duration-300"
+                placeholder="Branch"
+                readOnly
+              />
+            )}
+          </div>
+
+          {/* Password Field (only for add user) */}
           {!isEditing && (
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -213,12 +296,13 @@ const UserAddForm = ({ editedData, id, onClose }) => {
               </div>
             </div>
           )}
-          <div className="flex justify-end">
+
+          <div className="flex justify-center mt-6">
             <button
               type="submit"
-              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 px-6 py-3 rounded-lg text-white text-lg font-semibold transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="bg-blue-600 text-white rounded-lg px-4 py-2 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition duration-300"
             >
-              {isEditing ? "Update User" : "Create User"}
+              {isEditing ? "Update User" : "Add User"}
             </button>
           </div>
         </form>

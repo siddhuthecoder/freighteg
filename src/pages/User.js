@@ -74,6 +74,8 @@ const User = () => {
   if (usersLoading) return <SkeletonLoader />;
   if (usersError) return <ErrorState error={error} />;
 
+  console.log(filteredUsers)
+
   return (
     <>
     <Navbar/>
