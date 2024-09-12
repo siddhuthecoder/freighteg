@@ -14,7 +14,6 @@ const BranchHistory = () => {
   const { counts } = useContext(CountsContext);
   const historyCount = counts.Branch_history
   console.log("history count :",historyCount)
-  const [dataLoading,setDataLoading] = useState(false)
   
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,13 +28,9 @@ const BranchHistory = () => {
   // const [datas, setdatas] = useState(null);
   // Function to get all bid details and merge with user and assigned_to data
   const getAllBidDetails = async () => {
-    // setDataLoading(true)
-    setLoading(true)
-
     const bids = await fetchBidResultHistory();
     
     if (bids && bids.length > 0) {
-      
       const allBidDetails = [];
       for (const bid of bids) {
         const bidDetail = await fetchBidDetails(bid.bid_id);
@@ -70,7 +65,6 @@ const BranchHistory = () => {
       setError("No bids found.");
     }
     setLoading(false);
-    
   };
   // Function to fetch bid details using bid_id
 
@@ -192,7 +186,6 @@ const BranchHistory = () => {
     document.body.removeChild(link);
   };
   useEffect(() => {
-    setDataLoading(true)
     const branchId = localStorage.getItem("branch_id");
     const url =  `https://freighteg.in/freightapi/getBidResultHistory?branch_id=${branchId}&page=${currentPage}&limit=5`
     async function getCount() {
@@ -206,7 +199,6 @@ const BranchHistory = () => {
     }
     getCount();
     getAllBidDetails();
-    setDataLoading(false)
   }, [currentPage]);
   // useEffect(() => {
   //   async function getData() {
@@ -245,7 +237,7 @@ const BranchHistory = () => {
           <div className="font-semibold md:text-lg ps-[30px]">Details</div>
           <div className="font-semibold md:text-sm ps-[30px]">Bid Result</div>
         </div>
-        {loading || dataLoading ? (
+        {loading ? (
           <div className="text-center my-4">
             {/* Loading spinner */}
             <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-900 mx-auto"></div>
