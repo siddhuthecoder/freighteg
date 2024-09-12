@@ -12,7 +12,7 @@ const UserAddForm = ({ editedData, id, onClose }) => {
     name: "",
     phone: "",
     role: "",
-    branch_id: "", // Add branchId to formData
+    branch_id: "", // Ensure branch_id is used
     password: "",
     company_id: user?.id,
   });
@@ -40,19 +40,16 @@ const UserAddForm = ({ editedData, id, onClose }) => {
         // Get branch_id from localStorage
         const storedBranchId = localStorage.getItem("branch_id");
 
-        // Check if branch_id from localStorage exists in the response
+        // Set default branch based on localStorage or first option
         const defaultOption =
-          options.find((option) => option.value === storedBranchId) || {
-            value: user?.id, // Fallback to company_id
-            label: "All",
-          };
+          options.find((option) => option.value === storedBranchId) || options[0];
 
         setBranches(branchesData);
         setBranchOptions(options);
         setDefaultBranch(defaultOption); // Set the default selected branch
         setFormData((prevFormData) => ({
           ...prevFormData,
-          branch_id: defaultOption.value, // Set the default branchId
+          branch_id: defaultOption.value, // Set the default branch_id
         }));
       } catch (error) {
         console.error("Error fetching branches:", error);
@@ -128,8 +125,9 @@ const UserAddForm = ({ editedData, id, onClose }) => {
   const handleBranchSelectChange = (selectedOption) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
-      branchId: selectedOption ? selectedOption.value : "",
+      branch_id: selectedOption ? selectedOption.value : "", // Update branch_id correctly
     }));
+    setDefaultBranch(selectedOption); // Ensure selected branch is updated
   };
 
   const handleSubmit = useCallback(
@@ -141,7 +139,7 @@ const UserAddForm = ({ editedData, id, onClose }) => {
           name: formData.name,
           phone: formData.phone,
           role: formData.role,
-          branch_id: formData.branch_id, // Include branchId
+          branch_id: formData.branch_id, // Include branch_id
           ...(isEditing ? {} : { password: formData.password }),
           company_id: user?.id,
         };
@@ -244,13 +242,11 @@ const UserAddForm = ({ editedData, id, onClose }) => {
                 }),
                 option: (provided, state) => ({
                   ...provided,
-                  backgroundColor: state.isSelected ? "#e5e7eb" : "white",
-                  "&:hover": {
-                    backgroundColor: "#f3f4f6",
-                  },
+                  backgroundColor: state.isFocused ? "#eff6ff" : null,
+                  color: state.isFocused ? "#1e40af" : null,
                 }),
               }}
-              placeholder="Select role"
+              isClearable
             />
           </div>
 
@@ -278,17 +274,15 @@ const UserAddForm = ({ editedData, id, onClose }) => {
                 }),
                 option: (provided, state) => ({
                   ...provided,
-                  backgroundColor: state.isSelected ? "#e5e7eb" : "white",
-                  "&:hover": {
-                    backgroundColor: "#f3f4f6",
-                  },
+                  backgroundColor: state.isFocused ? "#eff6ff" : null,
+                  color: state.isFocused ? "#1e40af" : null,
                 }),
               }}
-              placeholder="Select branch"
+              isClearable
             />
           </div>
 
-          {/* Password (only if not editing) */}
+          {/* Password */}
           {!isEditing && (
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -303,27 +297,18 @@ const UserAddForm = ({ editedData, id, onClose }) => {
                   onChange={handleChange}
                   className="w-full bg-gray-50 h-12 rounded-lg pl-10 pr-3 focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-300 transition duration-300"
                   placeholder="Enter password"
-                  required={!isEditing}
+                  required
                 />
               </div>
             </div>
           )}
 
-          <div className="flex justify-end space-x-4">
-            <button
-              type="button"
-              onClick={onClose}
-              className="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg hover:bg-gray-400"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700"
-            >
-              {isEditing ? "Update User" : "Create User"}
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="bg-blue-600 text-white w-full py-3 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300"
+          >
+            {isEditing ? "Update User" : "Add User"}
+          </button>
         </form>
       </div>
     </div>

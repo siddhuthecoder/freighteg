@@ -11,6 +11,8 @@ const Tabs = ({ onDownloadClick }) => {
   // Use the context to get the counts
   const { counts } = useContext(CountsContext);
 
+  console.log(counts.open)
+
   const tabs = [
     { name: "Open", path: "open", count: counts.open },
     { name: "Result", path: "result", count: counts.result },
