@@ -12,14 +12,14 @@ import { CountsContext } from '../../../components/bid/repeats/CountsContext';
 
 const BranchHistory = () => {
   const { counts } = useContext(CountsContext);
-  const historyCount = counts.Branch_history
-  console.log("history count :",historyCount)
+
+
   
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   // const totalPages = useState(0);
-  const [totalPages, settotalPages] = useState(historyCount);
+  const [totalPages, settotalPages] = useState(0);
   const [bidDetails, setBidDetails] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -28,6 +28,7 @@ const BranchHistory = () => {
   // const [datas, setdatas] = useState(null);
   // Function to get all bid details and merge with user and assigned_to data
   const getAllBidDetails = async () => {
+    setLoading(true)
     const bids = await fetchBidResultHistory();
     
     if (bids && bids.length > 0) {
@@ -194,7 +195,6 @@ const BranchHistory = () => {
       const historyData = await historyRes.json();
       // alert(historyData.totalBids)
       settotalPages(Math.ceil(historyData.totalBids / itemsPerPage));
-
 
     }
     getCount();
