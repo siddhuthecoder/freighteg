@@ -7,18 +7,21 @@ import { MdLocalPrintshop } from "react-icons/md";
 import { useSelector } from 'react-redux';
 import { data } from 'autoprefixer';
 import BidEditForm from '../repeats/BidEditForm';
+import { MdOutlineModeEdit } from "react-icons/md";
+import EditModal from './EditModal';
 
 const OpenTable = ({ datas }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [isAssignedVendorsModalOpen, setAssignedVendorsModalOpen] = useState(false);
     const [isViewQuotesModalOpen, setViewQuotesModalOpen] = useState(false);
     const [selectedData, setSelectedData] = useState(null);
+    const [isEditModalOpen, setEditModalOpen] = useState(false);
     const [minimum, setMinimum] = useState(null);
     const [response, setresponse] = useState(null)
     const user = useSelector((state) => state.login.user);
     const itemsPerPage = 5;
     const totalPages = Math.ceil(datas.length / itemsPerPage);
-    console.log(datas[1])
+    // console.log(datas[1])
   
     const getMinimumVendorPrice = (data) => {
         // Check if bidding_response exists and is an array with at least one element
@@ -108,6 +111,10 @@ const OpenTable = ({ datas }) => {
         setSelectedData(data);
         setViewQuotesModalOpen(true);
     };
+    const handleEditBidClick = (data) => {
+        setSelectedData(data);
+        setEditModalOpen(true);
+    };
 
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
@@ -141,8 +148,8 @@ const OpenTable = ({ datas }) => {
                                 <div className="block text-grey-500 mt-12">Remarks :  {data.bid_remarks}</div>
                             </div>
                             <div className="flex flex-col pt-1">
-                                <span className="block font-medium ml-6">{data.createdAt.slice(0, 10)}</span>
-                                <span className="block ml-6">{formatTo12HourTime(data.createdAt)}</span>
+                                <span className="block font-medium ml-6">{data.loading_date.slice(0, 10)}</span>
+                                <span className="block ml-6">{formatTo12HourTime(data.loading_date)}</span>
                             </div>
                             <div className="flex flex-col pt-1">
                                 <span className="block font-medium ml-4">
@@ -180,7 +187,7 @@ const OpenTable = ({ datas }) => {
                             </div>
                             <div className="flex flex-col pt-1">
                                 <div className="w-full flex items-center justify-end gap-3">
-                                    <IoMdMail className='text-2xl text-blue-600 cursor-pointer' />
+                                    <MdOutlineModeEdit className='text-2xl text-blue-600 cursor-pointer' onClick={() => handleEditBidClick(data)} />
                                     <MdLocalPrintshop className='text-2xl text-blue-600 cursor-pointer' onClick={() => handlePrintClick(data)} />
                                 </div>
                                 <div className="text-lg font-semibold text-gray-700 mr-5">Rs {minimumPrice || 0}</div>
@@ -197,8 +204,7 @@ const OpenTable = ({ datas }) => {
                             <span className="block text-xs text-gray-500">
                                 Target Price - {data.target_price}Rs
                                 <span className="gap-8 text-grey-600 text-sm font-semibold ml-5 px-3 py-1 rounded-lg">
-                                    Assigned Staff ({data.assignedToUser?.name}, +91
-                                    {data.createdByUser?.phone})
+                                Assigned Staff ({data.assignedToUser?.name}, +91{data.assignedToUser?.phone})
                                 </span>
                             </span>
                             <div className="mr-15px">
@@ -244,6 +250,12 @@ const OpenTable = ({ datas }) => {
                     data={selectedData}
                     response={response}
                     onClose={() => setViewQuotesModalOpen(false)}
+                />
+            )}
+            {isEditModalOpen && (
+                <EditModal
+                    data={selectedData}
+                    onClose={() => setEditModalOpen(false)}
                 />
             )}
         </>
