@@ -59,7 +59,7 @@ const BranchHistory = () => {
       }
       setBidDetails(allBidDetails);
       setFilteredData(allBidDetails);
-      alert("Sucessfully Called getAllBids");
+  
     } else {
       console.log("No bids found.");
       setError("No bids found.");
@@ -187,17 +187,13 @@ const BranchHistory = () => {
   };
   useEffect(() => {
     const branchId = localStorage.getItem("branch_id");
-    // const url = `https://freighteg.in/freightapi/getBidResultHistory?company_id=${user?.id}`;
-    const url =
-      branchId && branchId !== user?.id
-        ? `https://freighteg.in/freightapi/getBidResultHistory?branch_id=${branchId}&page=${currentPage}&limit=5`
-        : `https://freighteg.in/freightapi/getBidResultHistory?company_id=${user?.id}&page=${currentPage}&limit=5`;
+    const url =  `https://freighteg.in/freightapi/getBidResultHistory?branch_id=${branchId}&page=${currentPage}&limit=5`
     async function getCount() {
       const [historyRes] = await Promise.all([fetch(`${url}`)]);
 
       const historyData = await historyRes.json();
       // alert(historyData.totalBids)
-      settotalPages(Math.ceil(historyCount / itemsPerPage));
+      settotalPages(Math.ceil(historyData.totalBids / itemsPerPage));
 
 
     }

@@ -36,7 +36,6 @@ const ResultPage = () => {
       const response = await axios.get(url);
       // alert(JSON.stringify(response.data))
       setResponse(response.data.data);
-      settotalPages(Math.ceil(resultCount / itemsPerPage));
       return response.data.data;
     } catch (error) {
       console.error('Error fetching bid details:', error);
@@ -75,6 +74,7 @@ const ResultPage = () => {
   };
 
   const getAllBidDetails = async () => {
+    setLoading(true)
     const bids = await fetchBidDetails();
     if (bids && bids.length > 0) {
       const allBidDetails = [];
@@ -107,6 +107,20 @@ const ResultPage = () => {
   };
 
   useEffect(() => {
+    const branchId = localStorage.getItem('branch_id');
+    const branchName = localStorage.getItem('branchName');
+    const url = branchId && branchName !== 'ALL'
+      ? `https://freighteg.in/freightapi/getBidResults?branch_id=${branchId}&page=${currentPage}&limit=5`
+      : `https://freighteg.in/freightapi/getBidResults?company_id=${user?.id}&page=${currentPage}&limit=5`;
+    async function getCount() {
+      const [ResultRes] = await Promise.all([fetch(`${url}`)]);
+
+      const ResultReslength = await ResultRes.json();
+      // alert(historyData.totalBids)
+      settotalPages(Math.ceil(ResultReslength.totalBids / itemsPerPage));
+    }
+    getCount()
+  
     getAllBidDetails();
   }, [currentPage]);
 
