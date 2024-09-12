@@ -41,6 +41,7 @@ const HistoryPage = () => {
   // const [datas, setdatas] = useState(null);
   // Function to get all bid details and merge with user and assigned_to data
   const getAllBidDetails = async () => {
+    setLoading(true)
     const bids = await fetchBidResultHistory();
     
     if (bids && bids.length > 0) {
@@ -72,7 +73,6 @@ const HistoryPage = () => {
       }
       setBidDetails(allBidDetails);
       setFilteredData(allBidDetails);
-      alert("Sucessfully Called getAllBids");
     } else {
       console.log("No bids found.");
       setError("No bids found.");
@@ -213,7 +213,7 @@ const HistoryPage = () => {
 
       const historyData = await historyRes.json();
       // alert(historyData.totalBids)
-      settotalPages(Math.ceil(historyCount / itemsPerPage));
+      settotalPages(Math.ceil(historyData.totalBids / itemsPerPage));
     }
     getCount();
     getAllBidDetails();

@@ -1,14 +1,22 @@
-import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import * as XLSX from 'xlsx';
+import Navbar from '../../../components/Navbar';
 import Header from '../repeats/Header';
-import ResultTable from './ResultTable';
 import Tabs from '../repeats/Tabs';
-import BranchNavbar from '../../BranchNavbar';
+import ResultTable from './ResultTable';
 
-const BranchResult = () => {
+
+const ResultPage = () => {
+
+
+  // console.log("history count :",resultCount)
   const [bidDetails, setBidDetails] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  const [totalPages, settotalPages] = useState(0);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [dataHandling, setDataHandling] = useState({});
@@ -19,10 +27,12 @@ const BranchResult = () => {
   // Function to fetch bid details
   const fetchBidDetails = async () => {
     const branchId = localStorage.getItem('branch_id');
-    const url =  `https://freighteg.in/freightapi/getBidResults?branch_id=${user?.id}`
-      
+    const branchName = localStorage.getItem('branchName');
+    const url =  `https://freighteg.in/freightapi/getBidResults?branch_id=${branchId}&page=${currentPage}&limit=5`
+     ;
     try {
       const response = await axios.get(url);
+      // alert(JSON.stringify(response.data))
       setResponse(response.data.data);
       return response.data.data;
     } catch (error) {
@@ -62,6 +72,7 @@ const BranchResult = () => {
   };
 
   const getAllBidDetails = async () => {
+    setLoading(true)
     const bids = await fetchBidDetails();
     if (bids && bids.length > 0) {
       const allBidDetails = [];
@@ -94,8 +105,22 @@ const BranchResult = () => {
   };
 
   useEffect(() => {
+    const branchId = localStorage.getItem('branch_id');
+    const branchName = localStorage.getItem('branchName');
+    const url = branchId && branchName !== 'ALL'
+      ? `https://freighteg.in/freightapi/getBidResults?branch_id=${branchId}&page=${currentPage}&limit=5`
+      : `https://freighteg.in/freightapi/getBidResults?company_id=${user?.id}&page=${currentPage}&limit=5`;
+    async function getCount() {
+      const [ResultRes] = await Promise.all([fetch(`${url}`)]);
+
+      const ResultReslength = await ResultRes.json();
+      // alert(historyData.totalBids)
+      settotalPages(Math.ceil(ResultReslength.totalBids / itemsPerPage));
+    }
+    getCount()
+  
     getAllBidDetails();
-  }, []);
+  }, [currentPage]);
 
   useEffect(() => {
     const { searchTerm, selectedOption, startDate, endDate } = dataHandling;
@@ -156,9 +181,14 @@ const BranchResult = () => {
     document.body.removeChild(link);
   };
 
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
   return (
     <>
-      <BranchNavbar />
+      <Navbar />
       <Header onSubmit={handleFormSubmit} />
       <div className="w-full overflow-x-auto">
         <Tabs onDownloadClick={handleDownloadClick} onFilterClick={() => { /* Handle filter click if needed */ }} />
@@ -180,9 +210,29 @@ const BranchResult = () => {
         ) : (
           <ResultTable datas={filteredData} />
         )}
+        {/* Pagination */}
+      <div className="flex justify-center mt-4">
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
+        >
+          Previous
+        </button>
+        <span className="px-4 py-2 text-gray-700">
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
+        >
+          Next
+        </button>
+      </div>
       </div>
     </>
   );
 };
 
-export default BranchResult;
+export default ResultPage;
