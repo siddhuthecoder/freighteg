@@ -22,12 +22,12 @@ const Hero = () => {
             <img src={truck} alt="" className=" scale-[0.8] sm:scale-[1]   sm:mt-[0px] " />
           </div>
          
-         <p className="text-center w-[80%] text-[20px] text-zinc-400 ">Lorem ipsum dolor sit, a quidem quis! Eligendi nemo corporis, provident quasi sequi quam quas dolores, ab cum itaque totam eos nobis possimus debitis?</p>
+         {/* <p className="text-center w-[80%] text-[20px] text-zinc-400 ">Lorem ipsum dolor sit, a quidem quis! Eligendi nemo corporis, provident quasi sequi quam quas dolores, ab cum itaque totam eos nobis possimus debitis?</p> */}
          <div className="w-full mt-[40px] flex justify-center items-center">
-            <button className="px-5 py-3 rounded-full text-white bg-[#0C43FF] flex items-center">
-              <span>Explore More</span>
-              <FaArrowRight />
-            </button>
+            {/* <button className="px-5 py-3 rounded-full text-white bg-[#0C43FF] flex items-center"> */}
+              {/* <span>Explore More</span> */}
+              {/* <FaArrowRight /> */}
+            {/* </button> */}
          </div>
 
       </motion.div>

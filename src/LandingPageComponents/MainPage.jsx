@@ -26,20 +26,21 @@ const MainPage = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  if (isLoading) {
-    return <Loading />;
-  }
+  // if (isLoading) {
+  //   return <Loading />;
+  // }
 
   return (
     <div className='bg-[rgb(242,_244,_248)]'>
       <Header />
       <Hero />
-      <LayerAnimation />
+    {/* <LayerAnimation />
       <Does />
       <Apart />
       <About />
       <Features />
-      <Footer />
+      */}
+    <Footer /> 
       <FooterNote />
     </div>
   );

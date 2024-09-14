@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 Modal.setAppElement("#root");
 
 const BASE_URL = 'https://freighteg.in/freightapi'; // Replace with your actual base URL
-const PAYMENT_KEY = 'rzp_live_hUBa71YRLBFQG0'; // Replace with your actual Razorpay key
+const PAYMENT_KEY = process.env.REACT_APP_RAZORPAY_KEY_ID; // Replace with your actual Razorpay key
 
 const BidModal = ({ isOpen, onRequestClose }) => {
   const [plans, setPlans] = React.useState([]);

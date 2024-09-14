@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbar from '../Navbar';
 import './Details.css';
+import { useSelector } from 'react-redux';
 
 const Details = () => {
   const [data, setData] = useState(null);
-
+  const user = useSelector((state) => state.login.user);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://freighteg.in/freightapi/dashboard');
+        const response = await axios.get(`https://freighteg.in/freightapi/dashboard/?company_id=${user?.id}`);
         setData(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);

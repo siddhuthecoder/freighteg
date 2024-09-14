@@ -7,9 +7,10 @@ import { useSelector } from 'react-redux';
 Modal.setAppElement('#root');
 
 const BASE_URL = 'https://freighteg.in/freightapi'; // Replace with your actual base URL
-const PAYMENT_KEY = 'rzp_live_hUBa71YRLBFQG0'; // Replace with your actual Razorpay key
-
+const PAYMENT_KEY = process.env.REACT_APP_RAZORPAY_KEY_ID; // Replace with your actual Razorpay key
+ 
 const AddBalanceModal = ({ isOpen, onRequestClose }) => {
+  // alert(PAYMENT_KEY)
   const user = useSelector((state) => state.login.user);
   const [amount, setAmount] = useState('');
   const navigate = useNavigate();
@@ -88,7 +89,6 @@ const AddBalanceModal = ({ isOpen, onRequestClose }) => {
 
   const createOrder = async (totalAmount) => {
     try {
-      // debugger;
       const response = await axios.post(`${BASE_URL}/order`, {
         amount: totalAmount * 100, // Amount in paisa
         currency: 'INR',
@@ -101,14 +101,11 @@ const AddBalanceModal = ({ isOpen, onRequestClose }) => {
         },
       });
       if (response.status === 200) {
-        // debugger;
         return response.data;
       } else {
-        // debugger;
         throw new Error('Failed to create order');
       }
     } catch (error) {
-      // debugger;
       console.error('Error creating order:', error);
       return null;
     }
@@ -162,22 +159,22 @@ const AddBalanceModal = ({ isOpen, onRequestClose }) => {
 
   return (
     <Modal
-      isOpen={isOpen}
-      onRequestClose={onRequestClose}
-      className="modal-content fixed inset-0 flex items-center justify-center p-4"
-      overlayClassName="fixed inset-0 bg-black bg-opacity-50"
+    isOpen={isOpen}
+    onRequestClose={onRequestClose}
+    className="modal-content  rounded-lg shadow-lg max-w-sm w-full p-6"
+    overlayClassName="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
     >
-      <div className="bg-white rounded-lg shadow-lg max-w-sm w-full">
-        <div className="flex items-center justify-between p-4 border-b">
+      <div className="bg-white rounded-lg shadow-lg max-w-sm w-full mx-auto p-6 transform transition-all">
+        <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-gray-800">Refill Wallet Balance</h2>
           <button
             onClick={onRequestClose}
-            className="text-blue-500 hover:text-blue-700 focus:outline-none"
+            className="text-red-500 hover:text-red-700 focus:outline-none"
           >
-            Cancel
+            ✕
           </button>
         </div>
-        <div className="p-4">
+        <div className="mb-4">
           <label htmlFor="amount" className="block text-sm font-medium text-gray-700 mb-2">
             Enter Amount
           </label>
@@ -192,19 +189,19 @@ const AddBalanceModal = ({ isOpen, onRequestClose }) => {
           <div className="border-t border-dashed border-gray-200 pt-4">
             <div className="flex justify-between text-sm">
               <p>Amount</p>
-              <p>{amount ? `INR ${parseFloat(amount).toLocaleString()}` : 'IDR 0.00'}</p>
+              <p>{amount ? `INR ${parseFloat(amount).toLocaleString()}` : 'INR 0.00'}</p>
             </div>
             <div className="flex justify-between text-sm">
               <p>GST (18%)</p>
-              <p>{amount ? `INR ${gst.toFixed(2)}` : 'IDR 0.00'}</p>
+              <p>{amount ? `INR ${gst.toFixed(2)}` : 'INR 0.00'}</p>
             </div>
             <div className="flex justify-between text-sm font-semibold border-t border-dashed pt-2">
               <p>Total Amount</p>
-              <p>{amount ? `INR ${finalAmount.toFixed(2)}` : 'IDR 0.00'}</p>
+              <p>{amount ? `INR ${finalAmount.toFixed(2)}` : 'INR 0.00'}</p>
             </div>
           </div>
         </div>
-        <div className="p-4">
+        <div className="mt-4">
           <button
             onClick={handlePayNow}
             className="w-full bg-green-500 text-white text-center py-2 rounded-md shadow-md hover:bg-green-600 transition duration-300"
