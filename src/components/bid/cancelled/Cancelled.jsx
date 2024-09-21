@@ -12,7 +12,7 @@
 //   const [error, setError] = useState(null);
 //   const [dataHandling, setDataHandling] = useState({});
 //   const [filteredData, setFilteredData] = useState([]);
-  
+
 //   const user = useSelector((state) => state.login.user);
 //   const companyId = localStorage.getItem('branch_id');
 
@@ -55,7 +55,7 @@
 //         const response = await axios.get(url);
 //         const bidsData = response.data.data;
 //         console.log(bidsData)
-  
+
 //         // Extracting bid IDs and their details from the nested structure
 //         const bidEntries = Object.entries(bidsData);
 //         return bidEntries.map(([bidId, detailsArray]) => ({
@@ -69,7 +69,6 @@
 //         return [];
 //       }
 //     };
-  
 
 //   const fetchBidDetails = async (bidId) => {
 //     const url = `https://freighteg.in/freightapi/bids/${bidId}`;
@@ -206,17 +205,15 @@
 
 // export default Cancelled;
 
-
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
-import * as XLSX from 'xlsx';
-import Header from '../repeats/Header';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import * as XLSX from "xlsx";
+import Header from "../repeats/Header";
 // import CounterTable from './CounterTable';
-import CancelledTable from './CancelledTable'
-import Tabs from '../repeats/Tabs';
-import Navbar from '../../../components/Navbar';
-
+import CancelledTable from "./CancelledTable";
+import Tabs from "../repeats/Tabs";
+import Navbar from "../../../components/Navbar";
 
 const Cancelled = () => {
   const [bidDetails, setBidDetails] = useState([]);
@@ -229,21 +226,22 @@ const Cancelled = () => {
   // Function to fetch bid IDs and their corresponding details
   const fetchBidIdsAndDetails = async () => {
     // const url = `https://freighteg.in/freightapi/counters?company_id=${user?.id}`;
-    const branchId = localStorage.getItem('branch_id');
+    const branchId = localStorage.getItem("branch_id");
     // const branchName = localStorage.getItem('branchName');
     // const url = `https://freighteg.in/freightapi/getBidResultHistory?company_id=${user?.id}`;
-    const url = branchId && branchId !== user?.id
-    ? `https://freighteg.in/freightapi/cancelledBids?branch_id=${branchId}`:
-    `https://freighteg.in/freightapi/cancelledBids?company_id=${user?.id}`
+    const url =
+      branchId && branchId !== user?.id
+        ? `https://freighteg.in/freightapi/cancelledBids?branch_id=${branchId}`
+        : `https://freighteg.in/freightapi/cancelledBids?company_id=${user?.id}`;
     try {
       // debugger;
-      console.log({url})
+      console.log({ url });
       // alert(url)
       const response = await axios.get(url);
       const bidsData = response.data.data;
       // console.log({bidsData})
       return bidsData;
-    // alert(bidsData)
+      // alert(bidsData)
       // Extracting bid IDs and their details from the nested structure
       // const bidEntries = Object.entries(bidsData);
       // console.log({bidEntries})
@@ -251,10 +249,9 @@ const Cancelled = () => {
       //   bid_id,
       //   // details: detailsArray[0], // Assuming you want the first item from the array of details
       // }));
-      
     } catch (error) {
-      console.error('Error fetching bid IDs and details:', error);
-      setError('Failed to fetch bid IDs and details');
+      console.error("Error fetching bid IDs and details:", error);
+      setError("Failed to fetch bid IDs and details");
       setLoading(false);
       return [];
     }
@@ -293,26 +290,29 @@ const Cancelled = () => {
   const getAllBidDetails = async () => {
     const bids = await fetchBidIdsAndDetails();
     if (bids && bids.length > 0) {
-      
       // alert({bids})
-      console.log({bids})
+      console.log({ bids });
       const allBidDetails = [];
-      console.log("bid[0]",bids[0])
+      console.log("bid[0]", bids[0]);
       for (const bid of bids) {
-        console.log(bid)
+        console.log(bid);
         const bidDetail = await fetchBidDetails(bid.bid_id);
-        
+
         if (bidDetail) {
-          const createdByUser = await fetchFreightUserData(bidDetail.created_by);
-          const assignedToUser = await fetchFreightUserData(bidDetail.assigned_to);
+          const createdByUser = await fetchFreightUserData(
+            bidDetail.created_by
+          );
+          const assignedToUser = await fetchFreightUserData(
+            bidDetail.assigned_to
+          );
           //  console.log({bidDetail})
           const mergedData = {
             ...bidDetail,
-            createdByUser,  // Embed created_by user data
+            createdByUser, // Embed created_by user data
             assignedToUser, // Embed assigned_to user data
             counters: bid.details,
-            vendorIds:bid.vendor_ids,
-            vendorPrices:bid.vendor_prices // Include the counter details from the nested structure
+            vendorIds: bid.vendor_ids,
+            vendorPrices: bid.vendor_prices, // Include the counter details from the nested structure
           };
           allBidDetails.push(mergedData);
         }
@@ -320,7 +320,7 @@ const Cancelled = () => {
       setBidDetails(allBidDetails);
     } else {
       // console.log('No bids found.');
-      setError('No bids found.');
+      setError("No bids found.");
     }
     setLoading(false);
   };
@@ -332,13 +332,23 @@ const Cancelled = () => {
   useEffect(() => {
     const { searchTerm, selectedOption, startDate, endDate } = dataHandling;
 
-    const filtered = bidDetails.filter(item => {
-      const matchesSearchTerm = searchTerm ? item.bidNo.includes(searchTerm) : true;
-      const matchesOption = selectedOption ? item.vehicle_type === selectedOption : true;
-      const matchesStartDate = startDate ? new Date(item.loading_date) >= new Date(startDate) : true;
-      const matchesEndDate = endDate ? new Date(item.loading_date) <= new Date(endDate) : true;
+    const filtered = bidDetails.filter((item) => {
+      const matchesSearchTerm = searchTerm
+        ? item.bidNo.includes(searchTerm)
+        : true;
+      const matchesOption = selectedOption
+        ? item.vehicle_type === selectedOption
+        : true;
+      const matchesStartDate = startDate
+        ? new Date(item.loading_date) >= new Date(startDate)
+        : true;
+      const matchesEndDate = endDate
+        ? new Date(item.loading_date) <= new Date(endDate)
+        : true;
 
-      return matchesSearchTerm && matchesOption && matchesStartDate && matchesEndDate;
+      return (
+        matchesSearchTerm && matchesOption && matchesStartDate && matchesEndDate
+      );
     });
 
     setFilteredData(filtered);
@@ -352,57 +362,57 @@ const Cancelled = () => {
   const handleDownloadClick = () => {
     // Create a new workbook
     const workbook = XLSX.utils.book_new();
-  
+
     // Convert the filtered data to a worksheet
     const worksheet = XLSX.utils.json_to_sheet(filteredData);
-  
+
     // Append the worksheet to the workbook
     XLSX.utils.book_append_sheet(workbook, worksheet, "BidsData");
-  
+
     // Generate a binary string of the workbook
     const excelBuffer = XLSX.write(workbook, {
       bookType: "xlsx",
       type: "array",
     });
-  
+
     // Create a Blob from the binary string
     const blob = new Blob([excelBuffer], {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
     });
-  
+
     // Create a link element
     const link = document.createElement("a");
-  
+
     // Set the download attribute with the desired file name
     link.download = "BidsData.xlsx";
-  
+
     // Create a URL for the Blob and set it as the href of the link
     link.href = window.URL.createObjectURL(blob);
-  
+
     // Append the link to the document body
     document.body.appendChild(link);
-  
+
     // Programmatically trigger a click on the link to trigger the download
     link.click();
-  
+
     // Remove the link from the document
     document.body.removeChild(link);
   };
-  
-
-
-
-
 
   return (
     <>
       <Navbar />
       <Header onSubmit={handleFormSubmit} />
       <div className="w-full overflow-x-auto">
-        <Tabs onDownloadClick={handleDownloadClick} onFilterClick={() => { /* Handle filter click if needed */ }} />
+        <Tabs
+          onDownloadClick={handleDownloadClick}
+          onFilterClick={() => {
+            /* Handle filter click if needed */
+          }}
+        />
       </div>
-      <div className="w-full flex flex-col overflow-x-auto  bg-white">
-        <div className="bg-[#9D9D9D21] w-[97%] h-[60px] items-center ps-2 mt-2 rounded-md min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
+      <div className="w-full flex flex-col overflow-x-auto   overflow-y-scroll max-h-[70vh] bg-white">
+        <div className="bg-zinc-200 w-[97%] h-[60px] items-center sticky top-[0px] z-[30] items-center py-3  ps-2 mt-2 rounded-md min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
           <div className="font-semibold md:text-lg ps-[30px]">ID</div>
           <div className="font-semibold md:text-lg ps-[30px]">Date</div>
           <div className="font-semibold md:text-lg ps-[30px]">Loading</div>
@@ -411,19 +421,18 @@ const Cancelled = () => {
           <div className="font-semibold md:text-lg ps-[30px]">Bid Assigned</div>
         </div>
         {loading ? (
-        <div className="text-center my-4">
-          {/* Loading spinner */}
-          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-900 mx-auto"></div>
-          {/* Loading text */}
-          <p className="text-gray-600 mt-2">Loading...</p>
-        </div>
-      ) : (
-        <CancelledTable datas={filteredData} />
-      )}
+          <div className="text-center my-4">
+            {/* Loading spinner */}
+            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-900 mx-auto"></div>
+            {/* Loading text */}
+            <p className="text-gray-600 mt-2">Loading...</p>
+          </div>
+        ) : (
+          <CancelledTable datas={filteredData} />
+        )}
       </div>
     </>
   );
 };
 
 export default Cancelled;
-

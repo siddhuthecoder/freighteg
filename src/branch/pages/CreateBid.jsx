@@ -32,14 +32,17 @@ import {
   useCreatedBid,
 } from "../../HelperFunction/api";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const BranchCreateBid = () => {
   const user = useSelector((state) => state.login.user);
 
   const formRef = useRef(null);
   console.log(user);
+  const navigate=useNavigate()
   const [staff, setStaff] = useState([]);
   const { usersData, usersLoading, usersError, error } = useUserById();
+  const [eventData, setEventData] = useState(null);
   const [loadingDate, setLoadingDate] = useState(null);
   const [bidExpDate, setBidExpDate] = useState(null);
   const [expireTime, setExpireTime] = useState("");
@@ -55,9 +58,10 @@ const BranchCreateBid = () => {
   const [inputerror, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  // const [isSubmitting, setIsSubmitting] = useState(false);
   const [loading, setLoading] = useState(false);
   const [options, setOptions] = useState([]);
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOption, setSelectedOption] = useState(user.id);
   const [staffLoading, setStaffLoading] = useState(true);
   const [selectedStaff, setSelectedStaff] = useState({});
   const [staffPhone, setStaffPhone] = useState("");
@@ -86,11 +90,11 @@ const BranchCreateBid = () => {
         setLoading(false);
 
         // Set the default selected option based on localStorage
-        const storedBranch = localStorage.getItem("branchName") || "ALL";
+        const storedBranch = user.id;
         const defaultOption = branchOptions.find(
-          (option) => option.value === storedBranch
+          (option) => option.value === user.id
         );
-        setSelectedOption(defaultOption);
+        setSelectedOption(user.id);
       } catch (error) {
         console.error("Error fetching branch data:", error);
         setLoading(false);
@@ -102,7 +106,7 @@ const BranchCreateBid = () => {
 
   // console.log(selectedOption.value)
 
-  const branc = localStorage.getItem("branchName");
+  const branc = user.id;
   console.log(branc);
   // select branch
 
@@ -115,6 +119,7 @@ const BranchCreateBid = () => {
           `https://freighteg.in/freightapi/freightuser/${user?.id}`
         );
         const data = response.data;
+        console.log({ data });
 
         // Map the user data to the options array
         if (data && Array.isArray(data.user)) {
@@ -160,7 +165,7 @@ const BranchCreateBid = () => {
       // }
 
       // Update branchName in localStorage with the selectedValue (branch ID or 'ALL')
-      localStorage.setItem("branchName", selectedOption.value);
+      localStorage.setItem("branchName", user.id);
 
       // window.location.reload(); // Reload the page to apply the change
     }
@@ -338,6 +343,7 @@ const BranchCreateBid = () => {
     mutationFn: useCreatedBid,
     onSuccess: () => {
       alert("Successfully add bid , Please Refresh the page");
+      navigate('/branch/open')
       // window.location.reload()
       if (formRef.current) {
         setLoadingDate(null);
@@ -355,12 +361,12 @@ const BranchCreateBid = () => {
       }
     },
   });
+
   const handleSubmit = useCallback(
     async (e) => {
-      if (isSubmitting) return;
       e.preventDefault();
-      setIsSubmitting(true);
-      // alert("Called")
+      if (isSubmitting) return; // Prevents form from being submitted again
+
       const formData = new FormData(e.target);
       const formDataObj = Object.fromEntries(formData.entries());
       const requiredFields = [
@@ -388,13 +394,18 @@ const BranchCreateBid = () => {
         "assigned_to",
       ];
 
+      // Parsing integer fields
       formDataObj.loading_pincode = parseInt(formDataObj.loading_pincode);
       formDataObj.unloading_pincode = parseInt(formDataObj.unloading_pincode);
       formDataObj.route_distance = parseInt(formDataObj.route_distance);
       formDataObj.material_weight = parseInt(formDataObj.material_weight);
       formDataObj.target_price = parseInt(formDataObj.target_price);
       formDataObj.quantity = parseInt(formDataObj.quantity);
-      formDataObj.is_cng = formDataObj.is_cng === "on" ? true : false;
+
+      // Boolean conversion
+      formDataObj.is_cng = formDataObj.is_cng === "on";
+
+      // Date and time conversion
       formDataObj.expiry_date = convertISTtoUTC(
         formDataObj.expiry_date,
         formDataObj.expiry_time
@@ -403,36 +414,76 @@ const BranchCreateBid = () => {
         formDataObj.loading_date,
         formDataObj.loading_time
       );
+
+      // Converting time to AM/PM
       formDataObj.loading_time = convertToAmPm(formDataObj.loading_time);
       formDataObj.expiry_time = convertToAmPm(formDataObj.expiry_time);
+
+      // Adding other fields
       formDataObj.company_id = user?.company_id;
+      formDataObj.branch_id = user?.id;
+      
       formDataObj.created_by = formDataObj.assigned_to;
       formDataObj.assigned_transporter = [];
       formDataObj.responded_by = [];
       formDataObj.isActive = true;
       formDataObj.isDeleted = false;
+
       try {
         PostMutation.mutate(formDataObj);
-        setIsSubmitting(false)
       } catch (error) {
         console.error("Error occurred while posting data:", error);
-        setIsSubmitting(false)
+      } finally {
+        // Ensure isSubmitting is set to false in both success and error cases
+        setIsSubmitting(false);
       }
     },
-    [PostMutation]
+    [PostMutation, user]
   );
+  const isSubmittingRef = useRef(isSubmitting);
   if (usersLoading) return <div>Loading...</div>;
   if (usersError) return <div>Error: {error.message}</div>;
+  const help = async (e) => {
+    e.preventDefault();
+
+    console.log("isSubmittingRef.current:", isSubmittingRef.current); // Debug log
+
+    // Check if already submitting
+    if (isSubmittingRef.current) {
+      alert("Already submitting");
+      return;
+    }
+
+    // Set isSubmitting to true
+    setIsSubmitting(true);
+    isSubmittingRef.current = true; // Update the ref
+
+    console.log(
+      "isSubmittingRef.current after update:",
+      isSubmittingRef.current
+    ); // Debug log
+
+    try {
+      // Call handleSubmit only if isSubmitting is true
+      await handleSubmit(e);
+    } finally {
+      // Reset isSubmitting to false after handleSubmit is done
+      setIsSubmitting(false);
+      isSubmittingRef.current = false; // Update the ref
+    
+      console.log(
+        "isSubmittingRef.current after reset:",
+        isSubmittingRef.current
+      ); // Debug log
+    }
+  };
+
   return (
     <>
       <BranchNavbar />
       <div className="w-full overflow-x-auto">
         <div className="">
-          <form
-            ref={formRef}
-            className="overflow-x-auto"
-            onSubmit={handleSubmit}
-          >
+          <form ref={formRef} className="overflow-x-auto" onSubmit={help}>
             {/* Route Card */}
             <div className="p-10 pt-3">
               <div className="p-5 rounded-xl shadow-lg">
@@ -964,10 +1015,12 @@ const BranchCreateBid = () => {
             <div className="p-5 text-center w-full flex justify-end pr-10">
               <button
                 type="submit"
-                className="bg-[#113870] hover:bg-blue-700 text-white font-bold py-2 px-10 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
-                disabled={isSubmitting}
+                className={`bg-[#113870] hover:bg-blue-700 text-white font-bold py-2 px-10 rounded-xl ${
+                  isSubmittingRef.current ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+                disabled={isSubmittingRef.current}
               >
-                {isSubmitting ? (
+                {isSubmittingRef.current ? (
                   <span>
                     <i className="fas fa-spinner fa-spin"></i> Creating bid...
                   </span>
@@ -975,6 +1028,8 @@ const BranchCreateBid = () => {
                   "Submit Bid"
                 )}
               </button>
+
+            
             </div>
           </form>
         </div>

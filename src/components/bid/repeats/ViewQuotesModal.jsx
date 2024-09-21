@@ -56,7 +56,8 @@ const ViewQuotesModal = ({ data, onClose, response }) => {
             const response1 = await axios.post('https://freighteg.in/freightapi/assignBid', body);
             if (response1.status === 200) {
                 alert(`Thank you! This Bid is now Assigned to "${vendors[vendorId]?.name}"`);
-                onClose();  // Close the modal after assignment
+                onClose(); 
+                window.location.reload(); // Close the modal after assignment
             } else {
                 throw new Error("Something went wrong in assigning the bid!");
             }
@@ -85,6 +86,7 @@ const ViewQuotesModal = ({ data, onClose, response }) => {
             if (response.status === 200) {
                 alert(`Counter offer sent successfully to ${vendors[selectedVendor]?.name}`);
                 setIsCounterModalOpen(false);
+                window.location.reload();
             } else {
                 throw new Error("Failed to send counter offer!");
             }

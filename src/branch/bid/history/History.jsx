@@ -224,8 +224,8 @@ const BranchHistory = () => {
           }}
         />
       </div>
-      <div className="w-full flex flex-col overflow-x-auto  bg-white">
-        <div className=" bg-[#9D9D9D21] w-[97%] h-[60px] items-center ps-2 mt-2  rounded-md min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
+      <div className="w-full flex flex-col overflow-x-auto   overflow-y-scroll max-h-[70vh] bg-white">
+      <div className="bg-zinc-200 w-[97%] h-[60px] items-center sticky top-[0px] z-[30] items-center py-3  ps-2 mt-2 rounded-md min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
           <div className="font-semibold md:text-lg ps-[30px]">ID</div>
           <div className="font-semibold md:text-lg ps-[30px]">Loading Date</div>
           <div className="font-semibold md:text-lg ps-[30px]">

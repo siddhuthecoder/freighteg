@@ -25,9 +25,9 @@ import { Link } from "react-router-dom";
 
 const HistoryPage = () => {
   const { counts } = useContext(CountsContext);
-  const historyCount = counts.history
-  console.log("history count :",historyCount)
-  
+  const historyCount = counts.history;
+  console.log("history count :", historyCount);
+
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -41,9 +41,9 @@ const HistoryPage = () => {
   // const [datas, setdatas] = useState(null);
   // Function to get all bid details and merge with user and assigned_to data
   const getAllBidDetails = async () => {
-    setLoading(true)
+    setLoading(true);
     const bids = await fetchBidResultHistory();
-    
+
     if (bids && bids.length > 0) {
       const allBidDetails = [];
       for (const bid of bids) {
@@ -81,7 +81,6 @@ const HistoryPage = () => {
   };
   // Function to fetch bid details using bid_id
 
-
   // Function to fetch bid result history
   const fetchBidResultHistory = async () => {
     const branchId = localStorage.getItem("branch_id");
@@ -100,8 +99,6 @@ const HistoryPage = () => {
       setLoading(false);
     }
   };
-
-
 
   const fetchBidDetails = async (bidId) => {
     const url = `https://freighteg.in/freightapi/bids/${bidId}`;
@@ -225,8 +222,8 @@ const HistoryPage = () => {
   //   getData();
   // }, []);
 
-  console.log("filtered data : ",filteredData)
-  
+  console.log("filtered data : ", filteredData);
+
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
@@ -242,8 +239,8 @@ const HistoryPage = () => {
           }}
         />
       </div>
-      <div className="w-full flex flex-col overflow-x-auto  bg-white">
-        <div className=" bg-[#9D9D9D21] w-[97%] h-[60px] items-center ps-2 mt-2  rounded-md min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
+      <div className="w-full flex flex-col overflow-x-auto   overflow-y-scroll max-h-[70vh] bg-white">
+        <div className="bg-zinc-200 w-[97%] h-[60px] items-center sticky top-[0px] z-[30] items-center py-3  ps-2 mt-2 rounded-md min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
           <div className="font-semibold md:text-lg ps-[30px]">ID</div>
           <div className="font-semibold md:text-lg ps-[30px]">Loading Date</div>
           <div className="font-semibold md:text-lg ps-[30px]">
@@ -265,26 +262,26 @@ const HistoryPage = () => {
         ) : (
           <HistoryTable datas={filteredData} />
         )}
-           {/* Pagination */}
-      <div className="flex justify-center mt-4">
-        <button
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-          className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
-        >
-          Previous
-        </button>
-        <span className="px-4 py-2 text-gray-700">
-          Page {currentPage} of {totalPages}
-        </span>
-        <button
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
-        >
-          Next
-        </button>
-      </div>
+        {/* Pagination */}
+        <div className="flex justify-center mt-4">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
+          >
+            Previous
+          </button>
+          <span className="px-4 py-2 text-gray-700">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
+          >
+            Next
+          </button>
+        </div>
       </div>
     </>
   );

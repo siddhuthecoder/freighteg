@@ -339,6 +339,7 @@ const Home = () => {
     mutationFn: useCreatedBid,
     onSuccess: () => {
       alert("Successfully add bid");
+      navigate('/open')
       if (formRef.current) {
         setLoadingDate(null);
         setBidExpDate(null);
@@ -418,7 +419,7 @@ const Home = () => {
         PostMutation.mutate(formDataObj);
         setIsSubmitting(false)
         // window.location.relaod()
-        navigate('/open')
+        localStorage.setItem('branchName','ALL');
       } catch (error) {
         console.error("Error occurred while posting data:", error);
         setIsSubmitting(false)

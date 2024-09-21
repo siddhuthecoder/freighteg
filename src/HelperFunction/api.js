@@ -810,7 +810,9 @@ export const fetchCitiesByState = async (state) => {
 export const useCreatedBid = async (bidData) => {
   // console.log("bidData", bidData);
   try {
+ 
     const response = await axios.post(`${createBid}`, bidData);
+  
     return response.data;
   } catch (error) {
     throw new Error(

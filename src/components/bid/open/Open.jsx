@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import * as XLSX from 'xlsx';
+import * as XLSX from "xlsx";
 import Header from "../repeats/Header";
-import OpenTable from './OpenTable';
+import OpenTable from "./OpenTable";
 
-import Tabs from '../repeats/Tabs';
-import Navbar from '../../../components/Navbar';
+import Tabs from "../repeats/Tabs";
+import Navbar from "../../../components/Navbar";
 import { useSelector } from "react-redux";
 
 const Open = () => {
@@ -17,17 +17,18 @@ const Open = () => {
   const user = useSelector((state) => state.login.user);
 
   const fetchLiveBids = async () => {
-    const branchId = localStorage.getItem('branch_id');
-    const branchName = localStorage.getItem('branchName');
-    // alert(branchId);     
-  let url=`https://freighteg.in/freightapi/liveBids?company_id=${user?.id}`;
-     url = branchId && branchName !== 'ALL'
-      ? `https://freighteg.in/freightapi/liveBids?branch_id=${branchId}`
-      : `https://freighteg.in/freightapi/liveBids?company_id=${user?.id}`;
+    const branchId = localStorage.getItem("branch_id");
+    const branchName = localStorage.getItem("branchName");
+    // alert(branchId);
+    let url = `https://freighteg.in/freightapi/liveBids?company_id=${user?.id}`;
+    url =
+      branchId && branchName !== "ALL"
+        ? `https://freighteg.in/freightapi/liveBids?branch_id=${branchId}`
+        : `https://freighteg.in/freightapi/liveBids?company_id=${user?.id}`;
     // alert(url)
     try {
       const response = await axios.get(url);
-      console.log(response.data.data)
+      console.log(response.data.data);
       return response.data.data || [];
     } catch (error) {
       console.error("Error fetching live bids:", error);
@@ -79,8 +80,12 @@ const Open = () => {
       for (const bid of bids) {
         const bidDetail = await fetchBidDetails(bid.bid_id);
         if (bidDetail) {
-          const createdByUser = await fetchFreightUserData(bidDetail.created_by);
-          const assignedToUser = await fetchFreightUserData(bidDetail.assigned_to);
+          const createdByUser = await fetchFreightUserData(
+            bidDetail.created_by
+          );
+          const assignedToUser = await fetchFreightUserData(
+            bidDetail.assigned_to
+          );
 
           const pageUsersData = await fetchPageUsers([bid.bid_id]);
 
@@ -89,8 +94,7 @@ const Open = () => {
             createdByUser,
             assignedToUser,
             viewedBy: pageUsersData || [],
-            bidding_response:bid.bidding_response
-            
+            bidding_response: bid.bidding_response,
           };
           allBidDetails.push(mergedData);
         }
@@ -108,20 +112,29 @@ const Open = () => {
   };
 
   useEffect(() => {
-    
     getAllBidDetails();
-  }, [user?.id]);
+  }, []);
 
   useEffect(() => {
     const { searchTerm, selectedOption, startDate, endDate } = dataHandling;
 
-    const filtered = bidDetails.filter(item => {
-      const matchesSearchTerm = searchTerm ? item.bidNo.includes(searchTerm) : true;
-      const matchesOption = selectedOption ? item.vehicle_type === selectedOption : true;
-      const matchesStartDate = startDate ? new Date(item.loading_date) >= new Date(startDate) : true;
-      const matchesEndDate = endDate ? new Date(item.loading_date) <= new Date(endDate) : true;
+    const filtered = bidDetails.filter((item) => {
+      const matchesSearchTerm = searchTerm
+        ? item.bidNo.includes(searchTerm)
+        : true;
+      const matchesOption = selectedOption
+        ? item.vehicle_type === selectedOption
+        : true;
+      const matchesStartDate = startDate
+        ? new Date(item.loading_date) >= new Date(startDate)
+        : true;
+      const matchesEndDate = endDate
+        ? new Date(item.loading_date) <= new Date(endDate)
+        : true;
 
-      return matchesSearchTerm && matchesOption && matchesStartDate && matchesEndDate;
+      return (
+        matchesSearchTerm && matchesOption && matchesStartDate && matchesEndDate
+      );
     });
 
     setFilteredData(filtered);
@@ -130,70 +143,79 @@ const Open = () => {
   const handleDownloadClick = () => {
     // Create a new workbook
     const workbook = XLSX.utils.book_new();
-  
+
     // Convert the filtered data to a worksheet
     const worksheet = XLSX.utils.json_to_sheet(filteredData);
-  
+
     // Append the worksheet to the workbook
     XLSX.utils.book_append_sheet(workbook, worksheet, "BidsData");
-  
+
     // Generate a binary string of the workbook
     const excelBuffer = XLSX.write(workbook, {
       bookType: "xlsx",
       type: "array",
     });
-  
+
     // Create a Blob from the binary string
     const blob = new Blob([excelBuffer], {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
     });
-  
+
     // Create a link element
     const link = document.createElement("a");
-  
+
     // Set the download attribute with the desired file name
     link.download = "BidsData.xlsx";
-  
+
     // Create a URL for the Blob and set it as the href of the link
     link.href = window.URL.createObjectURL(blob);
-  
+
     // Append the link to the document body
     document.body.appendChild(link);
-  
+
     // Programmatically trigger a click on the link to trigger the download
     link.click();
-  
+
     // Remove the link from the document
     document.body.removeChild(link);
   };
-
 
   return (
     <>
       <Navbar />
       <Header onSubmit={handleFormSubmit} />
       <div className="w-full overflow-x-auto">
-        <Tabs onDownloadClick={handleDownloadClick}  onFilterClick={() => { /* Handle filter click if needed */ }} />
+        <Tabs
+          onDownloadClick={handleDownloadClick}
+          onFilterClick={() => {
+            /* Handle filter click if needed */
+          }}
+        />
       </div>
+      {/* <div className="w-full overflow-x-auto overflow-y-scroll  flex flex-col overflow-x-auto  bg-white"> */}
       <div className="w-full flex flex-col overflow-x-auto   overflow-y-scroll max-h-[70vh] bg-white">
-        <div className="bg-zinc-200 w-[97%] h-[60px] items-cente sticky top-[0px] z-[30] items-center py-3  ps-2 mt-2 rounded-md min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
+        <div className="bg-zinc-200 w-[97%] h-[60px] items-center sticky top-[0px] z-[30] items-center py-3  ps-2 mt-2 rounded-md min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
           <div className="font-semibold md:text-lg ps-[30px]">ID</div>
-          <div className="font-semibold md:text-lg ps-[30px]">Loading Dated</div>
-          <div className="font-semibold md:text-lg ps-[30px]">Loading Point </div>
-          <div className="font-semibold md:text-lg ps-[30px]">Unloading Point</div>
+          <div className="font-semibold md:text-lg ps-[30px]">Loading Date</div>
+          <div className="font-semibold md:text-lg ps-[30px]">
+            Loading Point{" "}
+          </div>
+          <div className="font-semibold md:text-lg ps-[30px]">
+            Unloading Point
+          </div>
           <div className="font-semibold md:text-lg ps-[30px]">Details</div>
           <div className="font-semibold md:text-lg ps-[30px]">Best Quote</div>
         </div>
         {loading ? (
-        <div className="text-center my-4">
-          {/* Loading spinner */}
-          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-900 mx-auto"></div>
-          {/* Loading text */}
-          <p className="text-gray-600 mt-2">Loading...</p>
-        </div>
-      ) : (
-        <OpenTable datas={filteredData} />
-      )}
+          <div className="text-center my-4">
+            {/* Loading spinner */}
+            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-900 mx-auto"></div>
+            {/* Loading text */}
+            <p className="text-gray-600 mt-2">Loading...</p>
+          </div>
+        ) : (
+          <OpenTable datas={filteredData} />
+        )}
       </div>
     </>
   );
