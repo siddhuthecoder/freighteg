@@ -14,6 +14,10 @@ const BidComponent = () => {
   const [dataHandling, setDataHandling] = useState({});
   const [filteredData, setFilteredData] = useState([]);
   const user = useSelector((state) => state.login.user);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  // const totalPages = useState(0);
+  const [totalPages, settotalPages] = useState(0);
 
   // Function to fetch bid IDs and their corresponding details
   const fetchBidIdsAndDetails = async () => {
@@ -22,8 +26,8 @@ const BidComponent = () => {
     // const url = `https://freighteg.in/freightapi/getBidResultHistory?company_id=${user?.id}`;
     const url =
       branchId && branchId !== user?.id
-        ? `https://freighteg.in/freightapi/counters?branch_id=${branchId}`
-        : `https://freighteg.in/freightapi/counters?company_id=${user?.id}`;
+        ? `https://freighteg.in/freightapi/counters?branch_id=${branchId}&page=${currentPage}&limit=5`
+        : `https://freighteg.in/freightapi/counters?company_id=${user?.id}&page=${currentPage}&limit=5`;
     try {
       const response = await axios.get(url);
       const bidsData = response.data.data;
@@ -71,6 +75,7 @@ const BidComponent = () => {
 
   // Function to get all bid details and merge with user and assigned_to data
   const getAllBidDetails = async () => {
+    setLoading(true);
     const bids = await fetchBidIdsAndDetails();
     if (bids && bids.length > 0) {
       const allBidDetails = [];
@@ -103,8 +108,22 @@ const BidComponent = () => {
   };
 
   useEffect(() => {
+    const branchId = localStorage.getItem("branch_id");
+    // const url = `https://freighteg.in/freightapi/getBidResultHistory?company_id=${user?.id}`;
+    const url =
+      branchId && branchId !== user?.id
+      ? `https://freighteg.in/freightapi/counters?branch_id=${branchId}&page=${currentPage}&limit=5`
+      : `https://freighteg.in/freightapi/counters?company_id=${user?.id}&page=${currentPage}&limit=5`;
+    async function getCount() {
+      const [counterRes] = await Promise.all([fetch(`${url}`)]);
+
+      const CounterData = await counterRes.json();
+      // alert(CounterData.totalBids)
+      settotalPages(Math.ceil(CounterData.total / itemsPerPage));
+    }
+    getCount();
     getAllBidDetails();
-  }, []);
+  }, [currentPage]);
 
   useEffect(() => {
     const { searchTerm, selectedOption, startDate, endDate } = dataHandling;
@@ -176,6 +195,10 @@ const BidComponent = () => {
     document.body.removeChild(link);
   };
 
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
   return (
     <>
       <Navbar />
@@ -207,6 +230,26 @@ const BidComponent = () => {
         ) : (
           <CounterTable datas={filteredData} />
         )}
+        {/* Pagination */}
+        <div className="flex justify-center mt-4">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
+          >
+            Previous
+          </button>
+          <span className="px-4 py-2 text-gray-700">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
+          >
+            Next
+          </button>
+        </div>
       </div>
     </>
   );

@@ -198,6 +198,8 @@ const HistoryPage = () => {
     // Remove the link from the document
     document.body.removeChild(link);
   };
+
+
   useEffect(() => {
     const branchId = localStorage.getItem("branch_id");
     // const url = `https://freighteg.in/freightapi/getBidResultHistory?company_id=${user?.id}`;
@@ -227,6 +229,8 @@ const HistoryPage = () => {
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
+
+  
   return (
     <>
       <Navbar />

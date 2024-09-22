@@ -15,6 +15,10 @@ const Open = () => {
   const [dataHandling, setDataHandling] = useState({});
   const [filteredData, setFilteredData] = useState([]);
   const user = useSelector((state) => state.login.user);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  // const totalPages = useState(0);
+  const [totalPages, settotalPages] = useState(0);
 
   const fetchLiveBids = async () => {
     const branchId = localStorage.getItem("branch_id");
@@ -23,8 +27,8 @@ const Open = () => {
     let url = `https://freighteg.in/freightapi/liveBids?company_id=${user?.id}`;
     url =
       branchId && branchName !== "ALL"
-        ? `https://freighteg.in/freightapi/liveBids?branch_id=${branchId}`
-        : `https://freighteg.in/freightapi/liveBids?company_id=${user?.id}`;
+        ? `https://freighteg.in/freightapi/liveBids?branch_id=${branchId}&page=${currentPage}&limit=5`
+        : `https://freighteg.in/freightapi/liveBids?company_id=${user?.id}&page=${currentPage}&limit=5`;
     // alert(url)
     try {
       const response = await axios.get(url);
@@ -112,8 +116,23 @@ const Open = () => {
   };
 
   useEffect(() => {
+    const branchId = localStorage.getItem("branch_id");
+    // const url = `https://freighteg.in/freightapi/getBidResultHistory?company_id=${user?.id}`;
+    const url =
+      branchId && branchId !== user?.id
+      ? `https://freighteg.in/freightapi/liveBids?branch_id=${branchId}&page=${currentPage}&limit=5`
+      : `https://freighteg.in/freightapi/liveBids?company_id=${user?.id}&page=${currentPage}&limit=5`;
+  // alert(url)
+    async function getCount() {
+      const [openRes] = await Promise.all([fetch(`${url}`)]);
+
+      const openResData = await openRes.json();
+      // alert(historyData.totalBids)
+      settotalPages(Math.ceil(openResData.totalBids / itemsPerPage));
+    }
+    getCount();
     getAllBidDetails();
-  }, []);
+  }, [currentPage]);
 
   useEffect(() => {
     const { searchTerm, selectedOption, startDate, endDate } = dataHandling;
@@ -180,6 +199,12 @@ const Open = () => {
     document.body.removeChild(link);
   };
 
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
+  console.log("filteredData",filteredData)
+
   return (
     <>
       <Navbar />
@@ -216,6 +241,28 @@ const Open = () => {
         ) : (
           <OpenTable datas={filteredData} />
         )}
+
+
+        {/* Pagination */}
+        <div className="flex justify-center mt-4">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
+          >
+            Previous
+          </button>
+          <span className="px-4 py-2 text-gray-700">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
+          >
+            Next
+          </button>
+        </div>
       </div>
     </>
   );

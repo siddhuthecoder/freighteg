@@ -219,7 +219,7 @@ const OpenTable = ({ datas }) => {
             })}
 
             {/* Pagination */}
-            <div className="flex justify-center mt-4">
+            {/* <div className="flex justify-center mt-4">
                 <button
                     onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage === 1}
@@ -237,7 +237,7 @@ const OpenTable = ({ datas }) => {
                 >
                     Next
                 </button>
-            </div>
+            </div> */}
 
             {isAssignedVendorsModalOpen && selectedData && (
                 <AssignedVendorsModal

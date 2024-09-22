@@ -15,12 +15,18 @@ const BranchOpen = () => {
   const [dataHandling, setDataHandling] = useState({});
   const [filteredData, setFilteredData] = useState([]);
   const user = useSelector((state) => state.login.user);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  // const totalPages = useState(0);
+  const [totalPages, settotalPages] = useState(0);
+
+
   console.log(user)
   const fetchLiveBids = async () => {
     const branchId = localStorage.getItem('branch_id');
     const branchName = localStorage.getItem('branchName');
     // alert(branchId);     
-  let url=`https://freighteg.in/freightapi/liveBids?branch_id=${user?.id}`;
+  let url=`https://freighteg.in/freightapi/liveBids?branch_id=${user?.id}&page=${currentPage}&limit=5`;
      
     // alert(url)
     try {
@@ -105,8 +111,20 @@ const BranchOpen = () => {
     setDataHandling(formData);
   };
 
+
+
   useEffect(() => {
-    
+    const branchId = localStorage.getItem("branch_id");
+    const url = `https://freighteg.in/freightapi/liveBids?branch_id=${user?.id}&page=${currentPage}&limit=5`;
+    async function getCount() {
+      const [openRes] = await Promise.all([fetch(`${url}`)]);
+
+      const openData = await openRes.json();
+      // alert(openData.totalBids)
+      settotalPages(Math.ceil(openData.totalBids / itemsPerPage));
+
+    }
+    getCount();
     getAllBidDetails();
   }, []);
 
@@ -166,6 +184,12 @@ const BranchOpen = () => {
   };
 
 
+    
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
+
   return (
     <>
       <BranchNavBar />
@@ -174,7 +198,7 @@ const BranchOpen = () => {
         <Tabs onDownloadClick={handleDownloadClick}  onFilterClick={() => { /* Handle filter click if needed */ }} />
       </div>
       <div className="w-full flex flex-col overflow-x-auto   overflow-y-scroll max-h-[70vh] bg-white">
-      <div className="bg-zinc-200 w-[97%] h-[60px] items-center sticky top-[0px] z-[30] items-center py-3  ps-2 mt-2 rounded-md min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
+      <div className="bg-zinc-200 w-[97%] h-[60px]  sticky top-[0px] z-[30] items-center py-3  ps-2 mt-2 rounded-md min-w-[1200px] mx-auto grid grid-cols-6 gap-2">
           <div className="font-semibold md:text-lg ps-[30px]">ID</div>
           <div className="font-semibold md:text-lg ps-[30px]">Loading Date</div>
           <div className="font-semibold md:text-lg ps-[30px]">Loading Point </div>
@@ -192,7 +216,27 @@ const BranchOpen = () => {
       ) : (
         <OpenTable datas={filteredData} />
       )}
+      {/* Pagination */}
+      <div className="flex justify-center mt-4">
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
+        >
+          Previous
+        </button>
+        <span className="px-4 py-2 text-gray-700">
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
+        >
+          Next
+        </button>
       </div>
+  </div>
     </>
   );
 };

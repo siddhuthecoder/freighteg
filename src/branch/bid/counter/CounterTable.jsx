@@ -222,24 +222,7 @@ const CounterTable = ({ datas }) => {
         counterdata={counterdata}
       />
 
-            {/* Pagination Controls */}
-            <div className="flex justify-center mt-4">
-                <button
-                    className={`px-4 py-2 mr-2 border rounded ${currentPage === 1 ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-500 text-white'}`}
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                >
-                    Previous
-                </button>
-                <span className="px-4 py-2">{currentPage} / {totalPages}</span>
-                <button
-                    className={`px-4 py-2 ml-2 border rounded ${currentPage === totalPages ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-500 text-white'}`}
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                >
-                    Next
-                </button>
-            </div>
+          
         </>
     );
 };

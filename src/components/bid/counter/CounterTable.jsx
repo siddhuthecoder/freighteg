@@ -223,7 +223,7 @@ const CounterTable = ({ datas }) => {
       />
 
             {/* Pagination Controls */}
-            <div className="flex justify-center mt-4">
+            {/* <div className="flex justify-center mt-4">
                 <button
                     className={`px-4 py-2 mr-2 border rounded ${currentPage === 1 ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-500 text-white'}`}
                     onClick={() => handlePageChange(currentPage - 1)}
@@ -239,7 +239,7 @@ const CounterTable = ({ datas }) => {
                 >
                     Next
                 </button>
-            </div>
+            </div> */}
         </>
     );
 };

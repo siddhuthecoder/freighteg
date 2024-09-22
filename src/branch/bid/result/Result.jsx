@@ -106,10 +106,8 @@ const ResultPage = () => {
 
   useEffect(() => {
     const branchId = localStorage.getItem('branch_id');
-    const branchName = localStorage.getItem('branchName');
-    const url = branchId && branchName !== 'ALL'
-      ? `https://freighteg.in/freightapi/getBidResults?branch_id=${branchId}&page=${currentPage}&limit=5`
-      : `https://freighteg.in/freightapi/getBidResults?company_id=${user?.id}&page=${currentPage}&limit=5`;
+   
+    const url =  `https://freighteg.in/freightapi/getBidResults?branch_id=${branchId}&page=${currentPage}&limit=5`
     async function getCount() {
       const [ResultRes] = await Promise.all([fetch(`${url}`)]);
 

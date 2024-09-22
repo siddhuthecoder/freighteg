@@ -14,6 +14,11 @@ const BranchCounter = () => {
   const [dataHandling, setDataHandling] = useState({});
   const [filteredData, setFilteredData] = useState([]);
   const user = useSelector((state) => state.login.user);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  // const totalPages = useState(0);
+  const [totalPages, settotalPages] = useState(0);
+
   console.log(user)
 
   // Function to fetch bid IDs and their corresponding details
@@ -21,7 +26,7 @@ const BranchCounter = () => {
     // const url = `https://freighteg.in/freightapi/counters?company_id=${user?.id}`;
     const branchId = localStorage.getItem('branch_id');
     // const url = `https://freighteg.in/freightapi/getBidResultHistory?company_id=${user?.id}`;
-    const url =  `https://freighteg.in/freightapi/counters?branch_id=${user?.id}`
+    const url =  `https://freighteg.in/freightapi/counters?branch_id=${user?.id}&page=${currentPage}&limit=5`
     try {
       const response = await axios.get(url);
       const bidsData = response.data.data;
@@ -43,6 +48,7 @@ const BranchCounter = () => {
 
   // Function to fetch bid details using bid_id
   const fetchBidDetails = async (bidId) => {
+    setLoading(true)
     const url = `https://freighteg.in/freightapi/bids/${bidId}`;
     try {
       const response = await axios.get(url);
@@ -97,8 +103,19 @@ const BranchCounter = () => {
   };
 
   useEffect(() => {
+    const branchId = localStorage.getItem("branch_id");
+    const url =  `https://freighteg.in/freightapi/counters?branch_id=${user?.id}&page=${currentPage}&limit=5`
+    async function getCount() {
+      const [historyRes] = await Promise.all([fetch(`${url}`)]);
+
+      const historyData = await historyRes.json();
+      // alert(historyData.totalBids)
+      settotalPages(Math.ceil(historyData.total / itemsPerPage));
+
+    }
+    getCount();
     getAllBidDetails();
-  }, []);
+  }, [currentPage]);
 
   useEffect(() => {
     const { searchTerm, selectedOption, startDate, endDate } = dataHandling;
@@ -159,6 +176,11 @@ const BranchCounter = () => {
     // Remove the link from the document
     document.body.removeChild(link);
   };
+
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
   
 
 
@@ -191,6 +213,26 @@ const BranchCounter = () => {
       ) : (
         <CounterTable datas={filteredData} />
       )}
+       {/* Pagination */}
+       <div className="flex justify-center mt-4">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
+              >
+                Previous
+              </button>
+              <span className="px-4 py-2 text-gray-700">
+                Page {currentPage} of {totalPages}
+              </span>
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
+              >
+                Next
+              </button>
+            </div>
       </div>
     </>
   );

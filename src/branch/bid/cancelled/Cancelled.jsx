@@ -16,6 +16,10 @@ const BranchCancelled = () => {
   const [dataHandling, setDataHandling] = useState({});
   const [filteredData, setFilteredData] = useState([]);
   const user = useSelector((state) => state.login.user);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  // const totalPages = useState(0);
+  const [totalPages, settotalPages] = useState(0);
 
   // Function to fetch bid IDs and their corresponding details
   const fetchBidIdsAndDetails = async () => {
@@ -23,7 +27,7 @@ const BranchCancelled = () => {
     const branchId = localStorage.getItem('branch_id');
     // const branchName = localStorage.getItem('branchName');
     // const url = `https://freighteg.in/freightapi/getBidResultHistory?company_id=${user?.id}`;
-    const url = `https://freighteg.in/freightapi/cancelledBids?branch_id=${user?.id}`
+    const url = `https://freighteg.in/freightapi/cancelledBids?branch_id=${user?.id}&page=${currentPage}&limit=5`
     try {
       // debugger;
       console.log({url})
@@ -80,6 +84,7 @@ const BranchCancelled = () => {
 
   // Function to get all bid details and merge with user and assigned_to data
   const getAllBidDetails = async () => {
+    setLoading(true)
     const bids = await fetchBidIdsAndDetails();
     if (bids && bids.length > 0) {
       
@@ -115,8 +120,19 @@ const BranchCancelled = () => {
   };
 
   useEffect(() => {
+    const branchId = localStorage.getItem("branch_id");
+    const url = `https://freighteg.in/freightapi/cancelledBids?branch_id=${user?.id}&page=${currentPage}&limit=5`
+    async function getCount() {
+      const [historyRes] = await Promise.all([fetch(`${url}`)]);
+
+      const historyData = await historyRes.json();
+      // alert(historyData.totalBids)
+      settotalPages(Math.ceil(historyData.total / itemsPerPage));
+
+    }
+    getCount();
     getAllBidDetails();
-  }, []);
+  }, [currentPage]);
 
   useEffect(() => {
     const { searchTerm, selectedOption, startDate, endDate } = dataHandling;
@@ -179,7 +195,9 @@ const BranchCancelled = () => {
   };
   
 
-
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
 
 
 
@@ -209,6 +227,26 @@ const BranchCancelled = () => {
       ) : (
         <CancelledTable datas={filteredData} />
       )}
+                 {/* Pagination */}
+                 <div className="flex justify-center mt-4">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
+              >
+                Previous
+              </button>
+              <span className="px-4 py-2 text-gray-700">
+                Page {currentPage} of {totalPages}
+              </span>
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="px-4 py-2 text-white bg-blue-600 rounded disabled:bg-gray-400"
+              >
+                Next
+              </button>
+            </div>
       </div>
     </>
   );
