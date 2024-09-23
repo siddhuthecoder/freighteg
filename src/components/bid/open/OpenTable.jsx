@@ -89,17 +89,50 @@ const OpenTable = ({ datas }) => {
     };
 
     const handlePrintClick = (data) => {
-        const dataStr = JSON.stringify(data, null, 2);
+        // Process and format only the required data
+        const formattedData = {
+            bidNo: data.bidNo,
+            name: user?.name,
+            remarks: data.bid_remarks,
+            loadingDate: data.loading_date.slice(0, 10), // YYYY-MM-DD
+            loadingTime: formatTo12HourTime(data.loading_date), // hh:mm a
+            loadingLocation: `${data.loading_city} (${data.loading_state})`,
+            loadingAddress: `${data.loading_address} (${data.loading_pincode})`,
+            unloadingLocation: `${data.unloading_city} (${data.unloading_state})`,
+            unloadingAddress: `${data.unloading_address} (${data.unloading_pincode})`,
+            vehicleDetails: {
+                quantity: data.quantity,
+                type: data.vehicle_type,
+                size: data.vehicle_size,
+                bodyType: data.body_type,
+            },
+            materialDetails: {
+                type: data.material_type,
+                weight: `${data.material_weight} Mt`,
+            },
+            distance: `${data.route_distance} Km`,
+            minimumPrice: getMinimumVendorPrice(data) || 0,
+            targetPrice: `${data.target_price} Rs`,
+            assignedStaff: `${data.assignedToUser?.name}, +91${data.assignedToUser?.phone}`,
+            createdBy: `${data.createdByUser?.name}`,
+            createdAt: `${data.createdAt.slice(0, 10)}, ${formatTo12HourTime(data.createdAt)}`,
+        };
+    
+        // Convert formatted data to JSON string
+        const dataStr = JSON.stringify(formattedData, null, 2);
+        
+        // Create a blob and download it
         const blob = new Blob([dataStr], { type: "text/plain" });
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = `data-${data._id}.txt`; // Save as a .txt file
+        link.download = `data-${data.bidNo}.txt`; // Saving the file as JSON
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
     };
+    
 
     const handleAssignedVendorsClick = (data) => {
         setSelectedData(data);
