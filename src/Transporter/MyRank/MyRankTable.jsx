@@ -122,14 +122,15 @@ const MyRankTable = ({ datas }) => {
       {currentItems.map((data) => {
         const timeLeft = calculateTimeLeft(data.expiry_date);
         let rankColor = "";
-
-        if (data.vendor_rank === 1) {
+        // Correct ranking condition logic
+        if (data.Vendor_rank === 1) {
           rankColor = "bg-green-500"; // Green for Rank 1
-        } else if (data.vendor_rank >= 2 && data.vendor_rank <= 5) {
+        } else if (data.Vendor_rank >= 2 && data.Vendor_rank <= 5) {
           rankColor = "bg-orange-500"; // Orange for Rank 2-5
-        } else {
-          rankColor = "bg-red-500"; // Red for Rank 6 or more
+        } else if (data.Vendor_rank > 5) {
+          rankColor = "bg-red-500"; // Red for Rank greater than 5
         }
+        
         return (
           <div
             key={data.bidNo}
